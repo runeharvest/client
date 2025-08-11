@@ -17,14 +17,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_GROUP_SKILLS_H
 #define NL_GROUP_SKILLS_H
 
-#include "nel/misc/types_nl.h"
-#include "nel/gui/interface_group.h"
 #include "nel/gui/group_tree.h"
+#include "nel/gui/interface_group.h"
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /** A Group that display all skills by category in a job
@@ -32,52 +30,44 @@
  * \author Nevrax France
  * \date 2003
  */
-class CGroupSkills : public CInterfaceGroup
-{
+class CGroupSkills : public CInterfaceGroup {
 
 public:
+  CGroupSkills(const TCtorParam &param);
+  virtual ~CGroupSkills();
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual void checkCoords();
+  virtual void clearGroups();
 
-	CGroupSkills( const TCtorParam &param );
-	virtual ~CGroupSkills();
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parentGroup);
-	virtual void checkCoords();
-	virtual void clearGroups();
+  static bool InhibitSkillUpFX;
 
-	static bool InhibitSkillUpFX;
-
-// ******************
+  // ******************
 private:
-
-	void	rebuild();
-	void	createAllTreeNodes();
+  void rebuild();
+  void createAllTreeNodes();
 
 private:
-
-	// observer to know that skills are modified
-	struct CSkillsObs : public NLMISC::ICDBNode::IPropertyObserver
-	{
-		CGroupSkills *Owner;
-		virtual void update (NLMISC::ICDBNode *node);
-	} _SkillsObs;
-	friend struct CSkillsObs;
+  // observer to know that skills are modified
+  struct CSkillsObs : public NLMISC::ICDBNode::IPropertyObserver {
+    CGroupSkills *Owner;
+    virtual void update(NLMISC::ICDBNode *node);
+  } _SkillsObs;
+  friend struct CSkillsObs;
 
 private:
+  /// Tell if we have to rebuild all the containers (only if new skill)
+  bool _MustRebuild;
 
-	/// Tell if we have to rebuild all the containers (only if new skill)
-	bool		_MustRebuild;
+  /// Template names for drawing a skill and a specialized skill
+  std::string _TemplateSkill;
 
-	/// Template names for drawing a skill and a specialized skill
-	std::string _TemplateSkill;
+  /// AH for each ctrl node
+  std::string _AHCtrlNode;
 
-	/// AH for each ctrl node
-	std::string	_AHCtrlNode;
-
-	CGroupTree						*_Tree;
-	CGroupTree::SNode::TRefPtr		_TreeRoot;
-	std::vector<CGroupTree::SNode::TRefPtr>	_AllNodes;
+  CGroupTree *_Tree;
+  CGroupTree::SNode::TRefPtr _TreeRoot;
+  std::vector<CGroupTree::SNode::TRefPtr> _AllNodes;
 };
-
-
 
 #endif // NL_GROUP_SKILLS_H
 

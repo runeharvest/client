@@ -14,44 +14,37 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ATTACK_LIST_SHEET_H
 #define CL_ATTACK_LIST_SHEET_H
 
-#include "entity_sheet.h"
-#include "attack_sheet.h"
 #include "attack_id_sheet.h"
-
+#include "attack_sheet.h"
+#include "entity_sheet.h"
 
 // an entry in an attack list
-class CAttackListSheetEntry
-{
+class CAttackListSheetEntry {
 public:
-	CAttackIDSheet ID;
-	CAttackSheet   Attack;
-public:
-	void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
-	void serial(NLMISC::IStream &f);
-};
+  CAttackIDSheet ID;
+  CAttackSheet Attack;
 
+public:
+  void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
+  void serial(NLMISC::IStream &f);
+};
 
 /** A list of attack (range, melee, magic, or creature)
-  *
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2004
-  */
-class CAttackListSheet : public CEntitySheet
-{
+ *
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2004
+ */
+class CAttackListSheet : public CEntitySheet {
 public:
-	std::vector<CAttackListSheetEntry> Attacks; // sorted list of attack
+  std::vector<CAttackListSheetEntry> Attacks; // sorted list of attack
 public:
-	CAttackListSheet();
-	virtual void build(const NLGEORGES::UFormElm &item);
-	virtual void serial(NLMISC::IStream &f);
+  CAttackListSheet();
+  virtual void build(const NLGEORGES::UFormElm &item);
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
 
 #endif

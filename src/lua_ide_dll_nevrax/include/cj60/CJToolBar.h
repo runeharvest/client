@@ -15,12 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // CJToolBar.h : header file
-// 
-// Copyright (c) 1998-99 Kirk Stowell   
+//
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,29 +36,28 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
 //  <>  Thanks to Joerg Koenig (Joerg.Koenig@rhein-neckar.de), which is where I
-//		got some ideas about drawing 3D looking toolbars, from his article
-//		'Another Flat ToolBar (does not require MSIE)'.
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//		got some ideas about drawing 3D looking toolbars, from his
+//article 		'Another Flat ToolBar (does not require MSIE)'.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said!
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
 //
-// ==========================================================================  
-// HISTORY:	
+// ==========================================================================
+// HISTORY:
 // ==========================================================================
 //			1.00	17 Oct 1998	- Initial re-write and release.
-//			1.02	02 Nov 1998 - Fixed bug with DrawNoGripper() method -
-//								  (Christian Skovdal Andersen).
-//			1.03	14 Dec 1998 - Changed class to derive from Paul DiLascia's
-//								  CFlatToolBar, this class adds gripper and
-//								  control insertion.
+//			1.02	02 Nov 1998 - Fixed bug with DrawNoGripper()
+//method - 								  (Christian Skovdal Andersen). 			1.03	14 Dec 1998 - Changed class to
+//derive from Paul DiLascia's 								  CFlatToolBar, this class adds gripper and 								  control
+//insertion.
 // ==========================================================================
 //
 /////////////////////////////////////////////////////////////////////////////
@@ -75,55 +74,55 @@
 /////////////////////////////////////////////////////////////////////////////
 // CCJToolBar class
 
-class AFX_EXT_CLASS CCJToolBar : public CFlatToolBar
-{
-	DECLARE_DYNAMIC(CCJToolBar)
+class AFX_EXT_CLASS CCJToolBar : public CFlatToolBar {
+  DECLARE_DYNAMIC(CCJToolBar)
 
-// Construction
+  // Construction
 public:
-	CCJToolBar();
+  CCJToolBar();
 
-// Attributes
+  // Attributes
 public:
 protected:
-	CObList* m_pControls;
-	BOOL m_bGripper;
-	COLORREF m_clrHilite;
-	COLORREF m_clrShadow;
-	COLORREF m_clrNormal;
+  CObList *m_pControls;
+  BOOL m_bGripper;
+  COLORREF m_clrHilite;
+  COLORREF m_clrShadow;
+  COLORREF m_clrNormal;
 
-// Operations
+  // Operations
 public:
-	void DrawNoGripper() { m_bGripper = FALSE; }
-	void DrawBorders(CDC* pDC, CRect& rect);
-	void EraseNonClient(BOOL);
-	void DrawGripper(CDC & dc) const;
-	CWnd* InsertControl(CRuntimeClass* pClass, CString strTitle, CRect& pRect, UINT nID, DWORD dwStyle );
+  void DrawNoGripper() { m_bGripper = FALSE; }
+  void DrawBorders(CDC *pDC, CRect &rect);
+  void EraseNonClient(BOOL);
+  void DrawGripper(CDC &dc) const;
+  CWnd *InsertControl(CRuntimeClass *pClass, CString strTitle, CRect &pRect,
+                      UINT nID, DWORD dwStyle);
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCJToolBar)
-	//}}AFX_VIRTUAL
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CCJToolBar)
+  //}}AFX_VIRTUAL
 
-// Implementation
+  // Implementation
 public:
-	virtual ~CCJToolBar();
+  virtual ~CCJToolBar();
 
-// Generated message map functions
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CCJToolBar)
-	afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS FAR* lpncsp);
-	afx_msg void OnNcPaint();
-	afx_msg void OnSysColorChange();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
-
+  //{{AFX_MSG(CCJToolBar)
+  afx_msg void OnNcCalcSize(BOOL bCalcValidRects,
+                            NCCALCSIZE_PARAMS FAR *lpncsp);
+  afx_msg void OnNcPaint();
+  afx_msg void OnSysColorChange();
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately
+// before the previous line.
 
 #endif // __CJTOOLBAR_H__
-

@@ -28,18 +28,18 @@
  * \author Nevrax France
  * \date 2005
  */
-class CItemConsumableEffectHelper
-{
+class CItemConsumableEffectHelper {
 public:
-	// Singleton access
-	static CItemConsumableEffectHelper* getInstance();
+  // Singleton access
+  static CItemConsumableEffectHelper *getInstance();
 
-	// Fill itemText with consumable effects from item sheet
-	void getItemConsumableEffectText(const CItemSheet *pIS, std::string &itemText, sint32 itemQuality);
+  // Fill itemText with consumable effects from item sheet
+  void getItemConsumableEffectText(const CItemSheet *pIS, std::string &itemText,
+                                   sint32 itemQuality);
 
 private:
-	CItemConsumableEffectHelper() {}
-	//CItemConsumableEffectHelper(const CItemConsumableEffectHelper&);
+  CItemConsumableEffectHelper() {}
+  // CItemConsumableEffectHelper(const CItemConsumableEffectHelper&);
 };
 
 #endif // _ITEM_CONSUMABLE_EFFECT_H

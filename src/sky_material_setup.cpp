@@ -14,13 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
-
-#include "stdpch.h"
-#include "nel/3d/u_instance_material.h"
 #include "sky_material_setup.h"
+#include "nel/3d/u_instance_material.h"
+#include "stdpch.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
@@ -31,54 +27,57 @@ using namespace NL3D;
 H_AUTO_DECL(RZ_SkyMaterialSetup)
 
 //===================================================================================
-void CSkyMaterialSetup::buildFromInstance(NL3D::UInstance instance, uint stage)
-{
-	H_AUTO_USE(RZ_SkyMaterialSetup)
-	nlassert(stage < 2);
-	if (instance.empty())
-	{
-		Setup.clear();
-		return;
-	}
-	Setup.clear();
-	CTexInfo ti;
-	// take each texture at the given stage that is a texture file
-	for(uint k = 0; k < instance.getNumMaterials(); ++k)
-	{
-		UInstanceMaterial im = instance.getMaterial(k);
-		uint currStage;
-		if (im.getLastTextureStage() >= (sint) stage) currStage = stage;
-		else currStage = 0;
-		if (im.isTextureFile(currStage))
-		{
-			ti.MatNum = k;
-			ti.TexName = im.getTextureFileName(currStage);
-			Setup.push_back(ti);
-		}
-	}
+void CSkyMaterialSetup::buildFromInstance(NL3D::UInstance instance,
+                                          uint stage) {
+  H_AUTO_USE(RZ_SkyMaterialSetup)
+  nlassert(stage < 2);
+  if (instance.empty()) {
+    Setup.clear();
+    return;
+  }
+  Setup.clear();
+  CTexInfo ti;
+  // take each texture at the given stage that is a texture file
+  for (uint k = 0; k < instance.getNumMaterials(); ++k) {
+    UInstanceMaterial im = instance.getMaterial(k);
+    uint currStage;
+    if (im.getLastTextureStage() >= (sint)stage)
+      currStage = stage;
+    else
+      currStage = 0;
+    if (im.isTextureFile(currStage)) {
+      ti.MatNum = k;
+      ti.TexName = im.getTextureFileName(currStage);
+      Setup.push_back(ti);
+    }
+  }
 }
 
 //===================================================================================
-void CSkyMaterialSetup::applyToInstance(NL3D::UInstance instance, uint stage, bool skipFirstMaterial /*= false*/)
-{
-	H_AUTO_USE(RZ_SkyMaterialSetup)
-	nlassert(stage < 2);
-	if (instance.empty()) return;
-	for(uint k = 0; k < Setup.size(); ++k)
-	{
-		if (skipFirstMaterial && Setup[k].MatNum == 0) continue;
-		if (Setup[k].MatNum < instance.getNumMaterials())
-		{
-			NL3D::UInstanceMaterial im = instance.getMaterial(Setup[k].MatNum);
-			uint currStage;
-			if (im.getLastTextureStage() >= (sint) stage) currStage = stage;
-			else currStage = 0;
-			if (!im.isTextureFile(currStage)) continue;
-			if (NLMISC::nlstricmp(Setup[k].TexName, im.getTextureFileName(currStage)) != 0) // must change name ?
-			{
-				im.setTextureFileName(Setup[k].TexName, currStage);
-			}
-		}
-	}
+void CSkyMaterialSetup::applyToInstance(NL3D::UInstance instance, uint stage,
+                                        bool skipFirstMaterial /*= false*/) {
+  H_AUTO_USE(RZ_SkyMaterialSetup)
+  nlassert(stage < 2);
+  if (instance.empty())
+    return;
+  for (uint k = 0; k < Setup.size(); ++k) {
+    if (skipFirstMaterial && Setup[k].MatNum == 0)
+      continue;
+    if (Setup[k].MatNum < instance.getNumMaterials()) {
+      NL3D::UInstanceMaterial im = instance.getMaterial(Setup[k].MatNum);
+      uint currStage;
+      if (im.getLastTextureStage() >= (sint)stage)
+        currStage = stage;
+      else
+        currStage = 0;
+      if (!im.isTextureFile(currStage))
+        continue;
+      if (NLMISC::nlstricmp(Setup[k].TexName,
+                            im.getTextureFileName(currStage)) !=
+          0) // must change name ?
+      {
+        im.setTextureFileName(Setup[k].TexName, currStage);
+      }
+    }
+  }
 }
-

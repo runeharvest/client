@@ -20,54 +20,62 @@
 #include "game_share/magic_fx.h"
 #include "game_share/range_weapon_type.h"
 
-
 /** Identifier of an attack (magic, range, melle, or creature)
-  * This helps doing the links between attack behaviour and its graphical representation
-  *
-  *
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2004
-  */
-class CAttackIDSheet
-{
+ * This helps doing the links between attack behaviour and its graphical
+ * representation
+ *
+ *
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2004
+ */
+class CAttackIDSheet {
 public:
-	enum TType { Melee = 0, Range, Magic, Creature, DamageShield, Unknown };
-	//
-	class CSpellInfo
-	{
-	public:
-		MAGICFX::TSpellMode Mode;
-		MAGICFX::TMagicFx   ID;
-	public:
-		void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
-		void serial(NLMISC::IStream &f);
-	};
+  enum TType { Melee = 0, Range, Magic, Creature, DamageShield, Unknown };
+  //
+  class CSpellInfo {
+  public:
+    MAGICFX::TSpellMode Mode;
+    MAGICFX::TMagicFx ID;
+
+  public:
+    void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
+    void serial(NLMISC::IStream &f);
+  };
+
 public:
-	TType				  Type;
-	union
-	{
-		CSpellInfo		                    SpellInfo;            // valid if type == Magic
-		RANGE_WEAPON_TYPE::TRangeWeaponType RangeWeaponType;	  // valid if type == Range
-		uint32			                    CreatureAttackIndex;  // valid if type == Creature.  Currently, maybe 0 or 1 2 attack per creature)
-		uint32								DamageShieldType;       // valid if type == DamageShield
-	};
+  TType Type;
+  union {
+    CSpellInfo SpellInfo; // valid if type == Magic
+    RANGE_WEAPON_TYPE::TRangeWeaponType
+        RangeWeaponType;        // valid if type == Range
+    uint32 CreatureAttackIndex; // valid if type == Creature.  Currently, maybe
+                                // 0 or 1 2 attack per creature)
+    uint32 DamageShieldType;    // valid if type == DamageShield
+  };
+
 public:
-	virtual void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
-	virtual void serial(NLMISC::IStream &f);
+  virtual void build(const NLGEORGES::UFormElm &item,
+                     const std::string &prefix);
+  virtual void serial(NLMISC::IStream &f);
 };
 
 // compares spell infos
-bool operator == (const CAttackIDSheet::CSpellInfo &lhs, const CAttackIDSheet::CSpellInfo &rhs);
-inline bool operator != (const CAttackIDSheet::CSpellInfo &lhs, const CAttackIDSheet::CSpellInfo &rhs) { return !(lhs == rhs); }
+bool operator==(const CAttackIDSheet::CSpellInfo &lhs,
+                const CAttackIDSheet::CSpellInfo &rhs);
+inline bool operator!=(const CAttackIDSheet::CSpellInfo &lhs,
+                       const CAttackIDSheet::CSpellInfo &rhs) {
+  return !(lhs == rhs);
+}
 // build an ordering between attack ids
-bool operator < (const CAttackIDSheet::CSpellInfo &lhs, const CAttackIDSheet::CSpellInfo &rhs);
+bool operator<(const CAttackIDSheet::CSpellInfo &lhs,
+               const CAttackIDSheet::CSpellInfo &rhs);
 // compares 2 attack ids
-bool operator == (const CAttackIDSheet &lhs, const CAttackIDSheet &rhs);
-inline bool operator != (const CAttackIDSheet &lhs, const CAttackIDSheet &rhs) { return !(lhs == rhs); }
+bool operator==(const CAttackIDSheet &lhs, const CAttackIDSheet &rhs);
+inline bool operator!=(const CAttackIDSheet &lhs, const CAttackIDSheet &rhs) {
+  return !(lhs == rhs);
+}
 // build an ordering between attack ids
-bool operator < (const CAttackIDSheet &lhs, const CAttackIDSheet &rhs);
-
-
+bool operator<(const CAttackIDSheet &lhs, const CAttackIDSheet &rhs);
 
 #endif

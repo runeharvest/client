@@ -14,139 +14,128 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "item_fx_sheet.h"
 #include "client_sheets.h"
+#include "stdpch.h"
 
 #include "nel/georges/u_form_elm.h"
 
 // *******************************************************************************************
-CItemFXSheet::CItemFXSheet()
-{
-	_Trail = 0;
-	TrailMinSliceTime = 0.05f;
-	TrailMaxSliceTime = 0.05f;
-	ImpactFXDelay = 0.f;
-	_AdvantageFX = 0;
-	_AttackFX = 0;
-	AttackFXRot.set(0.f, 0.f, 0.f);
+CItemFXSheet::CItemFXSheet() {
+  _Trail = 0;
+  TrailMinSliceTime = 0.05f;
+  TrailMaxSliceTime = 0.05f;
+  ImpactFXDelay = 0.f;
+  _AdvantageFX = 0;
+  _AttackFX = 0;
+  AttackFXRot.set(0.f, 0.f, 0.f);
 }
 
 // *******************************************************************************************
-void CItemFXSheet::build(const NLGEORGES::UFormElm &item, const std::string &prefix)
-{
-	std::string trail;
-	item.getValueByName(trail, (prefix + "Trail").c_str());
-	_Trail = ClientSheetsStrings.add(trail);
-	item.getValueByName(TrailMinSliceTime, (prefix + "TrailMinSliceTime").c_str());
-	item.getValueByName(TrailMaxSliceTime, (prefix + "TrailMaxSliceTime").c_str());
-	std::string advantageFX;
-	item.getValueByName(advantageFX, (prefix + "AdvantageFX").c_str());
-	_AdvantageFX = ClientSheetsStrings.add(advantageFX);
-	std::string attackFX;
-	item.getValueByName(attackFX, (prefix + "AttackFX").c_str());
-	_AttackFX = ClientSheetsStrings.add(attackFX);
-	item.getValueByName(AttackFXOffset.x, (prefix + "AttackFXOffset.X").c_str());
-	item.getValueByName(AttackFXOffset.y, (prefix + "AttackFXOffset.Y").c_str());
-	item.getValueByName(AttackFXOffset.z, (prefix + "AttackFXOffset.Z").c_str());
-	item.getValueByName(AttackFXRot.x,    (prefix + "AttackFXRot.X").c_str());
-	item.getValueByName(AttackFXRot.y,    (prefix + "AttackFXRot.Y").c_str());
-	item.getValueByName(AttackFXRot.z,    (prefix + "AttackFXRot.Z").c_str());
-	item.getValueByName(ImpactFXDelay,    (prefix + "ImpactFXDelay").c_str());
-	const NLGEORGES::UFormElm *array = NULL;
-	if (item.getNodeByName(&array, prefix + "StaticFXs") && array)
-	{
-		uint count;
-		nlverify(array->getArraySize(count));
-		_StaticFXs.reserve(count);
-		for(uint k = 0; k < count; ++k)
-		{
-			const NLGEORGES::UFormElm *node;
-			if (array->getArrayNode(&node, k))
-			{
-				CStaticFX fx;
-				fx.build(*node);
-				_StaticFXs.push_back(fx);
-			}
-		}
-	}
+void CItemFXSheet::build(const NLGEORGES::UFormElm &item,
+                         const std::string &prefix) {
+  std::string trail;
+  item.getValueByName(trail, (prefix + "Trail").c_str());
+  _Trail = ClientSheetsStrings.add(trail);
+  item.getValueByName(TrailMinSliceTime,
+                      (prefix + "TrailMinSliceTime").c_str());
+  item.getValueByName(TrailMaxSliceTime,
+                      (prefix + "TrailMaxSliceTime").c_str());
+  std::string advantageFX;
+  item.getValueByName(advantageFX, (prefix + "AdvantageFX").c_str());
+  _AdvantageFX = ClientSheetsStrings.add(advantageFX);
+  std::string attackFX;
+  item.getValueByName(attackFX, (prefix + "AttackFX").c_str());
+  _AttackFX = ClientSheetsStrings.add(attackFX);
+  item.getValueByName(AttackFXOffset.x, (prefix + "AttackFXOffset.X").c_str());
+  item.getValueByName(AttackFXOffset.y, (prefix + "AttackFXOffset.Y").c_str());
+  item.getValueByName(AttackFXOffset.z, (prefix + "AttackFXOffset.Z").c_str());
+  item.getValueByName(AttackFXRot.x, (prefix + "AttackFXRot.X").c_str());
+  item.getValueByName(AttackFXRot.y, (prefix + "AttackFXRot.Y").c_str());
+  item.getValueByName(AttackFXRot.z, (prefix + "AttackFXRot.Z").c_str());
+  item.getValueByName(ImpactFXDelay, (prefix + "ImpactFXDelay").c_str());
+  const NLGEORGES::UFormElm *array = NULL;
+  if (item.getNodeByName(&array, prefix + "StaticFXs") && array) {
+    uint count;
+    nlverify(array->getArraySize(count));
+    _StaticFXs.reserve(count);
+    for (uint k = 0; k < count; ++k) {
+      const NLGEORGES::UFormElm *node;
+      if (array->getArrayNode(&node, k)) {
+        CStaticFX fx;
+        fx.build(*node);
+        _StaticFXs.push_back(fx);
+      }
+    }
+  }
 }
 
 // *******************************************************************************************
-void CItemFXSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(TrailMinSliceTime);
-	f.serial(TrailMaxSliceTime);
-	f.serial(AttackFXOffset);
-	ClientSheetsStrings.serial(f, _Trail);
-	ClientSheetsStrings.serial(f, _AdvantageFX);
-	ClientSheetsStrings.serial(f, _AttackFX);
-	f.serial(AttackFXRot);
-	f.serial(ImpactFXDelay);
-	f.serialCont(_StaticFXs);
+void CItemFXSheet::serial(NLMISC::IStream &f) {
+  f.serial(TrailMinSliceTime);
+  f.serial(TrailMaxSliceTime);
+  f.serial(AttackFXOffset);
+  ClientSheetsStrings.serial(f, _Trail);
+  ClientSheetsStrings.serial(f, _AdvantageFX);
+  ClientSheetsStrings.serial(f, _AttackFX);
+  f.serial(AttackFXRot);
+  f.serial(ImpactFXDelay);
+  f.serialCont(_StaticFXs);
 }
 
 // *******************************************************************************************
-const char *CItemFXSheet::getTrail() const
-{
-	return _Trail ? ClientSheetsStrings.get(_Trail) : "";
+const char *CItemFXSheet::getTrail() const {
+  return _Trail ? ClientSheetsStrings.get(_Trail) : "";
 }
 
 // *******************************************************************************************
-const char *CItemFXSheet::getAdvantageFX() const
-{
-	return _AdvantageFX ? ClientSheetsStrings.get(_AdvantageFX) : "";
+const char *CItemFXSheet::getAdvantageFX() const {
+  return _AdvantageFX ? ClientSheetsStrings.get(_AdvantageFX) : "";
 }
 
 // *******************************************************************************************
-const char *CItemFXSheet::getAttackFX() const
-{
-	return _AttackFX ? ClientSheetsStrings.get(_AttackFX) : "";
+const char *CItemFXSheet::getAttackFX() const {
+  return _AttackFX ? ClientSheetsStrings.get(_AttackFX) : "";
 }
 
 // *******************************************************************************************
-void CItemFXSheet::CStaticFX::build(const NLGEORGES::UFormElm &item)
-{
-	std::string name;
-	std::string bone;
-	item.getValueByName(name, "Name");
-	item.getValueByName(bone, "Bone");
-	Name = ClientSheetsStrings.add(name);
-	Bone = ClientSheetsStrings.add(bone);
-	item.getValueByName(Offset.x,    "OffsetX");
-	item.getValueByName(Offset.y,    "OffsetY");
-	item.getValueByName(Offset.z,    "OffsetZ");
+void CItemFXSheet::CStaticFX::build(const NLGEORGES::UFormElm &item) {
+  std::string name;
+  std::string bone;
+  item.getValueByName(name, "Name");
+  item.getValueByName(bone, "Bone");
+  Name = ClientSheetsStrings.add(name);
+  Bone = ClientSheetsStrings.add(bone);
+  item.getValueByName(Offset.x, "OffsetX");
+  item.getValueByName(Offset.y, "OffsetY");
+  item.getValueByName(Offset.z, "OffsetZ");
 }
 
 // *******************************************************************************************
-void CItemFXSheet::CStaticFX::serial(NLMISC::IStream &f)
-{
-	ClientSheetsStrings.serial(f, Name);
-	ClientSheetsStrings.serial(f, Bone);
-	f.serial(Offset);
+void CItemFXSheet::CStaticFX::serial(NLMISC::IStream &f) {
+  ClientSheetsStrings.serial(f, Name);
+  ClientSheetsStrings.serial(f, Bone);
+  f.serial(Offset);
 }
 
 // *******************************************************************************************
-const char *CItemFXSheet::getStaticFXName(uint index) const
-{
-	nlassert(index < _StaticFXs.size());
-	return _StaticFXs[index].Name ? ClientSheetsStrings.get(_StaticFXs[index].Name) : "";
+const char *CItemFXSheet::getStaticFXName(uint index) const {
+  nlassert(index < _StaticFXs.size());
+  return _StaticFXs[index].Name
+             ? ClientSheetsStrings.get(_StaticFXs[index].Name)
+             : "";
 }
 
 // *******************************************************************************************
-const char *CItemFXSheet::getStaticFXBone(uint index) const
-{
-	nlassert(index < _StaticFXs.size());
-	return _StaticFXs[index].Bone ? ClientSheetsStrings.get(_StaticFXs[index].Bone) : "";
+const char *CItemFXSheet::getStaticFXBone(uint index) const {
+  nlassert(index < _StaticFXs.size());
+  return _StaticFXs[index].Bone
+             ? ClientSheetsStrings.get(_StaticFXs[index].Bone)
+             : "";
 }
 
 // *******************************************************************************************
-const NLMISC::CVector &CItemFXSheet::getStaticFXOffset(uint index) const
-{
-	nlassert(index < _StaticFXs.size());
-	return _StaticFXs[index].Offset;
+const NLMISC::CVector &CItemFXSheet::getStaticFXOffset(uint index) const {
+  nlassert(index < _StaticFXs.size());
+  return _StaticFXs[index].Offset;
 }
-
-
-
-

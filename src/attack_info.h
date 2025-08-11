@@ -14,31 +14,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ATTACK_INFO
 #define CL_ATTACK_INFO
 
 #include "game_share/body.h"
 #include "game_share/hit_type.h"
 
-/** General a description of an attack. This describe parameters common to melee/magic/range/creature_attack attacks
-  * This is filled when an attack behaviour is received
-  *
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 1/2004
-  */
-struct CAttackInfo
-{
-	uint				 Intensity;				  // intensity of attack
-	uint				 PhysicalImpactIntensity; // intensity (for physical damages only)
-	BODY::TBodyPart		 Localisation;            // localisation (for physical damages only)
-	HITTYPE::THitType	 HitType;				  // if there are physical damages, tells how critical they are
-	DMGTYPE::EDamageType DamageType;              // if there are physical damages, give their nature
-	BODY::TSide			 Side;         // side of body that receives the impact
+/** General a description of an attack. This describe parameters common to
+ * melee/magic/range/creature_attack attacks This is filled when an attack
+ * behaviour is received
+ *
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 1/2004
+ */
+struct CAttackInfo {
+  uint Intensity;               // intensity of attack
+  uint PhysicalImpactIntensity; // intensity (for physical damages only)
+  BODY::TBodyPart Localisation; // localisation (for physical damages only)
+  HITTYPE::THitType
+      HitType; // if there are physical damages, tells how critical they are
+  DMGTYPE::EDamageType
+      DamageType;   // if there are physical damages, give their nature
+  BODY::TSide Side; // side of body that receives the impact
 };
-
-
 
 #endif

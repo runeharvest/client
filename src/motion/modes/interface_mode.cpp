@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 //////////////
 // Includes //
 //////////////
@@ -24,19 +21,17 @@
 // 3D Interface.
 #include "nel/3d/u_driver.h"
 // Client.
-#include "../../input.h"
-#include "../user_controls.h"
 #include "../../actions_client.h"
-#include "../../view.h"
-#include "../../time_client.h"
-#include "../../entities.h"
-#include "../../interface_v3/interface_manager.h"
+#include "../../client_cfg.h"
 #include "../../cursor_functions.h"
 #include "../../entities.h"
+#include "../../input.h"
+#include "../../interface_v3/interface_manager.h"
 #include "../../misc.h"
-#include "../../client_cfg.h"
+#include "../../time_client.h"
 #include "../../user_entity.h"
-
+#include "../../view.h"
+#include "../user_controls.h"
 
 ///////////
 // Using //
@@ -45,12 +40,11 @@ using namespace std;
 using namespace NLMISC;
 using namespace NL3D;
 
-
 /////////////
 // Externs //
 /////////////
-extern UDriver				*Driver;
-extern CEventsListener		EventsListener;				// Inputs Manager
+extern UDriver *Driver;
+extern CEventsListener EventsListener; // Inputs Manager
 
 ///////////////
 // Functions //
@@ -59,38 +53,34 @@ extern CEventsListener		EventsListener;				// Inputs Manager
 // interfaceModeStart :
 // Manage interactions in interactive mode (start).
 //-----------------------------------------------
-void CUserControls::interfaceModeStart()
-{
-	SetMouseCursor ();
+void CUserControls::interfaceModeStart() {
+  SetMouseCursor();
 
-	// First person view, user is not selectable.
-	UserEntity->selectable(false);
+  // First person view, user is not selectable.
+  UserEntity->selectable(false);
 
-	_InternalView = true;
+  _InternalView = true;
 
-	// Show/hide all or parts of the user body.
-	UserEntity->updateVisualDisplay();
-}// interfaceModeStart //
+  // Show/hide all or parts of the user body.
+  UserEntity->updateVisualDisplay();
+} // interfaceModeStart //
 
 //-----------------------------------------------
 // interfaceModeStop :
 // Manage interactions in interactive mode (stop).
 //-----------------------------------------------
-void CUserControls::interfaceModeStop()
-{
-}// interfaceModeStop //
+void CUserControls::interfaceModeStop() {} // interfaceModeStop //
 
 //-----------------------------------------------
 // interfaceMode :
 // Manage interactions in free head mode.
 //-----------------------------------------------
-void CUserControls::interfaceMode()
-{
-	// Manage common moves.
-	commonMove();
+void CUserControls::interfaceMode() {
+  // Manage common moves.
+  commonMove();
 
-	// Set the view.
-	View.viewPos(UserEntity->pos() + CVector(0,0,_ZOscil));
-	commonSetView();
+  // Set the view.
+  View.viewPos(UserEntity->pos() + CVector(0, 0, _ZOscil));
+  commonSetView();
 
-}// interfaceMode //
+} // interfaceMode //

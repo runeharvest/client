@@ -26,42 +26,34 @@
 
 using namespace NLMISC;
 
-namespace R2
-{
+namespace R2 {
 
 // *********************************************************************************************************
-CVerboseClock::CVerboseClock(const std::string &msg)
-{
-	_Msg = msg;
-	_StartTime = CTime::getLocalTime();
-
+CVerboseClock::CVerboseClock(const std::string &msg) {
+  _Msg = msg;
+  _StartTime = CTime::getLocalTime();
 }
 
 // *********************************************************************************************************
-CVerboseClock::~CVerboseClock()
-{
-	TTime endTime = CTime::getLocalTime();
-	if (ClientCfg.R2EDVerboseParseTime)
-	{
-		nlinfo("%.2f seconds for : %s", (endTime - _StartTime) / 1000.f, _Msg.c_str());
-	}
+CVerboseClock::~CVerboseClock() {
+  TTime endTime = CTime::getLocalTime();
+  if (ClientCfg.R2EDVerboseParseTime) {
+    nlinfo("%.2f seconds for : %s", (endTime - _StartTime) / 1000.f,
+           _Msg.c_str());
+  }
 }
 
 // *********************************************************************************************************
-CPreciseClock::CPreciseClock(const std::string &msg)
-{
-	_Msg = msg;
-	_StartTime = CTime::getPerformanceTime();
-
+CPreciseClock::CPreciseClock(const std::string &msg) {
+  _Msg = msg;
+  _StartTime = CTime::getPerformanceTime();
 }
 
 // *********************************************************************************************************
-CPreciseClock::~CPreciseClock()
-{
-	TTicks endTime = CTime::getPerformanceTime();
-	nlinfo("%.2f ms for : %s", CTime::ticksToSecond(endTime - _StartTime) * 1000.f, _Msg.c_str());
+CPreciseClock::~CPreciseClock() {
+  TTicks endTime = CTime::getPerformanceTime();
+  nlinfo("%.2f ms for : %s",
+         CTime::ticksToSecond(endTime - _StartTime) * 1000.f, _Msg.c_str());
 }
 
-
-
-} // R2
+} // namespace R2

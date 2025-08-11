@@ -14,28 +14,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "ground_fx_sheet.h"
 #include "nel/georges/u_form_elm.h"
-
+#include "stdpch.h"
 
 // ***************************************************************************
-bool CGroundFXSheet::build(const NLGEORGES::UFormElm &item)
-{
-	std::string str;
-	bool	ret= item.getValueByName(GroundID, "GroundID") &&
-		   item.getValueByName(str, "FXName");
-	IdFXName = ClientSheetsStrings.add(str);
+bool CGroundFXSheet::build(const NLGEORGES::UFormElm &item) {
+  std::string str;
+  bool ret = item.getValueByName(GroundID, "GroundID") &&
+             item.getValueByName(str, "FXName");
+  IdFXName = ClientSheetsStrings.add(str);
 
-	return ret;
+  return ret;
 }
 
 // ***************************************************************************
-void CGroundFXSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(GroundID);
-	ClientSheetsStrings.serial(f, IdFXName);
+void CGroundFXSheet::serial(NLMISC::IStream &f) {
+  f.serial(GroundID);
+  ClientSheetsStrings.serial(f, IdFXName);
 }
-

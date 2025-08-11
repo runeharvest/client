@@ -16,11 +16,11 @@
 
 // CJFrameWnd.h : header file
 //
-// Copyright (c) 1998-99 Kirk Stowell   
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,23 +36,24 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said!
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
 //
-// ==========================================================================  
-// HISTORY:	
+// ==========================================================================
+// HISTORY:
 // ==========================================================================
 //			1.00	17 Oct 1998	- Initial re-write and release.
-//			2.00	12 Jan 1999 - Total re-write to add side-by-side 
-//								  docking support for CCJControlBar class.
+//			2.00	12 Jan 1999 - Total re-write to add side-by-side
+//								  docking
+//support for CCJControlBar class.
 // ==========================================================================
 //
 /////////////////////////////////////////////////////////////////////////////
@@ -68,53 +69,52 @@
 // CCJFrameWnd class
 
 class CCJSizeDockBar;
-class AFX_EXT_CLASS CCJFrameWnd : public CFrameWnd
-{
-	DECLARE_DYNCREATE(CCJFrameWnd)
+class AFX_EXT_CLASS CCJFrameWnd : public CFrameWnd {
+  DECLARE_DYNCREATE(CCJFrameWnd)
 
-// Construction
+  // Construction
 public:
-	CCJFrameWnd();
+  CCJFrameWnd();
 
-// Attributes
+  // Attributes
 public:
 protected:
-	int m_aInitialSize[4];
-	static DWORD dwDockBarMap[4][2];
+  int m_aInitialSize[4];
+  static DWORD dwDockBarMap[4][2];
 
-// Operations
+  // Operations
 public:
-	void SetInitialSize(int top, int bottom, int left, int right);
-	void RecalcAllExcept(CCJSizeDockBar *pBar);
-	void EnableDocking(DWORD dwDockStyle);
-	void EnableDockingSizeBar(DWORD dwDockStyle);
-	void DockSizeBar(CControlBar *,CCJSizeDockBar* =NULL,LPRECT =NULL);
-	void DockControlBarLeftOf(CControlBar* Bar, CControlBar* LeftOf);
+  void SetInitialSize(int top, int bottom, int left, int right);
+  void RecalcAllExcept(CCJSizeDockBar *pBar);
+  void EnableDocking(DWORD dwDockStyle);
+  void EnableDockingSizeBar(DWORD dwDockStyle);
+  void DockSizeBar(CControlBar *, CCJSizeDockBar * = NULL, LPRECT = NULL);
+  void DockControlBarLeftOf(CControlBar *Bar, CControlBar *LeftOf);
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCJFrameWnd)
-	public:
-	virtual void RecalcLayout(BOOL bNotify = TRUE);
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CCJFrameWnd)
 public:
-	virtual ~CCJFrameWnd();
+  virtual void RecalcLayout(BOOL bNotify = TRUE);
+  //}}AFX_VIRTUAL
 
-// Generated message map functions
+  // Implementation
+public:
+  virtual ~CCJFrameWnd();
+
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CCJFrameWnd)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CCJFrameWnd)
+  // NOTE - the ClassWizard will add and remove member functions here.
+  //    DO NOT EDIT what you see in these blocks of generated code !
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately
+// before the previous line.
 
 #endif // __CJFRAMEWND_H__
-

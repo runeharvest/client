@@ -18,13 +18,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "ide2.h"
 #include "WatchBar.h"
+#include "ide2.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -33,108 +33,98 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 
 BEGIN_MESSAGE_MAP(CWatchBar, CCJControlBar)
-	//{{AFX_MSG_MAP(CWatchBar)
-	ON_WM_CREATE()
-	//ON_NOTIFY(LVN_ENDLABELEDIT, IDC_WATCHES, OnEndlabeledit)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CWatchBar)
+ON_WM_CREATE()
+// ON_NOTIFY(LVN_ENDLABELEDIT, IDC_WATCHES, OnEndlabeledit)
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-CWatchBar::CWatchBar()
-{
+CWatchBar::CWatchBar() {}
 
-}
+CWatchBar::~CWatchBar() {}
 
-CWatchBar::~CWatchBar()
-{
+int CWatchBar::OnCreate(LPCREATESTRUCT lpCreateStruct) {
+  if (CCJControlBar::OnCreate(lpCreateStruct) == -1)
+    return -1;
 
-}
+  // TODO: Add your specialized creation code here
+  if (!m_watches.Create(CRect(0, 0, 100, 100), this, IDC_WATCHES)) {
+    TRACE0("Failed to create Watches ctrl\n");
+    return -1;
+  }
 
-int CWatchBar::OnCreate(LPCREATESTRUCT lpCreateStruct) 
-{
-	if (CCJControlBar::OnCreate(lpCreateStruct) == -1)
-		return -1;
-	
-	// TODO: Add your specialized creation code here	
-	if (!m_watches.Create(CRect(0, 0, 100, 100), this, IDC_WATCHES))	
-	{
-		TRACE0("Failed to create Watches ctrl\n");
-		return -1;
-	}	
-	
+  SetChild(&m_watches);
 
-	SetChild(&m_watches);
+  m_watches.ModifyStyleEx(0, WS_EX_STATICEDGE);
 
-	m_watches.ModifyStyleEx(0, WS_EX_STATICEDGE);
-	
-	CHeaderCtrl& header = m_watches.GetHeaderCtrl();
-	CTreeCtrl& tree = m_watches.GetTreeCtrl();
+  CHeaderCtrl &header = m_watches.GetHeaderCtrl();
+  CTreeCtrl &tree = m_watches.GetTreeCtrl();
 
-	DWORD dwStyle = GetWindowLong(tree, GWL_STYLE);
-	// TMP TMP : faire comme ci dessous : 
-	dwStyle |= TVS_HASBUTTONS | TVS_HASLINES | TVS_EDITLABELS;
-	SetWindowLong(tree, GWL_STYLE, dwStyle);
+  DWORD dwStyle = GetWindowLong(tree, GWL_STYLE);
+  // TMP TMP : faire comme ci dessous :
+  dwStyle |= TVS_HASBUTTONS | TVS_HASLINES | TVS_EDITLABELS;
+  SetWindowLong(tree, GWL_STYLE, dwStyle);
 
-	// TODO nico : add icons depending on type
-	//m_ImgList.Create(IDB_IMAGES, 16, 1, RGB(255,0,255));
-	//tree.SetImageList(&m_ImgList, TVSIL_NORMAL);
+  // TODO nico : add icons depending on type
+  // m_ImgList.Create(IDB_IMAGES, 16, 1, RGB(255,0,255));
+  // tree.SetImageList(&m_ImgList, TVSIL_NORMAL);
 
-	HDITEM hditem;
-	hditem.mask = HDI_TEXT | HDI_WIDTH | HDI_FORMAT;
-	hditem.fmt = HDF_LEFT | HDF_STRING;
-	hditem.cxy = 200;
-	hditem.pszText = "Name";
-	header.InsertItem(0, &hditem);
-	hditem.cxy = 100;
-	hditem.pszText = "Value";
-	header.InsertItem(1, &hditem);
-	hditem.cxy = 100;
-	hditem.pszText = "Type";
-	header.InsertItem(2, &hditem);
-	m_watches.UpdateColumns();
+  HDITEM hditem;
+  hditem.mask = HDI_TEXT | HDI_WIDTH | HDI_FORMAT;
+  hditem.fmt = HDF_LEFT | HDF_STRING;
+  hditem.cxy = 200;
+  hditem.pszText = "Name";
+  header.InsertItem(0, &hditem);
+  hditem.cxy = 100;
+  hditem.pszText = "Value";
+  header.InsertItem(1, &hditem);
+  hditem.cxy = 100;
+  hditem.pszText = "Type";
+  header.InsertItem(2, &hditem);
+  m_watches.UpdateColumns();
 
-	
-	/*
-	LV_COLUMN lvc;
-	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+  /*
+  LV_COLUMN lvc;
+  lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 
-	lvc.iSubItem = 0;
-	lvc.pszText = "Name";
-	lvc.cx = 70;
-	lvc.fmt = LVCFMT_LEFT;
-	m_watches.InsertColumn(0,&lvc);
+  lvc.iSubItem = 0;
+  lvc.pszText = "Name";
+  lvc.cx = 70;
+  lvc.fmt = LVCFMT_LEFT;
+  m_watches.InsertColumn(0,&lvc);
 
-	lvc.iSubItem = 1;
-	lvc.pszText = "Value";
-	lvc.cx = 300;
-	lvc.fmt = LVCFMT_LEFT;
-	m_watches.InsertColumn(2,&lvc);
-	*/
-/*	CHeaderCtrl& header = m_watches.GetHeaderCtrl();
-	HDITEM hditem;
-	hditem.mask = HDI_TEXT | HDI_WIDTH | HDI_FORMAT;
-	hditem.fmt = HDF_LEFT | HDF_STRING;
-	hditem.cxy = 200;
-	hditem.pszText = "Name";
-	header.InsertItem(0, &hditem);
-	hditem.cxy = 100;
-	hditem.pszText = "Value!!";
-	header.InsertItem(1, &hditem);
-	m_watches.UpdateColumns();
-	*/
+  lvc.iSubItem = 1;
+  lvc.pszText = "Value";
+  lvc.cx = 300;
+  lvc.fmt = LVCFMT_LEFT;
+  m_watches.InsertColumn(2,&lvc);
+  */
+  /*	CHeaderCtrl& header = m_watches.GetHeaderCtrl();
+          HDITEM hditem;
+          hditem.mask = HDI_TEXT | HDI_WIDTH | HDI_FORMAT;
+          hditem.fmt = HDF_LEFT | HDF_STRING;
+          hditem.cxy = 200;
+          hditem.pszText = "Name";
+          header.InsertItem(0, &hditem);
+          hditem.cxy = 100;
+          hditem.pszText = "Value!!";
+          header.InsertItem(1, &hditem);
+          m_watches.UpdateColumns();
+          */
 
-	m_watches.AddEmptyRow();
+  m_watches.AddEmptyRow();
 
-	return 0;
+  return 0;
 }
 
 /*
-void CWatchBar::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
+void CWatchBar::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	// TODO: Add your control notification handler code here
-	if ( pDispInfo->item.pszText )
-		m_watches.AddEditItem(pDispInfo->item);
+        LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+        // TODO: Add your control notification handler code here
+        if ( pDispInfo->item.pszText )
+                m_watches.AddEditItem(pDispInfo->item);
 
-	*pResult = 0;
+        *pResult = 0;
 }
 */

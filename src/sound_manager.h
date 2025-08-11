@@ -17,8 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_SOUND_MANAGER_H
 #define NL_SOUND_MANAGER_H
 
@@ -26,10 +24,10 @@
 // INCLUDES //
 //////////////
 // misc
-#include "nel/misc/types_nl.h"
-#include "nel/misc/vector.h"
 #include "nel/misc/config_file.h"
 #include "nel/misc/fast_id_map.h"
+#include "nel/misc/types_nl.h"
+#include "nel/misc/vector.h"
 // game_share
 #include "nel/misc/entity_id.h"
 // sound
@@ -41,12 +39,11 @@ extern class CSoundManager *SoundMngr;
 ///////////
 // USING //
 ///////////
-using std::string;
 using NLSOUND::USource;
+using std::string;
 
-namespace NLMISC
-{
-	class IProgressCallback;
+namespace NLMISC {
+class IProgressCallback;
 }
 
 /**
@@ -55,345 +52,364 @@ namespace NLMISC
  * \author Nevrax France
  * \date 2001
  */
-class CSoundManager
-{
+class CSoundManager {
 public:
-	typedef uint32 TSourceId;
+  typedef uint32 TSourceId;
 
 private:
-	typedef CHashMultiMap<NLMISC::CEntityId, TSourceId, NLMISC::CEntityIdHashMapTraits> TMultiMapEntityToSource;
-	typedef NLMISC::CFastIdMap<TSourceId, NLSOUND::USource *> TMapIdToSource;
+  typedef CHashMultiMap<NLMISC::CEntityId, TSourceId,
+                        NLMISC::CEntityIdHashMapTraits>
+      TMultiMapEntityToSource;
+  typedef NLMISC::CFastIdMap<TSourceId, NLSOUND::USource *> TMapIdToSource;
 
-	/// Load the properties for this sound and aplly them.
-	void loadProperties(const string &soundName, USource *source);
+  /// Load the properties for this sound and aplly them.
+  void loadProperties(const string &soundName, USource *source);
 
-	/// Load the positioned sounds
-	//void loadPositionedSounds();
-
-public:
-
-	// Loading music XFade
-	enum	{LoadingMusicXFade= 1000};
+  /// Load the positioned sounds
+  // void loadPositionedSounds();
 
 public:
+  // Loading music XFade
+  enum { LoadingMusicXFade = 1000 };
 
-	/**
-	 * constructor
-	 * \param string& samplePath The path to directory containing the .wav sample files
-	 * \param vector& sampleBanks The list of sample banks to load
-	 */
-	CSoundManager(NLMISC::IProgressCallback *progressCallBack = NULL);
+public:
+  /**
+   * constructor
+   * \param string& samplePath The path to directory containing the .wav sample
+   * files \param vector& sampleBanks The list of sample banks to load
+   */
+  CSoundManager(NLMISC::IProgressCallback *progressCallBack = NULL);
 
+  /// destructor
+  ~CSoundManager();
 
-	/// destructor
-	~CSoundManager();
+  /// Return the audio mixer instance pointer.
+  NLSOUND::UAudioMixer *getMixer();
 
-	/// Return the audio mixer instance pointer.
-	NLSOUND::UAudioMixer *getMixer();
+  TSourceId addSource(const NLMISC::TStringId &soundName,
+                      const NLMISC::CVector &position, bool play = true,
+                      bool loop = false,
+                      const NLMISC::CEntityId &id = NLMISC::CEntityId::Unknown);
 
-	TSourceId	addSource( const NLMISC::TStringId &soundName, const NLMISC::CVector &position, bool play = true , bool loop = false,  const NLMISC::CEntityId &id = NLMISC::CEntityId::Unknown );
+  /// spawn a new source to the world but sound manager don't keep any link and
+  /// the sound will be automatically deleted when finnished
+  bool spawnSource(const NLMISC::TStringId &soundName,
+                   NLSOUND::CSoundContext &context);
 
-	/// spawn a new source to the world but sound manager don't keep any link and the sound will be automatically deleted when finnished
-	bool	spawnSource (const NLMISC::TStringId &soundName, NLSOUND::CSoundContext &context);
+  /// spawn a new source to the world but sound manager don't keep any link and
+  /// the sound will be automatically deleted when finnished
+  bool spawnSource(const NLMISC::TStringId &soundName,
+                   const NLMISC::CVector &position);
 
-	/// spawn a new source to the world but sound manager don't keep any link and the sound will be automatically deleted when finnished
-	bool	spawnSource( const NLMISC::TStringId &soundName, const NLMISC::CVector &position );
+  /**
+   * remove a source
+   * \param uint32 source id
+   */
+  void removeSource(TSourceId sourceId);
 
-	/**
-	 * remove a source
-	 * \param uint32 source id
-	 */
-	void removeSource( TSourceId sourceId );
+  /**
+   * update the pos of all the sounds attached to that entity
+   * \param NLMISC::CEntityId& id of the entity
+   * \param CVector& new position
+   */
+  void updateEntityPos(const NLMISC::CEntityId &id, const NLMISC::CVector &pos);
 
+  /**
+   * update the velocity of all the sounds attached to that entity
+   * \param NLMISC::CEntityId& id of the entity
+   * \param CVector& new velocity
+   */
+  void updateEntityVelocity(const NLMISC::CEntityId &id,
+                            const NLMISC::CVector &velocity);
 
-	/**
-	 * update the pos of all the sounds attached to that entity
-	 * \param NLMISC::CEntityId& id of the entity
-	 * \param CVector& new position
-	 */
-	void updateEntityPos( const NLMISC::CEntityId &id, const NLMISC::CVector &pos);
+  /**
+   * update the direction of all the sounds attached to that entity
+   * \param NLMISC::CEntityId& id of the entity
+   * \param CVector& new direction
+   */
+  void updateEntityDirection(const NLMISC::CEntityId &id,
+                             const NLMISC::CVector &dir);
 
-	/**
-	 * update the velocity of all the sounds attached to that entity
-	 * \param NLMISC::CEntityId& id of the entity
-	 * \param CVector& new velocity
-	 */
-	void updateEntityVelocity( const NLMISC::CEntityId &id, const NLMISC::CVector &velocity);
+  /**
+   * remove an entity from the view : delete all the sounds attached to that
+   * entity \param NLMISC::CEntityId& id of the entity to remove
+   */
+  void removeEntity(const NLMISC::CEntityId &id);
 
-	/**
-	 * update the direction of all the sounds attached to that entity
-	 * \param NLMISC::CEntityId& id of the entity
-	 * \param CVector& new direction
-	 */
-	void updateEntityDirection( const NLMISC::CEntityId &id, const NLMISC::CVector &dir );
+  /**
+   * set the listener position
+   * \param CVector & new position
+   */
+  inline void setListenerPos(const NLMISC::CVector &pos) {
+    static NLMISC::CVector oldPos(0.0f, 0.0f, 0.0f);
+    if (oldPos != pos) {
+      _AudioMixer->setListenerPos(pos);
+      oldPos = pos;
+    }
+  }
 
-	/**
-	 * remove an entity from the view : delete all the sounds attached to that entity
-	 * \param NLMISC::CEntityId& id of the entity to remove
-	 */
-	void removeEntity( const NLMISC::CEntityId &id);
+  /**
+   * set the listener velocity
+   * \param CVector& new velocity
+   */
+  inline void setListenerVelocity(const NLMISC::CVector &velocity) {
+    static NLMISC::CVector oldVelocity(1564152.0f, 1561.0f, 846.0f);
+    if (oldVelocity != velocity) {
+      _AudioMixer->getListener()->setVelocity(velocity);
+      oldVelocity = velocity;
+    }
+  }
 
-	/**
-	 * set the listener position
-	 * \param CVector & new position
-	 */
-	inline void setListenerPos( const NLMISC::CVector &pos)
-	{
-		static NLMISC::CVector oldPos(0.0f, 0.0f, 0.0f);
-		if(oldPos != pos)
-		{
-			_AudioMixer->setListenerPos( pos );
-			oldPos = pos;
-		}
-	}
+  /**
+   * set the listener orientation
+   * \param CVector& new orientation 'front'
+   * \param CVector& new orientation 'up'
+   */
+  inline void setListenerOrientation(
+      const NLMISC::CVector &front,
+      const NLMISC::CVector &up = NLMISC::CVector(0.0f, 0.0f, 1.0f)) {
+    static NLMISC::CVector oldFront(1564152.0f, 1561.0f, 846.0f),
+        oldUp(1564152.0f, 1561.0f, 846.0f);
+    if (oldFront != front || oldUp != up) {
+      _AudioMixer->getListener()->setOrientation(front, up);
+      oldFront = front;
+      oldUp = up;
+    }
+  }
 
-	/**
-	 * set the listener velocity
-	 * \param CVector& new velocity
-	 */
-	inline void setListenerVelocity( const NLMISC::CVector &velocity)
-	{
-		static NLMISC::CVector oldVelocity(1564152.0f,1561.0f,846.0f);
-		if(oldVelocity != velocity)
-		{
-			_AudioMixer->getListener()->setVelocity( velocity );
-			oldVelocity = velocity;
-		}
-	}
+  /** Get the gain value for the sound emited by the user entity
+   *	This value come from the UserEntitySoundLevel var in config file.
+   */
+  float getUserEntitySoundLevel() { return _UserEntitySoundLevel; }
 
-	/**
-	 * set the listener orientation
-	 * \param CVector& new orientation 'front'
-	 * \param CVector& new orientation 'up'
-	 */
-	inline void setListenerOrientation( const NLMISC::CVector &front, const NLMISC::CVector &up = NLMISC::CVector(0.0f,0.0f,1.0f) )
-	{
-		static NLMISC::CVector oldFront(1564152.0f,1561.0f,846.0f), oldUp(1564152.0f,1561.0f,846.0f);
-		if(oldFront != front || oldUp != up)
-		{
-			_AudioMixer->getListener()->setOrientation( front, up );
-			oldFront = front;
-			oldUp = up;
-		}
-	}
+  void reset();
 
+  void setFilterState(uint filter, bool state);
 
-	/** Get the gain value for the sound emited by the user entity
-	 *	This value come from the UserEntitySoundLevel var in config file.
-	 */
-	float getUserEntitySoundLevel() {return _UserEntitySoundLevel; }
+  void playBackgroundSound();
+  void stopBackgroundSound();
 
-	void reset ();
+  /**
+   * set sound position (sound must exist)
+   * \param uint32 source id
+   * \param CVector& new position
+   */
+  void setSoundPosition(TSourceId sourceId, const NLMISC::CVector &position);
 
-	void setFilterState(uint filter, bool state);
+  /**
+   * loop a sound (or stop looping)
+   * \param uint32 source id
+   * \param bool loop (true = loop)
+   */
+  void loopSound(TSourceId sourceId, bool loop);
 
-	void playBackgroundSound ();
-	void stopBackgroundSound ();
+  /**
+   * play or stop a sound
+   * \param uint32 source id
+   * \param bool play (true = play, false = stop)
+   */
+  void playSound(TSourceId sourceId, bool play);
 
-	/**
-	 * set sound position (sound must exist)
-	 * \param uint32 source id
-	 * \param CVector& new position
-	 */
-	void setSoundPosition( TSourceId sourceId, const NLMISC::CVector &position);
+  /**
+   * test whether the sepcified source is playing or not
+   * \param uint32 source id
+   * \return bool true if the source is playing
+   */
+  bool isPlaying(TSourceId sourceId);
 
-	/**
-	 * loop a sound (or stop looping)
-	 * \param uint32 source id
-	 * \param bool loop (true = loop)
-	 */
-	void loopSound( TSourceId sourceId, bool loop);
+  /**
+   * select the env effect corresponding to tag
+   * \param string& tag
+   */
+  inline void selectEnvEffect(const std::string &tag) {
+    nlassert(_AudioMixer);
+    _AudioMixer->selectEnvEffects(tag);
+  }
 
-	/**
-	 * play or stop a sound
-	 * \param uint32 source id
-	 * \param bool play (true = play, false = stop)
-	 */
-	void playSound( TSourceId sourceId, bool play);
+  /**
+   * select the env corresponding to tag
+   * \param string& tag
+   */
+  void selectEnv(const std::string &tag);
 
-	/**
-	 * test whether the sepcified source is playing or not
-	 * \param uint32 source id
-	 * \return bool true if the source is playing
-	 */
-	bool isPlaying( TSourceId sourceId );
+  /**
+   * set source Gain
+   * (Set the gain amount (value inside [0, 1]) to map between 0 and the nominal
+   * gain (which is getSource()->getGain()). Does nothing if getSource() is null
+   * ) \param uint32 sourceId \param float new gain (0-1)
+   */
+  void setSourceGain(TSourceId sourceId, float gain);
 
-	/**
-	 * select the env effect corresponding to tag
-	 * \param string& tag
-	 */
-	inline void selectEnvEffect( const std::string &tag)
-	{
-		nlassert( _AudioMixer );
-		_AudioMixer->selectEnvEffects( tag);
-	}
+  /**
+   * get source Gain
+   * \param uint32 sourceId
+   * \return float new gain (0-1) (-1 if source not found)
+   */
+  float getSourceGain(TSourceId sourceId);
 
-	/**
-	 * select the env corresponding to tag
-	 * \param string& tag
-	 */
-	void selectEnv( const std::string &tag);
+  /**
+   * set source Pitch
+   * (Shift the frequency. 1.0f equals identity, each reduction of 50% equals a
+   * pitch shift of one octave. 0 is not a legal value.) \param uint32 sourceId
+   * \param float new Pitch (0-1)
+   */
+  void setSourcePitch(TSourceId sourceId, float gain);
 
-	/**
-	 * set source Gain
-	 * (Set the gain amount (value inside [0, 1]) to map between 0 and the nominal gain
-	 * (which is getSource()->getGain()). Does nothing if getSource() is null )
-	 * \param uint32 sourceId
-	 * \param float new gain (0-1)
-	 */
-	void setSourceGain(  TSourceId sourceId, float gain);
+  /**
+   * get source Pitch
+   * \param uint32 sourceId
+   * \return float new Pitch (0-1) (>0) (-1 if source not found)
+   */
+  float getSourcePitch(TSourceId sourceId);
 
-	/**
-	 * get source Gain
-	 * \param uint32 sourceId
-	 * \return float new gain (0-1) (-1 if source not found)
-	 */
-	float getSourceGain( TSourceId sourceId );
+  /**
+   * Play all the positioned sounds which are near the given position
+   *
+   * \param pos is the position of the user
+   */
+  void playPositionedSounds(const NLMISC::CVector &pos);
 
-	/**
-	 * set source Pitch
-	 * (Shift the frequency. 1.0f equals identity, each reduction of 50% equals a pitch shift of one octave. 0 is not a legal value.)
-	 * \param uint32 sourceId
-	 * \param float new Pitch (0-1)
-	 */
-	void setSourcePitch(  TSourceId sourceId, float gain);
+  void update();
 
-	/**
-	 * get source Pitch
-	 * \param uint32 sourceId
-	 * \return float new Pitch (0-1) (>0) (-1 if source not found)
-	 */
-	float getSourcePitch( TSourceId sourceId );
+  // called at outgame time
+  void updateAudioMixerOnly();
 
-	/**
-	 * Play all the positioned sounds which are near the given position
-	 *
-	 * \param pos is the position of the user
-	 */
-	void playPositionedSounds( const NLMISC::CVector& pos );
+  /// Return the number of sources
+  uint getSourcesInstanceCount() const {
+    if (_AudioMixer)
+      return _AudioMixer->getSourcesInstanceCount();
+    else
+      return 0;
+  };
+  /// Return the number of playing sources
+  uint getPlayingSourcesCount() const {
+    if (_AudioMixer)
+      return _AudioMixer->getPlayingSourcesCount();
+    else
+      return 0;
+  };
+  /// Return the memory size for samples.
+  uint getLoadingSamplesSize() const {
+    if (_AudioMixer)
+      return _AudioMixer->getLoadedSampleSize();
+    else
+      return 0;
+  };
 
-	void update ();
+  void switchSoundState();
 
-	// called at outgame time
-	void updateAudioMixerOnly();
+  /// Load all stuffs for a continent (must be "lesfalaises", "tryker" ... look
+  /// ryzom.world for good name)
+  void loadContinent(const std::string &name, const NLMISC::CVector &pos);
 
-	/// Return the number of sources
-	uint		getSourcesInstanceCount() const		{ if (_AudioMixer) return _AudioMixer->getSourcesInstanceCount(); else return 0; };
-	/// Return the number of playing sources
-	uint		getPlayingSourcesCount() const { if (_AudioMixer) return _AudioMixer->getPlayingSourcesCount(); else return 0; };
-	/// Return the memory size for samples.
-	uint		getLoadingSamplesSize() const	{ if (_AudioMixer) return _AudioMixer->getLoadedSampleSize(); else return 0; };
+  /// Draw the sounds/cluster/audio path for debugging purpose
+  void drawSounds(float camHeight);
 
-	void		switchSoundState ();
+  /// Play Music (see UAudioMixer for detail). NB: the background music system
+  /// is disabled until the music is stopped
+  void playMusic(const string &fileName, uint xFadeTime = 2000,
+                 bool async = true, bool loop = true,
+                 bool forceGameMusicVolume = false);
+  /// Stop Music. NB: the background music system is then reenabled
+  void stopMusic(uint xFadeTime = 2000);
+  /// Pause Music
+  void pauseMusic();
+  /// Resume Music
+  void resumeMusic();
+  /// Is Music ended ?
+  bool isMusicEnded();
+  /// set game music volume (0-1) (outgame and ingame music)
+  void setGameMusicVolume(float val);
+  /// set user music volume (0-1) (mp3 player)
+  void setUserMusicVolume(float val);
 
-	/// Load all stuffs for a continent (must be "lesfalaises", "tryker" ... look ryzom.world for good name)
-	void		loadContinent (const std::string &name, const NLMISC::CVector& pos);
+  /// Set the SFX global volume (don't impact on music volume)
+  void setSFXVolume(float val);
 
-	/// Draw the sounds/cluster/audio path for debugging purpose
-	void		drawSounds(float camHeight);
+  /// Fade in/out game volume (game music and sfx volume)
+  void fadeInGameSound(sint32 timeFadeMs);
+  void fadeOutGameSound(sint32 timeFadeMs);
+  void setupFadeSound(float sfxFade, float musicFade);
 
-	/// Play Music (see UAudioMixer for detail). NB: the background music system is disabled until the music is stopped
-	void		playMusic(const string &fileName, uint xFadeTime= 2000, bool async= true, bool loop=true, bool forceGameMusicVolume= false);
-	/// Stop Music. NB: the background music system is then reenabled
-	void		stopMusic(uint xFadeTime= 2000);
-	/// Pause Music
-	void		pauseMusic();
-	/// Resume Music
-	void		resumeMusic();
-	/// Is Music ended ?
-	bool		isMusicEnded();
-	/// set game music volume (0-1) (outgame and ingame music)
-	void		setGameMusicVolume(float val);
-	/// set user music volume (0-1) (mp3 player)
-	void		setUserMusicVolume(float val);
+  /// Start an Event music (always async). Don't restart if the same music is
+  /// currently playing
+  void playEventMusic(const string &fileName, uint xFadeTime = 2000,
+                      bool loop = true);
+  /// Stop the event music played. Stop the music only if it is the same music.
+  /// Set empty filename to stop any music
+  void stopEventMusic(const string &fileName, uint xFadeTime = 2000);
+  /// get the eventmusic played (empty if none or ended)
+  const std::string &getEventMusicPlayed() const { return _EventMusicPlayed; }
 
-	/// Set the SFX global volume (don't impact on music volume)
-	void		setSFXVolume(float val);
-
-	/// Fade in/out game volume (game music and sfx volume)
-	void		fadeInGameSound(sint32 timeFadeMs);
-	void		fadeOutGameSound(sint32 timeFadeMs);
-	void		setupFadeSound(float sfxFade, float musicFade);
-
-	/// Start an Event music (always async). Don't restart if the same music is currently playing
-	void		playEventMusic(const string &fileName, uint xFadeTime= 2000, bool loop=true);
-	/// Stop the event music played. Stop the music only if it is the same music. Set empty filename to stop any music
-	void		stopEventMusic(const string &fileName, uint xFadeTime= 2000);
-	/// get the eventmusic played (empty if none or ended)
-	const std::string	&getEventMusicPlayed() const {return _EventMusicPlayed;}
-
-	/**
-	 * Initialize the audio mixer, load the sound banks, called by the constructors
-	 * \param string& sound buffer file (.nss)
-	 */
-	void init(NLMISC::IProgressCallback *progressCallBack = NULL);
+  /**
+   * Initialize the audio mixer, load the sound banks, called by the
+   * constructors \param string& sound buffer file (.nss)
+   */
+  void init(NLMISC::IProgressCallback *progressCallBack = NULL);
 
 private:
-	// attributes------------------------------
-	bool	_PlaySound;
+  // attributes------------------------------
+  bool _PlaySound;
 
-	/// Pointer on the audio mixer object
-	NLSOUND::UAudioMixer		*_AudioMixer;
+  /// Pointer on the audio mixer object
+  NLSOUND::UAudioMixer *_AudioMixer;
 
-	/// The root effects group controller for effects volume settings by the user
-	NLSOUND::UGroupController	*_GroupControllerEffects;
+  /// The root effects group controller for effects volume settings by the user
+  NLSOUND::UGroupController *_GroupControllerEffects;
 
-	/// The root effects group controller for effects fading by the game
-	NLSOUND::UGroupController	*_GroupControllerEffectsGame;
+  /// The root effects group controller for effects fading by the game
+  NLSOUND::UGroupController *_GroupControllerEffectsGame;
 
-	/// Pointer on the root of the environmental sounds tree (if any)
-	NLSOUND::UEnvSound			*_EnvSoundRoot;
+  /// Pointer on the root of the environmental sounds tree (if any)
+  NLSOUND::UEnvSound *_EnvSoundRoot;
 
-	/// The current filter state.
-	NLSOUND::UAudioMixer::TBackgroundFlags	_BackgroundFlags;
+  /// The current filter state.
+  NLSOUND::UAudioMixer::TBackgroundFlags _BackgroundFlags;
 
-	/// map attached sounds to the parent entity
-	TMultiMapEntityToSource		_AttachedSources;
+  /// map attached sounds to the parent entity
+  TMultiMapEntityToSource _AttachedSources;
 
-	/// map sound Id to sound object
-	TMapIdToSource				_Sources;
+  /// map sound Id to sound object
+  TMapIdToSource _Sources;
 
-	/// all the step sounds
-	//CStepSounds					_StepSounds;
+  /// all the step sounds
+  // CStepSounds					_StepSounds;
 
-	/// list of positioned sounds
-	std::list<TSourceId>		_PositionedSounds;
+  /// list of positioned sounds
+  std::list<TSourceId> _PositionedSounds;
 
-	/// Gain value for user entity sound.
-	float						_UserEntitySoundLevel;
+  /// Gain value for user entity sound.
+  float _UserEntitySoundLevel;
 
-	/// Music Player and outgame music: re-enable the background music after a while
-	NLMISC::TTime				_EnableBackgroundMusicAtTime;
+  /// Music Player and outgame music: re-enable the background music after a
+  /// while
+  NLMISC::TTime _EnableBackgroundMusicAtTime;
 
-	/// release SoundAnim system
-	void		releaseSoundAnim();
+  /// release SoundAnim system
+  void releaseSoundAnim();
 
-	// volume
-	float						_SFXVolume;
-	float						_GameMusicVolume;
-	float						_UserMusicVolume;
-	bool						_UseGameMusicVolume;
-	// if event music is possible
-	bool						_EventMusicEnabled;
-	// if event music is currently  playing, the name of it
-	std::string					_EventMusicPlayed;
-	// if the event music currently playing is looping
-	bool						_EventMusicLoop;
-	// the fading music volume during TP
-	float						_FadeGameMusicVolume;
-	// the fading game music volume that raise when an event music is playing (replacing the background music)
-	float						_FadeGameMusicVolumeDueToEvent;
-	float						_FadeSFXVolume;
-	void						updateVolume();
-	void						setGameMusicMode(bool enableBackground, bool useGameMusicVolume);
-	void						fadeGameSound(bool fadeIn,sint32 timeFadeMs);
-	void						updateEventAndGameMusicVolume();
+  // volume
+  float _SFXVolume;
+  float _GameMusicVolume;
+  float _UserMusicVolume;
+  bool _UseGameMusicVolume;
+  // if event music is possible
+  bool _EventMusicEnabled;
+  // if event music is currently  playing, the name of it
+  std::string _EventMusicPlayed;
+  // if the event music currently playing is looping
+  bool _EventMusicLoop;
+  // the fading music volume during TP
+  float _FadeGameMusicVolume;
+  // the fading game music volume that raise when an event music is playing
+  // (replacing the background music)
+  float _FadeGameMusicVolumeDueToEvent;
+  float _FadeSFXVolume;
+  void updateVolume();
+  void setGameMusicMode(bool enableBackground, bool useGameMusicVolume);
+  void fadeGameSound(bool fadeIn, sint32 timeFadeMs);
+  void updateEventAndGameMusicVolume();
 };
-
-
-
-
-
 
 #endif // NL_SOUND_MANAGER_H
 

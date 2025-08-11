@@ -14,41 +14,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "bot_chat_page_ring_sessions.h"
-#include "../user_entity.h"
 #include "../entities.h"
-
-
+#include "../user_entity.h"
+#include "stdpch.h"
 
 #define WIN_BOT_CHAT_PAGE_RING_SESSION "ui:interface:ring_sessions"
 
 // *************************************************
-CBotChatPageRingSessions::CBotChatPageRingSessions()
-{
-	RingAccessPointPos.set(0.f, 0.f, 0.f);
-}
-
-
-// *************************************************
-void CBotChatPageRingSessions::begin()
-{
-	CBotChatPage::begin();
-	activateWindow(WIN_BOT_CHAT_PAGE_RING_SESSION, true);
-	if (UserEntity->trader() != CLFECOMMON::INVALID_SLOT)
-	{
-		RingAccessPointPos = EntitiesMngr.entity(UserEntity->trader())->pos();
-	}
+CBotChatPageRingSessions::CBotChatPageRingSessions() {
+  RingAccessPointPos.set(0.f, 0.f, 0.f);
 }
 
 // *************************************************
-void CBotChatPageRingSessions::end()
-{
-	activateWindow(WIN_BOT_CHAT_PAGE_RING_SESSION, false);
+void CBotChatPageRingSessions::begin() {
+  CBotChatPage::begin();
+  activateWindow(WIN_BOT_CHAT_PAGE_RING_SESSION, true);
+  if (UserEntity->trader() != CLFECOMMON::INVALID_SLOT) {
+    RingAccessPointPos = EntitiesMngr.entity(UserEntity->trader())->pos();
+  }
 }
 
-
-
-
+// *************************************************
+void CBotChatPageRingSessions::end() {
+  activateWindow(WIN_BOT_CHAT_PAGE_RING_SESSION, false);
+}

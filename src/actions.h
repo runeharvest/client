@@ -18,11 +18,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ACTIONS_H
 #define CL_ACTIONS_H
-
 
 /////////////
 // INCLUDE //
@@ -50,35 +47,30 @@ class CActionsManager;
  * \todo Check if there is memory leak.
  * \todo Check comments.
  */
-class CCombo
-{
+class CCombo {
 public:
+  // The key
+  NLMISC::TKey Key;
 
-	// The key
-	NLMISC::TKey					Key;
-
-	// The CTRL - SHIFT - ALT state
-	NLMISC::TKeyButton				KeyButtons;
+  // The CTRL - SHIFT - ALT state
+  NLMISC::TKeyButton KeyButtons;
 
 public:
+  /// Init the combo
+  void init(NLMISC::TKey key, NLMISC::TKeyButton keyButtons);
 
-	/// Init the combo
-	void init (NLMISC::TKey key, NLMISC::TKeyButton keyButtons);
+  /// Get the combo in human readable form
+  std::string toString() const;
 
-	/// Get the combo in human readable form
-	std::string toString() const;
-
-	// For maps
-	bool operator<(const CCombo &other) const
-	{
-		if (Key < other.Key)
-			return true;
-		if (Key > other.Key)
-			return false;
-		return KeyButtons < other.KeyButtons;
-	}
+  // For maps
+  bool operator<(const CCombo &other) const {
+    if (Key < other.Key)
+      return true;
+    if (Key > other.Key)
+      return false;
+    return KeyButtons < other.KeyButtons;
+  }
 };
-
 
 /**
  * The Goal of CAction is to know the state of an Action.
@@ -89,212 +81,189 @@ public:
  *
  * \todo Check comments.
  */
-class CAction
-{
+class CAction {
 public:
+  // The name of an action
+  class CName {
+  public:
+    std::string Name;
+    std::string Argu;
 
-	// The name of an action
-	class CName
-	{
-	public:
-		std::string		Name;
-		std::string		Argu;
+    CName() {}
 
-		CName()
-		{
-		}
+    CName(const char *name) { Name = name; }
 
-		CName(const char *name)
-		{
-			Name = name;
-		}
+    CName(const char *name, const char *argu) {
+      Name = name;
+      Argu = argu;
+    }
 
-		CName(const char *name, const char *argu)
-		{
-			Name = name;
-			Argu = argu;
-		}
+    // For the maps
+    bool operator<(const CName &other) const {
+      if (Name < other.Name)
+        return true;
+      if (Name > other.Name)
+        return false;
+      return Argu < other.Argu;
+    }
 
+    // For the maps
+    bool operator==(const CName &other) const {
+      return (Name == other.Name) && (Argu == other.Argu);
+    }
+  };
 
-		// For the maps
-		bool operator<(const CName &other) const
-		{
-			if (Name < other.Name)
-				return true;
-			if (Name > other.Name)
-				return false;
-			return Argu < other.Argu;
-		}
+  // The icon of an action
+  class CIcon {
+  public:
+    // The background color
+    NLMISC::CRGBA Color;
 
-		// For the maps
-		bool operator== (const CName &other) const
-		{
-			return (Name == other.Name) && (Argu == other.Argu);
-		}
-	};
+    // The bitmaps (1 over 0)
+    std::string Bitmaps[2];
 
-	// The icon of an action
-	class CIcon
-	{
-	public:
+    // The text (6 letters, only A-Z 0-9)
+    std::string Text;
+  };
 
-		// The background color
-		NLMISC::CRGBA	Color;
+  /// Constructor
+  CAction();
 
-		// The bitmaps (1 over 0)
-		std::string		Bitmaps[2];
+  // Execute the action
+  void runAction();
 
-		// The text (6 letters, only A-Z 0-9)
-		std::string		Text;
-	};
+  // True if the action has begun	(key down..)
+  bool Valide;
 
-	/// Constructor
-	CAction();
+  // Repetition for this action ?
+  bool Repeat;
 
-	// Execute the action
-	void	runAction ();
+  // Do we have to run an AH on key up ?
+  bool KeyUp;
 
-	// True if the action has begun	(key down..)
-	bool	Valide;
+  // Do we have to run an AH on key down ?
+  bool KeyDown;
 
-	// Repetition for this action ?
-	bool	Repeat;
-
-	// Do we have to run an AH on key up ?
-	bool	KeyUp;
-
-	// Do we have to run an AH on key down ?
-	bool	KeyDown;
-
-	// The name of the action
-	CName	Name;
+  // The name of the action
+  CName Name;
 };
 
 /*
  *	The base action is a class used to generate actions
  */
-class CBaseAction
-{
+class CBaseAction {
 public:
+  // Init default values
+  CBaseAction();
 
-	// Init default values
-	CBaseAction ();
+  // The parameter descriptor of an action
+  class CParameter {
+  public:
+    enum TType {
+      Hidden = 0,
+      Constant, // The parameter is a list of const string
+      User,     // The parameter is a user string
+      UserName, // The parameter is a user "name" string
+    } Type;
 
-	// The parameter descriptor of an action
-	class CParameter
-	{
-	public:
-		enum TType
-		{
-			Hidden=0,
-			Constant,	// The parameter is a list of const string
-			User,		// The parameter is a user string
-			UserName,	// The parameter is a user "name" string
-		}				Type;
+    // Init default values
+    CParameter();
 
-		// Init default values
-		CParameter ();
+    // The parameter name (optional)
+    std::string Name;
 
-		// The parameter name (optional)
-		std::string		Name;
+    // The parameter localized name (optional)
+    std::string LocalizedName;
 
-		// The parameter localized name (optional)
-		std::string		LocalizedName;
+    // Default value
+    std::string DefaultValue;
 
-		// Default value
-		std::string		DefaultValue;
+    // The parameter constant value is Type == Constant
+    class CValue {
+    public:
+      // The value
+      std::string Value;
 
-		// The parameter constant value is Type == Constant
-		class CValue
-		{
-		public:
-			// The value
-			std::string		Value;
+      // contexts in which this value is possible
+      std::string Contexts;
 
-			// contexts in which this value is possible
-			std::string		Contexts;
+      // The localized value
+      std::string LocalizedValue;
+    };
+    std::vector<CValue> Values;
+  };
 
-			// The localized value
-			std::string		LocalizedValue;
-		};
-		std::vector<CValue>	Values;
-	};
+  // The action parameter descritors
+  std::vector<CParameter> Parameters;
 
-	// The action parameter descritors
-	std::vector<CParameter>		Parameters;
+  // Repetition for this action ?
+  bool Repeat;
 
-	// Repetition for this action ?
-	bool	Repeat;
+  // Do we have to run an AH on key up ?
+  bool KeyUp;
 
-	// Do we have to run an AH on key up ?
-	bool	KeyUp;
+  // Do we have to run an AH on key down ?
+  bool KeyDown;
 
-	// Do we have to run an AH on key down ?
-	bool	KeyDown;
+  // Do we have to wait for an answer from the server before continuing
+  // execution in macros ?
+  bool WaitForServer;
 
-	// Do we have to wait for an answer from the server before continuing execution in macros ?
-	bool	WaitForServer;
+  // Is this action can be macroized?
+  bool Macroisable;
 
-	// Is this action can be macroized?
-	bool	Macroisable;
+  // The name of the action handler used by the action
+  std::string Name;
 
-	// The name of the action handler used by the action
-	std::string		Name;
+  // The localized name
+  std::string LocalizedName;
 
-	// The localized name
-	std::string		LocalizedName;
+  // Contexts in which this action exists
+  std::string Contexts;
 
-	// Contexts in which this action exists
-	std::string		Contexts;
+  /// Get an action localized text
+  std::string getActionLocalizedText(const CAction::CName &name) const;
 
-	/// Get an action localized text
-	std::string getActionLocalizedText (const CAction::CName &name) const;
+  // see if there's at least one set of parameters for which this action is
+  // usable in current context
+  bool isUsableInCurrentContext() const;
 
-	// see if there's at least one set of parameters for which this action is usable in current context
-	bool	isUsableInCurrentContext() const;
-
-	// The action icon
-	// CAction::CIcon	Icon;
+  // The action icon
+  // CAction::CIcon	Icon;
 };
 
 /*
  * Category of action
  */
-class CCategory
-{
+class CCategory {
 public:
-	// The category name
-	std::string					Name;
+  // The category name
+  std::string Name;
 
-	// The category localized name
-	std::string					LocalizedName;
+  // The category localized name
+  std::string LocalizedName;
 
-	// The set of base action for this category
-	std::vector<CBaseAction>	BaseActions;
+  // The set of base action for this category
+  std::vector<CBaseAction> BaseActions;
 
-	// Is this whole category can be macroized?
-	bool	Macroisable;
+  // Is this whole category can be macroized?
+  bool Macroisable;
 
 public:
-	CCategory()
-	{
-		Macroisable= true;
-	}
+  CCategory() { Macroisable = true; }
 };
 
 // HashMapTraits for NLMISC::TKey
-struct CTKeyHashMapTraits
-{
-	enum { bucket_size = 4, min_buckets = 8, };
-	CTKeyHashMapTraits() { }
-	size_t operator() (NLMISC::TKey key) const
-	{
-		return (size_t)key;
-	}
-	bool operator() (NLMISC::TKey key1, NLMISC::TKey key2) const
-	{
-		return key1 < key2;
-	}
+struct CTKeyHashMapTraits {
+  enum {
+    bucket_size = 4,
+    min_buckets = 8,
+  };
+  CTKeyHashMapTraits() {}
+  size_t operator()(NLMISC::TKey key) const { return (size_t)key; }
+  bool operator()(NLMISC::TKey key1, NLMISC::TKey key2) const {
+    return key1 < key2;
+  }
 };
 
 /**
@@ -309,158 +278,164 @@ struct CTKeyHashMapTraits
  * \todo Check if there is memory leak.
  * \todo Check comments.
  */
-class CActionsManager
-{
+class CActionsManager {
 public:
+  /// Typedef to use the map easily.
+  typedef std::map<CAction::CName, CAction> TActionsMap;
+  typedef std::set<CAction::CName> TActionsForceDisplaySet;
+  typedef std::map<CAction::CName, CCombo> TActionComboMap;
+  typedef std::map<CCombo, CAction::CName> TComboActionMap;
+  typedef CHashMultiMap<NLMISC::TKey, CAction::CName, CTKeyHashMapTraits>
+      TKeyActionMap;
 
-	/// Typedef to use the map easily.
-	typedef std::map<CAction::CName, CAction>	TActionsMap;
-	typedef std::set<CAction::CName>			TActionsForceDisplaySet;
-	typedef std::map<CAction::CName, CCombo>	TActionComboMap;
-	typedef std::map<CCombo, CAction::CName>	TComboActionMap;
-	typedef CHashMultiMap<NLMISC::TKey, CAction::CName, CTKeyHashMapTraits>	TKeyActionMap;
+  // Category locator
+  class CCategoryLocator {
+  public:
+    uint CategoryId;
+    uint BaseActionId;
+  };
 
-	// Category locator
-	class CCategoryLocator
-	{
-	public:
-		uint	CategoryId;
-		uint	BaseActionId;
-	};
+  typedef CHashMultiMap<std::string, CCategoryLocator> TActionBaseActionMap;
 
-	typedef CHashMultiMap<std::string, CCategoryLocator>	TActionBaseActionMap;
+  /// Constructor
+  CActionsManager();
 
-	/// Constructor
-	CActionsManager();
+  /// Add a new Action in the context.
+  bool addAction(const CAction::CName &name);
 
-	/// Add a new Action in the context.
-	bool addAction(const CAction::CName &name);
+  /// Return an action from its name
+  CAction *getAction(const CAction::CName &name);
 
-	/// Return an action from its name
-	CAction* getAction(const CAction::CName &name);
+  /// Clear actions
+  void clear();
 
-	/// Clear actions
-	void clear ();
+  /// Enable / disable combos
+  void enable(bool enable);
 
-	/// Enable / disable combos
-	void enable (bool enable);
+  /// Remove a combo
+  void removeCombo(const CCombo &combo);
 
-	/// Remove a combo
-	void removeCombo (const CCombo &combo);
+  // Remove all the combos
+  void removeAllCombos();
 
-	// Remove all the combos
-	void removeAllCombos();
+  /// Add a combo in an Action.
+  bool addCombo(const CAction::CName &name, const CCombo &combo,
+                bool createAction = true);
 
-	/// Add a combo in an Action.
-	bool addCombo(const CAction::CName &name, const CCombo &combo, bool createAction = true);
+  /// Get the base action and category of an action
+  const CCategoryLocator *getActionLocator(const CAction::CName &name) const;
 
-	/// Get the base action and category of an action
-	const CCategoryLocator *getActionLocator (const CAction::CName &name) const;
+  /// Get the base action of an action
+  const CBaseAction *getBaseAction(const CAction::CName &name) const;
 
-	/// Get the base action of an action
-	const CBaseAction *getBaseAction (const CAction::CName &name) const;
+  // remove an action from the action manager
+  void removeBaseAction(const CAction::CName &name);
 
-	// remove an action from the action manager
-	void removeBaseAction(const CAction::CName &name);
+  /// Get the category of an action
+  const CCategory *getCategory(const CAction::CName &name) const;
 
-	/// Get the category of an action
-	const CCategory *getCategory (const CAction::CName &name) const;
+  /// Return if the Action is valide.
+  bool valide(const CAction::CName &name) const;
 
-	/// Return if the Action is valide.
-	bool valide(const CAction::CName &name) const;
+  // Return true if the action is present in current (global) context
+  bool isActionPresentInContext(const CAction::CName &name) const;
 
-	// Return true if the action is present in current (global) context
-	bool isActionPresentInContext(const CAction::CName &name) const;
+  /// A key has been pushed. Return true if an action handler is associated with
+  /// this key.
+  bool keyPushed(const NLMISC::CEventKeyDown &keyDown);
 
-	/// A key has been pushed. Return true if an action handler is associated with this key.
-	bool keyPushed (const NLMISC::CEventKeyDown &keyDown);
+  /// A key has been released
+  void keyReleased(const NLMISC::CEventKeyUp &keyUp);
 
-	/// A key has been released
-	void keyReleased (const NLMISC::CEventKeyUp &keyUp);
+  /// Get the category array
+  const std::vector<CCategory> &getCategories() const;
 
-	/// Get the category array
-	const std::vector<CCategory>	&getCategories () const;
+  /// Reserve space in the category array
+  void reserveCategories(uint space);
 
-	/// Reserve space in the category array
-	void	reserveCategories (uint space);
+  /// Add a category
+  void addCategory(const CCategory &category);
 
-	/// Add a category
-	void	addCategory (const CCategory &category);
+  /// Remove a category
+  void removeCategory(const std::string &catName);
 
-	/// Remove a category
-	void	removeCategory (const std::string &catName);
+  /// Get combo / action map
+  const TComboActionMap &getComboActionMap() const;
 
-	/// Get combo / action map
-	const TComboActionMap	&getComboActionMap () const;
+  /// Get action / combo map
+  const TActionComboMap &getActionComboMap() const;
 
-	/// Get action / combo map
-	const TActionComboMap	&getActionComboMap () const;
+  /// Release All keys, without running any AH
+  void releaseAllKeyNoRunning();
 
-	/// Release All keys, without running any AH
-	void	releaseAllKeyNoRunning();
+  /// true if a combo is already associated to an action
+  bool isComboAssociated(const CCombo &combo) const {
+    return _ComboAction.find(combo) != _ComboAction.end();
+  }
 
-	/// true if a combo is already associated to an action
-	bool	isComboAssociated(const CCombo &combo) const {return _ComboAction.find(combo)!=_ComboAction.end();}
+  /// true if an action is already associated to a combo
+  bool isActionAssociated(const CAction::CName &name) const {
+    return _ActionCombo.find(name) != _ActionCombo.end();
+  }
 
-	/// true if an action is already associated to a combo
-	bool	isActionAssociated(const CAction::CName &name) const {return _ActionCombo.find(name)!=_ActionCombo.end();}
+  /// Force the action to be always displayed in the "Keys" interface, even if
+  /// the key is unbound. default is false
+  void forceDisplayForAction(const CAction::CName &name, bool state);
 
-	/// Force the action to be always displayed in the "Keys" interface, even if the key is unbound. default is false
-	void	forceDisplayForAction(const CAction::CName &name, bool state);
+  /// see forceDisplayForAction
+  bool isActionDisplayForced(const CAction::CName &name) const;
 
-	/// see forceDisplayForAction
-	bool	isActionDisplayForced(const CAction::CName &name) const;
+  /// see forceDisplayForAction
+  const TActionsForceDisplaySet &getActionsForceDisplaySet() const {
+    return _ActionForceDisplay;
+  }
 
-	/// see forceDisplayForAction
-	const TActionsForceDisplaySet	&getActionsForceDisplaySet() const {return _ActionForceDisplay;}
+  /// Get an action localized text
+  std::string getActionLocalizedText(const CAction::CName &name) const;
 
-	/// Get an action localized text
-	std::string getActionLocalizedText (const CAction::CName &name) const;
-
-	//@}
+  //@}
 
 private:
+  /// Update key buttons
+  void updateKeyButton(NLMISC::TKeyButton);
 
-	/// Update key buttons
-	void updateKeyButton (NLMISC::TKeyButton);
+  /// Map with all Actions in the context. the string = Action name.
+  TActionsMap _Actions;
+  TActionsForceDisplaySet _ActionForceDisplay;
+  TActionComboMap _ActionCombo;
+  TComboActionMap _ComboAction;
+  TKeyActionMap _KeyAction;
+  TKeyActionMap _WatchedActions;
+  TActionBaseActionMap _ActionCategory;
+  std::vector<CCategory> _Categories;
 
-	/// Map with all Actions in the context. the string = Action name.
-	TActionsMap				_Actions;
-	TActionsForceDisplaySet	_ActionForceDisplay;
-	TActionComboMap			_ActionCombo;
-	TComboActionMap			_ComboAction;
-	TKeyActionMap			_KeyAction;
-	TKeyActionMap			_WatchedActions;
-	TActionBaseActionMap	_ActionCategory;
-	std::vector<CCategory>	_Categories;
+  bool _Enabled;
 
-	bool					_Enabled;
-
-};// CActionsManager //
+}; // CActionsManager //
 
 /**
  * Action context
  */
-class CActionsContext
-{
+class CActionsContext {
 public:
-	CActionsContext();
+  CActionsContext();
 
-	// Add an action manager.
-	bool addActionsManager (CActionsManager *actionManager, const std::string &category="");
+  // Add an action manager.
+  bool addActionsManager(CActionsManager *actionManager,
+                         const std::string &category = "");
 
-	// Get an action manager. Returns NULL if not found.
-	CActionsManager *getActionsManager (const std::string &category="") const;
+  // Get an action manager. Returns NULL if not found.
+  CActionsManager *getActionsManager(const std::string &category = "") const;
 
-	void setContext(const std::string &context) { _Context = context; }
-	bool matchContext(const std::string &contexts) const;
+  void setContext(const std::string &context) { _Context = context; }
+  bool matchContext(const std::string &contexts) const;
 
-	void removeAllCombos();
+  void removeAllCombos();
 
 private:
-	typedef std::map<std::string, CActionsManager *>	TActionsManagerMap;
-	TActionsManagerMap	_ActionsManagers;
-	std::string			_Context;
+  typedef std::map<std::string, CActionsManager *> TActionsManagerMap;
+  TActionsManagerMap _ActionsManagers;
+  std::string _Context;
 };
 
 extern CActionsContext ActionsContext;

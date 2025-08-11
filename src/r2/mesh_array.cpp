@@ -28,105 +28,78 @@
 using namespace NLMISC;
 using namespace NL3D;
 
-namespace R2
-{
-
+namespace R2 {
 
 // *********************************************************************************************************
-CMeshArray::CMeshArray()
-{
-	_Active = true;
+CMeshArray::CMeshArray() { _Active = true; }
+
+// *********************************************************************************************************
+CMeshArray::~CMeshArray() { clear(); }
+
+// *********************************************************************************************************
+void CMeshArray::setShapeName(const std::string &shapeName) {
+  // H_AUTO(R2_CMeshArray_setShapeName)
+  resize(0);
+  _ShapeName = shapeName;
 }
 
 // *********************************************************************************************************
-CMeshArray::~CMeshArray()
-{
-	clear();
+void CMeshArray::resize(uint newSize) {
+  // H_AUTO(R2_CMeshArray_resize)
+  if (newSize < _MeshInstances.size()) {
+    for (uint k = newSize; k < _MeshInstances.size(); ++k) {
+      Scene->deleteInstance(_MeshInstances[k]);
+    }
+    _MeshInstances.resize(newSize);
+  } else {
+    uint oldSize = (uint)_MeshInstances.size();
+    _MeshInstances.resize(newSize);
+    for (uint k = oldSize; k < newSize; ++k) {
+      _MeshInstances[k] = Scene->createInstance(_ShapeName);
+      if (_Active) {
+        _MeshInstances[k].show();
+      } else {
+        _MeshInstances[k].hide();
+      }
+    }
+  }
 }
 
 // *********************************************************************************************************
-void CMeshArray::setShapeName(const std::string &shapeName)
-{
-	//H_AUTO(R2_CMeshArray_setShapeName)
-	resize(0);
-	_ShapeName = shapeName;
+UInstance &CMeshArray::getInstance(uint index) {
+  // H_AUTO(R2_CMeshArray_getInstance)
+  nlassert(index < _MeshInstances.size());
+  return _MeshInstances[index];
 }
 
 // *********************************************************************************************************
-void CMeshArray::resize(uint newSize)
-{
-	//H_AUTO(R2_CMeshArray_resize)
-	if (newSize < _MeshInstances.size())
-	{
-		for(uint k = newSize; k < _MeshInstances.size(); ++k)
-		{
-			Scene->deleteInstance(_MeshInstances[k]);
-		}
-		_MeshInstances.resize(newSize);
-	}
-	else
-	{
-		uint oldSize = (uint)_MeshInstances.size();
-		_MeshInstances.resize(newSize);
-		for(uint k = oldSize; k < newSize; ++k)
-		{
-			_MeshInstances[k] = Scene->createInstance(_ShapeName);
-			if (_Active)
-			{
-				_MeshInstances[k].show();
-			}
-			else
-			{
-				_MeshInstances[k].hide();
-			}
-		}
-	}
+const UInstance &CMeshArray::getInstance(uint index) const {
+  // H_AUTO(R2_CMeshArray_getInstance)
+  nlassert(index < _MeshInstances.size());
+  return _MeshInstances[index];
 }
 
 // *********************************************************************************************************
-UInstance &CMeshArray::getInstance(uint index)
-{
-	//H_AUTO(R2_CMeshArray_getInstance)
-	nlassert(index < _MeshInstances.size());
-	return _MeshInstances[index];
+void CMeshArray::setEmissive(NLMISC::CRGBA color) {
+  // H_AUTO(R2_CMeshArray_setEmissive)
+  for (uint k = 0; k < _MeshInstances.size(); ++k) {
+    ::setEmissive(_MeshInstances[k], color);
+  }
 }
 
 // *********************************************************************************************************
-const UInstance &CMeshArray::getInstance(uint index) const
-{
-	//H_AUTO(R2_CMeshArray_getInstance)
-	nlassert(index < _MeshInstances.size());
-	return _MeshInstances[index];
+void CMeshArray::setActive(bool active) {
+  // H_AUTO(R2_CMeshArray_setActive)
+  if (active == _Active)
+    return;
+  for (uint k = 0; k < _MeshInstances.size(); ++k) {
+    if (active) {
+      _MeshInstances[k].show();
+    } else {
+      _MeshInstances[k].hide();
+    }
+  }
+  _Active = active;
 }
 
-// *********************************************************************************************************
-void CMeshArray::setEmissive(NLMISC::CRGBA color)
-{
-	//H_AUTO(R2_CMeshArray_setEmissive)
-	for(uint k = 0; k < _MeshInstances.size(); ++k)
-	{
-		::setEmissive(_MeshInstances[k], color);
-	}
-}
-
-// *********************************************************************************************************
-void CMeshArray::setActive(bool active)
-{
-	//H_AUTO(R2_CMeshArray_setActive)
-	if (active == _Active) return;
-	for(uint k = 0; k < _MeshInstances.size(); ++k)
-	{
-		if (active)
-		{
-			_MeshInstances[k].show();
-		}
-		else
-		{
-			_MeshInstances[k].hide();
-		}
-	}
-	_Active = active;
-}
-
-
-} // R2
+} // namespace R2

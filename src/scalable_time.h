@@ -14,35 +14,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_SCALABLE_TIME_H
 #define CL_SCALABLE_TIME_H
 
 #include "nel/misc/time_nl.h"
 
 /** Allow to get the current time, and to change the time factor
-  */
-class CScalableTime
-{
+ */
+class CScalableTime {
 public:
-	CScalableTime();
-	// get local time with time scale applied
-	NLMISC::TTime  getScaledLocalTime();
-	// get performance time with time scale applied;
-	NLMISC::TTicks getScaledPerformanceTime();
-	void		   setTimeScale(float scale);
-	float		   getTimeScale() const { return _TimeScale; }
+  CScalableTime();
+  // get local time with time scale applied
+  NLMISC::TTime getScaledLocalTime();
+  // get performance time with time scale applied;
+  NLMISC::TTicks getScaledPerformanceTime();
+  void setTimeScale(float scale);
+  float getTimeScale() const { return _TimeScale; }
+
 private:
-	NLMISC::TTicks  _LastPerformanceTime;
-	double          _ScaledPerformanceTime;
-	float			_TimeScale;
-	void		   update();
+  NLMISC::TTicks _LastPerformanceTime;
+  double _ScaledPerformanceTime;
+  float _TimeScale;
+  void update();
 };
-
-
-
-
-
 
 #endif

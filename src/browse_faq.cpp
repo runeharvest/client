@@ -17,8 +17,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "browse_faq.h"
+#include "stdpch.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
@@ -26,47 +26,38 @@
 
 using namespace NLMISC;
 
-void browseFAQ(NLMISC::CConfigFile &cf)
-{
-	std::string url;
-	std::string languageCode = "wk";
-	CConfigFile::CVar *languageCodeVarPtr = cf.getVarPtr("LanguageCode");
+void browseFAQ(NLMISC::CConfigFile &cf) {
+  std::string url;
+  std::string languageCode = "wk";
+  CConfigFile::CVar *languageCodeVarPtr = cf.getVarPtr("LanguageCode");
 
-	if (languageCodeVarPtr)
-	{
-		languageCode = languageCodeVarPtr->asString();
-	}
+  if (languageCodeVarPtr) {
+    languageCode = languageCodeVarPtr->asString();
+  }
 
-	CConfigFile::CVar *helpPages = cf.getVarPtr("HelpPages");
+  CConfigFile::CVar *helpPages = cf.getVarPtr("HelpPages");
 
-	if (helpPages)
-	{
-		for (uint i = 0; i < helpPages->size(); ++i)
-		{
-			std::string entry = helpPages->asString(i);
+  if (helpPages) {
+    for (uint i = 0; i < helpPages->size(); ++i) {
+      std::string entry = helpPages->asString(i);
 
-			if (entry.size() >= languageCode.size())
-			{
-				if (nlstricmp(entry.substr(0, languageCode.size()), languageCode) == 0)
-				{
-					std::string::size_type pos = entry.find("=");
+      if (entry.size() >= languageCode.size()) {
+        if (nlstricmp(entry.substr(0, languageCode.size()), languageCode) ==
+            0) {
+          std::string::size_type pos = entry.find("=");
 
-					if (pos != std::string::npos)
-					{
-						url = entry.substr(pos + 1);
-					}
-				}
-			}
-		}
-	}
+          if (pos != std::string::npos) {
+            url = entry.substr(pos + 1);
+          }
+        }
+      }
+    }
+  }
 
-	if (url.empty())
-	{
-		// not found
-		nlwarning("No FAQ url");
-	}
-	else
-	{
-		openURL(url);
-	}
+  if (url.empty()) {
+    // not found
+    nlwarning("No FAQ url");
+  } else {
+    openURL(url);
+  }
 }

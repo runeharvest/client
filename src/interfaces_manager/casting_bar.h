@@ -14,69 +14,62 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_CASTING_BAR_H
 #define CL_CASTING_BAR_H
 
 #include "nel/misc/types_nl.h"
 #include "progress_bar.h"
 
-
-
 /**
- * class for casting bar : a progress bar but with auto modification of the position every  'x' 1/10s
- * \author David Fleury
- * \author Nevrax France
- * \date 2002
+ * class for casting bar : a progress bar but with auto modification of the
+ * position every  'x' 1/10s \author David Fleury \author Nevrax France \date
+ * 2002
  */
-class CCastingBar : public CProgressBar
-{
+class CCastingBar : public CProgressBar {
 public:
-	/// Constructor
-	CCastingBar(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint range)
-		:CProgressBar(id, x, y, x_pixel, y_pixel, w, h, w_pixel, h_pixel, range)
-	{
-		_Running = false;
-		_LastChangePosTime = ryzomGetLocalTime ();
-		_AutoHide = true;
-	}
+  /// Constructor
+  CCastingBar(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+              float h, float w_pixel, float h_pixel, uint range)
+      : CProgressBar(id, x, y, x_pixel, y_pixel, w, h, w_pixel, h_pixel,
+                     range) {
+    _Running = false;
+    _LastChangePosTime = ryzomGetLocalTime();
+    _AutoHide = true;
+  }
 
-	/**
-	 * start the control
-	 */
-	inline void start()
-	{
-		_Running = true;
-		_LastChangePosTime = ryzomGetLocalTime ();
-	}
+  /**
+   * start the control
+   */
+  inline void start() {
+    _Running = true;
+    _LastChangePosTime = ryzomGetLocalTime();
+  }
 
-	/**
-	 * stop the control
-	 */
-	inline void stop() { _Running = false; }
+  /**
+   * stop the control
+   */
+  inline void stop() { _Running = false; }
 
-	/// display the control
-	virtual void display();
+  /// display the control
+  virtual void display();
 
-	/// set the auto hide mode (hide the control when the pos == 0
-	inline void autoHide( bool autoHide ) { _AutoHide = autoHide; }
+  /// set the auto hide mode (hide the control when the pos == 0
+  inline void autoHide(bool autoHide) { _AutoHide = autoHide; }
 
 private:
-	/// true : the control is active, false : the control is stopped (no modification of the bar)
-	bool	_Running;
+  /// true : the control is active, false : the control is stopped (no
+  /// modification of the bar)
+  bool _Running;
 
-	/// the time of the last modif of pos
-	mutable NLMISC::TTime	_LastChangePosTime;
+  /// the time of the last modif of pos
+  mutable NLMISC::TTime _LastChangePosTime;
 
-	/// time
-	mutable NLMISC::TTime	_Time;
+  /// time
+  mutable NLMISC::TTime _Time;
 
-	/// auto hide mode
-	bool	_AutoHide;
-
+  /// auto hide mode
+  bool _AutoHide;
 };
-
 
 #endif // CL_CASTING_BAR_H
 

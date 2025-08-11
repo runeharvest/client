@@ -30,47 +30,39 @@
 
 using namespace NLMISC;
 
-namespace R2
-{
+namespace R2 {
 
 // *********************************************************************************************************
-void CEntityCustomSelectBox::toTable(CLuaObject &table)
-{
-	//H_AUTO(R2_CEntityCustomSelectBox_toTable)
-	if (!table.isTable())
-	{
-		nlwarning("trying to store bbox in an object that is not a table");
-		return;
-	}
-	table.setValue("Enabled", Enabled);
-	//
-	table.setValue("XMin", (double) Box.getMin().x);
-	table.setValue("YMin", (double) Box.getMin().y);
-	table.setValue("ZMin", (double) Box.getMin().z);
-	//
-	table.setValue("XMax", (double) Box.getMax().x);
-	table.setValue("YMax", (double) Box.getMax().y);
-	table.setValue("ZMax", (double) Box.getMax().z);
-
-
+void CEntityCustomSelectBox::toTable(CLuaObject &table) {
+  // H_AUTO(R2_CEntityCustomSelectBox_toTable)
+  if (!table.isTable()) {
+    nlwarning("trying to store bbox in an object that is not a table");
+    return;
+  }
+  table.setValue("Enabled", Enabled);
+  //
+  table.setValue("XMin", (double)Box.getMin().x);
+  table.setValue("YMin", (double)Box.getMin().y);
+  table.setValue("ZMin", (double)Box.getMin().z);
+  //
+  table.setValue("XMax", (double)Box.getMax().x);
+  table.setValue("YMax", (double)Box.getMax().y);
+  table.setValue("ZMax", (double)Box.getMax().z);
 }
 
 // *********************************************************************************************************
-void CEntityCustomSelectBox::fromTable(CLuaObject &table)
-{
-	//H_AUTO(R2_CEntityCustomSelectBox_fromTable)
-	if (!table.isTable())
-	{
-		nlwarning("trying to rerieve bbox from an object that is not a table");
-		return;
-	}
-	Enabled = table["Enabled"].toBoolean();
-	Box.setMinMax(CVector((float) table["XMin"].toNumber(),
-		                  (float) table["YMin"].toNumber(),
-						  (float) table["ZMin"].toNumber()),
-				  CVector((float) table["XMax"].toNumber(),
-		                  (float) table["YMax"].toNumber(),
-						  (float) table["ZMax"].toNumber()));
+void CEntityCustomSelectBox::fromTable(CLuaObject &table) {
+  // H_AUTO(R2_CEntityCustomSelectBox_fromTable)
+  if (!table.isTable()) {
+    nlwarning("trying to rerieve bbox from an object that is not a table");
+    return;
+  }
+  Enabled = table["Enabled"].toBoolean();
+  Box.setMinMax(
+      CVector((float)table["XMin"].toNumber(), (float)table["YMin"].toNumber(),
+              (float)table["ZMin"].toNumber()),
+      CVector((float)table["XMax"].toNumber(), (float)table["YMax"].toNumber(),
+              (float)table["ZMax"].toNumber()));
 }
 
-} // R2
+} // namespace R2

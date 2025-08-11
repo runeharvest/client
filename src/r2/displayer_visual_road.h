@@ -21,35 +21,32 @@
 //
 #include "mesh_array.h"
 
-
 class CEntityCL;
 
-
-namespace R2
-{
+namespace R2 {
 
 /** class to display a primitive (zone or roads)
-  * Used by both CDisplayerVisualRoad && CToolDrawRoad
-  */
+ * Used by both CDisplayerVisualRoad && CToolDrawRoad
+ */
 
-	/*
+/*
 class CPrimRender2
 {
 public:
-	CPrimRender2();
-	void setVertexShapeName(const std::string &name);
-	void setEdgeShapeName(const std::string &name);
-	// set zway points for the road. This also update the content of the scene
-	void setPoints(const std::vector<NLMISC::CVector> &wp, bool lastIsValid, bool closed);
-	void setVertexScale(float scale) { _VertexScale = scale; }
-	//
-	const CMeshArray &getVertices() const { return _VertexMeshs; }
-	const CMeshArray &getEdges() const { return _EdgeMeshs; }
-	void  setEmissive(NLMISC::CRGBA color);
+CPrimRender2();
+void setVertexShapeName(const std::string &name);
+void setEdgeShapeName(const std::string &name);
+// set zway points for the road. This also update the content of the scene
+void setPoints(const std::vector<NLMISC::CVector> &wp, bool lastIsValid, bool
+closed); void setVertexScale(float scale) { _VertexScale = scale; }
+//
+const CMeshArray &getVertices() const { return _VertexMeshs; }
+const CMeshArray &getEdges() const { return _EdgeMeshs; }
+void  setEmissive(NLMISC::CRGBA color);
 private:
-	float	   _VertexScale;
-	CMeshArray _VertexMeshs;
-	CMeshArray _EdgeMeshs;
+float	   _VertexScale;
+CMeshArray _VertexMeshs;
+CMeshArray _EdgeMeshs;
 };
 */
 
@@ -57,19 +54,19 @@ private:
 class CDisplayerVisualRoad : public CDisplayerVisual
 {
 public:
-	NLMISC_DECLARE_CLASS(R2::CDisplayerVisualRoad);
-	// dtor
-	~CDisplayerVisualRoad();
-	virtual void onCreate();
-	// from ISelectableObject
-	virtual bool			isSelectable() const { return false; }
+        NLMISC_DECLARE_CLASS(R2::CDisplayerVisualRoad);
+        // dtor
+        ~CDisplayerVisualRoad();
+        virtual void onCreate();
+        // from ISelectableObject
+        virtual bool			isSelectable() const { return false; }
 private:
-	CRoad _Road;
+        CRoad _Road;
 private:
-	void rebuild();
+        void rebuild();
 };
 */
 
-} // R2
+} // namespace R2
 
 #endif

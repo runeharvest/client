@@ -17,9 +17,9 @@
 // BreakPointCondition.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "ide2.h"
 #include "BreakPointCondition.h"
+#include "ide2.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,39 +30,33 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CBreakPointCondition dialog
 
-
-CBreakPointCondition::CBreakPointCondition(CWnd* pParent /*=NULL*/)
-	: CDialog(CBreakPointCondition::IDD, pParent)
-{
-	//{{AFX_DATA_INIT(CBreakPointCondition)
-	m_Condition = _T("");
-	//}}AFX_DATA_INIT
+CBreakPointCondition::CBreakPointCondition(CWnd *pParent /*=NULL*/)
+    : CDialog(CBreakPointCondition::IDD, pParent) {
+  //{{AFX_DATA_INIT(CBreakPointCondition)
+  m_Condition = _T("");
+  //}}AFX_DATA_INIT
 }
 
-
-void CBreakPointCondition::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CBreakPointCondition)
-	DDX_Control(pDX, IDC_CONDITION, m_ConditionCtrl);
-	DDX_Text(pDX, IDC_CONDITION, m_Condition);
-	//}}AFX_DATA_MAP
+void CBreakPointCondition::DoDataExchange(CDataExchange *pDX) {
+  CDialog::DoDataExchange(pDX);
+  //{{AFX_DATA_MAP(CBreakPointCondition)
+  DDX_Control(pDX, IDC_CONDITION, m_ConditionCtrl);
+  DDX_Text(pDX, IDC_CONDITION, m_Condition);
+  //}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(CBreakPointCondition, CDialog)
-	//{{AFX_MSG_MAP(CBreakPointCondition)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CBreakPointCondition)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CBreakPointCondition message handlers
 
-BOOL CBreakPointCondition::OnInitDialog() 
-{
-	CDialog::OnInitDialog();		
-	m_ConditionCtrl.SetFocus();
-	m_ConditionCtrl.SetSel(0, -1);
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+BOOL CBreakPointCondition::OnInitDialog() {
+  CDialog::OnInitDialog();
+  m_ConditionCtrl.SetFocus();
+  m_ConditionCtrl.SetSel(0, -1);
+  return TRUE; // return TRUE unless you set the focus to a control
+               // EXCEPTION: OCX Property Pages should return FALSE
 }

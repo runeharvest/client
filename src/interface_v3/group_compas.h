@@ -18,17 +18,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_GROUP_COMPAS_HELP_H
 #define CL_GROUP_COMPAS_HELP_H
 
-#include "nel/misc/types_nl.h"
-#include "nel/misc/vector_2f.h"
+#include "animal_position_state.h"
 #include "nel/gui/group_container.h"
 #include "nel/gui/group_menu.h"
-#include "animal_position_state.h"
+#include "nel/misc/types_nl.h"
+#include "nel/misc/vector_2f.h"
 
 class CViewRadar;
 
@@ -42,30 +39,50 @@ const float COMPASS_BLINK_TIME = 0.3f;
  * \date 2003
  */
 
-class CCompassTarget
-{
+class CCompassTarget {
 public:
-	enum TType	{ North = 0, Selection, Home, Respawn, ContinentLandMark, UserLandMark, PosTracker, NumTypes };
-	NLMISC::CVector2f		Pos;		// Used for static target (ie not the current selection, a team member ...)
-	std::string					Name;
-	CCompassTarget();
-	TType					 getType() const { return _Type; }
-	void                     setType(TType type) { if (type == _Type) return; setPositionState(NULL); _Type = type; }
-	// returns position tracker (if type is 'PosTracker')
-	CPositionState			*getPositionState() { return _PositionState; }
-	void					 setPositionState(CPositionState	*ps) {if (ps != _PositionState) _PositionState = ps; if (ps) _Type = PosTracker; }
-	//
-	void					 serial(NLMISC::IStream &f);
+  enum TType {
+    North = 0,
+    Selection,
+    Home,
+    Respawn,
+    ContinentLandMark,
+    UserLandMark,
+    PosTracker,
+    NumTypes
+  };
+  NLMISC::CVector2f Pos; // Used for static target (ie not the current
+                         // selection, a team member ...)
+  std::string Name;
+  CCompassTarget();
+  TType getType() const { return _Type; }
+  void setType(TType type) {
+    if (type == _Type)
+      return;
+    setPositionState(NULL);
+    _Type = type;
+  }
+  // returns position tracker (if type is 'PosTracker')
+  CPositionState *getPositionState() { return _PositionState; }
+  void setPositionState(CPositionState *ps) {
+    if (ps != _PositionState)
+      _PositionState = ps;
+    if (ps)
+      _Type = PosTracker;
+  }
+  //
+  void serial(NLMISC::IStream &f);
+
 private:
-	TType							  _Type;
-	NLMISC::CSmartPtr<CPositionState> _PositionState; // use smart pointer for copy/dtor convenience
+  TType _Type;
+  NLMISC::CSmartPtr<CPositionState>
+      _PositionState; // use smart pointer for copy/dtor convenience
 };
 
-
 // helper function to build compass targets
-bool	buildCompassTargetFromTeamMember(CCompassTarget &ct, uint teamMemberId);
-bool	buildCompassTargetFromAnimalMember(CCompassTarget &ct, uint animalMemberId);
-
+bool buildCompassTargetFromTeamMember(CCompassTarget &ct, uint teamMemberId);
+bool buildCompassTargetFromAnimalMember(CCompassTarget &ct,
+                                        uint animalMemberId);
 
 /**
  * Compas group
@@ -76,77 +93,73 @@ bool	buildCompassTargetFromAnimalMember(CCompassTarget &ct, uint animalMemberId)
  * \author Nevrax France
  * \date 2003
  */
-class CGroupCompas : public CGroupContainer
-{
-	friend class CHandlerChangeCompas;
+class CGroupCompas : public CGroupContainer {
+  friend class CHandlerChangeCompas;
+
 public:
+  // Constructor
+  CGroupCompas(const TCtorParam &param);
+  ~CGroupCompas();
 
+  // From CInterfaceElement
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual void updateCoords();
+  virtual void draw();
+  virtual bool handleEvent(const NLGUI::CEventDescriptor &eventDesc);
 
-	// Constructor
-	CGroupCompas(const TCtorParam &param);
-	~CGroupCompas();
+  void setTarget(const CCompassTarget &target);
+  const CCompassTarget &getTarget() const { return _Target; }
 
-	// From CInterfaceElement
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parentGroup);
-	virtual void updateCoords();
-	virtual void draw();
-	virtual bool handleEvent (const NLGUI::CEventDescriptor &eventDesc);
+  // force the compass to blink (for example to indicate that a new target has
+  // been selected)
+  void blink();
 
-	void setTarget(const CCompassTarget &target);
-	const CCompassTarget &getTarget() const { return _Target; }
+  virtual bool wantSerialConfig() const;
+  // config serialization will save the current compass direction
+  virtual void serialConfig(NLMISC::IStream &f);
 
-	// force the compass to blink (for example to indicate that a new target has been selected)
-	void blink();
-
-
-	virtual bool wantSerialConfig() const;
-	// config serialization will save the current compass direction
-	virtual void serialConfig(NLMISC::IStream &f);
-
-	bool			isSavedTargetValid() const { return _SavedTargetValid; }
-	CCompassTarget &getSavedTarget() { return _SavedTarget; }
+  bool isSavedTargetValid() const { return _SavedTargetValid; }
+  CCompassTarget &getSavedTarget() { return _SavedTarget; }
 
 private:
-	// The arrow shape
-	class CInterface3DShape			*_ArrowShape;
-	CCompassTarget					_Target;
-	bool							_TargetSetOnce;
-	CCompassTarget					_SavedTarget;
-	bool							_SavedTargetValid;
+  // The arrow shape
+  class CInterface3DShape *_ArrowShape;
+  CCompassTarget _Target;
+  bool _TargetSetOnce;
+  CCompassTarget _SavedTarget;
+  bool _SavedTargetValid;
 
-	NLMISC::CCDBNodeLeaf					*_DynamicTargetPos;
-	uint32							_LastDynamicTargetPos;
+  NLMISC::CCDBNodeLeaf *_DynamicTargetPos;
+  uint32 _LastDynamicTargetPos;
 
-	// Color for each type of target
-	NLMISC::CRGBA					_TargetTypeColor[CCompassTarget::NumTypes];
+  // Color for each type of target
+  NLMISC::CRGBA _TargetTypeColor[CCompassTarget::NumTypes];
 
-	// Color when a new target has been selected
-	NLMISC::CRGBA					_NewTargetSelectedColor;
+  // Color when a new target has been selected
+  NLMISC::CRGBA _NewTargetSelectedColor;
 
-	bool	_Blinking;
-	double  _StartBlinkTime;
-	std::string _CurrTargetName;
+  bool _Blinking;
+  double _StartBlinkTime;
+  std::string _CurrTargetName;
 
-	// The dist text
-	CViewText	*_DistView;
-	std::string	_DistViewText;
+  // The dist text
+  CViewText *_DistView;
+  std::string _DistViewText;
 
-	CViewRadar	*_RadarView;
-	CViewText	*_RadarRangeView;
-	uint32		_RadarPos;
+  CViewRadar *_RadarView;
+  CViewText *_RadarRangeView;
+  uint32 _RadarPos;
 
-	NLMISC::CVector2f getNorthPos(const NLMISC::CVector2f &userPos) const;
+  NLMISC::CVector2f getNorthPos(const NLMISC::CVector2f &userPos) const;
 
-	class CDBUseCameraObs : public NLMISC::ICDBNode::IPropertyObserver
-	{
-	public:
-		CDBUseCameraObs():_useCamera(false),_changed(false)
-		{ }
-		virtual void update( NLMISC::ICDBNode *node);
-		bool _useCamera;
-		bool _changed;
-	};
-	CDBUseCameraObs _UseCameraObs;
+  class CDBUseCameraObs : public NLMISC::ICDBNode::IPropertyObserver {
+  public:
+    CDBUseCameraObs() : _useCamera(false), _changed(false) {}
+    virtual void update(NLMISC::ICDBNode *node);
+    bool _useCamera;
+    bool _changed;
+  };
+  CDBUseCameraObs _UseCameraObs;
 };
 
 /**
@@ -155,25 +168,23 @@ private:
  * \author Nevrax France
  * \date 2003
  */
-class CGroupCompasMenu : public CGroupMenu
-{
+class CGroupCompasMenu : public CGroupMenu {
 public:
+  // Constructor
+  CGroupCompasMenu(const TCtorParam &param);
+  ~CGroupCompasMenu();
 
-	// Constructor
-	CGroupCompasMenu(const TCtorParam &param);
-	~CGroupCompasMenu();
+  // parse
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parent = NULL);
 
-	// parse
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parent=NULL);
+  // From CInterfaceElement
+  virtual void setActive(bool state);
 
-	// From CInterfaceElement
-	virtual void setActive (bool state);
+  // name of the target compass for that menu
+  std::string _TargetCompass;
 
-	// name of the target compass for that menu
-	std::string _TargetCompass;
-
-	// current locations for displayed menu
-	std::vector<CCompassTarget> Targets;
+  // current locations for displayed menu
+  std::vector<CCompassTarget> Targets;
 };
 
 /**
@@ -182,44 +193,39 @@ public:
  * \author Nevrax France
  * \date 2005
  */
-class CCompassDialogsManager
-{
+class CCompassDialogsManager {
 public:
-	/// entry in the dialog
-	struct CCompassDialogsEntry
-	{
-		CCompassDialogsEntry(sint32 x,sint32 y,	uint32 text )
-			:X(x), Y(y), Text(text){}
+  /// entry in the dialog
+  struct CCompassDialogsEntry {
+    CCompassDialogsEntry(sint32 x, sint32 y, uint32 text)
+        : X(x), Y(y), Text(text) {}
 
-		sint32 X;
-		sint32 Y;
-		uint32 Text;
-	};
-	static CCompassDialogsManager & getInstance()
-	{
-		if ( _Instance == NULL )
-			_Instance = new CCompassDialogsManager;
-		return *_Instance;
-	}
+    sint32 X;
+    sint32 Y;
+    uint32 Text;
+  };
+  static CCompassDialogsManager &getInstance() {
+    if (_Instance == NULL)
+      _Instance = new CCompassDialogsManager;
+    return *_Instance;
+  }
 
-	const std::vector<CCompassDialogsEntry> & getEntries() { return _Entries; }
+  const std::vector<CCompassDialogsEntry> &getEntries() { return _Entries; }
 
-	void addEntry( sint32 x, sint32 y, uint32 text )
-	{
-		_Entries.push_back( CCompassDialogsEntry(x,y,text) );
-	}
+  void addEntry(sint32 x, sint32 y, uint32 text) {
+    _Entries.push_back(CCompassDialogsEntry(x, y, text));
+  }
 
-	void removeEntry(uint32 text);
-
+  void removeEntry(uint32 text);
 
 private:
-	friend class CCompassDialogsStringCallback;
+  friend class CCompassDialogsStringCallback;
 
-	CCompassDialogsManager(){}
-	~CCompassDialogsManager(){}
+  CCompassDialogsManager() {}
+  ~CCompassDialogsManager() {}
 
-	static CCompassDialogsManager * _Instance;
-	std::vector<CCompassDialogsEntry> _Entries;
+  static CCompassDialogsManager *_Instance;
+  std::vector<CCompassDialogsEntry> _Entries;
 };
 
 #endif // CL_GROUP_COMPAS_HELP_H

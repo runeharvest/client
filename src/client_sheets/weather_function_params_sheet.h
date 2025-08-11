@@ -14,30 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_WEATHER_FUNCTION_PARAMS_H
 #define RY_WEATHER_FUNCTION_PARAMS_H
-
 
 #include "entity_sheet.h"
 #include "game_share/time_weather_season/weather_function_params_sheet_base.h"
 
 class CWeatherFunctionParamsSheet : public CEntitySheet,
-									public CWeatherFunctionParamsSheetBase
-{
+                                    public CWeatherFunctionParamsSheetBase {
 public:
-	// ctor
-	CWeatherFunctionParamsSheet();
-	// from CEntitySheet
-	virtual void build(const NLGEORGES::UFormElm &item);
-	virtual void serial(NLMISC::IStream &f);
+  // ctor
+  CWeatherFunctionParamsSheet();
+  // from CEntitySheet
+  virtual void build(const NLGEORGES::UFormElm &item);
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
-
-
-
-
 
 #endif

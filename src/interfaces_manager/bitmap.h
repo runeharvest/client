@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BITMAP_H
 #define CL_BITMAP_H
-
 
 //////////////
 // Includes //
@@ -26,10 +23,9 @@
 // Misc.
 #include "nel/misc/types_nl.h"
 // Client.
-#include "control.h"
 #include "bitmap_base.h"
+#include "control.h"
 #include "osd.h"
-
 
 /**
  * Manages "Bitmap" control in Interface.
@@ -37,22 +33,22 @@
  * \author Nevrax France
  * \date 2001
  */
-class CBitm : public CControl, public CBitmapBase
-{
+class CBitm : public CControl, public CBitmapBase {
 private:
-	/// Initialize the button (1 function called for all constructors -> easier).
-	inline void init();
+  /// Initialize the button (1 function called for all constructors -> easier).
+  inline void init();
 
 public:
-	/// Constructor
-	CBitm(uint id = 0);
-	CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, const CBitmapBase &bitmapBase);
-	CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint texture, const CRGBA &rgba);
+  /// Constructor
+  CBitm(uint id = 0);
+  CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+        float h, float w_pixel, float h_pixel, const CBitmapBase &bitmapBase);
+  CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+        float h, float w_pixel, float h_pixel, uint texture, const CRGBA &rgba);
 
-	/// Display the Bitmap.
-	virtual void display();
+  /// Display the Bitmap.
+  virtual void display();
 };
-
 
 #endif // CL_BITMAP_H
 

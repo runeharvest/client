@@ -14,15 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_WEATHER_SETUP_SHEET_H
 #define RY_WEATHER_SETUP_SHEET_H
 
 #include "entity_sheet.h"
-#include "nel/misc/string_mapper.h"
 #include "game_share/time_weather_season/weather_setup_sheet_base.h"
-
+#include "nel/misc/string_mapper.h"
 
 /**
  * Class to manage weather setup sheets
@@ -30,20 +27,14 @@
  * \author Nevrax France
  * \date 2003
  */
-class CWeatherSetupSheet : public CEntitySheet,
-						   public CWeatherSetupSheetBase
-{
+class CWeatherSetupSheet : public CEntitySheet, public CWeatherSetupSheetBase {
 public:
-	// ctor
-	CWeatherSetupSheet();
-	// from CEntitySheet
-	virtual void build(const NLGEORGES::UFormElm &item);
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  // ctor
+  CWeatherSetupSheet();
+  // from CEntitySheet
+  virtual void build(const NLGEORGES::UFormElm &item);
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
-
-
 
 #endif

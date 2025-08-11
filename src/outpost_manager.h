@@ -17,9 +17,8 @@
 #ifndef CL_OUTPOST_MANAGER_H
 #define CL_OUTPOST_MANAGER_H
 
-#include "nel/misc/types_nl.h"
 #include "game_share/outpost.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /**
@@ -28,32 +27,30 @@
  * \author Nevrax France
  * \date 2004
  */
-class COutpostManager
-{
+class COutpostManager {
 private:
-	// when this tick is reached, abort the proposal, and force player to be neutral
-	uint32		_EndTickForPvpJoinProposal;
+  // when this tick is reached, abort the proposal, and force player to be
+  // neutral
+  uint32 _EndTickForPvpJoinProposal;
 
 public:
+  /// Constructor
+  COutpostManager();
 
-	/// Constructor
-	COutpostManager();
+  /// Called when the server ask to join for PVP in a Outpost Zone
+  void startPvpJoinProposal(bool playerGuildInConflict,
+                            bool playerGuildIsAttacker, uint32 ownerGuildNameId,
+                            uint32 attackerGuildNameId, uint32 declTimer);
 
-	/// Called when the server ask to join for PVP in a Outpost Zone
-	void	startPvpJoinProposal(bool playerGuildInConflict, bool playerGuildIsAttacker,
-		uint32 ownerGuildNameId, uint32 attackerGuildNameId, uint32 declTimer);
+  /// Called when the client answer to the join for PVP in a Outpost Zone
+  void endPvpJoinProposal(bool bNeutral, OUTPOSTENUMS::TPVPSide pvpSide);
 
-	/// Called when the client answer to the join for PVP in a Outpost Zone
-	void	endPvpJoinProposal(bool bNeutral, OUTPOSTENUMS::TPVPSide pvpSide);
-
-	/// Update the manager
-	void	update();
+  /// Update the manager
+  void update();
 };
 
-
 // Easy Singleton
-extern COutpostManager		OutpostManager;
-
+extern COutpostManager OutpostManager;
 
 #endif // NL_OUTPOST_MANAGER_H
 

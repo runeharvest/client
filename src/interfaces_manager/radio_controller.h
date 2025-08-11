@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_RADIO_CONTROLLER_H
 #define CL_RADIO_CONTROLLER_H
 
@@ -27,49 +25,44 @@
 
 using std::vector;
 
-
 /**
- * CRadioController : manage several CRadioButtons objects, ensuring only one is selected at a time
- * \author Fleury David
- * \author Nevrax France
- * \date 2001
+ * CRadioController : manage several CRadioButtons objects, ensuring only one is
+ * selected at a time \author Fleury David \author Nevrax France \date 2001
  */
-class CRadioController : public CControl
-{
-	typedef vector<CRadioButton *> TVectButtons;
-	/// the radio buttons controled by this radio controller
-	TVectButtons	_Buttons;
+class CRadioController : public CControl {
+  typedef vector<CRadioButton *> TVectButtons;
+  /// the radio buttons controled by this radio controller
+  TVectButtons _Buttons;
 
 public:
-	/// Constructor.
-	CRadioController(uint id);
-	/// Destructor.
-	~CRadioController();
+  /// Constructor.
+  CRadioController(uint id);
+  /// Destructor.
+  ~CRadioController();
 
-	/// Do nothing
-	virtual void display() {}
+  /// Do nothing
+  virtual void display() {}
 
-	/// Manage the click of the mouse for the control
-	virtual void click(float x, float y, bool &taken);
+  /// Manage the click of the mouse for the control
+  virtual void click(float x, float y, bool &taken);
 
-	/// does nothing
-	virtual void resize(uint32 width, uint32 height) {}
-	/// does nothing
-	virtual void ref(float x, float y, float width, float height) {}
+  /// does nothing
+  virtual void resize(uint32 width, uint32 height) {}
+  /// does nothing
+  virtual void ref(float x, float y, float width, float height) {}
 
-	/// Add a button to the group; Return true if the button have been inserted.
-	bool add(CRadioButton *button);
-	/// Select the button corresponding to the id.
-	void select(uint id);
-	/// Return the number of buttons.
-	uint size() {return (uint)_Buttons.size();}
+  /// Add a button to the group; Return true if the button have been inserted.
+  bool add(CRadioButton *button);
+  /// Select the button corresponding to the id.
+  void select(uint id);
+  /// Return the number of buttons.
+  uint size() { return (uint)_Buttons.size(); }
 
-	/**
-	* unselect all the radio buttons
-	*/
-	void unselectAll();
+  /**
+   * unselect all the radio buttons
+   */
+  void unselectAll();
 };
-
 
 #endif // CL_RADIO_CONTROLLER_H
 

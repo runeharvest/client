@@ -20,7 +20,6 @@
 #ifndef R2_PALETTE_NODE_H
 #define R2_PALETTE_NODE_H
 
-
 #if 0
 //#include "interface_user_data.h"
 #include "nel/gui/group_tree.h"

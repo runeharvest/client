@@ -14,12 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef NL_DEBUG_CLIENT_H
 #define NL_DEBUG_CLIENT_H
-
 
 /////////////
 // INCLUDE //
@@ -28,17 +24,15 @@
 // Game Share
 #include "game_share/entity_types.h"
 
-
 ////////////
 // GLOBAL //
 ////////////
 // Verbose enum
-enum TVerbose
-{
-	VerboseNone   = 0x00000000,
-	VerboseMagic  = 0x00000001,
-	VerboseAnim   = 0x00000002,
-	VerboseAll    = 0xFFFFFFFF
+enum TVerbose {
+  VerboseNone = 0x00000000,
+  VerboseMagic = 0x00000001,
+  VerboseAnim = 0x00000002,
+  VerboseAll = 0xFFFFFFFF
 };
 extern uint32 Verbose;
 extern bool VerboseAnimSelection;
@@ -46,7 +40,6 @@ extern bool VerboseAnimUser;
 extern bool VerboseVP;
 extern CLFECOMMON::TCLEntityId WatchedEntitySlot;
 extern uint64 IngameEnterTime;
-
 
 ///////////////
 // FUNCTIONS //
@@ -56,7 +49,8 @@ double memoryUsedSinceLastCall();
 
 /// Set an output file to log debugs. (empty to as nlwarning).
 void setDebugOutput(const std::string &filename);
-/// Push a string in a debug stack but will display only if there is a debug string in the stack when flush.
+/// Push a string in a debug stack but will display only if there is a debug
+/// string in the stack when flush.
 void pushInfoStr(const std::string &str);
 /// Push a string in a debug stack.
 void pushDebugStr(const std::string &str);
@@ -69,46 +63,41 @@ void flushDebugStack(const std::string &title);
  * \author Nevrax France
  * \date 2001
  */
-class CDebugClient
-{
+class CDebugClient {
 public:
-
-	/// Constructor
-	CDebugClient();
-
+  /// Constructor
+  CDebugClient();
 };
 
 // Display streaming debug page
-void displayStreamingDebug ();
+void displayStreamingDebug();
 
 // Display Net debug page
-void displayNetDebug ();
+void displayNetDebug();
 
-
-// return a string with \n separated to get information about the client at the moment 't'
-// it is used by the bug_report and when the client crashs
+// return a string with \n separated to get information about the client at the
+// moment 't' it is used by the bug_report and when the client crashs
 std::string getDebugInformation();
 
 // Start the ingame time counter
-void resetIngameTime ();
+void resetIngameTime();
 
 // Get ingame time
-uint64 ingameTime0 ();
-uint64 ingameTime1 ();
+uint64 ingameTime0();
+uint64 ingameTime1();
 
 // Must verbose VP?
 bool verboseVPAdvanceTest(class CEntityCL *en, uint32 form);
-inline bool verboseVP(class CEntityCL * /* en */, uint32 /* form */=0)
-{
-	return VerboseVP;
-	// TestYoyo
-	//return verboseVPAdvanceTest(en, form);
+inline bool verboseVP(class CEntityCL * /* en */, uint32 /* form */ = 0) {
+  return VerboseVP;
+  // TestYoyo
+  // return verboseVPAdvanceTest(en, form);
 }
 
 // Debug report
-void	crashLogAddServerHopEvent();
-void	crashLogAddFarTpEvent();
-void	crashLogAddReselectPersoEvent();
+void crashLogAddServerHopEvent();
+void crashLogAddFarTpEvent();
+void crashLogAddReselectPersoEvent();
 
 #endif // NL_DEBUG_CLIENT_H
 

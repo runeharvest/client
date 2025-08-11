@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef CL_3D_NOTES_H
 #define CL_3D_NOTES_H
 
@@ -28,52 +27,47 @@
  * \author Nevrax France
  * \date 2003
  */
-class C3DNotes
-{
+class C3DNotes {
 public:
+  C3DNotes() {
+    NextId = 1;
+    NotesAvailable = false;
+  }
 
-	C3DNotes()
-	{
-		NextId = 1;
-		NotesAvailable = false;
-	}
+  void init();
+  void update();
+  void release();
 
-	void init();
-	void update();
-	void release();
-
-	void addNote(const NLMISC::CVector &pos, const std::string &note, sint id = 0);
-	void removeNote(sint id);
+  void addNote(const NLMISC::CVector &pos, const std::string &note,
+               sint id = 0);
+  void removeNote(sint id);
 
 private:
+  void saveNotes();
 
-	void saveNotes();
+  NLMISC::CConfigFile NotesConfigFile;
 
-	NLMISC::CConfigFile NotesConfigFile;
+  // true if the config file is ok and notes are ready to use
+  bool NotesAvailable;
 
-	// true if the config file is ok and notes are ready to use
-	bool				NotesAvailable;
+  struct CNote {
+    CNote(const NLMISC::CVector &pos, const std::string &note, sint id);
+    ~CNote();
 
-	struct CNote
-	{
-		CNote(const NLMISC::CVector &pos, const std::string &note, sint id);
-		~CNote();
+    sint Id;
+    NLMISC::CVector Position;
+    std::string Note;
+    CGroupInSceneBubble *Bubble;
+  };
 
-		sint Id;
-		NLMISC::CVector Position;
-		std::string Note;
-		CGroupInSceneBubble *Bubble;
-	};
+  std::list<CNote> Notes;
 
-	std::list<CNote> Notes;
+  sint NextId;
 
-	sint NextId;
-
-	friend struct commands_displayNotesClass;
-	friend struct commands_gotoNoteClass;
-	friend void cbNotesChanged();
+  friend struct commands_displayNotesClass;
+  friend struct commands_gotoNoteClass;
+  friend void cbNotesChanged();
 };
-
 
 #endif // CL_3D_NOTES_H
 

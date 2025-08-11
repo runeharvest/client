@@ -20,15 +20,15 @@
 #include "nel/misc/matrix.h"
 
 // a matrix with an on / off flag.
-class CCustomMatrix
-{
+class CCustomMatrix {
 public:
-	NLMISC::CMatrix Matrix;
-	bool On;
+  NLMISC::CMatrix Matrix;
+  bool On;
+
 public:
-	CCustomMatrix() : On(false) {}
-	// change the 'on' flag and the matrix, return true if new value was different
-	bool set(bool on, const NLMISC::CMatrix &newMat);
+  CCustomMatrix() : On(false) {}
+  // change the 'on' flag and the matrix, return true if new value was different
+  bool set(bool on, const NLMISC::CMatrix &newMat);
 };
 
 #endif

@@ -14,42 +14,35 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
-#include "success_table_sheet.h"
 #include "nel/georges/u_form_elm.h"
-
+#include "success_table_sheet.h"
 
 using namespace std;
 using namespace NLMISC;
 using namespace NLGEORGES;
 
 // ***************************************************************************
-void CSuccessTableSheet::build(const NLGEORGES::UFormElm &root)
-{
-	const UFormElm *array = NULL;
-	if (root.getNodeByName (&array, "Chances") && array)
-	{
-		// Get array size
-		uint size;
-		array->getArraySize (size);
+void CSuccessTableSheet::build(const NLGEORGES::UFormElm &root) {
+  const UFormElm *array = NULL;
+  if (root.getNodeByName(&array, "Chances") && array) {
+    // Get array size
+    uint size;
+    array->getArraySize(size);
 
-		SuccessTable.resize( size );
+    SuccessTable.resize(size);
 
-		// Get a array value
-		for (uint i=0; i<size; ++i)
-		{
-			const UFormElm *line = NULL;
-			if ( array->getArrayNode( &line, i) && line)
-			{
-				line->getValueByName( SuccessTable[ i ].RelativeLevel, "RelativeLevel" );
-				line->getValueByName( SuccessTable[ i ].SuccessProbability, "SuccessChances" );
-				line->getValueByName( SuccessTable[ i ].PartialSuccessProbability, "PartialSuccessMaxDraw" );
-			}
-		}
-	}
+    // Get a array value
+    for (uint i = 0; i < size; ++i) {
+      const UFormElm *line = NULL;
+      if (array->getArrayNode(&line, i) && line) {
+        line->getValueByName(SuccessTable[i].RelativeLevel, "RelativeLevel");
+        line->getValueByName(SuccessTable[i].SuccessProbability,
+                             "SuccessChances");
+        line->getValueByName(SuccessTable[i].PartialSuccessProbability,
+                             "PartialSuccessMaxDraw");
+      }
+    }
+  }
 }
-
-

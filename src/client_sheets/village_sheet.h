@@ -14,57 +14,49 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_VILLAGE_SHEET_H
 #define RY_VILLAGE_SHEET_H
 
-
 // ig in a village
-struct CVillageIG
-{
-	std::string IgName;
-	std::string ParentName;
-	void serial(NLMISC::IStream &f)
-	{
-		f.serial(IgName, ParentName);
-	}
-	/// Build the sheet from an external script.
-	void build(const NLGEORGES::UFormElm &item);
+struct CVillageIG {
+  std::string IgName;
+  std::string ParentName;
+  void serial(NLMISC::IStream &f) { f.serial(IgName, ParentName); }
+  /// Build the sheet from an external script.
+  void build(const NLGEORGES::UFormElm &item);
 };
 
 /** Sheet of a village
-  *  NB : it doesn't derives from CEntitySheet, because its instances are aggragated in a CContinentSheet
-  *
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2003
-  */
+ *  NB : it doesn't derives from CEntitySheet, because its instances are
+ * aggragated in a CContinentSheet
+ *
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2003
+ */
 
-struct CVillageSheet
-{
-	std::string Zone;
-	float		Altitude;
-	float       ForceLoadDist;
-	float		LoadDist;
-	float		UnloadDist;
-	float		CenterX;
-	float		CenterY;
-	uint32		Width;
-	uint32		Height;
-	float		Rotation;
-	std::string Name;
-	std::vector<CVillageIG> IGs;
+struct CVillageSheet {
+  std::string Zone;
+  float Altitude;
+  float ForceLoadDist;
+  float LoadDist;
+  float UnloadDist;
+  float CenterX;
+  float CenterY;
+  uint32 Width;
+  uint32 Height;
+  float Rotation;
+  std::string Name;
+  std::vector<CVillageIG> IGs;
 
-	// ctor
-	CVillageSheet();
+  // ctor
+  CVillageSheet();
 
-	/// Build the sheet from an external script.
-	void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize character sheet into binary data file.
-	void serial(NLMISC::IStream &f);
-
+  /// Serialize character sheet into binary data file.
+  void serial(NLMISC::IStream &f);
 };
 
 #endif

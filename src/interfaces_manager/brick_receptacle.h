@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_BRICK_RECEPTACLE_H
 #define NL_BRICK_RECEPTACLE_H
-
 
 /////////////
 // Include //
@@ -26,13 +23,12 @@
 // Misc
 #include "nel/misc/types_nl.h"
 // Client
-#include "control.h"
 #include "bitmap_base.h"
-#include "interfaces_manager.h"
 #include "brick_control.h"
+#include "control.h"
+#include "interfaces_manager.h"
 // Interface 3D
 #include "nel/3d/u_driver.h"
-
 
 ////////////
 // Extern //
@@ -45,100 +41,97 @@ extern NL3D::UDriver *Driver;
  * \author Nevrax France
  * \date 2001
  */
-class CBrickReceptacle : public CControl, public CBitmapBase
-{
+class CBrickReceptacle : public CControl, public CBitmapBase {
 public:
+  /**
+   * constructor
+   * \param uint id the id of the control (default = 0)
+   */
+  CBrickReceptacle(uint id = 0);
 
-	/**
-	 * constructor
-	 * \param uint id the id of the control (default = 0)
-	 */
-	CBrickReceptacle(uint id = 0);
+  /**
+   * constructor
+   */
+  CBrickReceptacle(uint id, float x, float y, float x_pixel, float y_pixel,
+                   float w, float h, float w_pixel, float h_pixel, uint texture,
+                   const CRGBA &rgba, uint16 family, uint numFunc = 0);
 
-	/**
-	 * constructor
-	 */
-	CBrickReceptacle(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint texture, const CRGBA &rgba, uint16 family, uint numFunc = 0);
+  /// destructor
+  ~CBrickReceptacle();
 
-	/// destructor
-	~CBrickReceptacle();
+  /**
+   * set the brick this control "contains", only usable on a unlocked object
+   * (_Locked == false) \param CBrickControl* brick the brick that will be in
+   * this receptacle \return bool true if the brick is compatible, false
+   * otherwise
+   */
+  bool brick(CBrickControl *brick);
 
-	/**
-	 * set the brick this control "contains", only usable on a unlocked object (_Locked == false)
-	 * \param CBrickControl* brick the brick that will be in this receptacle
-	 * \return bool true if the brick is compatible, false otherwise
-	 */
-	bool brick( CBrickControl *brick);
+  /**
+   * get the brick if any
+   * \return CBrickControl * the brick or NULL if receptacle is empty
+   */
+  CBrickControl *brick() { return _Brick; }
 
-	/**
-	 * get the brick if any
-	 * \return CBrickControl * the brick or NULL if receptacle is empty
-	 */
-	CBrickControl *brick() { return _Brick; }
+  /**
+   * set the brick family accepted by this control
+   * \param uint16 family the new family accepted
+   */
+  bool family(uint16 family);
 
-	/**
-	 * set the brick family accepted by this control
-	 * \param uint16 family the new family accepted
-	 */
-	bool family( uint16 family);
+  /**
+   * get the brick family this control can accept
+   * \return uint16 the family this control can accept
+   */
+  uint16 family() const { return _Family; }
 
+  /**
+   * test if the receptacle is empty (same as (brick() == NULL) )
+   * \return bool true if empty, false if full
+   */
+  bool isEmpty() const { return (_Brick == NULL); }
 
-	/**
-	 * get the brick family this control can accept
-	 * \return uint16 the family this control can accept
-	 */
-	uint16 family() const { return _Family; }
+  /**
+   * emty the slot, delete _Brick if allocated
+   */
+  void clear();
 
-	/**
-	 * test if the receptacle is empty (same as (brick() == NULL) )
-	 * \return bool true if empty, false if full
-	 */
-	bool isEmpty() const { return ( _Brick == NULL); }
+  /// Display the Bitmap.
+  virtual void display();
 
-	/**
-	 * emty the slot, delete _Brick if allocated
-	 */
-	void clear();
+  /// Set some references for the display.
+  virtual void ref(float x, float y, float w, float h);
 
-	/// Display the Bitmap.
-	virtual void display();
+  /// Manage the click for the control.
+  virtual void click(float x, float y, bool &taken);
 
-	/// Set some references for the display.
-	virtual void ref(float x, float y, float w, float h);
+  /// lock the control (the brick cannot be changed/removed/added )
+  inline void lock() { _Locked = true; }
 
+  /// unlock the control
+  inline void unlock() { _Locked = false; }
 
-	/// Manage the click for the control.
-	virtual void click(float x, float y, bool &taken);
-
-
-	/// lock the control (the brick cannot be changed/removed/added )
-	inline void lock() { _Locked = true; }
-
-	/// unlock the control
-	inline void unlock() { _Locked = false; }
-
-	/// return the locked state of the control
-	inline bool isLocked() const { return _Locked; }
-
-private:
-	/// init the control
-	void init( uint16 family=0, uint numFunc = 0);
+  /// return the locked state of the control
+  inline bool isLocked() const { return _Locked; }
 
 private:
-	/// the brick contained by this control, or NULL if empty
-	CBrickControl	*_Brick;
+  /// init the control
+  void init(uint16 family = 0, uint numFunc = 0);
 
-	/// the brick family this control can accept
-	uint16			_Family;
+private:
+  /// the brick contained by this control, or NULL if empty
+  CBrickControl *_Brick;
 
-	/// lock the associated brick control or not (if locked == true, the brick cannot be changed/removed/added )
-	bool			_Locked;
+  /// the brick family this control can accept
+  uint16 _Family;
 
-	/// function called with a left click on the button
-	uint		_NumFuncLeftClick;
+  /// lock the associated brick control or not (if locked == true, the brick
+  /// cannot be changed/removed/added )
+  bool _Locked;
 
+  /// function called with a left click on the button
+  uint _NumFuncLeftClick;
 };
-
 
 #endif // NL_BRICK_RECEPTACLE_H
 

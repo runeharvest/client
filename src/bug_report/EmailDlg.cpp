@@ -17,9 +17,9 @@
 // EmailDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "bug_report.h"
 #include "EmailDlg.h"
+#include "bug_report.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,41 +30,35 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CEmailDlg dialog
 
-
-CEmailDlg::CEmailDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CEmailDlg::IDD, pParent)
-{
-	//{{AFX_DATA_INIT(CEmailDlg)
-	m_email = _T("");
-	//}}AFX_DATA_INIT
+CEmailDlg::CEmailDlg(CWnd *pParent /*=NULL*/)
+    : CDialog(CEmailDlg::IDD, pParent) {
+  //{{AFX_DATA_INIT(CEmailDlg)
+  m_email = _T("");
+  //}}AFX_DATA_INIT
 }
 
-
-void CEmailDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CEmailDlg)
-	DDX_Text(pDX, IDC_EMAIL, m_email);
-	//}}AFX_DATA_MAP
+void CEmailDlg::DoDataExchange(CDataExchange *pDX) {
+  CDialog::DoDataExchange(pDX);
+  //{{AFX_DATA_MAP(CEmailDlg)
+  DDX_Text(pDX, IDC_EMAIL, m_email);
+  //}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(CEmailDlg, CDialog)
-	//{{AFX_MSG_MAP(CEmailDlg)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CEmailDlg)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CEmailDlg message handlers
 
-BOOL CEmailDlg::OnInitDialog()
-{
-	CDialog::OnInitDialog();
+BOOL CEmailDlg::OnInitDialog() {
+  CDialog::OnInitDialog();
 
-	CWnd *wnd = GetDlgItem (IDC_EMAIL);
-	if (wnd != NULL)
-		wnd->SetFocus();
+  CWnd *wnd = GetDlgItem(IDC_EMAIL);
+  if (wnd != NULL)
+    wnd->SetFocus();
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+  return TRUE; // return TRUE unless you set the focus to a control
+               // EXCEPTION: OCX Property Pages should return FALSE
 }

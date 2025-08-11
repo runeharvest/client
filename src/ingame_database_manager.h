@@ -17,12 +17,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_INGAME_DATABASE_MANAGER_H
 #define CL_INGAME_DATABASE_MANAGER_H
-
 
 /////////////
 // INCLUDE //
@@ -30,19 +26,16 @@
 // Misc.
 #include "nel/misc/types_nl.h"
 // Game share.
+#include "cdb_synchronised.h"
 #include "nel/misc/cdb.h"
-#include "nel/misc/cdb_leaf.h"
 #include "nel/misc/cdb_branch.h"
 #include "nel/misc/cdb_branch_observing_handler.h"
-#include "cdb_synchronised.h"
-
-
+#include "nel/misc/cdb_leaf.h"
 
 ////////////
 // EXTERN //
 ////////////
 extern CCDBSynchronised IngameDbMngr;
-
 
 #endif // CL_INGAME_DATABASE_MANAGER_H
 

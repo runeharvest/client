@@ -16,11 +16,11 @@
 
 // CJ60Lib.h : header file
 //
-// Copyright (c) 1998-99 Kirk Stowell   
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,19 +36,19 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said!
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
 //
-// ==========================================================================  
-// HISTORY:	
+// ==========================================================================
+// HISTORY:
 // ==========================================================================
 //
 //////////////////////////////////////////////////////////////////////
@@ -70,19 +70,19 @@
 
 #ifdef _AFXDLL
 #ifdef _DEBUG
-#pragma comment(lib,"CJ60Libd.lib") 
+#pragma comment(lib, "CJ60Libd.lib")
 #pragma message("Automatically linking with CJ60Libd.dll")
 #else
-#pragma comment(lib,"CJ60Lib.lib") 
-#pragma message("Automatically linking with CJ60Lib.dll") 
+#pragma comment(lib, "CJ60Lib.lib")
+#pragma message("Automatically linking with CJ60Lib.dll")
 #endif
 #else
 #ifdef _DEBUG
-#pragma comment(lib,"CJ60StaticLibd.lib") 
-#pragma message("Automatically linking with CJ60StaticLibd.lib") 
+#pragma comment(lib, "CJ60StaticLibd.lib")
+#pragma message("Automatically linking with CJ60StaticLibd.lib")
 #else
-#pragma comment(lib,"CJ60StaticLib.lib") 
-#pragma message("Automatically linking with CJ60StaticLib.lib") 
+#pragma comment(lib, "CJ60StaticLib.lib")
+#pragma message("Automatically linking with CJ60StaticLib.lib")
 #endif
 #endif
 

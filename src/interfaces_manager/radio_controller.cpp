@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
-
 
 //////////////
 // Includes //
@@ -29,95 +26,78 @@
 // Client.
 #include "radio_controller.h"
 
-
 //-----------------------------------------------
 // CRadioController :
 // Constructor.
 //-----------------------------------------------
-CRadioController::CRadioController(uint id)
-: CControl(id)
-{
-//	_Selected = -1;
-}// CRadioController //
-
+CRadioController::CRadioController(uint id) : CControl(id) {
+  //	_Selected = -1;
+} // CRadioController //
 
 //-----------------------------------------------
 // ~CRadioController :
 // Destructor.
 //-----------------------------------------------
-CRadioController::~CRadioController()
-{
-	_Buttons.clear();
-}// ~CRadioController //
+CRadioController::~CRadioController() {
+  _Buttons.clear();
+} // ~CRadioController //
 
 //-----------------------------------------------
 // add :
 // Add a button to the group.
 // Return true or false if the button do not have been inserted.
 //-----------------------------------------------
-bool CRadioController::add(CRadioButton *button)
-{
-	// Test if the pointer is allocated.
-	if(button)
-	{
-		nlassert(button);
+bool CRadioController::add(CRadioButton *button) {
+  // Test if the pointer is allocated.
+  if (button) {
+    nlassert(button);
 
-		_Buttons.push_back(button);
-		button->setController( this );
+    _Buttons.push_back(button);
+    button->setController(this);
 
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}// add //
+    return true;
+  } else {
+    return false;
+  }
+} // add //
 
 //-----------------------------------------------
 // select :
 // Select a button.
 //-----------------------------------------------
-void CRadioController::select(uint s)
-{
-	//nlassert( s < _Buttons.size() );
-	if (s >= _Buttons.size() )
-	{
-		nlwarning("<CRadioController::select> : trying to select a button out of range");
-		return;
-	}
+void CRadioController::select(uint s) {
+  // nlassert( s < _Buttons.size() );
+  if (s >= _Buttons.size()) {
+    nlwarning(
+        "<CRadioController::select> : trying to select a button out of range");
+    return;
+  }
 
-	_Buttons[s]->select();
-}// select //
-
+  _Buttons[s]->select();
+} // select //
 
 //-----------------------------------------------
 // click :
 // Manage the click of the mouse for the Buttons.
 //-----------------------------------------------
-void CRadioController::click(float x, float y, bool &taken)
-{
+void CRadioController::click(float x, float y, bool &taken) {
 
-	TVectButtons::iterator it;
-	const TVectButtons::iterator itEnd = _Buttons.end();
+  TVectButtons::iterator it;
+  const TVectButtons::iterator itEnd = _Buttons.end();
 
-	for (it = _Buttons.begin() ; it != itEnd ; ++it)
-	{
-		(*it)->radioClick(x, y, taken );
-	}
-}// click //
-
-
+  for (it = _Buttons.begin(); it != itEnd; ++it) {
+    (*it)->radioClick(x, y, taken);
+  }
+} // click //
 
 //-----------------------------------------------
 // unselectAll :
 //-----------------------------------------------
-void CRadioController::unselectAll()
-{
-	TVectButtons::iterator it;
-	const TVectButtons::iterator itEnd = _Buttons.end();
+void CRadioController::unselectAll() {
+  TVectButtons::iterator it;
+  const TVectButtons::iterator itEnd = _Buttons.end();
 
-	for (it = _Buttons.begin() ; it != itEnd ; ++it)
-	{
-		(*it)->unSelect();
-	}
-}// unselectAll //
+  for (it = _Buttons.begin(); it != itEnd; ++it) {
+    (*it)->unSelect();
+  }
+} // unselectAll //

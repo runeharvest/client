@@ -17,7 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef IF_OPTIONS_RZ
 #define IF_OPTIONS_RZ
 
@@ -26,53 +25,56 @@
 using namespace NLGUI;
 
 // ***************************************************************************
-class CMissionIconList : public CInterfaceOptions
-{
+class CMissionIconList : public CInterfaceOptions {
 public:
-	CMissionIconList( const TCtorParam &param ) : CInterfaceOptions( param ){}
-	~CMissionIconList(){}
-	virtual bool parse (xmlNodePtr cur);
-	sint32 getBackTexID(uint index) const { return index >= IconBackTexID.size() ? -1 : IconBackTexID[index]; }
-	sint32 getTexID(uint index) const { return index >= IconTexID.size() ? -1 : IconTexID[index]; }
+  CMissionIconList(const TCtorParam &param) : CInterfaceOptions(param) {}
+  ~CMissionIconList() {}
+  virtual bool parse(xmlNodePtr cur);
+  sint32 getBackTexID(uint index) const {
+    return index >= IconBackTexID.size() ? -1 : IconBackTexID[index];
+  }
+  sint32 getTexID(uint index) const {
+    return index >= IconTexID.size() ? -1 : IconTexID[index];
+  }
+
 private:
-	std::vector<sint32> IconBackTexID;
-	std::vector<sint32> IconTexID;
+  std::vector<sint32> IconBackTexID;
+  std::vector<sint32> IconTexID;
 };
 
 // ***************************************************************************
-/** Describe an animation Set container, used for multiple CCharacter3d for instance
+/** Describe an animation Set container, used for multiple CCharacter3d for
+ * instance
  */
-class COptionsAnimationSet : public CInterfaceOptions
-{
+class COptionsAnimationSet : public CInterfaceOptions {
 public:
-	COptionsAnimationSet( const TCtorParam &/* param */ );
-	// see code for important release note
-	virtual ~COptionsAnimationSet();
-	virtual bool parse (xmlNodePtr cur);
+  COptionsAnimationSet(const TCtorParam & /* param */);
+  // see code for important release note
+  virtual ~COptionsAnimationSet();
+  virtual bool parse(xmlNodePtr cur);
 
-	// tool fct to get the face anim name from a name (append "_face" before .anim)
-	static std::string	getFaceAnimName(const std::string &animName);
+  // tool fct to get the face anim name from a name (append "_face" before
+  // .anim)
+  static std::string getFaceAnimName(const std::string &animName);
 
 public:
-	NL3D::UAnimationSet		*AnimationSet;
+  NL3D::UAnimationSet *AnimationSet;
 
-	struct	CAnim
-	{
-		// Indexes in this animation set
-		uint		AnimId;
-		// true if must apply the race/gender scale to the position (not in rare case)
-		bool		ApplyRaceScalePos;
-		CAnim()
-		{
-			AnimId= -1;
-			ApplyRaceScalePos= true;
-		}
-	};
+  struct CAnim {
+    // Indexes in this animation set
+    uint AnimId;
+    // true if must apply the race/gender scale to the position (not in rare
+    // case)
+    bool ApplyRaceScalePos;
+    CAnim() {
+      AnimId = -1;
+      ApplyRaceScalePos = true;
+    }
+  };
 
-	// Male and female Animation
-	std::vector<CAnim>		AnimMale;
-	std::vector<CAnim>		AnimFemale;
-
+  // Male and female Animation
+  std::vector<CAnim> AnimMale;
+  std::vector<CAnim> AnimFemale;
 };
 
 #endif

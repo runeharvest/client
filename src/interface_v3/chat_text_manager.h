@@ -18,72 +18,79 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#ifndef	CHAT_TEXT_MANAGER_H
+#ifndef CHAT_TEXT_MANAGER_H
 #define CHAT_TEXT_MANAGER_H
 
 #include "nel/misc/rgba.h"
 
-namespace NLGUI
-{
-	class CViewBase;
-	class CInterfaceGroup;
-}
+namespace NLGUI {
+class CViewBase;
+class CInterfaceGroup;
+} // namespace NLGUI
 
-namespace NLMISC{
-	class CCDBNodeLeaf;
+namespace NLMISC {
+class CCDBNodeLeaf;
 }
 
 /** Class to get chat text parameters, and to build new text lines
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2003
-  */
-class CChatTextManager
-{
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2003
+ */
+class CChatTextManager {
 public:
-	//\name Text parameters. They are read from the interface database (the configuration of text is doned in config.xml)
-	//@{
-		uint		 getTextFontSize() const;
-		uint		 getTextMultiLineSpace() const;
-		bool		 isTextShadowed() const;
-	//@}
-	/** Build a new text multiline using the current chat text settings
-	  * \param msg the actual text
-	  * \param col the color of the text
-	  * \param justified Should be true for justified text (stretch spaces of line to fill the full width)
-	  * \param plaintext Text will not be parsed for uri markup links
-	  */
-	NLGUI::CViewBase *createMsgText(const std::string &msg, NLMISC::CRGBA col, bool justified = false, bool plaintext = false);
-	// Singleton access
-	static CChatTextManager &getInstance();
+  //\name Text parameters. They are read from the interface database (the
+  //configuration of text is doned in config.xml)
+  //@{
+  uint getTextFontSize() const;
+  uint getTextMultiLineSpace() const;
+  bool isTextShadowed() const;
+  //@}
+  /** Build a new text multiline using the current chat text settings
+   * \param msg the actual text
+   * \param col the color of the text
+   * \param justified Should be true for justified text (stretch spaces of line
+   * to fill the full width) \param plaintext Text will not be parsed for uri
+   * markup links
+   */
+  NLGUI::CViewBase *createMsgText(const std::string &msg, NLMISC::CRGBA col,
+                                  bool justified = false,
+                                  bool plaintext = false);
+  // Singleton access
+  static CChatTextManager &getInstance();
 
-	// release memory
-	static void releaseInstance();
+  // release memory
+  static void releaseInstance();
 
-	// Reset the manager
-	void reset();
+  // Reset the manager
+  void reset();
 
 private:
-	static CChatTextManager *_Instance;
+  static CChatTextManager *_Instance;
 
-	mutable NLMISC::CCDBNodeLeaf    *_TextFontSize;
-	mutable NLMISC::CCDBNodeLeaf    *_TextMultilineSpace;
-	mutable NLMISC::CCDBNodeLeaf    *_TextShadowed;
-	mutable NLMISC::CCDBNodeLeaf    *_ShowTimestamps;
+  mutable NLMISC::CCDBNodeLeaf *_TextFontSize;
+  mutable NLMISC::CCDBNodeLeaf *_TextMultilineSpace;
+  mutable NLMISC::CCDBNodeLeaf *_TextShadowed;
+  mutable NLMISC::CCDBNodeLeaf *_ShowTimestamps;
 
-	// ctor, private because of singleton
-	CChatTextManager();
-	~CChatTextManager();
+  // ctor, private because of singleton
+  CChatTextManager();
+  ~CChatTextManager();
 
-	bool showTimestamps() const;
+  bool showTimestamps() const;
 
-	NLGUI::CViewBase *createMsgTextSimple(const std::string &msg, NLMISC::CRGBA col, bool justified, NLGUI::CInterfaceGroup *commandGroup);
-	NLGUI::CViewBase *createMsgTextComplex(const std::string &msg, NLMISC::CRGBA col, bool justified, bool plaintext, NLGUI::CInterfaceGroup *commandGroup);
+  NLGUI::CViewBase *createMsgTextSimple(const std::string &msg,
+                                        NLMISC::CRGBA col, bool justified,
+                                        NLGUI::CInterfaceGroup *commandGroup);
+  NLGUI::CViewBase *createMsgTextComplex(const std::string &msg,
+                                         NLMISC::CRGBA col, bool justified,
+                                         bool plaintext,
+                                         NLGUI::CInterfaceGroup *commandGroup);
 };
 
 // shortcut to get text manager instance
-inline CChatTextManager &getChatTextMngr() { return CChatTextManager::getInstance(); }
+inline CChatTextManager &getChatTextMngr() {
+  return CChatTextManager::getInstance();
+}
 
 #endif

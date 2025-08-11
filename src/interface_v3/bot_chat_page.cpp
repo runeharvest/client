@@ -17,28 +17,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "bot_chat_page.h"
+#include "../user_entity.h"
 #include "interface_manager.h"
 #include "nel/gui/interface_group.h"
-#include "../user_entity.h"
-
+#include "stdpch.h"
 
 // *****************************************************************************
-void CBotChatPage::activateWindow(const char *windowName, bool active)
-{
-	CInterfaceManager *im = CInterfaceManager::getInstance();
-	CInterfaceGroup *ig = dynamic_cast<CInterfaceGroup *>(CWidgetManager::getInstance()->getElementFromId(windowName));
-	if (ig)
-	{
-		ig->setActive(active);
-	}
+void CBotChatPage::activateWindow(const char *windowName, bool active) {
+  CInterfaceManager *im = CInterfaceManager::getInstance();
+  CInterfaceGroup *ig = dynamic_cast<CInterfaceGroup *>(
+      CWidgetManager::getInstance()->getElementFromId(windowName));
+  if (ig) {
+    ig->setActive(active);
+  }
 }
 
-
-void CBotChatPage::begin()
-{
-	UserEntity->trader(UserEntity->selection());
-}
+void CBotChatPage::begin() { UserEntity->trader(UserEntity->selection()); }

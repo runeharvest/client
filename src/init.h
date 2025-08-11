@@ -17,17 +17,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_INIT_H
 #define CL_INIT_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/misc/progress_callback.h"
+#include "nel/misc/types_nl.h"
 
-namespace NLMISC
-{
-	class IProgressCallback;
+namespace NLMISC {
+class IProgressCallback;
 }
 
 // Initialize the log
@@ -43,8 +40,7 @@ void initStreamedPackageManager(NLMISC::IProgressCallback &progress);
 void addSearchPaths(NLMISC::IProgressCallback &progress);
 void addPreDataPaths(NLMISC::IProgressCallback &progress);
 
-void ExitClientError (const char *format, ...);
-
+void ExitClientError(const char *format, ...);
 
 #endif // CL_INIT_H
 

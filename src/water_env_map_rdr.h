@@ -17,50 +17,46 @@
 #ifndef CL_WATER_ENV_MAP_RDR_H
 #define CL_WATER_ENV_MAP_RDR_H
 
-
 #include "misc.h"
-#include "time_client.h"
-#include "nel/3d/u_water_env_map.h"
 #include "nel/3d/animation_time.h"
+#include "nel/3d/u_water_env_map.h"
 #include "nel/misc/rgba.h"
+#include "time_client.h"
 
 class CSky;
 
-namespace NLMISC
-{
-	class CMatrix;
+namespace NLMISC {
+class CMatrix;
 }
 
-namespace NL3D
-{
-	class UDriver;
+namespace NL3D {
+class UDriver;
 }
 
 // Render water environment map from a sky scene
-class CWaterEnvMapRdr : public NL3D::CWaterEnvMapRenderHelper
-{
+class CWaterEnvMapRdr : public NL3D::CWaterEnvMapRenderHelper {
 public:
-	CClientDate				   CurrDate;
-	CClientDate				   AnimationDate;
-	CRGBA					   CurrFogColor;
-	float					   CurrWeather;
-	NL3D::TGlobalAnimationTime CurrTime;
-	CSky					   *Sky;
+  CClientDate CurrDate;
+  CClientDate AnimationDate;
+  CRGBA CurrFogColor;
+  float CurrWeather;
+  NL3D::TGlobalAnimationTime CurrTime;
+  CSky *Sky;
+
 public:
-	CWaterEnvMapRdr() : CurrTime(-1), _LastRenderStartTime(-1)
-	{
-		_CurrCanopyCamPos = CVector::Null;
-	}
-	virtual void doRender(const NLMISC::CMatrix &camMatrix, NL3D::TGlobalAnimationTime time, NL3D::UDriver &drv);
+  CWaterEnvMapRdr() : CurrTime(-1), _LastRenderStartTime(-1) {
+    _CurrCanopyCamPos = CVector::Null;
+  }
+  virtual void doRender(const NLMISC::CMatrix &camMatrix,
+                        NL3D::TGlobalAnimationTime time, NL3D::UDriver &drv);
+
 private:
-	CClientDate				   _DateForRender;
-	CClientDate				   _AnimationDateForRender;
-	CRGBA					   _FogColorForRender;
-	float					   _WeatherForRender;
-	NL3D::TGlobalAnimationTime _LastRenderStartTime;
-	NLMISC::CVector			   _CurrCanopyCamPos;
+  CClientDate _DateForRender;
+  CClientDate _AnimationDateForRender;
+  CRGBA _FogColorForRender;
+  float _WeatherForRender;
+  NL3D::TGlobalAnimationTime _LastRenderStartTime;
+  NLMISC::CVector _CurrCanopyCamPos;
 };
-
-
 
 #endif

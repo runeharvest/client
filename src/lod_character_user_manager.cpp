@@ -14,15 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 #include "lod_character_user_manager.h"
 #include "nel/3d/u_scene.h"
 #include "nel/misc/debug.h"
-#include "nel/misc/smart_ptr.h"
 #include "nel/misc/path.h"
+#include "nel/misc/smart_ptr.h"
 // Georges
 #include "nel/georges/u_form.h"
 #include "nel/georges/u_form_elm.h"
@@ -30,8 +28,6 @@
 
 // Client
 #include "sheet_manager.h"
-
-
 
 ///////////
 // USING //
@@ -41,55 +37,40 @@ using namespace NLGEORGES;
 using namespace NL3D;
 using namespace std;
 
-
 ////////////
 // EXTERN //
 ////////////
-extern UScene	*Scene;
-
-
-// ***************************************************************************
-CLodCharacterUserManager	LodCharacterUserManager;
-
+extern UScene *Scene;
 
 // ***************************************************************************
-CLodCharacterUserManager::CLodCharacterUserManager()
-{
+CLodCharacterUserManager LodCharacterUserManager;
+
+// ***************************************************************************
+CLodCharacterUserManager::CLodCharacterUserManager() {}
+
+// ***************************************************************************
+bool CLodCharacterUserManager::addLodShapeBank(const std::string &filename) {
+  // Scene must exist
+  nlassert(Scene);
+
+  try {
+    // load and add the file to the main scene
+    Scene->loadCLodShapeBank(filename);
+  } catch (const Exception &e) {
+    nlwarning(e.what());
+    return false;
+  }
+
+  return true;
 }
 
-
 // ***************************************************************************
-bool			CLodCharacterUserManager::addLodShapeBank(const std::string &filename)
-{
-	// Scene must exist
-	nlassert(Scene);
+void CLodCharacterUserManager::init() {
+  // Scene must exist
+  nlassert(Scene);
 
-	try
-	{
-		// load and add the file to the main scene
-		Scene->loadCLodShapeBank(filename);
-	}
-	catch(const Exception &e)
-	{
-		nlwarning(e.what());
-		return false;
-	}
-
-	return true;
+  // add player LodShapeBank.
+  addLodShapeBank("characters.clodbank");
+  // add creatures LodShapeBank.
+  addLodShapeBank("fauna.clodbank");
 }
-
-
-// ***************************************************************************
-void			CLodCharacterUserManager::init()
-{
-	// Scene must exist
-	nlassert(Scene);
-
-
-	// add player LodShapeBank.
-	addLodShapeBank("characters.clodbank");
-	// add creatures LodShapeBank.
-	addLodShapeBank("fauna.clodbank");
-
-}
-

@@ -14,35 +14,30 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BOT_CHAT_PAGE_H
 #define CL_BOT_CHAT_PAGE_H
 
 #define BOT_CHAT_BASE_DB_PATH "SERVER:BOTCHAT"
 
 /** Base class for botchat pages.
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date August 2003
-  */
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date August 2003
+ */
 class CBotChatPage
 
 {
 public:
-	virtual ~CBotChatPage() {}
-	// start that page (display and setup ui)
-	virtual void begin();
-	// init page
-	virtual void init() {}
-	// update function : it is called at each frame.
-	virtual void update() {}
-	virtual void end() = 0;
-	// tool fct : activate a window from its name
-	void activateWindow(const char *windowName, bool active);
+  virtual ~CBotChatPage() {}
+  // start that page (display and setup ui)
+  virtual void begin();
+  // init page
+  virtual void init() {}
+  // update function : it is called at each frame.
+  virtual void update() {}
+  virtual void end() = 0;
+  // tool fct : activate a window from its name
+  void activateWindow(const char *windowName, bool active);
 };
-
-
-
 
 #endif

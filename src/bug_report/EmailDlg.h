@@ -26,37 +26,35 @@
 /////////////////////////////////////////////////////////////////////////////
 // CEmailDlg dialog
 
-class CEmailDlg : public CDialog
-{
-// Construction
+class CEmailDlg : public CDialog {
+  // Construction
 public:
-	CEmailDlg(CWnd* pParent = NULL);   // standard constructor
+  CEmailDlg(CWnd *pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CEmailDlg)
-	enum { IDD = IDD_EMAIL };
-	CString	m_email;
-	//}}AFX_DATA
+  // Dialog Data
+  //{{AFX_DATA(CEmailDlg)
+  enum { IDD = IDD_EMAIL };
+  CString m_email;
+  //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CEmailDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CEmailDlg)
 protected:
+  virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV support
+                                                   //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CEmailDlg)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+protected:
+  // Generated message map functions
+  //{{AFX_MSG(CEmailDlg)
+  virtual BOOL OnInitDialog();
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_EMAILDLG_H__1B7D604E_0EA1_433F_A087_239B69B31D6C__INCLUDED_)

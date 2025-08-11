@@ -14,35 +14,32 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_PLAYER_TRADE_H
 #define CL_PLAYER_TRADE_H
 
-#include <vector>
 #include "nel/misc/types_nl.h"
-
-
+#include <vector>
 
 class CDBCtrlSheet;
 
 // class to track the traded items during a transaction
-class CPlayerTrade
-{
+class CPlayerTrade {
 public:
-	enum { NumTradeSlot = 8 };
+  enum { NumTradeSlot = 8 };
 
-	CPlayerTrade() {BotChatGiftContext= false;}
+  CPlayerTrade() { BotChatGiftContext = false; }
 
-	// Put item to exchange, and remove ALL previous slot (even if same item type exchanged...)
-	void putItemInExchange(CDBCtrlSheet *inventorySlot, CDBCtrlSheet *exchangeSlot, uint quantitySrc);
-	void restoreItem(CDBCtrlSheet *exchangeSlot);
-	void restoreAllItems();
-	// get an exchange slot from its index
-	static CDBCtrlSheet *getExchangeItem(uint index);
+  // Put item to exchange, and remove ALL previous slot (even if same item type
+  // exchanged...)
+  void putItemInExchange(CDBCtrlSheet *inventorySlot,
+                         CDBCtrlSheet *exchangeSlot, uint quantitySrc);
+  void restoreItem(CDBCtrlSheet *exchangeSlot);
+  void restoreAllItems();
+  // get an exchange slot from its index
+  static CDBCtrlSheet *getExchangeItem(uint index);
 
-	// true if currently used in BotChaftGift context
-	bool			BotChatGiftContext;
+  // true if currently used in BotChaftGift context
+  bool BotChatGiftContext;
 };
 
 // the instance to manage player trade

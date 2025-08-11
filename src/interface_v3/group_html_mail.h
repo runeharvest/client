@@ -19,15 +19,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_GROUP_HTML_MAIL_H
 #define CL_GROUP_HTML_MAIL_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/gui/group_html.h"
-
+#include "nel/misc/types_nl.h"
 
 /**
  * Mail HTML group
@@ -35,23 +31,19 @@
  * \author Nevrax France
  * \date 2002
  */
-class CGroupHTMLMail : public CGroupHTML
-{
+class CGroupHTMLMail : public CGroupHTML {
 public:
+  // Constructor
+  CGroupHTMLMail(const TCtorParam &param);
+  ~CGroupHTMLMail();
 
-	// Constructor
-	CGroupHTMLMail(const TCtorParam &param);
-	~CGroupHTMLMail();
-
-	// From CGroupHTML
-	virtual void addHTTPGetParams (std::string &url, bool trustedDomain);
-	virtual void addHTTPPostParams (SFormFields &formfields, bool trustedDomain);
-	virtual std::string	home() const NL_OVERRIDE;
-	virtual void handle ();
+  // From CGroupHTML
+  virtual void addHTTPGetParams(std::string &url, bool trustedDomain);
+  virtual void addHTTPPostParams(SFormFields &formfields, bool trustedDomain);
+  virtual std::string home() const NL_OVERRIDE;
+  virtual void handle();
 
 private:
-
 };
 
 #endif // CL_GROUP_HTML_MAIL_H
-

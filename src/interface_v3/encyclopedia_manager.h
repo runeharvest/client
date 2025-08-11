@@ -26,62 +26,57 @@
  * \author Nevrax France
  * \date October 2004
  */
-class CEncyclopediaManager
-{
+class CEncyclopediaManager {
 
 public:
+  static CEncyclopediaManager *getInstance() {
+    if (!_Instance)
+      _Instance = new CEncyclopediaManager;
+    return _Instance;
+  }
 
-	static CEncyclopediaManager* getInstance()
-	{
-		if (!_Instance)
-			_Instance = new CEncyclopediaManager;
-		return _Instance;
-	}
+  // release memory
+  static void releaseInstance();
 
-	// release memory
-	static void releaseInstance();
+  // to check if incoming text is arrived (for tree that have no viewtextID)
+  void updateAllFrame();
 
-	// to check if incoming text is arrived (for tree that have no viewtextID)
-	void updateAllFrame();
+  // update from network
+  void update(const CEncyclopediaUpdateMsg &msg);
 
-	// update from network
-	void update(const CEncyclopediaUpdateMsg &msg);
-
-	void clickOnAlbum(uint32 albumName);
-	void clickOnThema(uint32 themaName);
+  void clickOnAlbum(uint32 albumName);
+  void clickOnThema(uint32 themaName);
 
 private:
+  CEncyclopediaManager();
+  void updateAlbum(const CEncyMsgAlbum &a);
+  void updateThema(uint32 nAlbumName, const CEncyMsgThema &t);
 
-	CEncyclopediaManager();
-	void updateAlbum(const CEncyMsgAlbum &a);
-	void updateThema(uint32 nAlbumName, const CEncyMsgThema &t);
+  CEncyMsgAlbum *getAlbum(uint32 nName);
 
-	CEncyMsgAlbum *getAlbum(uint32 nName);
+  void rebuildAlbumList();
+  void rebuildAlbumPage(uint32 albumName);
+  void rebuildThemaPage(uint32 themaName);
 
-	void rebuildAlbumList();
-	void rebuildAlbumPage(uint32 albumName);
-	void rebuildThemaPage(uint32 themaName);
-
-	bool isStringWaiting();
+  bool isStringWaiting();
 
 private:
+  static CEncyclopediaManager *_Instance;
 
-	static CEncyclopediaManager *_Instance;
+  std::vector<CEncyMsgAlbum> _Albums;
+  bool _CheckAllFrame;
 
-	std::vector<CEncyMsgAlbum>	_Albums;
-	bool _CheckAllFrame;
+  uint32 _AlbumNameSelected;
+  uint32 _ThemaNameSelected;
 
-	uint32 _AlbumNameSelected;
-	uint32 _ThemaNameSelected;
-
-	bool _Initializing;
+  bool _Initializing;
 };
 
-#define CONT_ENCY		"ui:interface:encyclopedia"
+#define CONT_ENCY "ui:interface:encyclopedia"
 #define LIST_ENCY_ALBUM "ui:interface:encyclopedia:content:sbtree:tree_list"
 #define PAGE_ENCY_ALBUM "ui:interface:encyclopedia:content:album"
 #define PAGE_ENCY_THEMA "ui:interface:encyclopedia:content:theme"
-#define PAGE_ENCY_HELP	"ui:interface:encyclopedia:content:help"
+#define PAGE_ENCY_HELP "ui:interface:encyclopedia:content:help"
 
 #endif // RY_ENCYCLOPEDIA_MANAGER_H
 

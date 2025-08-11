@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BOT_CHAT_PAGE_ALL_H
 #define CL_BOT_CHAT_PAGE_ALL_H
 
@@ -29,31 +27,27 @@ class CBotChatPageMissionEnd;
 class CBotChatPageRingSessions;
 
 /** container class that contains all bot chat pages
-  */
-class CBotChatPageAll
-{
+ */
+class CBotChatPageAll {
 public:
-	CBotChatPageTrade			*Trade;
-	CBotChatPagePlayerGift		*PlayerGift;
-	CBotChatPageMission			*ChooseMission;
-	CBotChatPageCreateGuild		*CreateGuild;
-	CBotChatPageNews			*News;
-	CBotChatPageMissionEnd		*MissionEnd;
-	CBotChatPageDynamicMission  *DynamicMission;
-	CBotChatPageRingSessions	*RingSessions;
+  CBotChatPageTrade *Trade;
+  CBotChatPagePlayerGift *PlayerGift;
+  CBotChatPageMission *ChooseMission;
+  CBotChatPageCreateGuild *CreateGuild;
+  CBotChatPageNews *News;
+  CBotChatPageMissionEnd *MissionEnd;
+  CBotChatPageDynamicMission *DynamicMission;
+  CBotChatPageRingSessions *RingSessions;
+
 public:
-	CBotChatPageAll();
-	~CBotChatPageAll();
-	// init pages
-	void init();
-	// some init to call after connection:ready is sent to server
-	void initAfterConnectionReady();
+  CBotChatPageAll();
+  ~CBotChatPageAll();
+  // init pages
+  void init();
+  // some init to call after connection:ready is sent to server
+  void initAfterConnectionReady();
 };
 
-
 extern CBotChatPageAll *BotChatPageAll;
-
-
-
 
 #endif

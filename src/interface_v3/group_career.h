@@ -17,14 +17,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_GROUP_CAREER_H
 #define NL_GROUP_CAREER_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/gui/group_container.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /** A Group that do not parse the title
@@ -32,17 +29,15 @@
  * \author Nevrax France
  * \date 2003
  */
-class CGroupCareer : public CGroupContainer
-{
+class CGroupCareer : public CGroupContainer {
 public:
-	// By default a GroupCareer don't save its "Active" state since depends on server.
-	CGroupCareer(const TCtorParam &param)
-		: CGroupContainer(param)
-	{
-		_ActiveSavable= false;
-	}
+  // By default a GroupCareer don't save its "Active" state since depends on
+  // server.
+  CGroupCareer(const TCtorParam &param) : CGroupContainer(param) {
+    _ActiveSavable = false;
+  }
 
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
 // ***************************************************************************
@@ -51,19 +46,16 @@ public:
  * \author Nevrax France
  * \date 2003
  */
-class CGroupJob : public CGroupContainer
-{
+class CGroupJob : public CGroupContainer {
 public:
-	// By default a GroupJob don't save its "Active" state since depends on server.
-	CGroupJob(const TCtorParam &param)
-		: CGroupContainer(param)
-	{
-		_ActiveSavable= false;
-	}
+  // By default a GroupJob don't save its "Active" state since depends on
+  // server.
+  CGroupJob(const TCtorParam &param) : CGroupContainer(param) {
+    _ActiveSavable = false;
+  }
 
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
-
 
 #endif // NL_GROUP_CAREER_H
 

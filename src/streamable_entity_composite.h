@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_STREAMABLE_ENTITY_COMPOSITE
 #define CL_STREAMABLE_ENTITY_COMPOSITE
 
@@ -23,46 +21,40 @@
 #include <vector>
 
 /** A group of streamable entity
-  */
-class CStreamableEntityComposite : public IStreamableEntity
-{
+ */
+class CStreamableEntityComposite : public IStreamableEntity {
 public:
-	// dtor
-	~CStreamableEntityComposite();
-	/// Add an entity. it is then owned by this obj.
-	void			  add(IStreamableEntity *entity);
-	/// optimisation : make room for further adds
-	void			  reserve(uint size);
-	/// Remove an entity (& delete it)
-	void			  remove(IStreamableEntity *entity);
-	/// Remove all entities (& elte them)
-	void			  removeAll();
-	/// Get the number of entity
-	uint			  getNumEntities() const { return (uint)_Entities.size(); }
-	/// Get an entity by its index
-	IStreamableEntity *getEntity(uint index) const { return _Entities[index]; }
-	//\name from IStreamableEntity
-	//@{
-		/** Given a pos, test whether one entity needs to be loaded now.
-		  * It it returns true, the next call to update will return only when the loading of an entity is completed.
-		  */
-		virtual bool		needCompleteLoading(const NLMISC::CVector &pos) const;
-		/// Load / Unload entity depeneding on the player position
-		virtual void		 update(const NLMISC::CVector &pos);
-		virtual	void		 forceUpdate(const NLMISC::CVector &pos, NLMISC::IProgressCallback &progress);
-		/// Force unloading of all entitie
-		virtual void		 forceUnload();
-	//@}
+  // dtor
+  ~CStreamableEntityComposite();
+  /// Add an entity. it is then owned by this obj.
+  void add(IStreamableEntity *entity);
+  /// optimisation : make room for further adds
+  void reserve(uint size);
+  /// Remove an entity (& delete it)
+  void remove(IStreamableEntity *entity);
+  /// Remove all entities (& elte them)
+  void removeAll();
+  /// Get the number of entity
+  uint getNumEntities() const { return (uint)_Entities.size(); }
+  /// Get an entity by its index
+  IStreamableEntity *getEntity(uint index) const { return _Entities[index]; }
+  //\name from IStreamableEntity
+  //@{
+  /** Given a pos, test whether one entity needs to be loaded now.
+   * It it returns true, the next call to update will return only when the
+   * loading of an entity is completed.
+   */
+  virtual bool needCompleteLoading(const NLMISC::CVector &pos) const;
+  /// Load / Unload entity depeneding on the player position
+  virtual void update(const NLMISC::CVector &pos);
+  virtual void forceUpdate(const NLMISC::CVector &pos,
+                           NLMISC::IProgressCallback &progress);
+  /// Force unloading of all entitie
+  virtual void forceUnload();
+  //@}
 private:
-	typedef std::vector<IStreamableEntity *>	TStreambleEntities;
-	TStreambleEntities	_Entities;
+  typedef std::vector<IStreamableEntity *> TStreambleEntities;
+  TStreambleEntities _Entities;
 };
-
-
-
-
-
-
-
 
 #endif

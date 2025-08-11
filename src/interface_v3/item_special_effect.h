@@ -28,28 +28,27 @@
  * \author Nevrax France
  * \date 2005
  */
-class CItemSpecialEffectHelper
-{
+class CItemSpecialEffectHelper {
 public:
-	// Singleton access
-	static CItemSpecialEffectHelper* getInstance();
+  // Singleton access
+  static CItemSpecialEffectHelper *getInstance();
 
-	// Fill itemText with special effects from item sheet
-	void getItemSpecialEffectText(const CItemSheet *pIS, std::string &itemText);
+  // Fill itemText with special effects from item sheet
+  void getItemSpecialEffectText(const CItemSheet *pIS, std::string &itemText);
 
-	// Register a new item special effect
-	void registerItemSpecialEffect(const std::string &name);
+  // Register a new item special effect
+  void registerItemSpecialEffect(const std::string &name);
 
 private:
-	CItemSpecialEffectHelper();
-	CItemSpecialEffectHelper(const CItemSpecialEffectHelper&);
+  CItemSpecialEffectHelper();
+  CItemSpecialEffectHelper(const CItemSpecialEffectHelper &);
 
-	// Get UI text with values filled from 'effect' string
-	std::string getEffect(const std::string &effect, bool &first);
+  // Get UI text with values filled from 'effect' string
+  std::string getEffect(const std::string &effect, bool &first);
 
-	// Map effects name with parameters
-	typedef std::vector<std::string> stringVector;
-	std::map<NLMISC::CSString, stringVector> effectMap;
+  // Map effects name with parameters
+  typedef std::vector<std::string> stringVector;
+  std::map<NLMISC::CSString, stringVector> effectMap;
 };
 
 #endif // NL_ITEM_SPECIAL_EFFECT_H

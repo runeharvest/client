@@ -18,15 +18,15 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "ide2.h"
 #include "CallStack.h"
+#include "ide2.h"
+#include "stdafx.h"
 
-#include "ScintillaView.h"
 #include "MainFrame.h"
+#include "ScintillaView.h"
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -34,78 +34,69 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CCallStack::CCallStack()
-{
+CCallStack::CCallStack() {}
 
+CCallStack::~CCallStack() {}
+
+BOOL CCallStack::Create(CWnd *pParentWnd, UINT nID, LPCTSTR lpszWindowName,
+                        CSize sizeDefault, DWORD dwStyle) {
+  BOOL bRet = CCJTabCtrlBar::Create(pParentWnd, nID, lpszWindowName,
+                                    sizeDefault, dwStyle);
+  if (!bRet)
+    return FALSE;
+
+  AddView(_T("Call Stack"), RUNTIME_CLASS(CScintillaView));
+
+  CLuaEditor *pEditor = ((CScintillaView *)GetView(0))->GetEditor();
+  pEditor->SetCallStackMargins();
+
+  Clear();
+  return TRUE;
 }
 
-CCallStack::~CCallStack()
-{
+int CCallStack::OnSci(CScintillaView *pView, SCNotification *pNotify) {
+  CLuaEditor *pEditor = ((CScintillaView *)GetView(0))->GetEditor();
 
+  CPoint pt;
+  int nLine;
+  CString strLine;
+  switch (pNotify->nmhdr.code) {
+  case SCN_DOUBLECLICK:
+    GetCursorPos(&pt);
+    pEditor->ScreenToClient(&pt);
+    nLine = pEditor->LineFromPoint(pt);
+    GotoStackTraceLevel(nLine - 1);
+    break;
+  };
+
+  return 0;
 }
 
-BOOL CCallStack::Create(CWnd *pParentWnd, UINT nID, LPCTSTR lpszWindowName, CSize sizeDefault, DWORD dwStyle)
-{
-	BOOL bRet = CCJTabCtrlBar::Create(pParentWnd, nID, lpszWindowName, sizeDefault, dwStyle);
-	if ( !bRet )
-		return FALSE;
+void CCallStack::Clear() {
+  ((CScintillaView *)GetView(0))->Clear();
 
-	AddView(_T("Call Stack"),    RUNTIME_CLASS(CScintillaView));
-
-	CLuaEditor* pEditor = ((CScintillaView*)GetView(0))->GetEditor();
-	pEditor->SetCallStackMargins();
-
-	Clear();
-	return TRUE;
+  m_nCurrentLevel = -1;
+  m_lines.RemoveAll();
+  m_files.RemoveAll();
 }
 
-int CCallStack::OnSci(CScintillaView* pView, SCNotification* pNotify)
-{
-	CLuaEditor* pEditor = ((CScintillaView*)GetView(0))->GetEditor();
+void CCallStack::Add(const char *szDesc, const char *szFile, int nLine) {
+  ((CScintillaView *)GetView(0))->Write(CString(szDesc) + "\n");
 
-	CPoint pt;
-	int nLine;
-	CString strLine;
-	switch (pNotify->nmhdr.code)
-	{
-		case SCN_DOUBLECLICK:
-			GetCursorPos(&pt);
-			pEditor->ScreenToClient(&pt);
-			nLine = pEditor->LineFromPoint(pt);
-			GotoStackTraceLevel(nLine-1);
-		break;
-	};
-
-	return 0;
+  m_files.Add(szFile);
+  m_lines.Add(nLine);
 }
 
-void CCallStack::Clear()
-{
-	((CScintillaView*)GetView(0))->Clear();
+void CCallStack::GotoStackTraceLevel(int nLevel) {
+  if (nLevel < 0 || nLevel >= m_files.GetSize())
+    return;
 
-	m_nCurrentLevel = -1;
-	m_lines.RemoveAll();
-	m_files.RemoveAll();
-}
+  m_nCurrentLevel = nLevel;
 
-void CCallStack::Add(const char *szDesc, const char *szFile, int nLine)
-{
-	((CScintillaView*)GetView(0))->Write(CString(szDesc)+"\n");
+  CLuaEditor *pEditor = ((CScintillaView *)GetView(0))->GetEditor();
+  pEditor->SetStackTraceLevel(nLevel);
 
-	m_files.Add(szFile);
-	m_lines.Add(nLine);
-}
-
-void CCallStack::GotoStackTraceLevel(int nLevel)
-{
-	if ( nLevel<0 || nLevel>=m_files.GetSize() )
-		return;
-
-	m_nCurrentLevel = nLevel;
-
-	CLuaEditor* pEditor = ((CScintillaView*)GetView(0))->GetEditor();
-	pEditor->SetStackTraceLevel(nLevel);
-
-	((CMainFrame*)AfxGetMainWnd())->GotoFileLine(m_files[nLevel], m_lines[nLevel]);	
-	((CMainFrame*)AfxGetMainWnd())->GetDebugger()->StackLevelChanged();
+  ((CMainFrame *)AfxGetMainWnd())
+      ->GotoFileLine(m_files[nLevel], m_lines[nLevel]);
+  ((CMainFrame *)AfxGetMainWnd())->GetDebugger()->StackLevelChanged();
 }

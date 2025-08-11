@@ -14,10 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "streamable_entity.h"
+#include "stdpch.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
@@ -25,56 +23,44 @@
 
 H_AUTO_DECL(RZ_StreamableEntity)
 
-CStreamableEntity::CStreamableEntity()	: _LoadRadius(0), _ForceLoadRadius(0), _UnloadRadius(0)
-{
+CStreamableEntity::CStreamableEntity()
+    : _LoadRadius(0), _ForceLoadRadius(0), _UnloadRadius(0) {}
 
+void CStreamableEntity::forceUpdate(const NLMISC::CVector &pos,
+                                    NLMISC::IProgressCallback &progress) {
+  H_AUTO_USE(RZ_StreamableEntity)
+  float dist = (pos - _Pos).norm();
+  //
+  if (dist >= _UnloadRadius) {
+    unload();
+    return;
+  }
+  //
+  if (dist <= _LoadRadius) {
+    load(progress);
+    return;
+  }
 }
 
-
-void CStreamableEntity::forceUpdate(const NLMISC::CVector &pos, NLMISC::IProgressCallback &progress)
-{
-	H_AUTO_USE(RZ_StreamableEntity)
-	float dist = (pos - _Pos).norm();
-	//
-	if (dist >= _UnloadRadius)
-	{
-		unload();
-		return;
-	}
-	//
-	if (dist <= _LoadRadius)
-	{
-		load(progress);
-		return;
-	}
+void CStreamableEntity::update(const NLMISC::CVector &pos) {
+  H_AUTO_USE(RZ_StreamableEntity)
+  float dist = (pos - _Pos).norm();
+  //
+  if (dist >= _UnloadRadius) {
+    unload();
+    return;
+  }
+  // TEMP TEMP
+  /*
+  if (dist <= _ForceLoadRadius)
+  {
+          load(season);
+          return;
+  }
+  */
+  //
+  if (dist <= _LoadRadius) {
+    loadAsync();
+    return;
+  }
 }
-
-
-void CStreamableEntity::update(const NLMISC::CVector &pos)
-{
-	H_AUTO_USE(RZ_StreamableEntity)
-	float dist = (pos - _Pos).norm();
-	//
-	if (dist >= _UnloadRadius)
-	{
-		unload();
-		return;
-	}
-	// TEMP TEMP
-	/*
-	if (dist <= _ForceLoadRadius)
-	{
-		load(season);
-		return;
-	}
-	*/
-	//
-	if (dist <= _LoadRadius)
-	{
-		loadAsync();
-		return;
-	}
-}
-
-
-

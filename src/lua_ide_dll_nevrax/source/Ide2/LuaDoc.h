@@ -28,59 +28,58 @@
 class CLuaView;
 class CProjectFile;
 
-class CLuaDoc : public CDocument
-{
+class CLuaDoc : public CDocument {
 protected: // create from serialization only
-	CLuaDoc();
-	DECLARE_DYNCREATE(CLuaDoc)
+  CLuaDoc();
+  DECLARE_DYNCREATE(CLuaDoc)
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
-	CLuaView* GetView();
+  CLuaView *GetView();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CLuaDoc)
-	public:
-	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
-	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CLuaDoc)
 public:
-	BOOL DoFileSave() { return CDocument::DoFileSave(); };
-	void	CheckExternallyModified();
-	CProjectFile* GetProjectFile();
-	BOOL IsInProject();
-	const CString& GetTitle() const;
-	virtual ~CLuaDoc();
-	virtual void SetModifiedFlag(BOOL bModified = TRUE);
+  virtual BOOL OnNewDocument();
+  virtual void Serialize(CArchive &ar);
+  virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+  //}}AFX_VIRTUAL
+
+  // Implementation
+public:
+  BOOL DoFileSave() { return CDocument::DoFileSave(); };
+  void CheckExternallyModified();
+  CProjectFile *GetProjectFile();
+  BOOL IsInProject();
+  const CString &GetTitle() const;
+  virtual ~CLuaDoc();
+  virtual void SetModifiedFlag(BOOL bModified = TRUE);
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+  virtual void AssertValid() const;
+  virtual void Dump(CDumpContext &dc) const;
 #endif
 
 protected:
-	CTime		m_ModifTime;		
-	CTime		GetModifTime() const;
-	CTime		GetModifTime(const CString &filename) const;
-	mutable CString		m_TmpTitle;
-// Generated message map functions
+  CTime m_ModifTime;
+  CTime GetModifTime() const;
+  CTime GetModifTime(const CString &filename) const;
+  mutable CString m_TmpTitle;
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CLuaDoc)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CLuaDoc)
+  // NOTE - the ClassWizard will add and remove member functions here.
+  //    DO NOT EDIT what you see in these blocks of generated code !
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_LUADOC_H__60B9BAB0_26C5_4E6D_AB07_404295AEF7E6__INCLUDED_)

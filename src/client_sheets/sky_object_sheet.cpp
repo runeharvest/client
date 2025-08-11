@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "sky_object_sheet.h"
+#include "stdpch.h"
 
 using namespace NLMISC;
 
@@ -24,19 +24,18 @@ using namespace NLMISC;
 /////////////////////////////////
 
 // *****************************************************************************************************
-void CSkyObjectSheet::CColorInfoSheet::build(const NLGEORGES::UFormElm &item, const std::string &prefix)
-{
-	item.getValueByName(MapName, (prefix + "MapName").c_str());
-	uint32 mode;
-	item.getValueByName(mode, (prefix + "ColorMode").c_str());
-	Mode = (TSkyColorMode) mode;
+void CSkyObjectSheet::CColorInfoSheet::build(const NLGEORGES::UFormElm &item,
+                                             const std::string &prefix) {
+  item.getValueByName(MapName, (prefix + "MapName").c_str());
+  uint32 mode;
+  item.getValueByName(mode, (prefix + "ColorMode").c_str());
+  Mode = (TSkyColorMode)mode;
 }
 
 // *****************************************************************************************************
-void CSkyObjectSheet::CColorInfoSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(MapName);
-	f.serialEnum(Mode);
+void CSkyObjectSheet::CColorInfoSheet::serial(NLMISC::IStream &f) {
+  f.serial(MapName);
+  f.serialEnum(Mode);
 }
 
 /////////////////////////////////////////
@@ -44,28 +43,26 @@ void CSkyObjectSheet::CColorInfoSheet::serial(NLMISC::IStream &f)
 /////////////////////////////////////////
 
 // *****************************************************************************************************
-void CSkyObjectSheet::CColorGradientInfoSheet::build(const NLGEORGES::UFormElm &item, const std::string &prefix)
-{
-	item.getValueByName(TargetTextureStage, (prefix + "TargetTextureStage").c_str());
-	const NLGEORGES::UFormElm *elm = NULL;
-	if(item.getNodeByName (&elm, prefix + "WeatherToGradient") && elm)
-	{
-		uint numBitmaps;
-		nlverify (elm->getArraySize (numBitmaps));
-		WeatherToGradient.resize(numBitmaps);
-		// For each sky object
-		for(uint k = 0; k < numBitmaps; ++k)
-		{
-			elm->getArrayValue(WeatherToGradient[k], k);
-		}
-	}
+void CSkyObjectSheet::CColorGradientInfoSheet::build(
+    const NLGEORGES::UFormElm &item, const std::string &prefix) {
+  item.getValueByName(TargetTextureStage,
+                      (prefix + "TargetTextureStage").c_str());
+  const NLGEORGES::UFormElm *elm = NULL;
+  if (item.getNodeByName(&elm, prefix + "WeatherToGradient") && elm) {
+    uint numBitmaps;
+    nlverify(elm->getArraySize(numBitmaps));
+    WeatherToGradient.resize(numBitmaps);
+    // For each sky object
+    for (uint k = 0; k < numBitmaps; ++k) {
+      elm->getArrayValue(WeatherToGradient[k], k);
+    }
+  }
 }
 
 // *****************************************************************************************************
-void CSkyObjectSheet::CColorGradientInfoSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(TargetTextureStage);
-	f.serialCont(WeatherToGradient);
+void CSkyObjectSheet::CColorGradientInfoSheet::serial(NLMISC::IStream &f) {
+  f.serial(TargetTextureStage);
+  f.serialCont(WeatherToGradient);
 }
 
 ///////////////////////////////
@@ -73,54 +70,58 @@ void CSkyObjectSheet::CColorGradientInfoSheet::serial(NLMISC::IStream &f)
 ///////////////////////////////
 
 // *****************************************************************************************************
-void CSkyObjectSheet::CVersionSheet::build(const NLGEORGES::UFormElm &item, const std::string &prefix)
-{
-	item.getValueByName(ShapeName, (prefix + "ShapeName").c_str());
-	item.getValueByName(TransparencyPriority, (prefix + "TransparencyPriority").c_str());
-	DiffuseColor.build(item, prefix + "DiffuseColor.");
-	ParticleEmitters.build(item, prefix + "ParticleEmitters.");
-	for(uint k = 0; k < SKY_MAX_NUM_STAGE; ++k)
-	{
-		// build constant color infos
-		ConstantColor[k].build(item, prefix + toString("ConstantColor%d.", (int) k));
-		// build tex panner
-		item.getValueByName(TexPanner[k].U, (prefix + toString("PannerU%d", k)).c_str());
-		item.getValueByName(TexPanner[k].V, (prefix + toString("PannerV%d", k)).c_str());
-		// texture offset
-		item.getValueByName(OffsetFactor[k].U, (prefix + toString("OffsetFactorU%d", k)).c_str());
-		item.getValueByName(OffsetFactor[k].V, (prefix + toString("OffsetFactorV%d", k)).c_str());
-		// texture scaling depending on weather & hour
-		item.getValueByName(OffsetUBitmap[k], (prefix + toString("OffsetUBitmap%d", k)).c_str());
-		item.getValueByName(OffsetVBitmap[k], (prefix + toString("OffsetVBitmap%d", k)).c_str());
-	}
-	uint32 refColor = 0;
-	item.getValueByName(refColor, (prefix + "RefColor").c_str());
-	RefColor = (TSkyRefColor) refColor;
-	ColorGradient.build(item, prefix + "ColorGradient.");
-	for(uint k = 0; k < SKY_MAX_NUM_STAGE; ++k)
-	{
-		item.getValueByName(FXUserParamBitmap[k], (prefix + toString("UserParam%d", (int) k)).c_str());
-	}
+void CSkyObjectSheet::CVersionSheet::build(const NLGEORGES::UFormElm &item,
+                                           const std::string &prefix) {
+  item.getValueByName(ShapeName, (prefix + "ShapeName").c_str());
+  item.getValueByName(TransparencyPriority,
+                      (prefix + "TransparencyPriority").c_str());
+  DiffuseColor.build(item, prefix + "DiffuseColor.");
+  ParticleEmitters.build(item, prefix + "ParticleEmitters.");
+  for (uint k = 0; k < SKY_MAX_NUM_STAGE; ++k) {
+    // build constant color infos
+    ConstantColor[k].build(item, prefix + toString("ConstantColor%d.", (int)k));
+    // build tex panner
+    item.getValueByName(TexPanner[k].U,
+                        (prefix + toString("PannerU%d", k)).c_str());
+    item.getValueByName(TexPanner[k].V,
+                        (prefix + toString("PannerV%d", k)).c_str());
+    // texture offset
+    item.getValueByName(OffsetFactor[k].U,
+                        (prefix + toString("OffsetFactorU%d", k)).c_str());
+    item.getValueByName(OffsetFactor[k].V,
+                        (prefix + toString("OffsetFactorV%d", k)).c_str());
+    // texture scaling depending on weather & hour
+    item.getValueByName(OffsetUBitmap[k],
+                        (prefix + toString("OffsetUBitmap%d", k)).c_str());
+    item.getValueByName(OffsetVBitmap[k],
+                        (prefix + toString("OffsetVBitmap%d", k)).c_str());
+  }
+  uint32 refColor = 0;
+  item.getValueByName(refColor, (prefix + "RefColor").c_str());
+  RefColor = (TSkyRefColor)refColor;
+  ColorGradient.build(item, prefix + "ColorGradient.");
+  for (uint k = 0; k < SKY_MAX_NUM_STAGE; ++k) {
+    item.getValueByName(FXUserParamBitmap[k],
+                        (prefix + toString("UserParam%d", (int)k)).c_str());
+  }
 }
 
 // *****************************************************************************************************
-void CSkyObjectSheet::CVersionSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(ShapeName);
-	f.serial(TransparencyPriority);
-	f.serial(DiffuseColor);
-	f.serial(ParticleEmitters);
-	for(uint k = 0; k < SKY_MAX_NUM_STAGE; ++k)
-	{
-		f.serial(ConstantColor[k]);
-		f.serial(TexPanner[k]);
-		f.serial(OffsetFactor[k]);
-		f.serial(FXUserParamBitmap[k]);
-		f.serial(OffsetUBitmap[k]);
-		f.serial(OffsetVBitmap[k]);
-	}
-	f.serialEnum(RefColor);
-	f.serial(ColorGradient);
+void CSkyObjectSheet::CVersionSheet::serial(NLMISC::IStream &f) {
+  f.serial(ShapeName);
+  f.serial(TransparencyPriority);
+  f.serial(DiffuseColor);
+  f.serial(ParticleEmitters);
+  for (uint k = 0; k < SKY_MAX_NUM_STAGE; ++k) {
+    f.serial(ConstantColor[k]);
+    f.serial(TexPanner[k]);
+    f.serial(OffsetFactor[k]);
+    f.serial(FXUserParamBitmap[k]);
+    f.serial(OffsetUBitmap[k]);
+    f.serial(OffsetVBitmap[k]);
+  }
+  f.serialEnum(RefColor);
+  f.serial(ColorGradient);
 }
 
 /////////////////////
@@ -128,28 +129,27 @@ void CSkyObjectSheet::CVersionSheet::serial(NLMISC::IStream &f)
 /////////////////////
 
 // *****************************************************************************************************
-CSkyObjectSheet::CSkyObjectSheet()
-{
-	VisibleInMainScene = true;
-	VisibleInEnvMap = true;
+CSkyObjectSheet::CSkyObjectSheet() {
+  VisibleInMainScene = true;
+  VisibleInEnvMap = true;
 }
 
 // *****************************************************************************************************
-void CSkyObjectSheet::build(const NLGEORGES::UFormElm &item, const std::string &prefix)
-{
-	Std.build(item, prefix + "StdVersion.");
-	FallbackPass[0].build(item, prefix + "FallbackPass0.");
-	FallbackPass[1].build(item, prefix + "FallbackPass1.");
-	item.getValueByName(VisibleInMainScene, (prefix + "VisibleInMainScene").c_str());
-	item.getValueByName(VisibleInEnvMap, (prefix + "VisibleInEnvMap").c_str());
+void CSkyObjectSheet::build(const NLGEORGES::UFormElm &item,
+                            const std::string &prefix) {
+  Std.build(item, prefix + "StdVersion.");
+  FallbackPass[0].build(item, prefix + "FallbackPass0.");
+  FallbackPass[1].build(item, prefix + "FallbackPass1.");
+  item.getValueByName(VisibleInMainScene,
+                      (prefix + "VisibleInMainScene").c_str());
+  item.getValueByName(VisibleInEnvMap, (prefix + "VisibleInEnvMap").c_str());
 }
 
 // *****************************************************************************************************
-void CSkyObjectSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(Std);
-	f.serial(FallbackPass[0]);
-	f.serial(FallbackPass[1]);
-	f.serial(VisibleInMainScene);
-	f.serial(VisibleInEnvMap);
+void CSkyObjectSheet::serial(NLMISC::IStream &f) {
+  f.serial(Std);
+  f.serial(FallbackPass[0]);
+  f.serial(FallbackPass[1]);
+  f.serial(VisibleInMainScene);
+  f.serial(VisibleInEnvMap);
 }

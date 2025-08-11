@@ -28,60 +28,45 @@
 using namespace NLPACS;
 using namespace NLMISC;
 
-namespace R2
-{
+namespace R2 {
 
 // ***************************************************************
-CToolChoosePosLua::CToolChoosePosLua(uint ghostSlot,
-									 const CLuaObject &validFunc,
-									 const CLuaObject &cancelFunc,
-									 const std::string &toolName,
-									 const std::string &cursValid,
-									 const std::string &cursInvalid,
-									 const std::vector<CPolygon2D> &polyList,
-									 const CPrimLook &polyValidLook,
-									 const CPrimLook &polyInvalidLook
-									) :	CToolChoosePos(ghostSlot,
-													   cursValid,
-													   cursInvalid,
-													   polyList,
-													   polyValidLook,
-													   polyInvalidLook
-													  ),
-										_ToolName(toolName)
-{
-	_ValidFunc = validFunc;
-	_CancelFunc = cancelFunc;
-	_Commited = false;
+CToolChoosePosLua::CToolChoosePosLua(
+    uint ghostSlot, const CLuaObject &validFunc, const CLuaObject &cancelFunc,
+    const std::string &toolName, const std::string &cursValid,
+    const std::string &cursInvalid, const std::vector<CPolygon2D> &polyList,
+    const CPrimLook &polyValidLook, const CPrimLook &polyInvalidLook)
+    : CToolChoosePos(ghostSlot, cursValid, cursInvalid, polyList, polyValidLook,
+                     polyInvalidLook),
+      _ToolName(toolName) {
+  _ValidFunc = validFunc;
+  _CancelFunc = cancelFunc;
+  _Commited = false;
 }
 
 // ***************************************************************
-void CToolChoosePosLua::commit(const NLMISC::CVector &createPosition, float /* createAngle */)
-{
-	//H_AUTO(R2_CToolChoosePosLua_commit)
-	nlassert(!_Commited);
-	if (_ValidFunc.isFunction())
-	{
-		CLuaState &lua = *_ValidFunc.getLuaState();
-		lua.push(createPosition.x);
-		lua.push(createPosition.y);
-		lua.push(createPosition.z);
-		_ValidFunc.callNoThrow(3, 0);
-	}
-	_Commited = true;
+void CToolChoosePosLua::commit(const NLMISC::CVector &createPosition,
+                               float /* createAngle */) {
+  // H_AUTO(R2_CToolChoosePosLua_commit)
+  nlassert(!_Commited);
+  if (_ValidFunc.isFunction()) {
+    CLuaState &lua = *_ValidFunc.getLuaState();
+    lua.push(createPosition.x);
+    lua.push(createPosition.y);
+    lua.push(createPosition.z);
+    _ValidFunc.callNoThrow(3, 0);
+  }
+  _Commited = true;
 }
 
 // *********************************************************************************************************
-void CToolChoosePosLua::cancel()
-{
-	//H_AUTO(R2_CToolChoosePosLua_cancel)
-	if (_Commited) return;
-	if (_CancelFunc.isFunction())
-	{
-		_CancelFunc.callNoThrow(0, 0);
-	}
+void CToolChoosePosLua::cancel() {
+  // H_AUTO(R2_CToolChoosePosLua_cancel)
+  if (_Commited)
+    return;
+  if (_CancelFunc.isFunction()) {
+    _CancelFunc.callNoThrow(0, 0);
+  }
 }
 
-
-
-} // R2
+} // namespace R2

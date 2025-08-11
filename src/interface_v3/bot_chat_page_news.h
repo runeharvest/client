@@ -14,30 +14,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BOT_CHAT_PAGE_NEWS_H
 #define CL_BOT_CHAT_PAGE_NEWS_H
 
 #include "bot_chat_page.h"
 
 /** The news given by a bot
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date August 2003
-  */
-class CBotChatPageNews : public CBotChatPage
-{
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date August 2003
+ */
+class CBotChatPageNews : public CBotChatPage {
 public:
-	// from CBotChatPage
-	virtual void begin();
-	virtual void end();
+  // from CBotChatPage
+  virtual void begin();
+  virtual void end();
 };
-
-
-
-
-
-
 
 #endif

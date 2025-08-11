@@ -17,25 +17,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_CONNECTION_H
 #define CL_CONNECTION_H
 
 #include "nel/misc/types_nl.h"
-//#include "game_share/jobs.h"
+// #include "game_share/jobs.h"
 #include "game_share/mainland_summary.h"
 
 extern uint8 ServerPeopleActive;
 extern uint8 ServerCareerActive;
 
-extern std::vector<CMainlandSummary>	Mainlands;
+extern std::vector<CMainlandSummary> Mainlands;
 extern uint8 PlayerSelectedSlot;
-extern std::string	PlayerSelectedFileName;
-extern TSessionId	PlayerSelectedMainland;							// This is the mainland selected at the SELECT perso!!
-extern std::string	PlayerSelectedHomeShardName;					// The home shard name (aniro, leanon etc....)
-extern std::string	PlayerSelectedHomeShardNameWithParenthesis;		// Same with parenthesis
-extern std::vector<CCharacterSummary>	CharacterSummaries;
+extern std::string PlayerSelectedFileName;
+extern TSessionId PlayerSelectedMainland; // This is the mainland selected at
+                                          // the SELECT perso!!
+extern std::string
+    PlayerSelectedHomeShardName; // The home shard name (aniro, leanon etc....)
+extern std::string
+    PlayerSelectedHomeShardNameWithParenthesis; // Same with parenthesis
+extern std::vector<CCharacterSummary> CharacterSummaries;
 extern std::string UserPrivileges;
 extern sint LoginCharsel;
 
@@ -43,8 +44,6 @@ extern std::string NewKeysCharNameWanted;
 extern std::string NewKeysCharNameValidated;
 extern std::string GameKeySet;
 extern std::string RingEditorKeySet;
-
-
 
 bool hasPrivilegeDEV();
 bool hasPrivilegeSGM();
@@ -55,27 +54,24 @@ bool hasPrivilegeEM();
 bool hasPrivilegeEG();
 bool hasPrivilegeVG();
 
-
 // connection with the server. (login, shard list, etc.).
 bool connection(const std::string &cookie, const std::string &fsaddr);
 
 // reselect character after reconnection
 bool reconnection();
 
-enum TInterfaceState
-{
-	AUTO_LOGIN,			// -> GLOBAL_MENU, QUIT (if connection errors)
-	GLOBAL_MENU,		// -> SELECT_CHARACTER, QUIT (if connection errors)
-	GOGOGO_IN_THE_GAME,	// -> launch the game
-	QUIT_THE_GAME		// -> quit the game
+enum TInterfaceState {
+  AUTO_LOGIN,         // -> GLOBAL_MENU, QUIT (if connection errors)
+  GLOBAL_MENU,        // -> SELECT_CHARACTER, QUIT (if connection errors)
+  GOGOGO_IN_THE_GAME, // -> launch the game
+  QUIT_THE_GAME       // -> quit the game
 };
 
 // All the functions associated to the Finite State Machine
-TInterfaceState autoLogin (const std::string &cookie, const std::string &fsaddr, bool firstConnection);
-
+TInterfaceState autoLogin(const std::string &cookie, const std::string &fsaddr,
+                          bool firstConnection);
 
 std::string buildPlayerNameForSaveFile(const std::string &playerNameIn);
-
 
 void globalMenuMovieShooter();
 
@@ -83,7 +79,8 @@ void globalMenuMovieShooter();
 void updateBGDownloaderUI();
 #endif
 
-// compute patcher priority, depending on the presence of one or more mainland characters : in this case, give the patch a boost
+// compute patcher priority, depending on the presence of one or more mainland
+// characters : in this case, give the patch a boost
 void updatePatcherPriorityBasedOnCharacters();
 
 #endif // CL_CONNECTION_H

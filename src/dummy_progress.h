@@ -14,17 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_DUMMY_PROGRESS_H
 #define CL_DUMMY_PROGRESS_H
 
 #include "nel/misc/progress_callback.h"
 
-class CDummyProgress : public NLMISC::IProgressCallback
-{
-	void progress (float /* value */) {}
+class CDummyProgress : public NLMISC::IProgressCallback {
+  void progress(float /* value */) {}
 };
-
 
 #endif

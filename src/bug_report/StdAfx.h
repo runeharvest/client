@@ -29,15 +29,15 @@
 #include "nel/misc/types_nl.h"
 
 #include <string>
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#define VC_EXTRALEAN // Exclude rarely-used stuff from Windows headers
 
-#include <afxwin.h>         // MFC core and standard components
-#include <afxext.h>         // MFC extensions
-#include <afxdisp.h>        // MFC Automation classes
-#include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
+#include <afxdisp.h>  // MFC Automation classes
+#include <afxdtctl.h> // MFC support for Internet Explorer 4 Common Controls
+#include <afxext.h>   // MFC extensions
+#include <afxwin.h>   // MFC core and standard components
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC support for Windows Common Controls
-#endif // _AFX_NO_AFXCMN_SUPPORT
+#include <afxcmn.h> // MFC support for Windows Common Controls
+#endif              // _AFX_NO_AFXCMN_SUPPORT
 
 #define WIN32_LEAN_AND_MEAN
 #include <Mmreg.h>
@@ -47,8 +47,8 @@
 
 #include <GL/gl.h>
 
-
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_STDAFX_H__64713182_BE16_4A91_9C46_3EEA21B06017__INCLUDED_)

@@ -14,16 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 #include "osd_base.h"
 
-
 /*
  * Constructor
  */
-COSDBase::COSDBase()
-{
-}
+COSDBase::COSDBase() {}

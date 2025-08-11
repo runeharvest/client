@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_EMOT_LIST_SHEET_H
 #define CL_EMOT_LIST_SHEET_H
 
@@ -24,8 +22,8 @@
 /////////////
 #include "nel/misc/types_nl.h"
 
-#include "entity_sheet.h"
 #include "animation_set_list_sheet.h"
+#include "entity_sheet.h"
 
 /////////////
 // CLASSES //
@@ -36,23 +34,20 @@
  * \author Nevrax France
  * \date December 2003
  */
-class CEmotListSheet : public CEntitySheet
-{
+class CEmotListSheet : public CEntitySheet {
 public:
-
-	std::vector<TAnimStateId> Emots;
+  std::vector<TAnimStateId> Emots;
 
 public:
-	/// Constructor
-	CEmotListSheet();
+  /// Constructor
+  CEmotListSheet();
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// Serialize sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
 
 #endif // CL_EMOT_LIST_SHEET_H
 

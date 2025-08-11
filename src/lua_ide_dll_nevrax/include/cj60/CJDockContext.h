@@ -16,11 +16,11 @@
 
 // CJDockContext.h : header file
 //
-// Copyright (c) 1998-99 Kirk Stowell   
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,22 +36,22 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said!
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
 //
-// ==========================================================================  
-// HISTORY:	
 // ==========================================================================
-//			1.00	12 Jan 1999 - Initial creation to add side-by-side 
-//								  docking support for CCJControlBar class.
+// HISTORY:
+// ==========================================================================
+//			1.00	12 Jan 1999 - Initial creation to add
+//side-by-side 								  docking support for CCJControlBar class.
 // ==========================================================================
 //
 /////////////////////////////////////////////////////////////////////////////
@@ -68,31 +68,30 @@
 
 class CCJSizeDockBar;
 class CCJControlBar;
-class AFX_EXT_CLASS CCJDockContext : public CDockContext
-{
-// Construction
+class AFX_EXT_CLASS CCJDockContext : public CDockContext {
+  // Construction
 public:
-	CCJDockContext(CControlBar* pBar);
+  CCJDockContext(CControlBar *pBar);
 
-// Attributes
+  // Attributes
 public:
 protected:
-
-// Operations
+  // Operations
 public:
-	void EndDragDockBar();
-	void MoveDockBar(CPoint pt);
-	void StartDragDockBar(CPoint pt);
-	DWORD CanDockDockBar();
-	DWORD CanDockDockBar(CRect rect, DWORD dwDockStyle, CDockBar** ppDockBar = NULL);
-	BOOL TrackDockBar();
-	CCJSizeDockBar* GetDockBar(DWORD dwOverDockStyle);
-	void DockSizeBar(CControlBar *,CCJSizeDockBar* =NULL,LPRECT =NULL);
-	virtual void ToggleDocking();
+  void EndDragDockBar();
+  void MoveDockBar(CPoint pt);
+  void StartDragDockBar(CPoint pt);
+  DWORD CanDockDockBar();
+  DWORD CanDockDockBar(CRect rect, DWORD dwDockStyle,
+                       CDockBar **ppDockBar = NULL);
+  BOOL TrackDockBar();
+  CCJSizeDockBar *GetDockBar(DWORD dwOverDockStyle);
+  void DockSizeBar(CControlBar *, CCJSizeDockBar * = NULL, LPRECT = NULL);
+  virtual void ToggleDocking();
 
-// Implementation
+  // Implementation
 public:
-	virtual ~CCJDockContext();
+  virtual ~CCJDockContext();
 };
 
 /////////////////////////////////////////////////////////////////////////////

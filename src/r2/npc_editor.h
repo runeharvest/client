@@ -23,43 +23,33 @@
 // Misc
 #include "nel/misc/singleton.h"
 
-namespace NLGUI
-{
-	class CGroupContainer;
+namespace NLGUI {
+class CGroupContainer;
 }
 
 class CEntityCL;
 
-namespace R2
-{
+namespace R2 {
 
 class CDisplayerVisualEntity;
 
-class CNPCEditor : public NLMISC::CSingleton<CNPCEditor>
-{
+class CNPCEditor : public NLMISC::CSingleton<CNPCEditor> {
 
 public:
+  // NLMISC_DECLARE_CLASS(R2::CNPCEditor);
+  //  ctor
+  CNPCEditor();
+  // dtor
+  ~CNPCEditor();
 
-	//NLMISC_DECLARE_CLASS(R2::CNPCEditor);
-	// ctor
-	CNPCEditor();
-	// dtor
-	~CNPCEditor();
-
-	virtual void updateNPCView(uint slot);
-
-private:
-
+  virtual void updateNPCView(uint slot);
 
 private:
-
-	CDisplayerVisualEntity *	_DisplayerVE;
-	NLGUI::CGroupContainer *			_NPCWindow;
-
+private:
+  CDisplayerVisualEntity *_DisplayerVE;
+  NLGUI::CGroupContainer *_NPCWindow;
 };
 
-
-} // R2
+} // namespace R2
 
 #endif
-

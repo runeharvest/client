@@ -14,12 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_PLAYER_SHEET_H
 #define CL_PLAYER_SHEET_H
-
 
 /////////////
 // INCLUDE //
@@ -29,25 +25,23 @@
 // Application
 #include "entity_sheet.h"
 // Game share
-#include "game_share/people.h"
 #include "game_share/characteristics.h"
-#include "game_share/slot_types.h"
+#include "game_share/people.h"
 #include "game_share/skills_build.h"
+#include "game_share/slot_types.h"
 // std
-#include <vector>
 #include <string>
-
+#include <vector>
 
 ///////////
 // CLASS //
 ///////////
-//struct CSkillSummary;
+// struct CSkillSummary;
 
-namespace NLGEORGES
-{
-	class UFormElm;
-	class UFormLoader;
-}
+namespace NLGEORGES {
+class UFormElm;
+class UFormLoader;
+} // namespace NLGEORGES
 
 /**
  * Class to manage the player sheet.
@@ -55,88 +49,81 @@ namespace NLGEORGES
  * \author Nevrax France
  * \date 2001
  */
-class CPlayerSheet : public CEntitySheet
-{
+class CPlayerSheet : public CEntitySheet {
 public:
-	struct CEquipment
-	{
-		std::string Item; // name of the '.item'
-		sint8       Color;
+  struct CEquipment {
+    std::string Item; // name of the '.item'
+    sint8 Color;
 
-		/// Build the sheet from an external script.
-		virtual void build(const std::string &key, const NLGEORGES::UFormElm &item);
-		/// Serialize
-		virtual void serial(NLMISC::IStream &f)
-		{
-			f.serial(Item, Color);
-		}
-	};
+    /// Build the sheet from an external script.
+    virtual void build(const std::string &key, const NLGEORGES::UFormElm &item);
+    /// Serialize
+    virtual void serial(NLMISC::IStream &f) { f.serial(Item, Color); }
+  };
 
 public:
-	std::string					SkelFilename;
-	std::string					AnimSetBaseName;
-	float						Scale;
-	// Lod Character.
-	std::string					LodCharacterName;
-	float						LodCharacterDistance;
-	// value to scale the "pos" channel of the animation of the player.
-	float						CharacterScalePos;
-	// People of the player (FYROS, MATIS, ...)
-	EGSPD::CPeople::TPeople			People;
-	// Default player look.
-	std::string					DefaultFace;
-	std::string					DefaultChest;
-	std::string					DefaultLegs;
-	std::string					DefaultArms;
-	std::string					DefaultHands;
-	std::string					DefaultFeet;
-	std::string					DefaultHair;
-	// Player Gender.
-	uint8						Gender;
+  std::string SkelFilename;
+  std::string AnimSetBaseName;
+  float Scale;
+  // Lod Character.
+  std::string LodCharacterName;
+  float LodCharacterDistance;
+  // value to scale the "pos" channel of the animation of the player.
+  float CharacterScalePos;
+  // People of the player (FYROS, MATIS, ...)
+  EGSPD::CPeople::TPeople People;
+  // Default player look.
+  std::string DefaultFace;
+  std::string DefaultChest;
+  std::string DefaultLegs;
+  std::string DefaultArms;
+  std::string DefaultHands;
+  std::string DefaultFeet;
+  std::string DefaultHair;
+  // Player Gender.
+  uint8 Gender;
 
-	// Equipment for player
-	CEquipment					Body;
-	CEquipment					Legs;
-	CEquipment					Arms;
-	CEquipment					Hands;
-	CEquipment					Feet;
-	CEquipment					Head;
-	CEquipment					Face;
-	CEquipment					ObjectInRightHand;
-	CEquipment					ObjectInLeftHand;
-	CEquipment					Headdress;
-	CEquipment					EarL;
-	CEquipment					EarR;
-	CEquipment					Neck;
-	CEquipment					Shoulders;
-	CEquipment					Back;
-	CEquipment					WristL;
-	CEquipment					WristR;
-	CEquipment					FingerL;
-	CEquipment					FingerR;
-	CEquipment					AnkleL;
-	CEquipment					AnkleR;
-	CEquipment					Ammo;
+  // Equipment for player
+  CEquipment Body;
+  CEquipment Legs;
+  CEquipment Arms;
+  CEquipment Hands;
+  CEquipment Feet;
+  CEquipment Head;
+  CEquipment Face;
+  CEquipment ObjectInRightHand;
+  CEquipment ObjectInLeftHand;
+  CEquipment Headdress;
+  CEquipment EarL;
+  CEquipment EarR;
+  CEquipment Neck;
+  CEquipment Shoulders;
+  CEquipment Back;
+  CEquipment WristL;
+  CEquipment WristR;
+  CEquipment FingerL;
+  CEquipment FingerR;
+  CEquipment AnkleL;
+  CEquipment AnkleR;
+  CEquipment Ammo;
 
-	// caracs
-	uint16						Characteristics[CHARACTERISTICS::NUM_CHARACTERISTICS];
-	// skills
-	std::vector<CSkillSummary>	Skills;
-
+  // caracs
+  uint16 Characteristics[CHARACTERISTICS::NUM_CHARACTERISTICS];
+  // skills
+  std::vector<CSkillSummary> Skills;
 
 public:
-	/// Constructor
-	CPlayerSheet();
+  /// Constructor
+  CPlayerSheet();
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
-
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 
 private:
-	void buildCharac(const NLGEORGES::UFormElm &item);
+  void buildCharac(const NLGEORGES::UFormElm &item);
 };
 
 #endif // CL_PLAYER_SHEET_H

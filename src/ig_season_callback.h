@@ -14,21 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_IG_SEASON_CAll_BACK_H
 #define CL_IG_SEASON_CAll_BACK_H
 
 #include "ig_enum.h"
 
-class CIGSeasonCallback : public IIGObserver
-{
+class CIGSeasonCallback : public IIGObserver {
 public:
-	EGSPD::CSeason::TSeason	Season;
+  EGSPD::CSeason::TSeason Season;
+
 private:
-	virtual void instanceGroupLoaded(NL3D::UInstanceGroup * /* ig */) { }
-	virtual void instanceGroupAdded(NL3D::UInstanceGroup *ig);
-	virtual void instanceGroupRemoved(NL3D::UInstanceGroup * /* ig */) { }
+  virtual void instanceGroupLoaded(NL3D::UInstanceGroup * /* ig */) {}
+  virtual void instanceGroupAdded(NL3D::UInstanceGroup *ig);
+  virtual void instanceGroupRemoved(NL3D::UInstanceGroup * /* ig */) {}
 };
 
 extern CIGSeasonCallback IGSeasonCallback;

@@ -17,12 +17,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "zone_util.h"
 #include "nel/misc/path.h"
 #include "nel/misc/vector_2f.h"
+#include "stdpch.h"
 
 using namespace std;
 
@@ -30,76 +28,75 @@ using namespace std;
 #define new DEBUG_NEW
 #endif
 
-bool getPosFromZoneName(const std::string &name,NLMISC::CVector2f &dest)
-{
+bool getPosFromZoneName(const std::string &name, NLMISC::CVector2f &dest) {
 
-	if (name.empty())
-	{
-		nlwarning ("getPosFromZoneName(): empty name, can't getPosFromZoneName");
-		return false;
-	}
+  if (name.empty()) {
+    nlwarning("getPosFromZoneName(): empty name, can't getPosFromZoneName");
+    return false;
+  }
 
-	static std::string zoneName;
-	static string xStr, yStr;
-	xStr.clear();
-	yStr.clear();
-	zoneName = NLMISC::CFile::getFilenameWithoutExtension(name);
-	uint32 i = 0;
-	while (zoneName[i] != '_')
-	{
-		if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isdigit(zoneName[i])) return false;
-		yStr += zoneName[i]; ++i;
-		if (i == zoneName.size())
-			return false;
-	}
-	++i;
-	while (i < zoneName.size())
-	{
-		if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isalpha(zoneName[i])) return false;
-		xStr += (char) NLMISC::toUpper(zoneName[i]); ++i;
-	}
-	if (xStr.size() != 2) return false;
-	dest.x = 160.f * ((xStr[0] - 'A') * 26 + (xStr[1] - 'A'));
-	sint nY;
-	NLMISC::fromString(yStr, nY);
-	dest.y = 160.f * -nY;
-	return true;
+  static std::string zoneName;
+  static string xStr, yStr;
+  xStr.clear();
+  yStr.clear();
+  zoneName = NLMISC::CFile::getFilenameWithoutExtension(name);
+  uint32 i = 0;
+  while (zoneName[i] != '_') {
+    if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isdigit(zoneName[i]))
+      return false;
+    yStr += zoneName[i];
+    ++i;
+    if (i == zoneName.size())
+      return false;
+  }
+  ++i;
+  while (i < zoneName.size()) {
+    if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isalpha(zoneName[i]))
+      return false;
+    xStr += (char)NLMISC::toUpper(zoneName[i]);
+    ++i;
+  }
+  if (xStr.size() != 2)
+    return false;
+  dest.x = 160.f * ((xStr[0] - 'A') * 26 + (xStr[1] - 'A'));
+  sint nY;
+  NLMISC::fromString(yStr, nY);
+  dest.y = 160.f * -nY;
+  return true;
 }
 
-bool getZonePosFromZoneName(const std::string &name, sint &x, sint &y)
-{
+bool getZonePosFromZoneName(const std::string &name, sint &x, sint &y) {
 
-	if (name.empty())
-	{
-		nlwarning ("getPosFromZoneName(): empty name, can't getPosFromZoneName");
-		return false;
-	}
+  if (name.empty()) {
+    nlwarning("getPosFromZoneName(): empty name, can't getPosFromZoneName");
+    return false;
+  }
 
-	static std::string zoneName;
-	static string xStr, yStr;
-	xStr.clear();
-	yStr.clear();
-	zoneName = NLMISC::CFile::getFilenameWithoutExtension(name);
-	uint32 i = 0;
-	while (zoneName[i] != '_')
-	{
-		if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isdigit(zoneName[i])) return false;
-		yStr += zoneName[i]; ++i;
-		if (i == zoneName.size())
-			return false;
-	}
-	++i;
-	while (i < zoneName.size())
-	{
-		if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isalpha(zoneName[i])) return false;
-		xStr += (char) NLMISC::toUpper(zoneName[i]); ++i;
-	}
-	if (xStr.size() != 2) return false;
-	x = (xStr[0] - 'A') * 26 + (xStr[1] - 'A');
-	NLMISC::fromString(yStr, y);
-	y = -y;
-	return true;
+  static std::string zoneName;
+  static string xStr, yStr;
+  xStr.clear();
+  yStr.clear();
+  zoneName = NLMISC::CFile::getFilenameWithoutExtension(name);
+  uint32 i = 0;
+  while (zoneName[i] != '_') {
+    if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isdigit(zoneName[i]))
+      return false;
+    yStr += zoneName[i];
+    ++i;
+    if (i == zoneName.size())
+      return false;
+  }
+  ++i;
+  while (i < zoneName.size()) {
+    if ((uint8)zoneName[i] >= (uint8)'\x80' || !::isalpha(zoneName[i]))
+      return false;
+    xStr += (char)NLMISC::toUpper(zoneName[i]);
+    ++i;
+  }
+  if (xStr.size() != 2)
+    return false;
+  x = (xStr[0] - 'A') * 26 + (xStr[1] - 'A');
+  NLMISC::fromString(yStr, y);
+  y = -y;
+  return true;
 }
-
-
-

@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
-
 
 /////////////
 // Include //
@@ -29,88 +26,68 @@
 #include "bitmap_base.h"
 #include "interfaces_manager.h"
 
+//-----------------------------------------------
+// CBitmapBase :
+// Constructor.
+//-----------------------------------------------
+CBitmapBase::CBitmapBase() {
+  init(0, CRGBA(255, 255, 255, 255));
+} // CBitmapBase //
 
 //-----------------------------------------------
 // CBitmapBase :
 // Constructor.
 //-----------------------------------------------
-CBitmapBase::CBitmapBase()
-{
-	init(0, CRGBA(255,255,255,255));
-}// CBitmapBase //
-
-//-----------------------------------------------
-// CBitmapBase :
-// Constructor.
-//-----------------------------------------------
-CBitmapBase::CBitmapBase(uint texture, const CRGBA &rgba)
-{
-	init(texture, rgba);
-}// CBitmapBase //
+CBitmapBase::CBitmapBase(uint texture, const CRGBA &rgba) {
+  init(texture, rgba);
+} // CBitmapBase //
 
 //-----------------------------------------------
 // init :
 // Initialize the class(only 1 function for all constructor -> easier).
 //-----------------------------------------------
-void CBitmapBase::init(uint texture, const CRGBA &rgba)
-{
-	_RGBA		= rgba;
-	_Tiled		= false;
-	CBitmapBase::texture( texture );
-}// init //
-
+void CBitmapBase::init(uint texture, const CRGBA &rgba) {
+  _RGBA = rgba;
+  _Tiled = false;
+  CBitmapBase::texture(texture);
+} // init //
 
 //-----------------------------------------------
 // texture :
 // Set the texture.
 //-----------------------------------------------
-void CBitmapBase::texture(uint texture)
-{
-	_TextureId	= texture;
-	_Texture = CInterfMngr::getTexture(_TextureId);
+void CBitmapBase::texture(uint texture) {
+  _TextureId = texture;
+  _Texture = CInterfMngr::getTexture(_TextureId);
 
-	_TexturePath.clear();
-	_TextureWidth = 0;
-	_TextureHeight = 0;
+  _TexturePath.clear();
+  _TextureWidth = 0;
+  _TextureHeight = 0;
 
-	if ( _Texture != NULL)
-	{
-		_TexturePath = NLMISC::CPath::lookup( _Texture->getFileName(), false);
+  if (_Texture != NULL) {
+    _TexturePath = NLMISC::CPath::lookup(_Texture->getFileName(), false);
 
-		if ( ! _TexturePath.empty() )
-		{
-			NLMISC::CBitmap bitmap;
-			bitmap.loadSize( _TexturePath , _TextureWidth, _TextureHeight);
-		}
-	}
-}// texture //
-
+    if (!_TexturePath.empty()) {
+      NLMISC::CBitmap bitmap;
+      bitmap.loadSize(_TexturePath, _TextureWidth, _TextureHeight);
+    }
+  }
+} // texture //
 
 //-----------------------------------------------
 // textureId:
 // get the textureId.
 //-----------------------------------------------
-uint CBitmapBase::textureId() const
-{
-	return _TextureId;
-}// rgba //
-
+uint CBitmapBase::textureId() const { return _TextureId; } // rgba //
 
 //-----------------------------------------------
 // rgba :
 // Set the rgba.
 //-----------------------------------------------
-void CBitmapBase::rgba(const CRGBA &rgba)
-{
-	_RGBA		= rgba;
-}// rgba //
-
+void CBitmapBase::rgba(const CRGBA &rgba) { _RGBA = rgba; } // rgba //
 
 //-----------------------------------------------
 // rgba :
 // get the rgba.
 //-----------------------------------------------
-const CRGBA &CBitmapBase::rgba() const
-{
-	return _RGBA;
-}// rgba //
+const CRGBA &CBitmapBase::rgba() const { return _RGBA; } // rgba //

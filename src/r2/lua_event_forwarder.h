@@ -20,51 +20,62 @@
 #ifndef R2_LUA_EVENT_FORWARDER_H
 #define R2_LUA_EVENT_FORWARDER_H
 
-namespace NLGUI
-{
-	class CLuaState;
-	class CLuaString;
-}
+namespace NLGUI {
+class CLuaState;
+class CLuaString;
+} // namespace NLGUI
 
 using namespace NLGUI;
 
-namespace R2
-{
+namespace R2 {
 
 /** helper class to forward events to a lua table
-  * Derivers should tell how to handle an event with a given name and number of parameters, and how to access lua
-	*/
+ * Derivers should tell how to handle an event with a given name and number of
+ * parameters, and how to access lua
+ */
 
-class CLuaEventForwarder
-{
+class CLuaEventForwarder {
 public:
-	virtual ~CLuaEventForwarder() {}
-	// events
-	void onActChanged();
-	void onContinentChanged();
-	void onPostCreate();
-	void onCreate();
-	void onErase();
-	void onPreHrcMove();	// instance is about to move in the hierarchy of object
-	void onPostHrcMove();  // instance has moved in the hierarchy of objects
-	void onFocus(bool focused);
-	void onSelect(bool selected);
-	void onAttrModified(const std::string &attrName, sint32 index);
-	//virtual void onTableModified(const std::string &tableName, const std::string &keyInTable, sint32 indexInTable);
-	// from CDisplayerBase : event from targeted instances
-	void onTargetInstancePreHrcMove(const std::string &refMakerAttr, sint32 refMakerAttrIndex);	// instance is about to move in the hierarchy of object
-	void onTargetInstancePostHrcMove(const std::string &refMakerAttr, sint32 refMakerAttrIndex);  // instance has moved in the hierarchy of objects
-	void onTargetInstanceCreated(const std::string &refMakerAttr, sint32 refMakerAttrIndex);
-	void onTargetInstanceErased(const std::string &refMakerAttr, sint32 refMakerAttrIndex);
-	void onTargetInstanceEraseRequested(const std::string &refMakerAttr, sint32 refMakerAttrIndex);
-	void onTargetInstanceAttrModified(	const std::string &refMakerAttr, sint32 refMakerAttrIndex,
-													const std::string &targetAttrName, sint32 targetAttrIndex);
+  virtual ~CLuaEventForwarder() {}
+  // events
+  void onActChanged();
+  void onContinentChanged();
+  void onPostCreate();
+  void onCreate();
+  void onErase();
+  void onPreHrcMove();  // instance is about to move in the hierarchy of object
+  void onPostHrcMove(); // instance has moved in the hierarchy of objects
+  void onFocus(bool focused);
+  void onSelect(bool selected);
+  void onAttrModified(const std::string &attrName, sint32 index);
+  // virtual void onTableModified(const std::string &tableName, const
+  // std::string &keyInTable, sint32 indexInTable);
+  //  from CDisplayerBase : event from targeted instances
+  void onTargetInstancePreHrcMove(
+      const std::string &refMakerAttr,
+      sint32 refMakerAttrIndex); // instance is about to move in the hierarchy
+                                 // of object
+  void onTargetInstancePostHrcMove(
+      const std::string &refMakerAttr,
+      sint32
+          refMakerAttrIndex); // instance has moved in the hierarchy of objects
+  void onTargetInstanceCreated(const std::string &refMakerAttr,
+                               sint32 refMakerAttrIndex);
+  void onTargetInstanceErased(const std::string &refMakerAttr,
+                              sint32 refMakerAttrIndex);
+  void onTargetInstanceEraseRequested(const std::string &refMakerAttr,
+                                      sint32 refMakerAttrIndex);
+  void onTargetInstanceAttrModified(const std::string &refMakerAttr,
+                                    sint32 refMakerAttrIndex,
+                                    const std::string &targetAttrName,
+                                    sint32 targetAttrIndex);
+
 protected:
-	// for derivers
-	virtual NLGUI::CLuaState *getLua() = 0;
-	virtual void executeHandler(const CLuaString &eventName, int numArgs) = 0;
+  // for derivers
+  virtual NLGUI::CLuaState *getLua() = 0;
+  virtual void executeHandler(const CLuaString &eventName, int numArgs) = 0;
 };
 
-} // R2
+} // namespace R2
 
 #endif

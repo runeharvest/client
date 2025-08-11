@@ -14,41 +14,32 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_SKY_MATERIAL_SETUP
 #define CL_SKY_MATERIAL_SETUP
 
-
-
-namespace NL3D
-{
-	class UInstance;
+namespace NL3D {
+class UInstance;
 }
 
 // setup of material for night or day
-struct CSkyMaterialSetup
-{
-	struct CTexInfo
-	{
-		uint		 MatNum;
-		std::string  TexName;
-	};
-	std::vector<CTexInfo> Setup;
+struct CSkyMaterialSetup {
+  struct CTexInfo {
+    uint MatNum;
+    std::string TexName;
+  };
+  std::vector<CTexInfo> Setup;
 
-	/** Build a setup of texture for the given stage.
-	  * \param instance The instance from which setup must be built
-	  * \param stage stage at which the setup must be taken. Must be 0 or 1
-	  */
-	void buildFromInstance(NL3D::UInstance instance, uint stage);
+  /** Build a setup of texture for the given stage.
+   * \param instance The instance from which setup must be built
+   * \param stage stage at which the setup must be taken. Must be 0 or 1
+   */
+  void buildFromInstance(NL3D::UInstance instance, uint stage);
 
-	/** Apply a setup of texture at the given stage
-	  * You can also ask to skip first material, as it is used for the skydome
-	  */
-	void applyToInstance(NL3D::UInstance instance, uint stage, bool skipFirstMaterial = false);
+  /** Apply a setup of texture at the given stage
+   * You can also ask to skip first material, as it is used for the skydome
+   */
+  void applyToInstance(NL3D::UInstance instance, uint stage,
+                       bool skipFirstMaterial = false);
 };
 
-
 #endif
-

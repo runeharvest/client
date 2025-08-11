@@ -14,15 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "behaviour_context.h"
+#include "stdpch.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
 #endif
 
-CBehaviourContext::CBehaviourContext()
-{
-}
+CBehaviourContext::CBehaviourContext() {}

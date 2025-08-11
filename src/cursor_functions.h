@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_CURSOR_FUNCTIONS_H
 #define CL_CURSOR_FUNCTIONS_H
-
 
 /////////////
 // INCLUDE //
@@ -28,21 +25,18 @@
 // Client.
 #include "contextual_cursor.h"
 
-
 ////////////
 // GLOBAL //
 ////////////
 // Contextual Cursor.
 extern CContextualCursor ContextCur;
-extern CLFECOMMON::TCLEntityId	SlotUnderCursor;
-
+extern CLFECOMMON::TCLEntityId SlotUnderCursor;
 
 ///////////////
 // FUNCTIONS //
 ///////////////
 /// Initialize Contextual Cursor.
 void initContextualCursor();
-
 
 #endif // CL_CURSOR_FUNCTIONS_H
 

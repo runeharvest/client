@@ -14,19 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 //////////////
 // INCLUDES //
 //////////////
-#include "stdpch.h"	// First include for pre-compiled headers.
+#include "stdpch.h" // First include for pre-compiled headers.
 // Application
 #include "mission_icon_sheet.h"
 // Georges
 #include "nel/georges/u_form_elm.h"
-
-
 
 ///////////
 // USING //
@@ -35,34 +30,29 @@ using namespace NLGEORGES;
 using namespace NLMISC;
 using namespace std;
 
-
 //-----------------------------------------------
 // build :
 // Build the sheet from an external script.
 //-----------------------------------------------
-void CMissionIconSheet::build(const NLGEORGES::UFormElm &item)
-{
-	// Load the descriptors.
-	if(!item.getValueByName(MainIconBg, "MainIconBg"))
-		debug("key 'MainIconBg' not found.");
+void CMissionIconSheet::build(const NLGEORGES::UFormElm &item) {
+  // Load the descriptors.
+  if (!item.getValueByName(MainIconBg, "MainIconBg"))
+    debug("key 'MainIconBg' not found.");
 
-	if(!item.getValueByName(MainIconFg, "MainIconFg"))
-		debug("key 'MainIconFg' not found.");
+  if (!item.getValueByName(MainIconFg, "MainIconFg"))
+    debug("key 'MainIconFg' not found.");
 
-	if(!item.getValueByName(SmallIcon, "SmallIcon"))
-		debug("key 'SmallIcon' not found.");
+  if (!item.getValueByName(SmallIcon, "SmallIcon"))
+    debug("key 'SmallIcon' not found.");
 
-}// build //
-
+} // build //
 
 //-----------------------------------------------
 // serial :
 // Serialize character sheet into binary data file.
 //-----------------------------------------------
-void CMissionIconSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(MainIconBg);
-	f.serial(MainIconFg);
-	f.serial(SmallIcon);
-}// serial //
-
+void CMissionIconSheet::serial(NLMISC::IStream &f) {
+  f.serial(MainIconBg);
+  f.serial(MainIconFg);
+  f.serial(SmallIcon);
+} // serial //

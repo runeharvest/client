@@ -19,18 +19,21 @@
 
 #include <string>
 
-
 // sendMsgToServer Helper
 void sendMsgToServer(const std::string &sMsg);
 void sendMsgToServer(const std::string &sMsg, uint8 u8);
 void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint8 u8n2);
-void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint8 u8n2, uint8 u8n3);
-void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint8 u8n2, uint8 u8n3, uint8 u8n4);
-void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint8 u8n2, uint8 u8n3, uint8 u8n4, uint8 u8n5);
+void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint8 u8n2,
+                     uint8 u8n3);
+void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint8 u8n2,
+                     uint8 u8n3, uint8 u8n4);
+void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint8 u8n2,
+                     uint8 u8n3, uint8 u8n4, uint8 u8n5);
 void sendMsgToServer(const std::string &sMsg, uint8 u8n1, uint32 u32n2);
 void sendMsgToServer(const std::string &sMsg, uint32 u32n1);
 void sendMsgToServer(const std::string &sMsg, uint32 u32n1, uint8 u8n2);
-void sendMsgToServer(const std::string &sMsg, uint32 u32n1, uint8 u8n2, uint8 u8n3);
+void sendMsgToServer(const std::string &sMsg, uint32 u32n1, uint8 u8n2,
+                     uint8 u8n3);
 void sendMsgToServer(const std::string &sMsg, uint32 u32n1, uint32 u32n2);
 
 #endif // CL_ACTION_HANDLER_TOOLS_H

@@ -17,18 +17,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
-
-
 #include "stdpch.h"
 
-#include "group_html_qcm.h"
-#include "nel/misc/xml_auto_ptr.h"
 #include "../client_cfg.h"
-#include "interface_manager.h"
 #include "../user_entity.h"
+#include "group_html_qcm.h"
+#include "interface_manager.h"
+#include "nel/misc/xml_auto_ptr.h"
 
 // used for login cookie to be sent to the web server
 #include "../net_manager.h"
@@ -36,33 +31,25 @@
 using namespace std;
 using namespace NLMISC;
 
-
 // ***************************************************************************
 NLMISC_REGISTER_OBJECT(CViewBase, CGroupHTMLQCM, std::string, "qcm_html");
 
-CGroupHTMLQCM::CGroupHTMLQCM(const TCtorParam &param)
-:	CGroupHTML(param)
-{
-}
+CGroupHTMLQCM::CGroupHTMLQCM(const TCtorParam &param) : CGroupHTML(param) {}
 
 // ***************************************************************************
 
-CGroupHTMLQCM::~CGroupHTMLQCM()
-{
-}
+CGroupHTMLQCM::~CGroupHTMLQCM() {}
 
 // ***************************************************************************
-void CGroupHTMLQCM::addText (const char * buf, int len)
-{
-	string sTmp = buf;
-	if (sTmp.find("zzz_QUIT_RYZOM_zzz") != string::npos)
-	{
-		CInterfaceManager *pIM = CInterfaceManager::getInstance();
-		CAHManager::getInstance()->runActionHandler("quit_ryzom", NULL);
-		CInterfaceElement *pIE = CWidgetManager::getInstance()->getElementFromId("ui:interface:web_on_quit");
-		pIE->setActive(false);
-	}
+void CGroupHTMLQCM::addText(const char *buf, int len) {
+  string sTmp = buf;
+  if (sTmp.find("zzz_QUIT_RYZOM_zzz") != string::npos) {
+    CInterfaceManager *pIM = CInterfaceManager::getInstance();
+    CAHManager::getInstance()->runActionHandler("quit_ryzom", NULL);
+    CInterfaceElement *pIE = CWidgetManager::getInstance()->getElementFromId(
+        "ui:interface:web_on_quit");
+    pIE->setActive(false);
+  }
 
-	CGroupHTML::addText(buf, len);
+  CGroupHTML::addText(buf, len);
 }
-

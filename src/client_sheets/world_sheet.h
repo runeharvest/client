@@ -14,67 +14,63 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_WORLD_SHEET_H
 #define RY_WORLD_SHEET_H
 
-#include <vector>
-#include <string>
 #include "entity_sheet.h"
+#include <string>
+#include <vector>
 
 /// Continent location
-struct SContLoc
-{
-	std::string SelectionName;			// name exported that we can use with select
-	std::string ContinentName;			// .continent file
-	float MinX, MinY, MaxX, MaxY;	    // Bounding box
+struct SContLoc {
+  std::string SelectionName;    // name exported that we can use with select
+  std::string ContinentName;    // .continent file
+  float MinX, MinY, MaxX, MaxY; // Bounding box
 
-	SContLoc ();
-	void build (const NLGEORGES::UFormElm *pItem);
-	void serial(NLMISC::IStream &f);
+  SContLoc();
+  void build(const NLGEORGES::UFormElm *pItem);
+  void serial(NLMISC::IStream &f);
 };
 
 // Hierarchical map node
-struct SMap
-{
-	std::string Name;				// Map Name
-	std::string ContinentName;		// Name of the continent where the map is (empty if the map is world)
-	std::string BitmapName;			// Name of the bitmap to load
-	float MinX, MinY, MaxX, MaxY;	// Bounding Box
-	struct SChild
-	{
-		std::string Name;		// Name to a child map
-		std::string ZoneName;	// Click Zone to be found in the region_*.primitive
-		// -----------------------
-		void build (const NLGEORGES::UFormElm *pItem);
-		void serial(NLMISC::IStream &f);
-	};
-	std::vector<SChild>	Children;
-	// ---------------------------------------------------------------------------------
-	SMap();
-	void build (const NLGEORGES::UFormElm *pItem);
-	void serial(NLMISC::IStream &f);
+struct SMap {
+  std::string Name;          // Map Name
+  std::string ContinentName; // Name of the continent where the map is (empty if
+                             // the map is world)
+  std::string BitmapName;    // Name of the bitmap to load
+  float MinX, MinY, MaxX, MaxY; // Bounding Box
+  struct SChild {
+    std::string Name;     // Name to a child map
+    std::string ZoneName; // Click Zone to be found in the region_*.primitive
+    // -----------------------
+    void build(const NLGEORGES::UFormElm *pItem);
+    void serial(NLMISC::IStream &f);
+  };
+  std::vector<SChild> Children;
+  // ---------------------------------------------------------------------------------
+  SMap();
+  void build(const NLGEORGES::UFormElm *pItem);
+  void serial(NLMISC::IStream &f);
 };
 
 /** Class that manage .world sheets
-  *
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2003
-  *
-  */
-class CWorldSheet : public CEntitySheet
-{
+ *
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2003
+ *
+ */
+class CWorldSheet : public CEntitySheet {
 public:
-	std::string				Name;
-	std::vector<SContLoc>	ContLocs;
-	std::vector<SMap>		Maps;
+  std::string Name;
+  std::vector<SContLoc> ContLocs;
+  std::vector<SMap> Maps;
+
 public:
-	CWorldSheet();
-	// from CEntitySheet;
-	virtual void build(const NLGEORGES::UFormElm &item);
-	virtual void serial(NLMISC::IStream &f);
+  CWorldSheet();
+  // from CEntitySheet;
+  virtual void build(const NLGEORGES::UFormElm &item);
+  virtual void serial(NLMISC::IStream &f);
 };
 
 #endif

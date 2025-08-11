@@ -14,33 +14,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "faction_sheet.h"
+#include "stdpch.h"
 //
 #include "nel/georges/u_form_elm.h"
 
 using namespace NLGEORGES;
 
-
 //=====================================================================================================================
-/**Tool fct to extract a value from a sheet, and to display a warning if it failed.
-  */
-template <class T> static void GetFactionFormValue(const NLGEORGES::UFormElm &item, T &destItem, const char *name)
-{
-	nlassert(name);
-	if (!item.getValueByName(destItem, name)) nlwarning("FactionSheet : can't get %s value.", name);
+/**Tool fct to extract a value from a sheet, and to display a warning if it
+ * failed.
+ */
+template <class T>
+static void GetFactionFormValue(const NLGEORGES::UFormElm &item, T &destItem,
+                                const char *name) {
+  nlassert(name);
+  if (!item.getValueByName(destItem, name))
+    nlwarning("FactionSheet : can't get %s value.", name);
 }
 
 //=======================================================================
-void CFactionSheet::build(const NLGEORGES::UFormElm &item)
-{
-	GetFactionFormValue(item, Icon, "Icon");
+void CFactionSheet::build(const NLGEORGES::UFormElm &item) {
+  GetFactionFormValue(item, Icon, "Icon");
 }
 //=======================================================================
-void CFactionSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(Icon);
-}
-
+void CFactionSheet::serial(NLMISC::IStream &f) { f.serial(Icon); }

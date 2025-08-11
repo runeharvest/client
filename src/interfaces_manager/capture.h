@@ -14,30 +14,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_CAPTURE_H
 #define CL_CAPTURE_H
-
 
 //////////////
 // Includes //
 //////////////
 // Misc.
-#include "nel/misc/types_nl.h"
 #include "nel/misc/event_listener.h"
+#include "nel/misc/types_nl.h"
 #include "nel/misc/ucstring.h"
 // Client.
 #include "control.h"
 #include "pen.h"
 
-
 ///////////
 // Using //
 ///////////
-using NLMISC::IEventListener;
 using NLMISC::CEvent;
-
+using NLMISC::IEventListener;
 
 /**
  * Class to manage the keyboard capture.
@@ -45,65 +40,58 @@ using NLMISC::CEvent;
  * \author Nevrax France
  * \date 2001
  */
-class CCapture : public CControl, public CPen, public IEventListener
-{
+class CCapture : public CControl, public CPen, public IEventListener {
 private:
-	/// Initialize the button (1 function called for all constructors -> easier).
-	inline void init(uint numFunc);
-	/// callback
-	virtual void operator () (const CEvent& event);
+  /// Initialize the button (1 function called for all constructors -> easier).
+  inline void init(uint numFunc);
+  /// callback
+  virtual void operator()(const CEvent &event);
 
 protected:
-	uint		_NumFunc;
-	/// the max number of char on a line
-	uint		_MaxChar;
-	/// the memorized line
-	ucstring	_Str;
-	/// the prompt (displayed at the beginning of the control, before the edited line)
-	ucstring	_Prompt;
-	/// the mode, if insert==true, the line is being edited
-	bool		_Insert;
+  uint _NumFunc;
+  /// the max number of char on a line
+  uint _MaxChar;
+  /// the memorized line
+  ucstring _Str;
+  /// the prompt (displayed at the beginning of the control, before the edited
+  /// line)
+  ucstring _Prompt;
+  /// the mode, if insert==true, the line is being edited
+  bool _Insert;
 
 public:
-	/// Constructor.
-	CCapture(uint id);
-	CCapture(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint numFunc, const CPen &pen);
-	CCapture(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint numFunc, uint32 fontSize, CRGBA color, bool shadow);
+  /// Constructor.
+  CCapture(uint id);
+  CCapture(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+           float h, float w_pixel, float h_pixel, uint numFunc,
+           const CPen &pen);
+  CCapture(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+           float h, float w_pixel, float h_pixel, uint numFunc, uint32 fontSize,
+           CRGBA color, bool shadow);
 
-	/// Destructor.
-	~CCapture();
+  /// Destructor.
+  ~CCapture();
 
-	/// Display the Bitmap.
-	virtual void display();
-	/// Manage the click of the mouse for the Bitmap.
-	virtual void click(float x, float y, bool &taken);
+  /// Display the Bitmap.
+  virtual void display();
+  /// Manage the click of the mouse for the Bitmap.
+  virtual void click(float x, float y, bool &taken);
 
+  /// set the string contained in the class : _Str.
+  void setStr(const ucstring &str) { _Str = str; }
 
-	/// set the string contained in the class : _Str.
-	void setStr(const ucstring &str)
-	{
-		_Str = str;
-	}
+  /// Return the string contained in the class : _Str.
+  const ucstring &getStr() const { return _Str; }
 
-	/// Return the string contained in the class : _Str.
-	const ucstring &getStr() const
-	{
-		return _Str;
-	}
+  void setPrompt(const ucstring &str) { _Prompt = str; }
 
-	void setPrompt(const ucstring &str)
-	{
-		_Prompt = str;
-	}
+  const ucstring &getPrompt() const { return _Prompt; }
 
-	const ucstring &getPrompt() const { return _Prompt; }
-
-	/// Set if the Control is in Insert mode.
-	inline void insert(bool i) {_Insert = i;}
-	/// Return if the control is in insert mode.
-	inline bool insert() const {return _Insert;}
+  /// Set if the Control is in Insert mode.
+  inline void insert(bool i) { _Insert = i; }
+  /// Return if the control is in insert mode.
+  inline bool insert() const { return _Insert; }
 };
-
 
 #endif // CL_CAPTURE_H
 

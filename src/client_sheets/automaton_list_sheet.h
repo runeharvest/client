@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_AUTOMATON_LIST_SHEET_H
 #define CL_AUTOMATON_LIST_SHEET_H
 
@@ -24,8 +22,8 @@
 /////////////
 #include "nel/misc/types_nl.h"
 
-#include "entity_sheet.h"
 #include "animation_set_list_sheet.h"
+#include "entity_sheet.h"
 
 #include "game_share/mode_and_behaviour.h"
 
@@ -39,128 +37,128 @@
  * \author Nevrax France
  * \date November 2003
  */
-class CAutomatonStateSheet
-{
+class CAutomatonStateSheet {
 public:
+  class CNextStateInf {
+  public:
+    /// next state to switch to
+    TAnimStateKey NextStateKey;
 
-	class CNextStateInf
-	{
-	public:
-		/// next state to switch to
-		TAnimStateKey NextStateKey;
+    /// true if the animation is breakable(don't have to wait for the end of
+    /// anim to switch)
+    bool Breakable;
 
-		/// true if the animation is breakable(don't have to wait for the end of anim to switch)
-		bool Breakable;
+    /// Constructor.
+    CNextStateInf() {
+      NextStateKey = CAnimationStateSheet::UnknownState;
+      Breakable = true;
+    }
 
-		/// Constructor.
-		CNextStateInf()
-		{
-			NextStateKey = CAnimationStateSheet::UnknownState;
-			Breakable = true;
-		}
-
-		/// Serialize a CNextStateInf.
-		void serial(NLMISC::IStream &f)
-		{
-			f.serialEnum (NextStateKey);
-			f.serial(Breakable);
-		}
-	};
+    /// Serialize a CNextStateInf.
+    void serial(NLMISC::IStream &f) {
+      f.serialEnum(NextStateKey);
+      f.serial(Breakable);
+    }
+  };
 
 public:
-	/// id of anims that can be used for this state
-	TAnimStateKey MoveState;
-	/// next state to switch to
-	TAnimStateKey NextState;
+  /// id of anims that can be used for this state
+  TAnimStateKey MoveState;
+  /// next state to switch to
+  TAnimStateKey NextState;
 
-	// can the mesh move
-	bool Move;
-	// 'true' if rotation in the state should be consider.
-	bool Rotation;
-	// 'true' if the animation is an attack (melee attack).
-	bool Attack;
-	// Slide
-	bool Slide;
-	// If 'true', adjust the orientation while playing the current state
-	bool AdjustOri;
-	// Play the animation in a constant time if there is a move after.
-	float MaxAnimDuration;
+  // can the mesh move
+  bool Move;
+  // 'true' if rotation in the state should be consider.
+  bool Rotation;
+  // 'true' if the animation is an attack (melee attack).
+  bool Attack;
+  // Slide
+  bool Slide;
+  // If 'true', adjust the orientation while playing the current state
+  bool AdjustOri;
+  // Play the animation in a constant time if there is a move after.
+  float MaxAnimDuration;
 
-	//
-	uint32			MaxLoop;				// Breakable on max loop (the animation cannot be played more than ... 0 means no limits).
+  //
+  uint32 MaxLoop; // Breakable on max loop (the animation cannot be played more
+                  // than ... 0 means no limits).
 
-	// Move
-	bool			BreakableOnMove;		// 'true' if 1 of the Forward/backward/Left/right is field.
-	double			BreakableOnMoveDist;
-	TAnimStateKey	OnMoveForward;
-	TAnimStateKey	OnMoveBackward;
-	TAnimStateKey	OnMoveLeft;
-	TAnimStateKey	OnMoveRight;
-	// Rotation
-	bool			BreakableOnRotation;
-	TAnimStateKey	OnLeftRotation;			// Need a left and right because of about face animations.
-	TAnimStateKey	OnRightRotation;		// Need a left and right because of about face animations.
-	// Big Bend
-	bool			BrkOnBigBend;			// 'true' when the angle between the current direction and the next one is too big.
-	TAnimStateKey	OnBigBendLeft;
-	TAnimStateKey	OnBigBendRight;
-	// Speed
-	CNextStateInf	OnMinSpeed;
-	CNextStateInf	OnMaxSpeed;
-	// Bad Heading (heading too far from the front).
-	bool			BreakableOnBadHeading;
-	TAnimStateKey	OnBadHeadingForward;
-	TAnimStateKey	OnBadHeadingBackward;
-	TAnimStateKey	OnBadHeadingLeft;
-	TAnimStateKey	OnBadHeadingRight;
-	double			BadHeadingMin;			// If the current state is < at value -> bad heading
-	double			BadHeadingMax;			// If the current state is > at value -> bad heading
+  // Move
+  bool BreakableOnMove; // 'true' if 1 of the Forward/backward/Left/right is
+                        // field.
+  double BreakableOnMoveDist;
+  TAnimStateKey OnMoveForward;
+  TAnimStateKey OnMoveBackward;
+  TAnimStateKey OnMoveLeft;
+  TAnimStateKey OnMoveRight;
+  // Rotation
+  bool BreakableOnRotation;
+  TAnimStateKey
+      OnLeftRotation; // Need a left and right because of about face animations.
+  TAnimStateKey OnRightRotation; // Need a left and right because of about face
+                                 // animations.
+  // Big Bend
+  bool BrkOnBigBend; // 'true' when the angle between the current direction and
+                     // the next one is too big.
+  TAnimStateKey OnBigBendLeft;
+  TAnimStateKey OnBigBendRight;
+  // Speed
+  CNextStateInf OnMinSpeed;
+  CNextStateInf OnMaxSpeed;
+  // Bad Heading (heading too far from the front).
+  bool BreakableOnBadHeading;
+  TAnimStateKey OnBadHeadingForward;
+  TAnimStateKey OnBadHeadingBackward;
+  TAnimStateKey OnBadHeadingLeft;
+  TAnimStateKey OnBadHeadingRight;
+  double BadHeadingMin; // If the current state is < at value -> bad heading
+  double BadHeadingMax; // If the current state is > at value -> bad heading
 
+  std::vector<bool> ModeConnection;
+  std::vector<TAnimStateKey> ModeTransition;
 
-	std::vector<bool>			ModeConnection;
-	std::vector<TAnimStateKey>	ModeTransition;
+  /// The automaton to use At the end of the animation.
+  MBEHAV::EMode NextMode;
 
-	/// The automaton to use At the end of the animation.
-	MBEHAV::EMode	NextMode;
+  /// ...
+  double DirFactor;
 
+  float RotFactor;
 
-	/// ...
-	double			DirFactor;
+  /// Go to this state if there is an attack.
+  TAnimStateKey OnAtk;
 
-	float			RotFactor;
+  bool BreakableOnImpact;
+  // 'true' if the animation need to stop once arrived at destination.
+  bool BrkAtDest;
+  //
+  float XFactor;
+  float YFactor;
+  float ZFactor;
 
-	/// Go to this state if there is an attack.
-	TAnimStateKey	OnAtk;
+  NLMISC::CMatrix Matrix;
 
-	bool			BreakableOnImpact;
-	// 'true' if the animation need to stop once arrived at destination.
-	bool			BrkAtDest;
-	//
-	float			XFactor;
-	float			YFactor;
-	float			ZFactor;
+  // -----------------------------------------------------------------------
 
-	NLMISC::CMatrix	Matrix;
+  /// Constructor
+  CAutomatonStateSheet();
 
-	// -----------------------------------------------------------------------
+  /// Build the sheet given a base string
+  void build(const NLGEORGES::UFormElm &item, const std::string &baseKeyStr);
 
-	/// Constructor
-	CAutomatonStateSheet();
+  /// Serialize a CMovingAutomatonState.
+  void serial(NLMISC::IStream &f);
 
-	/// Build the sheet given a base string
-	void build(const NLGEORGES::UFormElm &item, const std::string &baseKeyStr);
+  /** Return if there is a connection with the mode in parameter from the
+   * current automaton and filled the transition to use. \param mode : is there
+   * a connection for this mode. \param transition : will be filled with the
+   * result if there is a connection. \return bool : If 'true' there is a
+   * connection and 'transition' is filled, else 'transition' left untouched.
+   */
+  bool getModeConnection(MBEHAV::EMode mode, TAnimStateKey &transition) const;
 
-	/// Serialize a CMovingAutomatonState.
-	void serial(NLMISC::IStream &f);
-
-	/** Return if there is a connection with the mode in parameter from the current automaton and filled the transition to use.
-	 * \param mode : is there a connection for this mode.
-	 * \param transition : will be filled with the result if there is a connection.
-	 * \return bool : If 'true' there is a connection and 'transition' is filled, else 'transition' left untouched.
-	 */
-	bool getModeConnection(MBEHAV::EMode mode, TAnimStateKey &transition) const;
-
-	const NLMISC::CMatrix & getMatrix() const { return Matrix; }
+  const NLMISC::CMatrix &getMatrix() const { return Matrix; }
 };
 
 /**
@@ -170,40 +168,38 @@ public:
  * \author Nevrax France
  * \date November 2003
  */
-class CAutomatonSheet
-{
+class CAutomatonSheet {
 public:
-	typedef std::map<uint32, CAutomatonStateSheet> TAutomatonStateSheets;
-	/// States of the automaton
-	TAutomatonStateSheets _States;
+  typedef std::map<uint32, CAutomatonStateSheet> TAutomatonStateSheets;
+  /// States of the automaton
+  TAutomatonStateSheets _States;
 
 public:
-	/// Build the sheet
-	void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet
+  void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize sheet into binary data file.
-	void serial(NLMISC::IStream &f);
+  /// Serialize sheet into binary data file.
+  void serial(NLMISC::IStream &f);
 
-	/**
-	 * Return a pointer on the information about the state corresponding to the key.
-	 * \param key : state key.
-	 * \return CAutomatonStateSheet * : pointer on the state or 0.
-	 */
-	const CAutomatonStateSheet *state(const TAnimStateKey &key) const;
+  /**
+   * Return a pointer on the information about the state corresponding to the
+   * key. \param key : state key. \return CAutomatonStateSheet * : pointer on
+   * the state or 0.
+   */
+  const CAutomatonStateSheet *state(const TAnimStateKey &key) const;
 
 protected:
-
-	static std::vector<std::string> _MotionStates;
-	static std::vector<std::string> _GenericStates;
-	static std::vector<std::string> _ModeStates;
-	static std::vector<std::string> _AtkStates;
-	static std::vector<std::string> _SpellStates;
-	static std::vector<std::string> _OtherStates;
+  static std::vector<std::string> _MotionStates;
+  static std::vector<std::string> _GenericStates;
+  static std::vector<std::string> _ModeStates;
+  static std::vector<std::string> _AtkStates;
+  static std::vector<std::string> _SpellStates;
+  static std::vector<std::string> _OtherStates;
 
 protected:
-
-	void buildStateSet(const NLGEORGES::UFormElm &item, const std::vector<std::string> &states, const std::string &setName, double moveDist);
-
+  void buildStateSet(const NLGEORGES::UFormElm &item,
+                     const std::vector<std::string> &states,
+                     const std::string &setName, double moveDist);
 };
 
 /**
@@ -212,28 +208,25 @@ protected:
  * \author Nevrax France
  * \date November 2003
  */
-class CAutomatonListSheet : public CEntitySheet
-{
+class CAutomatonListSheet : public CEntitySheet {
 public:
-
-	std::map<std::string, CAutomatonSheet*> Automatons;
+  std::map<std::string, CAutomatonSheet *> Automatons;
 
 public:
-	/// Constructor
-	CAutomatonListSheet();
-	virtual ~CAutomatonListSheet();
+  /// Constructor
+  CAutomatonListSheet();
+  virtual ~CAutomatonListSheet();
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// Serialize sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 
-	/// Tool to read a dfn composed with an array of string
-	static void readDfnStringArray(std::vector<std::string> &states, const std::string &dfnName);
-
+  /// Tool to read a dfn composed with an array of string
+  static void readDfnStringArray(std::vector<std::string> &states,
+                                 const std::string &dfnName);
 };
-
 
 #endif // CL_AUTOMATON_LIST_SHEET_H
 

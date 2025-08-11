@@ -14,34 +14,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "config_var.h"
+#include "stdpch.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
 #endif
 
+namespace R2 {
 
-namespace R2
-{
-
-CConfigVarBase::CConfigVarBase(const char *varName)
-{
-	//H_AUTO(R2_CConfigVarBase_CConfigVarBase)
-	nlassert(varName);
-	_VarName = varName;
-	_TimeStamp = getConfigFileTimeStamp() - 1;
+CConfigVarBase::CConfigVarBase(const char *varName) {
+  // H_AUTO(R2_CConfigVarBase_CConfigVarBase)
+  nlassert(varName);
+  _VarName = varName;
+  _TimeStamp = getConfigFileTimeStamp() - 1;
 }
 
-
-uint32 &CConfigVarBase::getConfigFileTimeStamp()
-{
-	//H_AUTO(R2_CConfigVarBase_getConfigFileTimeStamp)
-	static uint32 timeStamp = 0;
-	return timeStamp;
+uint32 &CConfigVarBase::getConfigFileTimeStamp() {
+  // H_AUTO(R2_CConfigVarBase_getConfigFileTimeStamp)
+  static uint32 timeStamp = 0;
+  return timeStamp;
 }
 
-
-} // R2
-
-
+} // namespace R2

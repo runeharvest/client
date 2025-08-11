@@ -16,78 +16,80 @@
 
 #include "stdpch.h"
 
-
-//#include "nel/3d/material_user.h"
-#include "nel/misc/geom_ext.h"
-#include "nel/misc/debug.h"
+// #include "nel/3d/material_user.h"
 #include "graphic.h"
-
+#include "nel/misc/debug.h"
+#include "nel/misc/geom_ext.h"
 
 // ***************************************************************************
-void drawBitmapTiled ( NL3D::UDriver * /* driver */, float /* x */, float /* y */, float /* width */, float /* height */, uint32 /* windowWidth */, uint32 /* windowHeight */, NL3D::UTextureFile & /* texture */, uint32 /* textureWidth */, uint32 /* textureHeight */, bool /* blend */, NLMISC::CRGBA /* col */)
-{
+void drawBitmapTiled(NL3D::UDriver * /* driver */, float /* x */, float /* y */,
+                     float /* width */, float /* height */,
+                     uint32 /* windowWidth */, uint32 /* windowHeight */,
+                     NL3D::UTextureFile & /* texture */,
+                     uint32 /* textureWidth */, uint32 /* textureHeight */,
+                     bool /* blend */, NLMISC::CRGBA /* col */) {
 
-// Sorry for this. (Hulud) :)
-/*	nlassert( driver );
+  // Sorry for this. (Hulud) :)
+  /*	nlassert( driver );
 
-	NL3D::CMaterialUser	material;
-	material.setTexture(&texture);
-	material.setColor(col);
-	material.setBlend(blend);
+          NL3D::CMaterialUser	material;
+          material.setTexture(&texture);
+          material.setColor(col);
+          material.setBlend(blend);
 
-	NLMISC::CQuadUV		quad;
+          NLMISC::CQuadUV		quad;
 
-	quad.V0.set(x,y,0);
-	quad.V1.set(x+width,y,0);
-	quad.V2.set(x+width,y+height,0);
-	quad.V3.set(x,y+height,0);
+          quad.V0.set(x,y,0);
+          quad.V1.set(x+width,y,0);
+          quad.V2.set(x+width,y+height,0);
+          quad.V3.set(x,y+height,0);
 
-	if ( textureWidth !=0 && textureHeight != 0 )
-	{
-		// compute values (control size in pixels / texture size in pixels)
-		const float controlW = windowWidth * width;
-		const float controlH = windowHeight * height;
+          if ( textureWidth !=0 && textureHeight != 0 )
+          {
+                  // compute values (control size in pixels / texture size in
+     pixels) const float controlW = windowWidth * width; const float controlH =
+     windowHeight * height;
 
-		if (controlH > textureHeight)
-		{
-			quad.Uv0.U= 0.f;
-			quad.Uv0.V= controlH / textureHeight + 1.0f;
+                  if (controlH > textureHeight)
+                  {
+                          quad.Uv0.U= 0.f;
+                          quad.Uv0.V= controlH / textureHeight + 1.0f;
 
-			quad.Uv1.U= controlW / textureWidth;
-			quad.Uv1.V= quad.Uv0.V;
+                          quad.Uv1.U= controlW / textureWidth;
+                          quad.Uv1.V= quad.Uv0.V;
 
-			quad.Uv2.U= quad.Uv1.U ;
-			quad.Uv2.V= quad.Uv0.V - float( (int)(quad.Uv0.V) );
+                          quad.Uv2.U= quad.Uv1.U ;
+                          quad.Uv2.V= quad.Uv0.V - float( (int)(quad.Uv0.V) );
 
-			quad.Uv3.U= 0.f;
-			quad.Uv3.V= quad.Uv2.V;
-		}
-		else
-		{
-			quad.Uv0.U= 0.0f;
-			quad.Uv0.V= 1.0f;
+                          quad.Uv3.U= 0.f;
+                          quad.Uv3.V= quad.Uv2.V;
+                  }
+                  else
+                  {
+                          quad.Uv0.U= 0.0f;
+                          quad.Uv0.V= 1.0f;
 
-			quad.Uv1.U= controlW / textureWidth;
-			quad.Uv1.V= quad.Uv0.V;
+                          quad.Uv1.U= controlW / textureWidth;
+                          quad.Uv1.V= quad.Uv0.V;
 
-			quad.Uv2.U= quad.Uv1.U ;
-			quad.Uv2.V= 1.0f - controlH / textureHeight ;
+                          quad.Uv2.U= quad.Uv1.U ;
+                          quad.Uv2.V= 1.0f - controlH / textureHeight ;
 
-			quad.Uv3.U= 0.f;
-			quad.Uv3.V= quad.Uv2.V;
-		}
-	}
-	else
-	{
-		quad.Uv0.U= 0.f;
-		quad.Uv0.V= 1.f;
-		quad.Uv1.U= 1.f;
-		quad.Uv1.V= 1.f;
-		quad.Uv2.U= 1.f;
-		quad.Uv2.V= 0.f;
-		quad.Uv3.U= 0.f;
-		quad.Uv3.V= 0.f;
-	}
+                          quad.Uv3.U= 0.f;
+                          quad.Uv3.V= quad.Uv2.V;
+                  }
+          }
+          else
+          {
+                  quad.Uv0.U= 0.f;
+                  quad.Uv0.V= 1.f;
+                  quad.Uv1.U= 1.f;
+                  quad.Uv1.V= 1.f;
+                  quad.Uv2.U= 1.f;
+                  quad.Uv2.V= 0.f;
+                  quad.Uv3.U= 0.f;
+                  quad.Uv3.V= 0.f;
+          }
 
-	driver->drawQuad(quad, material);*/
+          driver->drawQuad(quad, material);*/
 }

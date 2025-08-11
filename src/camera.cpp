@@ -17,8 +17,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "camera.h"
+#include "stdpch.h"
 
 #include <nel/3d/stereo_display.h>
 
@@ -35,58 +35,57 @@ using namespace NL3D;
 //---------------------------------------------------
 // update the camera perspective setup
 //---------------------------------------------------
-void updateCameraPerspective()
-{
-	float	fov, aspectRatio;
-	computeCurrentFovAspectRatio(fov, aspectRatio);
+void updateCameraPerspective() {
+  float fov, aspectRatio;
+  computeCurrentFovAspectRatio(fov, aspectRatio);
 
-	// change the perspective of the scene
-	if(!MainCam.empty())
-		MainCam.setPerspective(fov, aspectRatio, CameraSetupZNear, ClientCfg.Vision);
-	// change the perspective of the root scene
-	if(SceneRoot)
-	{
-		UCamera cam= SceneRoot->getCam();
-		cam.setPerspective(fov, aspectRatio, SceneRootCameraZNear, SceneRootCameraZFar);
-	}
+  // change the perspective of the scene
+  if (!MainCam.empty())
+    MainCam.setPerspective(fov, aspectRatio, CameraSetupZNear,
+                           ClientCfg.Vision);
+  // change the perspective of the root scene
+  if (SceneRoot) {
+    UCamera cam = SceneRoot->getCam();
+    cam.setPerspective(fov, aspectRatio, SceneRootCameraZNear,
+                       SceneRootCameraZFar);
+  }
 }
 
-void buildCameraClippingPyramid(std::vector<CPlane> &planes)
-{
-	if (StereoDisplay) StereoDisplay->getClippingFrustum(0, &MainCam);
+void buildCameraClippingPyramid(std::vector<CPlane> &planes) {
+  if (StereoDisplay)
+    StereoDisplay->getClippingFrustum(0, &MainCam);
 
-	// Compute pyramid in view basis.
-	CVector		pfoc(0,0,0);
-	const CFrustum &frustum  = MainCam.getFrustum();
-	InvMainSceneViewMatrix = MainCam.getMatrix();
-	MainSceneViewMatrix = InvMainSceneViewMatrix;
-	MainSceneViewMatrix.invert();
+  // Compute pyramid in view basis.
+  CVector pfoc(0, 0, 0);
+  const CFrustum &frustum = MainCam.getFrustum();
+  InvMainSceneViewMatrix = MainCam.getMatrix();
+  MainSceneViewMatrix = InvMainSceneViewMatrix;
+  MainSceneViewMatrix.invert();
 
-	CVector		lb(frustum.Left,  frustum.Near, frustum.Bottom );
-	CVector		lt(frustum.Left,  frustum.Near, frustum.Top    );
-	CVector		rb(frustum.Right, frustum.Near, frustum.Bottom );
-	CVector		rt(frustum.Right, frustum.Near, frustum.Top    );
+  CVector lb(frustum.Left, frustum.Near, frustum.Bottom);
+  CVector lt(frustum.Left, frustum.Near, frustum.Top);
+  CVector rb(frustum.Right, frustum.Near, frustum.Bottom);
+  CVector rt(frustum.Right, frustum.Near, frustum.Top);
 
-	CVector		lbFar(frustum.Left,  ClientCfg.CharacterFarClip, frustum.Bottom);
-	CVector		ltFar(frustum.Left,  ClientCfg.CharacterFarClip, frustum.Top   );
-	CVector		rtFar(frustum.Right, ClientCfg.CharacterFarClip, frustum.Top   );
+  CVector lbFar(frustum.Left, ClientCfg.CharacterFarClip, frustum.Bottom);
+  CVector ltFar(frustum.Left, ClientCfg.CharacterFarClip, frustum.Top);
+  CVector rtFar(frustum.Right, ClientCfg.CharacterFarClip, frustum.Top);
 
-	planes.resize (4);
-	// planes[0].make(lbFar, ltFar, rtFar);
-	planes[0].make(pfoc, lt, lb);
-	planes[1].make(pfoc, rt, lt);
-	planes[2].make(pfoc, rb, rt);
-	planes[3].make(pfoc, lb, rb);
+  planes.resize(4);
+  // planes[0].make(lbFar, ltFar, rtFar);
+  planes[0].make(pfoc, lt, lb);
+  planes[1].make(pfoc, rt, lt);
+  planes[2].make(pfoc, rb, rt);
+  planes[3].make(pfoc, lb, rb);
 
-	// Compute pyramid in World basis.
-	// The vector transformation M of a plane p is computed as p*M-1.
-	// Here, ViewMatrix== CamMatrix-1. Hence the following formula.
-	uint i;
+  // Compute pyramid in World basis.
+  // The vector transformation M of a plane p is computed as p*M-1.
+  // Here, ViewMatrix== CamMatrix-1. Hence the following formula.
+  uint i;
 
-	for (i = 0; i < 4; i++)
-	{
-		planes[i] = planes[i]*MainSceneViewMatrix;
-	}
+  for (i = 0; i < 4; i++) {
+    planes[i] = planes[i] * MainSceneViewMatrix;
+  }
 }
 
 /* end of file */

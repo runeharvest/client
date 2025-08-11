@@ -20,33 +20,31 @@
 #ifndef R2_ENTITY_CUSTOM_SELECT_BOX_H
 #define R2_ENTITY_CUSTOM_SELECT_BOX_H
 
-#include "nel/misc/aabbox.h"
 #include "nel/gui/lua_object.h"
+#include "nel/misc/aabbox.h"
 #include <map>
 
-namespace NLGUI
-{
-	class CLuaObject;
+namespace NLGUI {
+class CLuaObject;
 }
 
 using namespace NLGUI;
 
-namespace R2
-{
+namespace R2 {
 
-class CEntityCustomSelectBox
-{
+class CEntityCustomSelectBox {
 public:
-	bool			Enabled;
-	NLMISC::CAABBox Box;
+  bool Enabled;
+  NLMISC::CAABBox Box;
+
 public:
-	CEntityCustomSelectBox() : Enabled(false) {}
-	void toTable(CLuaObject &table);
-	void fromTable(CLuaObject &table);
+  CEntityCustomSelectBox() : Enabled(false) {}
+  void toTable(CLuaObject &table);
+  void fromTable(CLuaObject &table);
 };
 
 typedef std::map<std::string, CEntityCustomSelectBox> TEntityCustomSelectBoxMap;
 
-}
+} // namespace R2
 
 #endif

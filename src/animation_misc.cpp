@@ -14,16 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 /////////////
 // INCLUDE //
 /////////////
 // client
-#include "animation_misc.h"
 #include "animation.h"
+#include "animation_misc.h"
 // 3d
 #include "nel/3d/u_track.h"
 
@@ -36,7 +34,6 @@
 ///////////
 using namespace NL3D;
 
-
 ////////////
 // METHOD //
 ////////////
@@ -44,9 +41,7 @@ using namespace NL3D;
 // CAnimationMisc :
 // Constructor.
 //---------------------------------------------------
-CAnimationMisc::CAnimationMisc()
-{
-}// CAnimationMisc //
+CAnimationMisc::CAnimationMisc() {} // CAnimationMisc //
 
 //---------------------------------------------------
 // interpolate :
@@ -56,38 +51,39 @@ CAnimationMisc::CAnimationMisc()
 // \param result : is the reference on the value to get the result (position).
 // \return bool : true if the parameter result is valid.
 //---------------------------------------------------
-bool CAnimationMisc::interpolate(UAnimationSet *animationSet, uint idAnim, double timeOffset, NLMISC::CVector &result)
-{
-	// Get the animation set.
-	if(!animationSet)
-	{
-		nlwarning("CAnimationMisc::interpolate(CVector) : AnimationSet not allocated.");
-		return false;
-	}
+bool CAnimationMisc::interpolate(UAnimationSet *animationSet, uint idAnim,
+                                 double timeOffset, NLMISC::CVector &result) {
+  // Get the animation set.
+  if (!animationSet) {
+    nlwarning(
+        "CAnimationMisc::interpolate(CVector) : AnimationSet not allocated.");
+    return false;
+  }
 
-	// Check the Animation
-	if(idAnim == UAnimationSet::NotFound)
-		return false;
+  // Check the Animation
+  if (idAnim == UAnimationSet::NotFound)
+    return false;
 
-	// Get the animation pointer.
-	UAnimation *anim = animationSet->getAnimation(idAnim);
-	if(!anim)
-	{
-		nlwarning("CAnimationMisc::interpolate(CVector) : animationSet.getAnimation(%d) return NULL.", idAnim);
-		return false;
-	}
+  // Get the animation pointer.
+  UAnimation *anim = animationSet->getAnimation(idAnim);
+  if (!anim) {
+    nlwarning("CAnimationMisc::interpolate(CVector) : "
+              "animationSet.getAnimation(%d) return NULL.",
+              idAnim);
+    return false;
+  }
 
-	// Get the track for the position.
-	UTrack* Track = anim->getTrackByName("pos");
-	if(!Track)
-	{
-		nlwarning("CAnimationMisc::interpolate(CVector) : track with the name 'pos' does not exist.");
-		return false;
-	}
+  // Get the track for the position.
+  UTrack *Track = anim->getTrackByName("pos");
+  if (!Track) {
+    nlwarning("CAnimationMisc::interpolate(CVector) : track with the name "
+              "'pos' does not exist.");
+    return false;
+  }
 
-	// Get the result.
-	return Track->interpolate((CAnimationTime)timeOffset, result);
-}// interpolate //
+  // Get the result.
+  return Track->interpolate((CAnimationTime)timeOffset, result);
+} // interpolate //
 
 //---------------------------------------------------
 // interpolate :
@@ -98,39 +94,39 @@ bool CAnimationMisc::interpolate(UAnimationSet *animationSet, uint idAnim, doubl
 // \param result : is the reference on the value to get the result (rotation).
 // \return bool : true if the parameter result is valid.
 //---------------------------------------------------
-bool CAnimationMisc::interpolate(UAnimationSet *animationSet, uint idAnim, double timeOffset, NLMISC::CQuat &result)
-{
-	// Get the animation set.
-	if(!animationSet)
-	{
-		nlwarning("CAnimationMisc::interpolate(CQuat) : AnimationSet not allocated.");
-		return false;
-	}
+bool CAnimationMisc::interpolate(UAnimationSet *animationSet, uint idAnim,
+                                 double timeOffset, NLMISC::CQuat &result) {
+  // Get the animation set.
+  if (!animationSet) {
+    nlwarning(
+        "CAnimationMisc::interpolate(CQuat) : AnimationSet not allocated.");
+    return false;
+  }
 
-	// Check the Animation
-	if(idAnim == UAnimationSet::NotFound)
-		return false;
+  // Check the Animation
+  if (idAnim == UAnimationSet::NotFound)
+    return false;
 
-	// Get the animation pointer.
-	UAnimation *anim = animationSet->getAnimation(idAnim);
-	if(!anim)
-	{
-		nlwarning("CAnimationMisc::interpolate(CQuat) : animationSet.getAnimation(%d) return NULL.", idAnim);
-		return false;
-	}
+  // Get the animation pointer.
+  UAnimation *anim = animationSet->getAnimation(idAnim);
+  if (!anim) {
+    nlwarning("CAnimationMisc::interpolate(CQuat) : "
+              "animationSet.getAnimation(%d) return NULL.",
+              idAnim);
+    return false;
+  }
 
-	// Get the track for the position.
-	UTrack* Track = anim->getTrackByName("rotquat");
-	if(!Track)
-	{
-		//nlwarning("CAnimationMisc::interpolate(CQuat) : track with the name 'PathRotQuat' or 'rotquat' does not exist.");
-		return false;
-	}
+  // Get the track for the position.
+  UTrack *Track = anim->getTrackByName("rotquat");
+  if (!Track) {
+    // nlwarning("CAnimationMisc::interpolate(CQuat) : track with the name
+    // 'PathRotQuat' or 'rotquat' does not exist.");
+    return false;
+  }
 
-	// Get the result.
-	return Track->interpolate((CAnimationTime)timeOffset, result);
-}// interpolate //
-
+  // Get the result.
+  return Track->interpolate((CAnimationTime)timeOffset, result);
+} // interpolate //
 
 //---------------------------------------------------
 // getAnimationLength :
@@ -138,24 +134,24 @@ bool CAnimationMisc::interpolate(UAnimationSet *animationSet, uint idAnim, doubl
 // \param animationSet : search the animation in this set.
 // \param string animName : Animation Name.
 // \return double : the length of the animation or 0 if any pb.
-// \warning This Method is slower than the one with the animation Id instead of the animation Name.
+// \warning This Method is slower than the one with the animation Id instead of
+// the animation Name.
 //---------------------------------------------------
-double CAnimationMisc::getAnimationLength(UAnimationSet *animationSet, const std::string &animName)
-{
-	// Initialize the length to 0.0 like if there is an error.
-	double length = 0.0;
+double CAnimationMisc::getAnimationLength(UAnimationSet *animationSet,
+                                          const std::string &animName) {
+  // Initialize the length to 0.0 like if there is an error.
+  double length = 0.0;
 
-	if(animationSet)
-	{
-		// Get the animation Id.
-		uint idAnim = animationSet->getAnimationIdByName(animName);
-		if(idAnim != UAnimationSet::NotFound)
-			length = getAnimationLength(animationSet, idAnim);
-	}
+  if (animationSet) {
+    // Get the animation Id.
+    uint idAnim = animationSet->getAnimationIdByName(animName);
+    if (idAnim != UAnimationSet::NotFound)
+      length = getAnimationLength(animationSet, idAnim);
+  }
 
-	// Return the length of the animation or 0 is any pb.
-	return length;
-}// getAnimationLength //
+  // Return the length of the animation or 0 is any pb.
+  return length;
+} // getAnimationLength //
 
 //---------------------------------------------------
 // getAnimationLength :
@@ -164,28 +160,25 @@ double CAnimationMisc::getAnimationLength(UAnimationSet *animationSet, const std
 // \param idAnim : id of the animation.
 // \return double : the length of the animation or 0 if any pb.
 //---------------------------------------------------
-double CAnimationMisc::getAnimationLength(UAnimationSet *animationSet, uint idAnim)
-{
-	// Initialize the length to 0.0 like if there is an error.
-	double length = 0.0;
+double CAnimationMisc::getAnimationLength(UAnimationSet *animationSet,
+                                          uint idAnim) {
+  // Initialize the length to 0.0 like if there is an error.
+  double length = 0.0;
 
-	// Check _AnimationSet.
-	if(animationSet)
-	{
-		// Check idAnim
-		if(idAnim != UAnimationSet::NotFound)
-		{
-			// Get the animation pointer and get the length.
-			UAnimation *anim = animationSet->getAnimation(idAnim);
-			if(anim)
-				length = anim->getEndTime() - anim->getBeginTime();
-		}
-	}
+  // Check _AnimationSet.
+  if (animationSet) {
+    // Check idAnim
+    if (idAnim != UAnimationSet::NotFound) {
+      // Get the animation pointer and get the length.
+      UAnimation *anim = animationSet->getAnimation(idAnim);
+      if (anim)
+        length = anim->getEndTime() - anim->getBeginTime();
+    }
+  }
 
-	// Return the length of the animation or 0 is any pb.
-	return length;
-}// getAnimationLength //
-
+  // Return the length of the animation or 0 is any pb.
+  return length;
+} // getAnimationLength //
 
 //---------------------------------------------------
 // getAnimationAverageSpeed :
@@ -194,21 +187,20 @@ double CAnimationMisc::getAnimationLength(UAnimationSet *animationSet, uint idAn
 // \param string animName : Animation Name.
 // \return double : the average speed (in m/s).
 //---------------------------------------------------
-double CAnimationMisc::getAnimationAverageSpeed(UAnimationSet *animationSet, const std::string &animName)
-{
-	if(animationSet)
-	{
-		// Get the animation Id.
-		uint idAnim = animationSet->getAnimationIdByName(animName);
-		if(idAnim != UAnimationSet::NotFound)
-			return getAnimationAverageSpeed(animationSet, idAnim);
-	}
-	else
-		nlwarning("CAnimationMisc::getAnimationAverageSpeed : animationSet is NULL");
+double CAnimationMisc::getAnimationAverageSpeed(UAnimationSet *animationSet,
+                                                const std::string &animName) {
+  if (animationSet) {
+    // Get the animation Id.
+    uint idAnim = animationSet->getAnimationIdByName(animName);
+    if (idAnim != UAnimationSet::NotFound)
+      return getAnimationAverageSpeed(animationSet, idAnim);
+  } else
+    nlwarning(
+        "CAnimationMisc::getAnimationAverageSpeed : animationSet is NULL");
 
-	// Return the animation average speed.
-	return 0.0;
-}// getAnimationAverageSpeed //
+  // Return the animation average speed.
+  return 0.0;
+} // getAnimationAverageSpeed //
 
 //---------------------------------------------------
 // getAnimationAverageSpeed :
@@ -217,34 +209,31 @@ double CAnimationMisc::getAnimationAverageSpeed(UAnimationSet *animationSet, con
 // \param idAnim : id of the animation.
 // \return double : the average speed (in m/s).
 //---------------------------------------------------
-double CAnimationMisc::getAnimationAverageSpeed(UAnimationSet *animationSet, uint idAnim)
-{
-	// Initialize the length to 0.0 like if there is an error.
-	double length = getAnimationLength(animationSet, idAnim);
+double CAnimationMisc::getAnimationAverageSpeed(UAnimationSet *animationSet,
+                                                uint idAnim) {
+  // Initialize the length to 0.0 like if there is an error.
+  double length = getAnimationLength(animationSet, idAnim);
 
-	// Check the length.
-	if(length <= 0.0)
-	{
-		nlwarning("CEntityAnimationManager::getAnimationAverageSpeed : length <= 0.0 -> return speed = 0.0");
-		return 0.0;
-	}
+  // Check the length.
+  if (length <= 0.0) {
+    nlwarning("CEntityAnimationManager::getAnimationAverageSpeed : length <= "
+              "0.0 -> return speed = 0.0");
+    return 0.0;
+  }
 
-	// Get the distance done by the animation.
-	double move = 0.0;
-	NLMISC::CVector	startPos, endPos;
-	if(interpolate(animationSet, idAnim, 0.0, startPos))
-	{
-		if(interpolate(animationSet, idAnim, length, endPos))
-		{
-			NLMISC::CVector mov = endPos - startPos;
-			move = mov.norm();
-		}
-	}
+  // Get the distance done by the animation.
+  double move = 0.0;
+  NLMISC::CVector startPos, endPos;
+  if (interpolate(animationSet, idAnim, 0.0, startPos)) {
+    if (interpolate(animationSet, idAnim, length, endPos)) {
+      NLMISC::CVector mov = endPos - startPos;
+      move = mov.norm();
+    }
+  }
 
-	// Return the animation average speed.
-	return (move / length);
-}// getAnimationAverageSpeed //
-
+  // Return the animation average speed.
+  return (move / length);
+} // getAnimationAverageSpeed //
 
 //---------------------------------------------------
 // getAnimationRotation :
@@ -253,21 +242,19 @@ double CAnimationMisc::getAnimationAverageSpeed(UAnimationSet *animationSet, uin
 // \param string animName : Animation Name.
 // \return double : the rotation (in radian).
 //---------------------------------------------------
-double CAnimationMisc::getAnimationRotation(NL3D::UAnimationSet *animationSet, const std::string &animName)
-{
-	if(animationSet)
-	{
-		// Get the animation Id.
-		uint idAnim = animationSet->getAnimationIdByName(animName);
-		if(idAnim != UAnimationSet::NotFound)
-			return getAnimationRotation(animationSet, idAnim);
-	}
-	else
-		nlwarning("CAnimationMisc::getAnimationRotation : animationSet is NULL");
+double CAnimationMisc::getAnimationRotation(NL3D::UAnimationSet *animationSet,
+                                            const std::string &animName) {
+  if (animationSet) {
+    // Get the animation Id.
+    uint idAnim = animationSet->getAnimationIdByName(animName);
+    if (idAnim != UAnimationSet::NotFound)
+      return getAnimationRotation(animationSet, idAnim);
+  } else
+    nlwarning("CAnimationMisc::getAnimationRotation : animationSet is NULL");
 
-	// Return the animation average speed.
-	return 0.0;
-}// getAnimationRotation //
+  // Return the animation average speed.
+  return 0.0;
+} // getAnimationRotation //
 
 //---------------------------------------------------
 // getAnimationRotation :
@@ -276,26 +263,26 @@ double CAnimationMisc::getAnimationRotation(NL3D::UAnimationSet *animationSet, c
 // \param idAnim : id of the animation.
 // \return double : the rotation (in radian).
 //---------------------------------------------------
-double CAnimationMisc::getAnimationRotation(NL3D::UAnimationSet *animationSet, uint idAnim)
-{
-	// Check the animation Id.
-	if(idAnim != CAnimation::UnknownAnim)
-	{
-		CQuat currentAnimRotStart, currentAnimRotEnd;
-		if(CAnimationMisc::interpolate(animationSet, idAnim, 0.0, currentAnimRotStart))
-		{
-			double animLength = CAnimationMisc::getAnimationLength(animationSet, idAnim);
-			if(CAnimationMisc::interpolate(animationSet, idAnim, animLength, currentAnimRotEnd))
-			{
-				currentAnimRotStart.invert();
-				CQuat currentAnimRot =  currentAnimRotStart * currentAnimRotEnd;
-				return fabs(currentAnimRot.getAngle());
-			}
-		}
-	}
+double CAnimationMisc::getAnimationRotation(NL3D::UAnimationSet *animationSet,
+                                            uint idAnim) {
+  // Check the animation Id.
+  if (idAnim != CAnimation::UnknownAnim) {
+    CQuat currentAnimRotStart, currentAnimRotEnd;
+    if (CAnimationMisc::interpolate(animationSet, idAnim, 0.0,
+                                    currentAnimRotStart)) {
+      double animLength =
+          CAnimationMisc::getAnimationLength(animationSet, idAnim);
+      if (CAnimationMisc::interpolate(animationSet, idAnim, animLength,
+                                      currentAnimRotEnd)) {
+        currentAnimRotStart.invert();
+        CQuat currentAnimRot = currentAnimRotStart * currentAnimRotEnd;
+        return fabs(currentAnimRot.getAngle());
+      }
+    }
+  }
 
-	return 0.f;
-}// getAnimationRotation //
+  return 0.f;
+} // getAnimationRotation //
 
 //-----------------------------------------------
 // Get the vector covered by the given animation.
@@ -304,23 +291,24 @@ double CAnimationMisc::getAnimationRotation(NL3D::UAnimationSet *animationSet, u
 // \param move : filled with the vector of the move if possible
 // \return bool : true if 'move' has been filled, else false.
 //-----------------------------------------------
-bool CAnimationMisc::getAnimationMove(NL3D::UAnimationSet *animationSet, uint idAnim, NLMISC::CVector &move)	// static
+bool CAnimationMisc::getAnimationMove(NL3D::UAnimationSet *animationSet,
+                                      uint idAnim,
+                                      NLMISC::CVector &move) // static
 {
-	CVector startPos, endPos;
-	if(CAnimationMisc::interpolate(animationSet, idAnim, 0.0, startPos))
-	{
-		double animLength = CAnimationMisc::getAnimationLength(animationSet, idAnim);
-		if(animLength)
-		{
-			if(CAnimationMisc::interpolate(animationSet, idAnim, animLength, endPos))
-			{
-				// Well Done.
-				move = endPos - startPos;
-				return true;
-			}
-		}
-	}
+  CVector startPos, endPos;
+  if (CAnimationMisc::interpolate(animationSet, idAnim, 0.0, startPos)) {
+    double animLength =
+        CAnimationMisc::getAnimationLength(animationSet, idAnim);
+    if (animLength) {
+      if (CAnimationMisc::interpolate(animationSet, idAnim, animLength,
+                                      endPos)) {
+        // Well Done.
+        move = endPos - startPos;
+        return true;
+      }
+    }
+  }
 
-	// Something Wrong -> return false.
-	return false;
-}// getAnimationMove //
+  // Something Wrong -> return false.
+  return false;
+} // getAnimationMove //

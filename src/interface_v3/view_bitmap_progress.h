@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RZ_DBVIEW_BAR_H
 #define RZ_DBVIEW_BAR_H
 
@@ -29,36 +27,28 @@
  * \author Nevrax France
  * \date 2002
  */
-class CDBViewBar : CViewBitmap
-{
+class CDBViewBar : CViewBitmap {
 public:
+  /// Constructor
+  CDBViewBar(const TCtorParam &param)
+      : CViewBitmap(param), _Slot(TCtorParam()), _Bar(TCtorParam()) {}
 
-	/// Constructor
-	CDBViewBar(const TCtorParam &param)
-		: CViewBitmap(param),
-		_Slot(TCtorParam()),
-		_Bar(TCtorParam())
-	{}
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual uint32 getMemory() { return sizeof(*this) + _Id.size(); }
 
-	bool parse(xmlNodePtr cur,CInterfaceGroup * parentGroup);
-	virtual uint32 getMemory() { return sizeof(*this)+_Id.size(); }
-
-	virtual void draw ();
+  virtual void draw();
 
 protected:
+  CViewBitmap _Slot;
+  CViewBitmap _Bar;
 
-	CViewBitmap	_Slot;
-	CViewBitmap _Bar;
+  // range of the progression in arbitrary units. should be integer
+  CInterfaceProperty _Range;
+  // max range of the progression in arbitrary units. should be integer
+  CInterfaceProperty _RangeMax;
 
-	//range of the progression in arbitrary units. should be integer
-	CInterfaceProperty _Range;
-	//max range of the progression in arbitrary units. should be integer
-	CInterfaceProperty _RangeMax;
-
-	CInterfaceProperty _Vertical;
-
+  CInterfaceProperty _Vertical;
 };
-
 
 #endif // RZ_DBVIEW_BAR_H
 

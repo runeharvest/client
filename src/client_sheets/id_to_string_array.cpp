@@ -14,59 +14,44 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "id_to_string_array.h"
 #include "nel/georges/u_form_elm.h"
+#include "stdpch.h"
 
 using namespace NLGEORGES;
 
 // ****************************************************************************************
-CIDToStringArraySheet::CIDToStringArraySheet()
-{
-	Type = ID_TO_STRING_ARRAY;
+CIDToStringArraySheet::CIDToStringArraySheet() { Type = ID_TO_STRING_ARRAY; }
+
+// *******************************************************************************************
+void CIDToStringArraySheet::build(const NLGEORGES::UFormElm &item) {
+  const UFormElm *stringArray = NULL;
+  if (item.getNodeByName(&stringArray, "Array") && stringArray) {
+    std::string str;
+    uint numStr;
+    nlverify(stringArray->getArraySize(numStr));
+    Array.reserve(numStr);
+    for (uint k = 0; k < numStr; ++k) {
+      const UFormElm *strNode = NULL;
+      if (stringArray->getArrayNode(&strNode, k) && strNode) {
+        Array.push_back(CIDToString());
+        Array.back().build(*strNode);
+      }
+    }
+  }
 }
 
 // *******************************************************************************************
-void CIDToStringArraySheet::build(const NLGEORGES::UFormElm &item)
-{
-	const UFormElm *stringArray = NULL;
-	if (item.getNodeByName(&stringArray, "Array") && stringArray)
-	{
-		std::string str;
-		uint numStr;
-		nlverify(stringArray->getArraySize(numStr));
-		Array.reserve(numStr);
-		for(uint k = 0; k < numStr; ++k)
-		{
-			const UFormElm *strNode = NULL;
-			if (stringArray->getArrayNode(&strNode, k) && strNode)
-			{
-				Array.push_back(CIDToString());
-				Array.back().build(*strNode);
-			}
-		}
-	}
+void CIDToStringArraySheet::serial(NLMISC::IStream &f) { f.serialCont(Array); }
+
+// *******************************************************************************************
+void CIDToString::build(const NLGEORGES::UFormElm &item) {
+  item.getValueByName(String, "String");
+  item.getValueByName(ID, "ID");
 }
 
 // *******************************************************************************************
-void CIDToStringArraySheet::serial(NLMISC::IStream &f)
-{
-	f.serialCont(Array);
+void CIDToString::serial(NLMISC::IStream &f) {
+  f.serial(ID);
+  f.serial(String);
 }
-
-// *******************************************************************************************
-void CIDToString::build(const NLGEORGES::UFormElm &item)
-{
-	item.getValueByName(String, "String");
-	item.getValueByName(ID, "ID");
-}
-
-// *******************************************************************************************
-void CIDToString::serial(NLMISC::IStream &f)
-{
-	f.serial(ID);
-	f.serial(String);
-}
-

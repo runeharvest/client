@@ -18,35 +18,32 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "stdpch.h"
 
-//#define TRACE_READ_DELTA
-//#define TRACE_WRITE_DELTA
-//#define TRACE_SET_VALUE
-
+// #define TRACE_READ_DELTA
+// #define TRACE_WRITE_DELTA
+// #define TRACE_SET_VALUE
 
 //////////////
 // Includes //
 //////////////
-#include "nel/misc/types_nl.h"
 #include "nel/misc/debug.h"
 #include "nel/misc/file.h"
 #include "nel/misc/i_xml.h"
+#include "nel/misc/types_nl.h"
 
 #include "cdb_synchronised.h"
 
 #include "interface_v3/interface_manager.h"
 
-//#include <iostream.h>
-#include <libxml/parser.h>
+// #include <iostream.h>
 #include <fcntl.h>
+#include <libxml/parser.h>
 #include <string.h>
 
 #include <string>
 
 #include "game_share/ryzom_database_banks.h"
-
 
 ////////////////
 // Namespaces //
@@ -56,207 +53,186 @@ using namespace std;
 
 uint32 NbDatabaseChanges = 0;
 
-
 //-----------------------------------------------
 //	CCDBSynchronised
 //
 //-----------------------------------------------
-CCDBSynchronised::CCDBSynchronised() : CCDBManager("SERVER", NB_CDB_BANKS), _InitInProgress(true), _InitDeltaReceived(0)
-{
-}
+CCDBSynchronised::CCDBSynchronised()
+    : CCDBManager("SERVER", NB_CDB_BANKS), _InitInProgress(true),
+      _InitDeltaReceived(0) {}
 
-extern const char *CDBBankNames[INVALID_CDB_BANK+1];
+extern const char *CDBBankNames[INVALID_CDB_BANK + 1];
 
 //-----------------------------------------------
 //	init
 //
 //-----------------------------------------------
-void CCDBSynchronised::init( const string &fileName, NLMISC::IProgressCallback &progressCallBack )
-{
-	try
-	{
-		CIFile file;
-		if (file.open (fileName))
-		{
-			// Init an xml stream
-			CIXml read;
-			read.init (file);
+void CCDBSynchronised::init(const string &fileName,
+                            NLMISC::IProgressCallback &progressCallBack) {
+  try {
+    CIFile file;
+    if (file.open(fileName)) {
+      // Init an xml stream
+      CIXml read;
+      read.init(file);
 
-			//Parse the parser output!!!
-			bankHandler.resetNodeBankMapping(); // in case the game is restarted from start
-			bankHandler.fillBankNames( CDBBankNames, INVALID_CDB_BANK + 1 );
-			if( _Database == NULL )
-				_Database = new CCDBNodeBranch( "SERVER" );
-			_Database->init( read.getRootNode (), progressCallBack, true, &bankHandler );
-		}
-	}
-	catch (const Exception &e)
-	{
-		// Output error
-		nlwarning ("CFormLoader: Error while loading the form %s: %s", fileName.c_str(), e.what());
-	}
+      // Parse the parser output!!!
+      bankHandler
+          .resetNodeBankMapping(); // in case the game is restarted from start
+      bankHandler.fillBankNames(CDBBankNames, INVALID_CDB_BANK + 1);
+      if (_Database == NULL)
+        _Database = new CCDBNodeBranch("SERVER");
+      _Database->init(read.getRootNode(), progressCallBack, true, &bankHandler);
+    }
+  } catch (const Exception &e) {
+    // Output error
+    nlwarning("CFormLoader: Error while loading the form %s: %s",
+              fileName.c_str(), e.what());
+  }
 }
-
 
 //-----------------------------------------------
 //	read
 //
 //-----------------------------------------------
-void CCDBSynchronised::read( const string &fileName )
-{
+void CCDBSynchronised::read(const string &fileName) {
 #ifdef _DEBUG
-	int linecount=1;
+  int linecount = 1;
 #endif
 
-	if (_Database == NULL)
-	{
-		throw CCDBSynchronised::EDBNotInit();
-	}
+  if (_Database == NULL) {
+    throw CCDBSynchronised::EDBNotInit();
+  }
 
-	CIFile f;
+  CIFile f;
 
-	if (!f.open(fileName, true))
-	{
-		nlerror("can't open file : %s\n", fileName.c_str());
-	}
+  if (!f.open(fileName, true)) {
+    nlerror("can't open file : %s\n", fileName.c_str());
+  }
 
-	while(!f.eof())
-	{
-		char line[1024];
-		f.getline(line, 1024);
+  while (!f.eof()) {
+    char line[1024];
+    f.getline(line, 1024);
 
 #ifdef _DEBUG
-		nlinfo("%s:%i", fileName.c_str(), linecount);
-		linecount++;
+    nlinfo("%s:%i", fileName.c_str(), linecount);
+    linecount++;
 #endif
 
-		char * token;
-		char * buffer = new char[strlen(line)+1];
-		strcpy(buffer, line);
+    char *token;
+    char *buffer = new char[strlen(line) + 1];
+    strcpy(buffer, line);
 
-		// value
-		token = strtok(buffer," \t");
+    // value
+    token = strtok(buffer, " \t");
 
-		if (token)
-		{
-			sint64 value;
-			fromString((const char*)token, value);
+    if (token) {
+      sint64 value;
+      fromString((const char *)token, value);
 
-			// property name
-			token = strtok(NULL," \n");
+      // property name
+      token = strtok(NULL, " \n");
 
-			if (token)
-			{
-				string propName(token);
+      if (token) {
+        string propName(token);
 
-				// set the value of the property
-				ICDBNode::CTextId txtId(propName);
-				_Database->setProp(txtId, value);
-			}
-		}
+        // set the value of the property
+        ICDBNode::CTextId txtId(propName);
+        _Database->setProp(txtId, value);
+      }
+    }
 
-		delete [] buffer;
-	}
+    delete[] buffer;
+  }
 
-	f.close();
+  f.close();
 } // read //
-
-
 
 //-----------------------------------------------
 //	write
 //
 //-----------------------------------------------
-void CCDBSynchronised::write( const string &fileName )
-{
-	bool res = false;
+void CCDBSynchronised::write(const string &fileName) {
+  bool res = false;
 
-	if (_Database != 0)
-	{
-		FILE * f = nlfopen(fileName, "w");
-		if (f)
-		{
-			ICDBNode::CTextId id;
-			_Database->write(id,f);
-			fclose(f);
+  if (_Database != 0) {
+    FILE *f = nlfopen(fileName, "w");
+    if (f) {
+      ICDBNode::CTextId id;
+      _Database->write(id, f);
+      fclose(f);
 
-			res = true;
-		}
-	}
+      res = true;
+    }
+  }
 
-	if (!res)
-	{
-		nlwarning("<CCDBSynchronised::write> can't write %s : the database has not been initialized",fileName.c_str());
-	}
+  if (!res) {
+    nlwarning("<CCDBSynchronised::write> can't write %s : the database has not "
+              "been initialized",
+              fileName.c_str());
+  }
 } // write //
-
 
 //-----------------------------------------------
 //	readDelta
 //
 //-----------------------------------------------
-void CCDBSynchronised::readDelta( NLMISC::TGameCycle gc, CBitMemStream& s, uint bank )
-{
-	nldebug("Update DB");
+void CCDBSynchronised::readDelta(NLMISC::TGameCycle gc, CBitMemStream &s,
+                                 uint bank) {
+  nldebug("Update DB");
 
-	if( _Database == 0 )
-	{
-		nlwarning("<CCDBSynchronised::readDelta> the database has not been initialized");
-		return;
-	}
+  if (_Database == 0) {
+    nlwarning(
+        "<CCDBSynchronised::readDelta> the database has not been initialized");
+    return;
+  }
 
-	//displayBitStream2( f, f.getPosInBit(), f.getPosInBit() + 64 );
-	uint16 propertyCount = 0;
-	s.serial( propertyCount );
+  // displayBitStream2( f, f.getPosInBit(), f.getPosInBit() + 64 );
+  uint16 propertyCount = 0;
+  s.serial(propertyCount);
 
-	if ( NLMISC::ICDBNode::isDatabaseVerbose() )
-		nlinfo( "CDB: Reading delta (%hu changes)", propertyCount );
-	NbDatabaseChanges += propertyCount;
+  if (NLMISC::ICDBNode::isDatabaseVerbose())
+    nlinfo("CDB: Reading delta (%hu changes)", propertyCount);
+  NbDatabaseChanges += propertyCount;
 
-	for( uint i=0; i!=propertyCount; ++i )
-	{
-		_Database->readAndMapDelta( gc, s, bank, &bankHandler );
-	}
+  for (uint i = 0; i != propertyCount; ++i) {
+    _Database->readAndMapDelta(gc, s, bank, &bankHandler);
+  }
 
-	/*// Read "client only" property changes
-	bool hasCOPropChanges;
-	s.serialBit( hasCOPropChanges );
-	if ( hasCOPropChanges )
-	{
-		uint32 nbCOPropChanges;
-		s.serial( nbCOPropChanges, 4 );
-		if ( nbCOPropChanges == 15 )
-		{
-			s.serial( nbCOPropChanges );
-		}
-		for ( uint i=0; i!=nbCOPropChanges; ++i )
-		{
-			string propName; //TEMP
-			sint64 value; //TEMP
-			s.serial( propName );
-			s.serial( value );
-			setProp( propName, value );
-		}
-	}*/
+  /*// Read "client only" property changes
+  bool hasCOPropChanges;
+  s.serialBit( hasCOPropChanges );
+  if ( hasCOPropChanges )
+  {
+          uint32 nbCOPropChanges;
+          s.serial( nbCOPropChanges, 4 );
+          if ( nbCOPropChanges == 15 )
+          {
+                  s.serial( nbCOPropChanges );
+          }
+          for ( uint i=0; i!=nbCOPropChanges; ++i )
+          {
+                  string propName; //TEMP
+                  sint64 value; //TEMP
+                  s.serial( propName );
+                  s.serial( value );
+                  setProp( propName, value );
+          }
+  }*/
 
 } // readDelta //
-
 
 //-----------------------------------------------
 //	getProp
 //
 //-----------------------------------------------
-sint64 CCDBSynchronised::getProp( const string &name )
-{
-	if( _Database != 0 )
-	{
-		ICDBNode::CTextId txtId( name );
-		return _Database->getProp( txtId );
-	}
-	else
-		throw CCDBSynchronised::EDBNotInit();
+sint64 CCDBSynchronised::getProp(const string &name) {
+  if (_Database != 0) {
+    ICDBNode::CTextId txtId(name);
+    return _Database->getProp(txtId);
+  } else
+    throw CCDBSynchronised::EDBNotInit();
 } // getProp //
-
 
 //-----------------------------------------------
 //	setProp
@@ -265,85 +241,74 @@ sint64 CCDBSynchronised::getProp( const string &name )
 // \param value is the value of the property
 // \return bool : 'true' if the property was found.
 //-----------------------------------------------
-bool CCDBSynchronised::setProp(const string &name, sint64 value)
-{
-	if(_Database == 0)
-	{
-		nlwarning("<CCDBSynchronised::setProp> the database has not been initialized");
-		return false;
-	}
+bool CCDBSynchronised::setProp(const string &name, sint64 value) {
+  if (_Database == 0) {
+    nlwarning(
+        "<CCDBSynchronised::setProp> the database has not been initialized");
+    return false;
+  }
 
 #ifdef TRACE_SET_VALUE
-	nlinfo("Set value %" NL_I64 "d for Prop %s", value,name.c_str() );
+  nlinfo("Set value %" NL_I64 "d for Prop %s", value, name.c_str());
 #endif
 
-	// Set the property.
-	ICDBNode::CTextId txtId( name );
-	return _Database->setProp( txtId, value );
+  // Set the property.
+  ICDBNode::CTextId txtId(name);
+  return _Database->setProp(txtId, value);
 } // setProp //
-
-
 
 //-----------------------------------------------
 //	getString
 //
 //-----------------------------------------------
-string CCDBSynchronised::getString( uint32 id )
-{
-	map<uint32,string>::iterator itStr = _Strings.find( id );
-	if( itStr != _Strings.end() )
-	{
-		return (*itStr).second;
-	}
+string CCDBSynchronised::getString(uint32 id) {
+  map<uint32, string>::iterator itStr = _Strings.find(id);
+  if (itStr != _Strings.end()) {
+    return (*itStr).second;
+  }
 
-	nlwarning("<CCDBSynchronised::getString> string with id %d was not found",id);
-	return "";
+  nlwarning("<CCDBSynchronised::getString> string with id %d was not found",
+            id);
+  return "";
 } // getString //
-
-
 
 //-----------------------------------------------
 //	setString
 //
 //-----------------------------------------------
-void CCDBSynchronised::setString( uint32 id, const std::string &str )
-{
-	_Strings[id]=str;
+void CCDBSynchronised::setString(uint32 id, const std::string &str) {
+  _Strings[id] = str;
 }
-
 
 //-----------------------------------------------
 //	clear
 //
 //-----------------------------------------------
-void CCDBSynchronised::clear()
-{
-	if(_Database)
-	{
-		_Database->clear();
-		delete _Database;
-		_Database = NULL;
-	}
+void CCDBSynchronised::clear() {
+  if (_Database) {
+    _Database->clear();
+    delete _Database;
+    _Database = NULL;
+  }
 
-	// clear CCDBNodeBranch static data
-	branchObservingHandler.reset();
-	bankHandler.reset();
+  // clear CCDBNodeBranch static data
+  branchObservingHandler.reset();
+  bankHandler.reset();
 }
 
-
-void CCDBSynchronised::writeInitInProgressIntoUIDB()
-{
-	CInterfaceManager *pIM = CInterfaceManager::getInstance();
-	if (pIM)
-	{
-		NLMISC::CCDBNodeLeaf *node = m_CDBInitInProgressDB ? (&*m_CDBInitInProgressDB)
-			: &*(m_CDBInitInProgressDB = NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:CDB_INIT_IN_PROGRESS"));
-		node->setValueBool(_InitInProgress);
-	}
-	else
-		nlwarning("InterfaceManager not created");
+void CCDBSynchronised::writeInitInProgressIntoUIDB() {
+  CInterfaceManager *pIM = CInterfaceManager::getInstance();
+  if (pIM) {
+    NLMISC::CCDBNodeLeaf *node =
+        m_CDBInitInProgressDB
+            ? (&*m_CDBInitInProgressDB)
+            : &*(m_CDBInitInProgressDB =
+                     NLGUI::CDBManager::getInstance()->getDbProp(
+                         "UI:VARIABLES:CDB_INIT_IN_PROGRESS"));
+    node->setValueBool(_InitInProgress);
+  } else
+    nlwarning("InterfaceManager not created");
 }
-
 
 #ifdef TRACE_READ_DELTA
 #undef TRACE_READ_DELTA
@@ -356,5 +321,3 @@ void CCDBSynchronised::writeInitInProgressIntoUIDB()
 #ifdef TRACE_SET_VALUE
 #undef TRACE_SET_VALUE
 #endif
-
-

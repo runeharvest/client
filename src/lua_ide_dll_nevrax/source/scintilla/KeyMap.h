@@ -19,7 +19,8 @@
  ** Defines a mapping between keystrokes and commands.
  **/
 // Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
-// The License.txt file describes the conditions under which this software may be distributed.
+// The License.txt file describes the conditions under which this software may
+// be distributed.
 
 #ifndef KEYTOCOMMAND_H
 #define KEYTOCOMMAND_H
@@ -35,25 +36,25 @@
  */
 class KeyToCommand {
 public:
-	int key;
-	int modifiers;
-	unsigned int msg;
+  int key;
+  int modifiers;
+  unsigned int msg;
 };
 
 /**
  */
 class KeyMap {
-	KeyToCommand *kmap;
-	int len;
-	int alloc;
-	static const KeyToCommand MapDefault[];
+  KeyToCommand *kmap;
+  int len;
+  int alloc;
+  static const KeyToCommand MapDefault[];
 
 public:
-	KeyMap();
-	~KeyMap();
-	void Clear();
-	void AssignCmdKey(int key, int modifiers, unsigned int msg);
-	unsigned int Find(int key, int modifiers);	// 0 returned on failure
+  KeyMap();
+  ~KeyMap();
+  void Clear();
+  void AssignCmdKey(int key, int modifiers, unsigned int msg);
+  unsigned int Find(int key, int modifiers); // 0 returned on failure
 };
 
 #endif

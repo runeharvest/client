@@ -23,34 +23,34 @@
 
 #if defined(_MSC_VER) && defined(_DEBUG)
 #define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
 #include <crtdbg.h>
-#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#include <stdlib.h>
+#define DEBUG_NEW new (_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
 #include "nel/misc/types_nl.h"
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
 #include <errno.h>
+#include <math.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-#include <set>
 #include <algorithm>
-#include <exception>
-#include <utility>
 #include <deque>
+#include <exception>
 #include <fstream>
 #include <functional>
-#include <memory>
-#include <limits>
 #include <iterator>
+#include <limits>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "nel/misc/common.h"
 #include "nel/misc/debug.h"
@@ -88,8 +88,8 @@
 #include "nel/misc/vector_2f.h"
 #include "nel/misc/vectord.h"
 
-#include "nel/georges/u_form_loader.h"
 #include "nel/georges/u_form.h"
+#include "nel/georges/u_form_loader.h"
 
 #include "nel/3d/landscapeig_manager.h"
 #include "nel/3d/texture_file.h"
@@ -113,32 +113,32 @@
 #include "nel/3d/u_visual_collision_manager.h"
 
 #include "nel/net/callback_client.h"
-#include "nel/net/udp_sock.h"
 #include "nel/net/email.h"
+#include "nel/net/udp_sock.h"
 
-#include "nel/pacs/u_move_container.h"
-#include "nel/pacs/u_global_retriever.h"
 #include "nel/pacs/u_global_position.h"
+#include "nel/pacs/u_global_retriever.h"
+#include "nel/pacs/u_move_container.h"
 #include "nel/pacs/u_move_primitive.h"
-#include "nel/pacs/u_retriever_bank.h"
 #include "nel/pacs/u_primitive_block.h"
+#include "nel/pacs/u_retriever_bank.h"
 
 #include "nel/sound/sound_anim_manager.h"
 
+#include "game_share/action_target_slot.h"
 #include "game_share/generic_xml_msg_mngr.h"
 #include "game_share/msg_client_server.h"
-#include "game_share/action_target_slot.h"
 
 #include <libxml/parser.h>
 
 // Foutez pas d'include du client ici svp ! Grrr ! Hulud
 
 #ifdef NL_OS_WINDOWS
-#	ifndef NL_COMP_MINGW
-#		define NOMINMAX
-#	endif
-#	include <winsock2.h>
-#	include <windows.h>
+#ifndef NL_COMP_MINGW
+#define NOMINMAX
+#endif
+#include <winsock2.h>
+#include <windows.h>
 #endif // NL_OS_WINDOWS
 
 #endif

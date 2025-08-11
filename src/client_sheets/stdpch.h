@@ -20,38 +20,38 @@
 #ifndef CL_STDPCH_H
 #define CL_STDPCH_H
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>
-#include <algorithm>
-//#include <sstream>
+#include <string>
+#include <vector>
+// #include <sstream>
+#include <deque>
 #include <exception>
 #include <utility>
-#include <deque>
 
-#include "nel/misc/types_nl.h"
 #include "nel/misc/common.h"
 #include "nel/misc/debug.h"
-#include "nel/misc/stream.h"
-#include "nel/misc/time_nl.h"
-#include "nel/misc/vector.h"
 #include "nel/misc/matrix.h"
 #include "nel/misc/rgba.h"
 #include "nel/misc/sheet_id.h"
 #include "nel/misc/smart_ptr.h"
+#include "nel/misc/stream.h"
 #include "nel/misc/string_mapper.h"
+#include "nel/misc/time_nl.h"
+#include "nel/misc/types_nl.h"
+#include "nel/misc/vector.h"
 
-#include "nel/georges/u_form_elm.h"
 #include "nel/georges/u_form.h"
-#include "nel/georges/u_form_loader.h"
 #include "nel/georges/u_form_dfn.h"
+#include "nel/georges/u_form_elm.h"
+#include "nel/georges/u_form_loader.h"
 
 #endif

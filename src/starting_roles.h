@@ -14,34 +14,33 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #error deprecated
 
 //
-//#ifndef CL_STARTING_ROLES_H
-//#define CL_STARTING_ROLES_H
+// #ifndef CL_STARTING_ROLES_H
+// #define CL_STARTING_ROLES_H
 //
-//#include "game_share/jobs.h"
+// #include "game_share/jobs.h"
 //
 //
-//namespace NLGEORGES
+// namespace NLGEORGES
 //{
 //	class UFormElm;
 //}
 //
-//namespace NLMISC
+// namespace NLMISC
 //{
 //	class IProgressCallback;
 //}
 //
-//class	CStartingRoleSheet;
+// class	CStartingRoleSheet;
 //
 //// ***************************************************************************
 ///** Helper class to find set of starting roles
 //  */
-//class CStartingRoleSet
+// class CStartingRoleSet
 //{
-//public:
+// public:
 //	CStartingRoleSet();
 //
 //	/// Init sheets for starting roles
@@ -50,7 +49,7 @@
 //	/** Get a starting role depending on job
 //	  */
 //	const CStartingRoleSheet *getStartingRole(JOBS::TJob) const;
-//private:
+// private:
 //	CStartingRoleSheet	*_StartingRole[JOBS::NbJobs];
 //};
 //
@@ -59,10 +58,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //// global instance for starting skills
-//extern CStartingRoleSet StartingRoleSet;
+// extern CStartingRoleSet StartingRoleSet;
 //
 //
 //
 //
 //
-//#endif
+// #endif

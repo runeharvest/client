@@ -19,7 +19,6 @@
 
 #include "nel/misc/types_nl.h"
 
-
 // ***************************************************************************
 /**
  * Callback called when a brick is learned
@@ -27,14 +26,11 @@
  * \author Nevrax France
  * \date 2004
  */
-class IBrickLearnedCallback
-{
+class IBrickLearnedCallback {
 public:
-	virtual ~IBrickLearnedCallback() { }
-	virtual	void	onBrickLearned() =0;
+  virtual ~IBrickLearnedCallback() {}
+  virtual void onBrickLearned() = 0;
 };
-
-
 
 #endif // NL_BRICK_LEARNED_CALLBACK_H
 

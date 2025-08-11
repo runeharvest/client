@@ -20,95 +20,87 @@
 #ifndef R2_TOOL_CREATE_ENTITY_H
 #define R2_TOOL_CREATE_ENTITY_H
 
-#include "tool_choose_pos.h"
-#include "nel/misc/vector.h"
-#include "prim_render.h"
 #include "../decal.h"
 #include "auto_group.h"
 #include "displayer_visual_entity.h"
+#include "nel/misc/vector.h"
+#include "prim_render.h"
+#include "tool_choose_pos.h"
 
 class CEntity;
-namespace NLGUI
-{
-	class CLuaObject;
+namespace NLGUI {
+class CLuaObject;
 }
 
-namespace R2
-{
+namespace R2 {
 
 /**
-  * Tool to create an entity or an array of entities in the scene
-  * A transparent version of the entity to be created is drawn under the mouse
-  * at the creation position
-  */
-class CToolCreateEntity : public CToolChoosePos
-{
+ * Tool to create an entity or an array of entities in the scene
+ * A transparent version of the entity to be created is drawn under the mouse
+ * at the creation position
+ */
+class CToolCreateEntity : public CToolChoosePos {
 public:
-	NLMISC_DECLARE_CLASS(R2::CToolCreateEntity);
-	CToolCreateEntity() { nlassert(0); }
-	~CToolCreateEntity();
-	//
-	CToolCreateEntity(uint ghostSlot, const std::string &paletteId, bool arrayMode);
-	const std::string &getPaletteId() const { return _PaletteId; }
+  NLMISC_DECLARE_CLASS(R2::CToolCreateEntity);
+  CToolCreateEntity() { nlassert(0); }
+  ~CToolCreateEntity();
+  //
+  CToolCreateEntity(uint ghostSlot, const std::string &paletteId,
+                    bool arrayMode);
+  const std::string &getPaletteId() const { return _PaletteId; }
+
 protected:
-	// from CTool
-	virtual void onActivate();
-	//
-	virtual void updateBeforeRender();
-	virtual void updateAfterRender();
-	virtual bool onMouseLeftButtonClicked();
-	virtual bool onMouseRightButtonClicked();
-	// from CToolChoosePos
-	virtual void commit(const NLMISC::CVector &createPosition, float createAngle);
-	virtual void updateInvalidCursorOnUI();
-	virtual bool stopAfterCommit() const;
-	virtual void cancel();
-private:
-	enum TCreateState
-	{
-		CreateSingle = 0,
-		ChooseArrayOrigin,
-		DrawArray
-	};
-private:
-	TCreateState			 _CreateState;
-	std::string				 _PaletteId;
-	std::string				 _EntityCategory;
-	CAutoGroup				 _AutoGroup;
-	CVector					 _ArrayOrigin;
-	CVector					 _ArrayEnd;
-	float					 _ArrayDefaultAngle;
-	bool					 _ValidArray;
-	enum TArrayWantedAction
-	{
-		ArrayActionNone = 0, ArrayActionValidate, ArrayActionCancel
-	};
-	TArrayWantedAction		 _ArrayWantedAction;
-	std::vector<CDisplayerVisualEntity::TRefPtr> _ArrayElements; // ghost elements forming the array before it is drawn
+  // from CTool
+  virtual void onActivate();
+  //
+  virtual void updateBeforeRender();
+  virtual void updateAfterRender();
+  virtual bool onMouseLeftButtonClicked();
+  virtual bool onMouseRightButtonClicked();
+  // from CToolChoosePos
+  virtual void commit(const NLMISC::CVector &createPosition, float createAngle);
+  virtual void updateInvalidCursorOnUI();
+  virtual bool stopAfterCommit() const;
+  virtual void cancel();
 
 private:
-	/** Create an entity in scenario (possibly a ghost one) from a CEntityCL
-	  * \return InstanceId of the newly created entity.
-	  */
-	std::string cloneEntityIntoScenario(CEntityCL *clonee,
-										const NLMISC::CVector &createPosition,
-										float createAngle,
-										bool  newAction,
-										bool  createGhost
-									   );
-	// array management
-	void updateAutoGroup();
-	void updateArray(CEntityCL *clonee);
-	void commitArray();
-	void clearArray();
+  enum TCreateState { CreateSingle = 0, ChooseArrayOrigin, DrawArray };
 
+private:
+  TCreateState _CreateState;
+  std::string _PaletteId;
+  std::string _EntityCategory;
+  CAutoGroup _AutoGroup;
+  CVector _ArrayOrigin;
+  CVector _ArrayEnd;
+  float _ArrayDefaultAngle;
+  bool _ValidArray;
+  enum TArrayWantedAction {
+    ArrayActionNone = 0,
+    ArrayActionValidate,
+    ArrayActionCancel
+  };
+  TArrayWantedAction _ArrayWantedAction;
+  std::vector<CDisplayerVisualEntity::TRefPtr>
+      _ArrayElements; // ghost elements forming the array before it is drawn
 
-	bool isBotObjectSheet(const NLMISC::CSheetId &sheetId) const;
+private:
+  /** Create an entity in scenario (possibly a ghost one) from a CEntityCL
+   * \return InstanceId of the newly created entity.
+   */
+  std::string cloneEntityIntoScenario(CEntityCL *clonee,
+                                      const NLMISC::CVector &createPosition,
+                                      float createAngle, bool newAction,
+                                      bool createGhost);
+  // array management
+  void updateAutoGroup();
+  void updateArray(CEntityCL *clonee);
+  void commitArray();
+  void clearArray();
+
+  bool isBotObjectSheet(const NLMISC::CSheetId &sheetId) const;
 };
 
-
-
-
-} // R2
+} // namespace R2
 
 #endif

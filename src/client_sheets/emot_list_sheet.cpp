@@ -14,21 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 /////////////
 // INCLUDE //
 /////////////
-#include "stdpch.h"	// First include for pre-compiled headers.
+#include "stdpch.h" // First include for pre-compiled headers.
 // Application
 #include "emot_list_sheet.h"
 // NeL
-#include "nel/misc/smart_ptr.h"
 #include "nel/georges/u_form.h"
-#include "nel/georges/u_form_elm.h"
 #include "nel/georges/u_form_dfn.h"
+#include "nel/georges/u_form_elm.h"
 #include "nel/georges/u_form_loader.h"
+#include "nel/misc/smart_ptr.h"
 
 ///////////
 // USING //
@@ -50,62 +47,52 @@ using namespace std;
 // CEmotListSheet :
 // Constructor.
 //-----------------------------------------------
-CEmotListSheet::CEmotListSheet()
-{
-	Type = CEntitySheet::EMOT;
+CEmotListSheet::CEmotListSheet() {
+  Type = CEntitySheet::EMOT;
 
-}// CEmotListSheet //
+} // CEmotListSheet //
 
 //-----------------------------------------------
 // build :
 // Build the sheet from an external script.
 //-----------------------------------------------
-void CEmotListSheet::build(const NLGEORGES::UFormElm &item)
-{
-	const UFormElm *list = 0;
-	item.getNodeByName(&list, "emot_list");
-	if(list)
-	{
-		// Get the array size.
-		uint size;
-		list->getArraySize(size);
-		Emots.clear();
-		if(size != 0)
-			Emots.resize(size, CAnimationStateSheet::UnknownState);
-		nlinfo("There is '%d' emots in the list.", size);
-		// Get emots name.
-		for(uint i=0; i<size; ++i)
-		{
-			string result;
-			list->getArrayValue(result, i);
-			Emots[i] = CAnimationStateSheet::getAnimationStateId(result);
-			nlinfo("- '%s'", result.c_str());
-		}
-	}
-	else
-		nlwarning("Cannot find the key 'emot_list'.");
+void CEmotListSheet::build(const NLGEORGES::UFormElm &item) {
+  const UFormElm *list = 0;
+  item.getNodeByName(&list, "emot_list");
+  if (list) {
+    // Get the array size.
+    uint size;
+    list->getArraySize(size);
+    Emots.clear();
+    if (size != 0)
+      Emots.resize(size, CAnimationStateSheet::UnknownState);
+    nlinfo("There is '%d' emots in the list.", size);
+    // Get emots name.
+    for (uint i = 0; i < size; ++i) {
+      string result;
+      list->getArrayValue(result, i);
+      Emots[i] = CAnimationStateSheet::getAnimationStateId(result);
+      nlinfo("- '%s'", result.c_str());
+    }
+  } else
+    nlwarning("Cannot find the key 'emot_list'.");
 
-}// build //
+} // build //
 
 //-----------------------------------------------
 // serial :
 // Serialize a CAutomatonStateSheet.
 //-----------------------------------------------
-void CEmotListSheet::serial(NLMISC::IStream &f)
-{
-	uint32 size;
-	if (f.isReading ())
-	{
-		f.serial (size);
-		Emots.resize (size);
-	}
-	else
-	{
-		size = (uint32)Emots.size();
-		f.serial (size);
-	}
-	for (uint i = 0; i < size; i++)
-		f.serialEnum(Emots[i]);
+void CEmotListSheet::serial(NLMISC::IStream &f) {
+  uint32 size;
+  if (f.isReading()) {
+    f.serial(size);
+    Emots.resize(size);
+  } else {
+    size = (uint32)Emots.size();
+    f.serial(size);
+  }
+  for (uint i = 0; i < size; i++)
+    f.serialEnum(Emots[i]);
 
-}// serial //
-
+} // serial //

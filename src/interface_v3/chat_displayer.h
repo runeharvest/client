@@ -18,14 +18,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_CHAT_DISPLAYER_H
 #define NL_CHAT_DISPLAYER_H
 
-#include "nel/misc/displayer.h"
-#include "nel/gui/group_list.h"
 #include "interface_manager.h"
+#include "nel/gui/group_list.h"
+#include "nel/misc/displayer.h"
 
 #include "nel/misc/mutex.h"
 
@@ -35,75 +33,64 @@
  * \author Nevrax France
  * \date 2002
  */
-class CChatDisplayer : public NLMISC::IDisplayer
-{
+class CChatDisplayer : public NLMISC::IDisplayer {
 public:
+  struct SDispString {
+    std::string Str;
+    CInterfaceManager::TSystemInfoMode Mode;
+  };
 
-	struct SDispString
-	{
-		std::string Str;
-		CInterfaceManager::TSystemInfoMode Mode;
-	};
+  // To make it thread safe
+  NLMISC::CSynchronized<std::vector<SDispString>> StringToDisplay;
 
-	// To make it thread safe
-	NLMISC::CSynchronized< std::vector<SDispString> > StringToDisplay;
+  /// Constructor
+  CChatDisplayer()
+      : IDisplayer("ChatDisplayer"), StringToDisplay("StringToDisplay") {}
 
-	/// Constructor
-	CChatDisplayer() :
-		IDisplayer( "ChatDisplayer" ),
-		StringToDisplay("StringToDisplay")
-	{
-	}
+  /// Display the string to the chat window
+  virtual void doDisplay(const NLMISC::CLog::TDisplayInfo &args,
+                         const char *message) {
+    std::string temp = message;
+    std::string str;
+    CInterfaceManager::TSystemInfoMode mode;
+    if (args.LogType == NLMISC::CLog::LOG_ERROR) {
+      str = "ERR: ";
+      mode = CInterfaceManager::ErrorMsg;
+    } else if (args.LogType == NLMISC::CLog::LOG_WARNING) {
+      str = "WRN: ";
+      mode = CInterfaceManager::WarningMsg;
+    } else {
+      str.clear();
+      mode = CInterfaceManager::InfoMsg;
+    }
 
-	/// Display the string to the chat window
-	virtual void doDisplay ( const NLMISC::CLog::TDisplayInfo& args, const char *message )
-	{
-		std::string temp = message;
-		std::string str;
-		CInterfaceManager::TSystemInfoMode mode;
-		if (args.LogType == NLMISC::CLog::LOG_ERROR)
-		{
-			str = "ERR: ";
-			mode = CInterfaceManager::ErrorMsg;
-		}
-		else if (args.LogType == NLMISC::CLog::LOG_WARNING)
-		{
-			str = "WRN: ";
-			mode = CInterfaceManager::WarningMsg;
-		}
-		else
-		{
-			str.clear();
-			mode = CInterfaceManager::InfoMsg;
-		}
+    str += temp.substr(0, temp.size() - 1);
 
-		str += temp.substr(0, temp.size()-1);
+    { // create a new scope for the access
+      // get an access to the value
+      NLMISC::CSynchronized<std::vector<SDispString>>::CAccessor acces(
+          &StringToDisplay);
+      // now, you have a thread safe access until the end of the scope, so you
+      // can do whatever you want. for example, change the value
+      SDispString toAdd;
+      toAdd.Str = str;
+      toAdd.Mode = mode;
+      acces.value().push_back(toAdd);
+    } // end of the access
+  }
 
-		{ // create a new scope for the access
-			// get an access to the value
-			NLMISC::CSynchronized<std::vector<SDispString> >::CAccessor acces(&StringToDisplay);
-			// now, you have a thread safe access until the end of the scope, so you can do whatever you want. for example, change the value
-			SDispString toAdd;
-			toAdd.Str = str;
-			toAdd.Mode = mode;
-			acces.value ().push_back(toAdd);
-		} // end of the access
- 	}
-
-
-	// Called each frames
-	void update ()
-	{
-		NLMISC::CSynchronized<std::vector<SDispString> >::CAccessor acces(&StringToDisplay);
-		std::vector<SDispString> &rVal = acces.value ();
-		for (uint i = 0; i < rVal.size(); ++i)
-		{
-			CInterfaceManager::getInstance()->displayDebugInfo(rVal[i].Str, rVal[i].Mode);
-		}
-		rVal.clear();
-	}
+  // Called each frames
+  void update() {
+    NLMISC::CSynchronized<std::vector<SDispString>>::CAccessor acces(
+        &StringToDisplay);
+    std::vector<SDispString> &rVal = acces.value();
+    for (uint i = 0; i < rVal.size(); ++i) {
+      CInterfaceManager::getInstance()->displayDebugInfo(rVal[i].Str,
+                                                         rVal[i].Mode);
+    }
+    rVal.clear();
+  }
 };
-
 
 #endif // NL_CHAT_DISPLAYER_H
 

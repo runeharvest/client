@@ -14,171 +14,141 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "world_sheet.h"
+#include "stdpch.h"
 //
 #include "nel/georges/u_form_elm.h"
 
 using namespace NLGEORGES;
 
 //===============================================================================
-CWorldSheet::CWorldSheet()
-{
-	Type = CEntitySheet::WORLD;
+CWorldSheet::CWorldSheet() { Type = CEntitySheet::WORLD; }
+
+//===============================================================================
+void CWorldSheet::build(const NLGEORGES::UFormElm &item) {
+  const UFormElm *pElt;
+  uint size;
+  nlverify(item.getNodeByName(&pElt, "continents list"));
+  if (!pElt) {
+    nlwarning("node 'continents list' not found in a .world");
+  } else {
+    nlverify(pElt->getArraySize(size));
+    ContLocs.reserve(size);
+    for (uint32 i = 0; i < size; ++i) {
+      const UFormElm *pEltOfList;
+
+      // Get the continent
+      if (pElt->getArrayNode(&pEltOfList, i) && pEltOfList) {
+        SContLoc clTmp;
+        clTmp.build(pEltOfList);
+        ContLocs.push_back(clTmp);
+      }
+    }
+    item.getValueByName(Name, "name");
+  }
+
+  // Maps loading
+  nlverify(item.getNodeByName(&pElt, "maps list"));
+  if (!pElt) {
+    nlwarning("node 'maps list' is not found in a .world");
+  } else {
+    nlverify(pElt->getArraySize(size));
+    Maps.reserve(size);
+    for (uint32 i = 0; i < size; ++i) {
+      const UFormElm *pEltOfList;
+
+      // Get the continent
+      if (pElt->getArrayNode(&pEltOfList, i) && pEltOfList) {
+        SMap mapTmp;
+        mapTmp.build(pEltOfList);
+        Maps.push_back(mapTmp);
+      }
+    }
+  }
 }
 
 //===============================================================================
-void CWorldSheet::build(const NLGEORGES::UFormElm &item)
-{
-	const UFormElm *pElt;
-	uint size;
-	nlverify (item.getNodeByName (&pElt, "continents list"));
-	if(!pElt)
-	{
-		nlwarning("node 'continents list' not found in a .world");
-	}
-	else
-	{
-		nlverify (pElt->getArraySize (size));
-		ContLocs.reserve(size);
-		for (uint32 i = 0; i <size; ++i)
-		{
-			const UFormElm *pEltOfList;
-
-			// Get the continent
-			if (pElt->getArrayNode (&pEltOfList, i) && pEltOfList)
-			{
-				SContLoc clTmp;
-				clTmp.build (pEltOfList);
-				ContLocs.push_back (clTmp);
-			}
-		}
-		item.getValueByName (Name, "name");
-	}
-
-	// Maps loading
-	nlverify (item.getNodeByName (&pElt, "maps list"));
-	if(!pElt)
-	{
-		nlwarning("node 'maps list' is not found in a .world");
-	}
-	else
-	{
-		nlverify (pElt->getArraySize (size));
-		Maps.reserve(size);
-		for (uint32 i = 0; i < size; ++i)
-		{
-			const UFormElm *pEltOfList;
-
-			// Get the continent
-			if (pElt->getArrayNode (&pEltOfList, i) && pEltOfList)
-			{
-				SMap mapTmp;
-				mapTmp.build (pEltOfList);
-				Maps.push_back (mapTmp);
-			}
-		}
-	}
-}
-
-//===============================================================================
-void CWorldSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(Name);
-	f.serialCont(ContLocs);
-	f.serialCont(Maps);
-}
-
-
-//-----------------------------------------------
-SContLoc::SContLoc()
-{
-	SelectionName = "unknown";
-	ContinentName = "unknown";
-	MinX = MinY = MaxX = MaxY = 0.0;
+void CWorldSheet::serial(NLMISC::IStream &f) {
+  f.serial(Name);
+  f.serialCont(ContLocs);
+  f.serialCont(Maps);
 }
 
 //-----------------------------------------------
-void SContLoc::build (const UFormElm *pItem)
-{
-	pItem->getValueByName (SelectionName, "selection_name");
-	pItem->getValueByName (ContinentName, "continent_name");
-	pItem->getValueByName (MinX, "minx");
-	pItem->getValueByName (MinY, "miny");
-	pItem->getValueByName (MaxX, "maxx");
-	pItem->getValueByName (MaxY, "maxy");
+SContLoc::SContLoc() {
+  SelectionName = "unknown";
+  ContinentName = "unknown";
+  MinX = MinY = MaxX = MaxY = 0.0;
 }
 
 //-----------------------------------------------
-void SContLoc::serial(NLMISC::IStream &f)
-{
-	f.serial(SelectionName);
-	f.serial(ContinentName);
-	f.serial(MinX, MinY, MaxX, MaxY);
+void SContLoc::build(const UFormElm *pItem) {
+  pItem->getValueByName(SelectionName, "selection_name");
+  pItem->getValueByName(ContinentName, "continent_name");
+  pItem->getValueByName(MinX, "minx");
+  pItem->getValueByName(MinY, "miny");
+  pItem->getValueByName(MaxX, "maxx");
+  pItem->getValueByName(MaxY, "maxy");
 }
 
 //-----------------------------------------------
-SMap::SMap()
-{
-	MinX = MinY = MaxX = MaxY = 0.0;
+void SContLoc::serial(NLMISC::IStream &f) {
+  f.serial(SelectionName);
+  f.serial(ContinentName);
+  f.serial(MinX, MinY, MaxX, MaxY);
 }
 
 //-----------------------------------------------
-void SMap::build(const NLGEORGES::UFormElm *pItem)
-{
-	pItem->getValueByName (Name, "name");
-	pItem->getValueByName (ContinentName, "contname");
-	pItem->getValueByName (BitmapName, "bitmap");
-	pItem->getValueByName (MinX, "xmin");
-	pItem->getValueByName (MinY, "ymin");
-	pItem->getValueByName (MaxX, "xmax");
-	pItem->getValueByName (MaxY, "ymax");
-	// Read child
-	const UFormElm *pElt;
-	nlverify (pItem->getNodeByName (&pElt, "children"));
-	uint size;
-	if (pElt == NULL) return;
-	nlverify (pElt->getArraySize (size));
-	Children.reserve(size);
-	for (uint32 i = 0; i < size; ++i)
-	{
-		const UFormElm *pEltOfList;
-		// Get the continent
-		if (pElt->getArrayNode (&pEltOfList, i) && pEltOfList)
-		{
-			SMap::SChild childTmp;
-			childTmp.build (pEltOfList);
-			Children.push_back (childTmp);
-		}
-	}
+SMap::SMap() { MinX = MinY = MaxX = MaxY = 0.0; }
+
+//-----------------------------------------------
+void SMap::build(const NLGEORGES::UFormElm *pItem) {
+  pItem->getValueByName(Name, "name");
+  pItem->getValueByName(ContinentName, "contname");
+  pItem->getValueByName(BitmapName, "bitmap");
+  pItem->getValueByName(MinX, "xmin");
+  pItem->getValueByName(MinY, "ymin");
+  pItem->getValueByName(MaxX, "xmax");
+  pItem->getValueByName(MaxY, "ymax");
+  // Read child
+  const UFormElm *pElt;
+  nlverify(pItem->getNodeByName(&pElt, "children"));
+  uint size;
+  if (pElt == NULL)
+    return;
+  nlverify(pElt->getArraySize(size));
+  Children.reserve(size);
+  for (uint32 i = 0; i < size; ++i) {
+    const UFormElm *pEltOfList;
+    // Get the continent
+    if (pElt->getArrayNode(&pEltOfList, i) && pEltOfList) {
+      SMap::SChild childTmp;
+      childTmp.build(pEltOfList);
+      Children.push_back(childTmp);
+    }
+  }
 }
 
 //-----------------------------------------------
-void SMap::serial(NLMISC::IStream &f)
-{
-	f.serial(Name);
-	f.serial(ContinentName);
-	f.serial(BitmapName);
-	f.serial(MinX);
-	f.serial(MinY);
-	f.serial(MaxX);
-	f.serial(MaxY);
-	f.serialCont(Children);
+void SMap::serial(NLMISC::IStream &f) {
+  f.serial(Name);
+  f.serial(ContinentName);
+  f.serial(BitmapName);
+  f.serial(MinX);
+  f.serial(MinY);
+  f.serial(MaxX);
+  f.serial(MaxY);
+  f.serialCont(Children);
 }
 
 //-----------------------------------------------
-void SMap::SChild::build(const NLGEORGES::UFormElm *pItem)
-{
-	pItem->getValueByName (Name, "name");
-	pItem->getValueByName (ZoneName, "click zone name");
+void SMap::SChild::build(const NLGEORGES::UFormElm *pItem) {
+  pItem->getValueByName(Name, "name");
+  pItem->getValueByName(ZoneName, "click zone name");
 }
 
 //-----------------------------------------------
-void SMap::SChild::serial(NLMISC::IStream &f)
-{
-	f.serial(Name);
-	f.serial(ZoneName);
+void SMap::SChild::serial(NLMISC::IStream &f) {
+  f.serial(Name);
+  f.serial(ZoneName);
 }
-

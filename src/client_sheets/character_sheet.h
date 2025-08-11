@@ -14,44 +14,37 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_CHARACTER_SHEET_H
 #define CL_CHARACTER_SHEET_H
-
 
 /////////////
 // INCLUDE //
 /////////////
 #include "client_sheets.h"
 
-#include "nel/misc/types_nl.h"
 #include "nel/misc/rgba.h"
+#include "nel/misc/types_nl.h"
 //
+#include "body_to_bone_sheet.h"
 #include "entity_sheet.h"
 #include "ground_fx_sheet.h"
-#include "body_to_bone_sheet.h"
 // Game Share
 #include "game_share/loot_harvest_state.h"
 #include "game_share/people.h"
-#include <vector>
 #include <string>
-
+#include <vector>
 
 ///////////
 // USING //
 ///////////
 
-
 ///////////
 // CLASS //
 ///////////
-namespace NLGEORGES
-{
-	class UFormElm;
-	class UFormLoader;
-}
+namespace NLGEORGES {
+class UFormElm;
+class UFormLoader;
+} // namespace NLGEORGES
 
 /**
  * Class to manage the character sheet.
@@ -59,234 +52,204 @@ namespace NLGEORGES
  * \author Nevrax France
  * \date 2001
  */
-class CCharacterSheet : public CEntitySheet
-{
+class CCharacterSheet : public CEntitySheet {
 public:
-	enum { NumAttackLists = 8 };
+  enum { NumAttackLists = 8 };
+
 public:
-	class CEquipment
-	{
-	public:
-		NLMISC::TSStringId	IdItem;
-		NLMISC::TSStringId	IdBindPoint;
-		sint8				Texture;
-		sint8				Color;
+  class CEquipment {
+  public:
+    NLMISC::TSStringId IdItem;
+    NLMISC::TSStringId IdBindPoint;
+    sint8 Texture;
+    sint8 Color;
 
-		CEquipment()
-		{
-			IdItem= NLMISC::CStaticStringMapper::emptyId();
-			IdBindPoint= NLMISC::CStaticStringMapper::emptyId();
-			Texture= 0;
-			Color= 0;
-		}
+    CEquipment() {
+      IdItem = NLMISC::CStaticStringMapper::emptyId();
+      IdBindPoint = NLMISC::CStaticStringMapper::emptyId();
+      Texture = 0;
+      Color = 0;
+    }
 
-		std::string	getItem() const { return ClientSheetsStrings.get(IdItem); }
-		std::string	getBindPoint() const { return ClientSheetsStrings.get(IdBindPoint); }
+    std::string getItem() const { return ClientSheetsStrings.get(IdItem); }
+    std::string getBindPoint() const {
+      return ClientSheetsStrings.get(IdBindPoint);
+    }
 
-		/// Serialize character sheet into binary data file.
-		virtual void serial(NLMISC::IStream &f)
-		{
+    /// Serialize character sheet into binary data file.
+    virtual void serial(NLMISC::IStream &f) {
 
-			ClientSheetsStrings.serial(f, IdItem);
-			f.serial(Texture);
-			f.serial(Color);
-			ClientSheetsStrings.serial(f, IdBindPoint);
-		}
-	};
+      ClientSheetsStrings.serial(f, IdItem);
+      f.serial(Texture);
+      f.serial(Color);
+      ClientSheetsStrings.serial(f, IdBindPoint);
+    }
+  };
 
-	// Character Gender.
-	uint8						Gender;
-	// Character Race
-	EGSPD::CPeople::TPeople		Race;
-	// Character's skeleton.
-	NLMISC::TSStringId			IdSkelFilename;
-	// Base Name of the animation set.
-	NLMISC::TSStringId			IdAnimSetBaseName;
-	// Automaton Type
-	NLMISC::TSStringId			IdAutomaton;
-	float						Scale;
-	// The sound familly (used for sound context var 2)
-	uint32						SoundFamily;
-	// The sound variation (used for sound context var 3)
-	uint32						SoundVariation;
-	// Lod Character.
-	NLMISC::TSStringId			IdLodCharacterName;
-	float						LodCharacterDistance;
-	// value to scale the "pos" channel of the animation of the creature.
-	float						CharacterScalePos;
-	// The name of the faction the creature belongs to
-	NLMISC::TSStringId			IdFame;
+  // Character Gender.
+  uint8 Gender;
+  // Character Race
+  EGSPD::CPeople::TPeople Race;
+  // Character's skeleton.
+  NLMISC::TSStringId IdSkelFilename;
+  // Base Name of the animation set.
+  NLMISC::TSStringId IdAnimSetBaseName;
+  // Automaton Type
+  NLMISC::TSStringId IdAutomaton;
+  float Scale;
+  // The sound familly (used for sound context var 2)
+  uint32 SoundFamily;
+  // The sound variation (used for sound context var 3)
+  uint32 SoundVariation;
+  // Lod Character.
+  NLMISC::TSStringId IdLodCharacterName;
+  float LodCharacterDistance;
+  // value to scale the "pos" channel of the animation of the creature.
+  float CharacterScalePos;
+  // The name of the faction the creature belongs to
+  NLMISC::TSStringId IdFame;
 
-	// Possible(impossible) Actions.
-	bool						Selectable;
-	bool						Talkable;
-	bool						Attackable;
-	bool						Givable;
-	bool						Mountable;
-	bool						Turn;
-	bool						SelectableBySpace;
-	//character harvest/loot state
-	LHSTATE::TLHState HLState;
+  // Possible(impossible) Actions.
+  bool Selectable;
+  bool Talkable;
+  bool Attackable;
+  bool Givable;
+  bool Mountable;
+  bool Turn;
+  bool SelectableBySpace;
+  // character harvest/loot state
+  LHSTATE::TLHState HLState;
 
+  // Equipment worm or creature body.
+  CEquipment Body;
+  CEquipment Legs;
+  CEquipment Arms;
+  CEquipment Hands;
+  CEquipment Feet;
+  CEquipment Head;
+  CEquipment Face;
+  CEquipment ObjectInRightHand;
+  CEquipment ObjectInLeftHand;
+  // Yoyo: if you add some, modify getWholeEquipmentList()
 
-	// Equipment worm or creature body.
-	CEquipment					Body;
-	CEquipment					Legs;
-	CEquipment					Arms;
-	CEquipment					Hands;
-	CEquipment					Feet;
-	CEquipment					Head;
-	CEquipment					Face;
-	CEquipment					ObjectInRightHand;
-	CEquipment					ObjectInLeftHand;
-	// Yoyo: if you add some, modify getWholeEquipmentList()
+  sint8 HairColor;
+  sint8 Skin;
+  sint8 EyesColor;
 
+  //	NLMISC::TSStringId			IdFirstName;
+  //	NLMISC::TSStringId			IdLastName;
 
-	sint8						HairColor;
-	sint8						Skin;
-	sint8						EyesColor;
+  float DistToFront;
+  float DistToBack;
+  float DistToSide;
 
-//	NLMISC::TSStringId			IdFirstName;
-//	NLMISC::TSStringId			IdLastName;
+  float ColRadius;
+  float ColHeight;
+  float ColLength;
+  float ColWidth;
 
-	float						DistToFront;
-	float						DistToBack;
-	float						DistToSide;
+  float ClipRadius;
+  float ClipHeight;
 
-	float						ColRadius;
-	float						ColHeight;
-	float						ColLength;
-	float						ColWidth;
+  float MaxSpeed;
+  bool DisplayOSD;
+  // New flags created for bot objects
+  bool DisplayInRadar;      // display the entity in the radar
+  bool DisplayOSDName;      // name is displayed if (DisplayOSD && DisplayName)
+  bool DisplayOSDBars;      // bars are displayed if (DisplayOSD && DisplayBars)
+  bool DisplayOSDForceOver; // even if ClientCfg.ShowNameUnderCursor==false,
+                            // force OSD to display when under cursor
+                            // (DisplayOSD must be true)
+  bool Traversable; // the client can traverse this entity after some force time
 
-	float						ClipRadius;
-	float						ClipHeight;
+  // Name positions on Z axis
+  float NamePosZLow;
+  float NamePosZNormal;
+  float NamePosZHigh;
 
-	float						MaxSpeed;
-	bool						DisplayOSD;
-	// New flags created for bot objects
-	bool						DisplayInRadar;			// display the entity in the radar
-	bool						DisplayOSDName;			// name is displayed if (DisplayOSD && DisplayName)
-	bool						DisplayOSDBars;			// bars are displayed if (DisplayOSD && DisplayBars)
-	bool						DisplayOSDForceOver;	// even if ClientCfg.ShowNameUnderCursor==false, force OSD to display when under cursor (DisplayOSD must be true)
-	bool						Traversable;			// the client can traverse this entity after some force time
+  // Alternative Look
+  std::vector<NLMISC::TSStringId> IdAlternativeClothes;
 
-	// Name positions on Z axis
-	float						NamePosZLow;
-	float						NamePosZNormal;
-	float						NamePosZHigh;
+  // Hair Item List
+  std::vector<CEquipment> HairItemList;
 
-	// Alternative Look
-	std::vector<NLMISC::TSStringId>	IdAlternativeClothes;
+  // list of fx for some ground type (step fxs)
+  std::vector<CGroundFXSheet> GroundFX;
 
-	// Hair Item List
-	std::vector<CEquipment>		HairItemList;
+  // name of static FX played on entity (empty if none)
+  NLMISC::TSStringId IdStaticFX;
 
-	// list of fx for some ground type (step fxs)
-	std::vector<CGroundFXSheet> GroundFX;
+  // body to bone
+  CBodyToBoneSheet BodyToBone;
 
-	// name of static FX played on entity (empty if none)
-	NLMISC::TSStringId			IdStaticFX;
+  // spell casting prefix. This prefix is used to see which sheet contains datas
+  // about spell casting
+  NLMISC::TSStringId SpellCastingPrefix;
 
-	// body to bone
-	CBodyToBoneSheet			BodyToBone;
+  // attack lists filenames
+  std::vector<NLMISC::TSStringId> AttackLists;
 
-	// spell casting prefix. This prefix is used to see which sheet contains datas about spell casting
-	NLMISC::TSStringId			SpellCastingPrefix;
+  // consider
+  sint8 RegionForce; // Force depending on the region the creature belongs
+  sint8 ForceLevel;  // Level of creature inside the same region
+  uint16 Level;      // Precise level of the creature
 
-	// attack lists filenames
-	std::vector<NLMISC::TSStringId>	AttackLists;
+  bool R2Npc;
 
-	// consider
-	sint8						RegionForce;	// Force depending on the region the creature belongs
-	sint8						ForceLevel;		// Level of creature inside the same region
-	uint16						Level;			// Precise level of the creature
+  class CCastRay {
+  public:
+    NLMISC::CVector Origin;
+    NLMISC::CVector Pos;
+    void serial(NLMISC::IStream &f) {
+      f.serial(Origin);
+      f.serial(Pos);
+    }
+  };
+  // offset for projectile casting (useful for watchtowers as they got no bones)
+  std::vector<CCastRay> ProjectileCastRay;
 
-	bool						R2Npc;
+  /// Constructor
+  CCharacterSheet();
 
-	class CCastRay
-	{
-	public:
-		NLMISC::CVector Origin;
-		NLMISC::CVector Pos;
-		void serial(NLMISC::IStream &f)
-		{
-			f.serial(Origin);
-			f.serial(Pos);
-		}
-	};
-	// offset for projectile casting (useful for watchtowers as they got no bones)
-	std::vector<CCastRay> ProjectileCastRay;
+  std::string getSkelFilename() const {
+    return ClientSheetsStrings.get(IdSkelFilename);
+  }
+  std::string getAnimSetBaseName() const {
+    return ClientSheetsStrings.get(IdAnimSetBaseName);
+  }
+  std::string getAutomaton() const {
+    return ClientSheetsStrings.get(IdAutomaton);
+  }
+  std::string getLodCharacterName() const {
+    return ClientSheetsStrings.get(IdLodCharacterName);
+  }
+  std::string getFame() const { return ClientSheetsStrings.get(IdFame); }
+  //	std::string getFirstName() const { return
+  //ClientSheetsStrings.get(IdFirstName); } 	std::string getLastName() const {
+  //return ClientSheetsStrings.get(IdLastName); }
+  std::string getAlternativeClothes(uint i) const {
+    return ClientSheetsStrings.get(IdAlternativeClothes[i]);
+  }
+  std::string getStaticFX() const {
+    return ClientSheetsStrings.get(IdStaticFX);
+  }
 
-	/// Constructor
-	CCharacterSheet();
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	std::string getSkelFilename() const { return ClientSheetsStrings.get(IdSkelFilename); }
-	std::string getAnimSetBaseName() const { return ClientSheetsStrings.get(IdAnimSetBaseName); }
-	std::string getAutomaton() const { return ClientSheetsStrings.get(IdAutomaton); }
-	std::string getLodCharacterName() const { return ClientSheetsStrings.get(IdLodCharacterName); }
-	std::string getFame() const { return ClientSheetsStrings.get(IdFame); }
-//	std::string getFirstName() const { return ClientSheetsStrings.get(IdFirstName); }
-//	std::string getLastName() const { return ClientSheetsStrings.get(IdLastName); }
-	std::string getAlternativeClothes(uint i) const { return ClientSheetsStrings.get(IdAlternativeClothes[i]); }
-	std::string getStaticFX() const { return ClientSheetsStrings.get(IdStaticFX); }
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
-
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
-
-	/// Return the list of all equipement possibles (body... + HairList). Pointers should be used localy
-	void	getWholeEquipmentList(std::vector<const CEquipment*> &equipList) const;
+  /// Return the list of all equipement possibles (body... + HairList). Pointers
+  /// should be used localy
+  void getWholeEquipmentList(std::vector<const CEquipment *> &equipList) const;
 
 private:
-	/// Read an equipment slot.
-	void readEquipment(const NLGEORGES::UFormElm &form, const std::string &key, CEquipment &slot);
+  /// Read an equipment slot.
+  void readEquipment(const NLGEORGES::UFormElm &form, const std::string &key,
+                     CEquipment &slot);
 };
-
 
 #endif // CL_CHARACTER_SHEET_H
 
 /* End of character_sheet.h */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

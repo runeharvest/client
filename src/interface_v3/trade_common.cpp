@@ -14,11 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include "stdpch.h"
 #include "trade_common.h"
+#include "stdpch.h"
 
-void	dummyToAvoidVisualWarning_trade_common_cpp()
-{
-}
-
+void dummyToAvoidVisualWarning_trade_common_cpp() {}

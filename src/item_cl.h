@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef ITEM_CL_H
 #define ITEM_CL_H
 
@@ -25,51 +23,48 @@
 // Client
 #include "entity_cl.h"
 
-
 /**
  * CItemCL
  * \author Stephane Coutelas
  * \author Nevrax France
  * \date 2002
  */
-class CItemCL : public CEntityCL
-{
+class CItemCL : public CEntityCL {
 protected:
-	/// Update the item position.
-	virtual void updateVisualPropertyPos(const NLMISC::TGameCycle &gameCycle, const sint64 &prop, const NLMISC::TGameCycle &pI);
+  /// Update the item position.
+  virtual void updateVisualPropertyPos(const NLMISC::TGameCycle &gameCycle,
+                                       const sint64 &prop,
+                                       const NLMISC::TGameCycle &pI);
 
 public:
-	NLMISC_DECLARE_CLASS(CItemCL);
+  NLMISC_DECLARE_CLASS(CItemCL);
 
-	/// Constructor
-	CItemCL();
+  /// Constructor
+  CItemCL();
 
-	/// Constructor
-	CItemCL( const std::string &fileName );
+  /// Constructor
+  CItemCL(const std::string &fileName);
 
-	/// Destructor
-	~CItemCL();
+  /// Destructor
+  ~CItemCL();
 
-	/**
-	 * Build the entity from a sheet.
-	 */
-	virtual bool build(const CEntitySheet *sheet);
+  /**
+   * Build the entity from a sheet.
+   */
+  virtual bool build(const CEntitySheet *sheet);
 
-	/// Initialize properties for an item.
-	virtual void initProperties();
+  /// Initialize properties for an item.
+  virtual void initProperties();
 
-	/// Draw the selection Box
-	virtual void drawBox();
+  /// Draw the selection Box
+  virtual void drawBox();
 
-private :
-
-	/**
-	 * Init the instance
-	 */
-	void initShape( const std::string &fileName );
-
+private:
+  /**
+   * Init the instance
+   */
+  void initShape(const std::string &fileName);
 };
-
 
 #endif // ITEM_CL_H
 

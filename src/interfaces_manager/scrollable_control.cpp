@@ -14,127 +14,104 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 #include "scrollable_control.h"
 
-
 /*
  * default Constructor
  */
-CScrollableControl::CScrollableControl(uint id)
-: CControl(id)
-{
-	_HScroll = NULL;
-	_VScroll = NULL;
-	_AutoHide = false;
-	_Show = !_AutoHide;
+CScrollableControl::CScrollableControl(uint id) : CControl(id) {
+  _HScroll = NULL;
+  _VScroll = NULL;
+  _AutoHide = false;
+  _Show = !_AutoHide;
 }
 
 /*
  * Destructor
  */
-CScrollableControl::~CScrollableControl()
-{
-	if ( _HScroll != NULL )
-		delete _HScroll;
+CScrollableControl::~CScrollableControl() {
+  if (_HScroll != NULL)
+    delete _HScroll;
 
-	if ( _VScroll != NULL )
-		delete _VScroll;
+  if (_VScroll != NULL)
+    delete _VScroll;
 }
-
 
 /**
  * hScroll
  */
-void CScrollableControl::hScroll( bool on)
-{
-	// if we want to show a HScroll bar and that it doesn't exist, build a new one
-	if ( (on == true) && ( _HScroll == NULL) )
-	{
-		_HScroll = new CScrollBar(0, 0, 0, 0, 0, _W , 0, _W_Pixel , 16, false, this);
-		_HScroll->hotSpot( CControl::THotSpot::HS_TR );
-		_HScroll->origin( CControl::THotSpot::HS_BL );
+void CScrollableControl::hScroll(bool on) {
+  // if we want to show a HScroll bar and that it doesn't exist, build a new one
+  if ((on == true) && (_HScroll == NULL)) {
+    _HScroll = new CScrollBar(0, 0, 0, 0, 0, _W, 0, _W_Pixel, 16, false, this);
+    _HScroll->hotSpot(CControl::THotSpot::HS_TR);
+    _HScroll->origin(CControl::THotSpot::HS_BL);
 
-		_Children.push_back( _HScroll );
-	}
-	// hide the scroll bar
-	else if ( (on == false) && ( _HScroll != NULL) )
-	{
-		if (_AutoHide == true)
-			_HScroll->show( false );
-		else
-			_HScroll->enable( false );
-	}
-	// show the scroll bar
-	else if ( (on == true)&& ( _HScroll != NULL) )
-	{
-		_HScroll->show( true );
-		_HScroll->enable( true );
-	}
+    _Children.push_back(_HScroll);
+  }
+  // hide the scroll bar
+  else if ((on == false) && (_HScroll != NULL)) {
+    if (_AutoHide == true)
+      _HScroll->show(false);
+    else
+      _HScroll->enable(false);
+  }
+  // show the scroll bar
+  else if ((on == true) && (_HScroll != NULL)) {
+    _HScroll->show(true);
+    _HScroll->enable(true);
+  }
 }
 
 /**
  * vScroll
  */
-void CScrollableControl::vScroll( bool on )
-{
-	if ( (on == true) && ( _VScroll == NULL) )
-	{
-		_VScroll = new CScrollBar(0, 0, 0, 0, 0, 0 , _H, 16 , _H_Pixel, false, this);
+void CScrollableControl::vScroll(bool on) {
+  if ((on == true) && (_VScroll == NULL)) {
+    _VScroll = new CScrollBar(0, 0, 0, 0, 0, 0, _H, 16, _H_Pixel, false, this);
 
-		_HScroll->hotSpot( CControl::THotSpot::HS_TL );
-		_HScroll->origin( CControl::THotSpot::HS_BR );
+    _HScroll->hotSpot(CControl::THotSpot::HS_TL);
+    _HScroll->origin(CControl::THotSpot::HS_BR);
 
-		_Children.push_back( _VScroll );
-	}
-	// hide the scroll bar
-	else if ( (on == false) && ( _VScroll != NULL) )
-	{
-		if (_AutoHide == true)
-			_VScroll->show( false );
-		else
-			_VScroll->enable( false );
-	}
-	// show the scroll bar
-	else if ( (on == true)&& ( _VScroll != NULL) )
-	{
-			_VScroll->show( true );
-			_VScroll->enable( true );
-	}
+    _Children.push_back(_VScroll);
+  }
+  // hide the scroll bar
+  else if ((on == false) && (_VScroll != NULL)) {
+    if (_AutoHide == true)
+      _VScroll->show(false);
+    else
+      _VScroll->enable(false);
+  }
+  // show the scroll bar
+  else if ((on == true) && (_VScroll != NULL)) {
+    _VScroll->show(true);
+    _VScroll->enable(true);
+  }
 }
-
 
 /**
  * autoHide
  */
-void CScrollableControl::autoHide(bool on)
-{
-	_AutoHide = on;
-}
-
+void CScrollableControl::autoHide(bool on) { _AutoHide = on; }
 
 //-----------------------------------------------
 // click :
 //-----------------------------------------------
-void CScrollableControl::click(float x, float y, bool &taken)
-{
-	if (_VScroll != NULL)
-		_VScroll->click(x,y,taken);
-	if (_HScroll != NULL)
-		_HScroll->click(x,y,taken);
+void CScrollableControl::click(float x, float y, bool &taken) {
+  if (_VScroll != NULL)
+    _VScroll->click(x, y, taken);
+  if (_HScroll != NULL)
+    _HScroll->click(x, y, taken);
 }
-
 
 //-----------------------------------------------
 // clickRight :
 //-----------------------------------------------
-void CScrollableControl::clickRight(float x, float y, bool &taken)
-{
-	if (_VScroll != NULL)
-		_VScroll->clickRight(x,y,taken);
-	if (_HScroll != NULL)
-		_HScroll->clickRight(x,y,taken);
+void CScrollableControl::clickRight(float x, float y, bool &taken) {
+  if (_VScroll != NULL)
+    _VScroll->clickRight(x, y, taken);
+  if (_HScroll != NULL)
+    _HScroll->clickRight(x, y, taken);
 }

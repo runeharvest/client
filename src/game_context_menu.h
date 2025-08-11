@@ -17,28 +17,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_GAME_CONTEXT_MENU_H
 #define NL_GAME_CONTEXT_MENU_H
 
-#include "nel/misc/types_nl.h"
+#include "game_share/bot_chat_types.h"
+#include "interface_v3/interface_pointer.h"
 #include "main_loop.h"
 #include "nel/gui/ctrl_text_button.h"
 #include "nel/gui/interface_group.h"
-#include "interface_v3/interface_pointer.h"
-#include "game_share/bot_chat_types.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
-namespace NLGUI
-{
-	class CGroupMenu;
-	class CViewTextMenu;
-}
+namespace NLGUI {
+class CGroupMenu;
+class CViewTextMenu;
+} // namespace NLGUI
 
-namespace NLMISC{
-	class CCDBNodeLeaf;
+namespace NLMISC {
+class CCDBNodeLeaf;
 }
 
 // ***************************************************************************
@@ -48,148 +44,144 @@ namespace NLMISC{
  * \author Nevrax France
  * \date 2003
  */
-class CGameContextMenu
-{
+class CGameContextMenu {
 public:
+  /// Constructor
+  CGameContextMenu();
 
-	/// Constructor
-	CGameContextMenu();
+  // init with IM and DB
+  void init(const std::string &menuId);
 
-	// init with IM and DB
-	void		init(const std::string &menuId);
+  // update the context menu
+  void update();
 
-	// update the context menu
-	void		update();
-
-	bool		isBuilding() const { return _OkTextTradeOutpostBuilding; }
+  bool isBuilding() const { return _OkTextTradeOutpostBuilding; }
 
 private:
+  // Conditions
+  bool canAttack();
+  bool canDuel();
+  bool canPvpChallenge();
+  bool canDisengage();
+  bool canTeamKick();
 
-	// Conditions
-	bool canAttack();
-	bool canDuel();
-	bool canPvpChallenge();
-	bool canDisengage();
-	bool canTeamKick();
+  void updateContextMenuMissionsOptions(bool forceHide);
+  void updateContextMenuWebPage(uint options);
+  void updateContextMenuOutpostState(uint options);
+  void updateContextMenuOutpostBanish();
+  void updateContextMenuMissionRing();
 
-	void updateContextMenuMissionsOptions( bool forceHide );
-	void updateContextMenuWebPage(uint options);
-	void updateContextMenuOutpostState(uint options);
-	void updateContextMenuOutpostBanish();
-	void updateContextMenuMissionRing();
+  // talk.
+  void updateContextMenuTalkEntries(uint options);
+  void setupContextMenuCantTalk();
+  void setupContextMenuTalkWithPlayer();
+  void applyTextTalk();
 
-	// talk.
-	void updateContextMenuTalkEntries(uint options);
-	void setupContextMenuCantTalk();
-	void setupContextMenuTalkWithPlayer();
-	void applyTextTalk();
+  // MilkoPad
+  CInterfaceGroupPtr _GroupMilkoPad;
+  NLMISC::CCDBNodeLeaf *_MilkoAttackDisengage;
+  CCtrlTextButtonPtr _MilkoAttDisBut1;
+  CCtrlTextButtonPtr _MilkoAttDisBut2;
 
-	// MilkoPad
-	CInterfaceGroupPtr _GroupMilkoPad;
-	NLMISC::CCDBNodeLeaf	*_MilkoAttackDisengage;
-	CCtrlTextButtonPtr	_MilkoAttDisBut1;
-	CCtrlTextButtonPtr	_MilkoAttDisBut2;
+  CGroupMenu *_GroupMenu;
+  NLMISC::CCDBNodeLeaf *_ContextVal;
+  NLMISC::CCDBNodeLeaf *_AvailablePrograms;
+  NLMISC::CCDBNodeLeaf *_ServerTeamPresent;
+  NLMISC::CCDBNodeLeaf *_MissionOption[NUM_MISSION_OPTIONS];
+  NLMISC::CCDBNodeLeaf *_ServerInDuel;
+  NLMISC::CCDBNodeLeaf *_ServerInPvpChallenge;
+  NLMISC::CCDBNodeLeaf *_WebPageTitle;
+  NLMISC::CCDBNodeLeaf *_OutpostSheet;
+  NLMISC::CCDBNodeLeaf *_OutpostRightToBannish;
+  NLMISC::CCDBNodeLeaf *_MissionRing[BOTCHATTYPE::MaxR2MissionEntryDatabase];
 
-	CGroupMenu		*_GroupMenu;
-	NLMISC::CCDBNodeLeaf	*_ContextVal;
-	NLMISC::CCDBNodeLeaf	*_AvailablePrograms;
-	NLMISC::CCDBNodeLeaf	*_ServerTeamPresent;
-	NLMISC::CCDBNodeLeaf	*_MissionOption[NUM_MISSION_OPTIONS];
-	NLMISC::CCDBNodeLeaf	*_ServerInDuel;
-	NLMISC::CCDBNodeLeaf	*_ServerInPvpChallenge;
-	NLMISC::CCDBNodeLeaf	*_WebPageTitle;
-	NLMISC::CCDBNodeLeaf	*_OutpostSheet;
-	NLMISC::CCDBNodeLeaf	*_OutpostRightToBannish;
-	NLMISC::CCDBNodeLeaf	*_MissionRing[BOTCHATTYPE::MaxR2MissionEntryDatabase];
+  CViewTextMenuPtr _TextLootAction;
+  CViewTextMenuPtr _TextQuartering;
+  CViewTextMenuPtr _TextAttack;
+  CViewTextMenuPtr _TextDuel;
+  CViewTextMenuPtr _TextUnDuel;
+  CViewTextMenuPtr _TextPvpChallenge;
+  CViewTextMenuPtr _TextUnPvpChallenge;
+  CViewTextMenuPtr _TextExchange;
+  CViewTextMenuPtr _TextMount;
+  CViewTextMenuPtr _TextFreeLook;
+  CViewTextMenuPtr _TextMove;
+  CViewTextMenuPtr _TextStop;
+  CViewTextMenuPtr _TextDisengage;
+  CViewTextMenuPtr _TextUnseat;
+  CViewTextMenuPtr _TextInfo;
+  CViewTextMenuPtr _TextFollow;
+  CViewTextMenuPtr _TextAssist;
+  CViewTextMenuPtr _TextInvit;
+  CViewTextMenuPtr _TextGuildInvit;
+  CViewTextMenuPtr _TextQuitTeam;
+  CViewTextMenuPtr _TextAddToFriendList;
+  CViewTextMenuPtr _TextMission[NUM_MISSION_OPTIONS];
 
+  // Pack Animal
+  CViewTextMenuPtr _TextPAFollow;
+  CViewTextMenuPtr _TextPAStop;
+  CViewTextMenuPtr _TextPAFree;
+  CViewTextMenuPtr _TextPAEnterStable;
 
-	CViewTextMenuPtr _TextLootAction;
-	CViewTextMenuPtr _TextQuartering;
-	CViewTextMenuPtr _TextAttack;
-	CViewTextMenuPtr _TextDuel;
-	CViewTextMenuPtr _TextUnDuel;
-	CViewTextMenuPtr _TextPvpChallenge;
-	CViewTextMenuPtr _TextUnPvpChallenge;
-	CViewTextMenuPtr _TextExchange;
-	CViewTextMenuPtr _TextMount;
-	CViewTextMenuPtr _TextFreeLook;
-	CViewTextMenuPtr _TextMove;
-	CViewTextMenuPtr _TextStop;
-	CViewTextMenuPtr _TextDisengage;
-	CViewTextMenuPtr _TextUnseat;
-	CViewTextMenuPtr _TextInfo;
-	CViewTextMenuPtr _TextFollow;
-	CViewTextMenuPtr _TextAssist;
-	CViewTextMenuPtr _TextInvit;
-	CViewTextMenuPtr _TextGuildInvit;
-	CViewTextMenuPtr _TextQuitTeam;
-	CViewTextMenuPtr _TextAddToFriendList;
-	CViewTextMenuPtr _TextMission[NUM_MISSION_OPTIONS];
+  // BotChat and player talk
+  CViewTextMenuPtr _TextNews;
+  CViewTextMenuPtr _TextTradeItem;
+  CViewTextMenuPtr _TextTradeTeleport;
+  CViewTextMenuPtr _TextTradeFaction;
+  CViewTextMenuPtr _TextTradeCosmetic;
+  CViewTextMenuPtr _TextTradeGuildOptions;
+  CViewTextMenuPtr _TextTradeOutpostBuilding;
+  CViewTextMenuPtr _TextTradeGuildRoleMaster;
+  CViewTextMenuPtr _TextTradePact;
+  CViewTextMenuPtr _TextTradePhrase;
+  CViewTextMenuPtr _TextChooseMission;
+  CViewTextMenuPtr _TextCreateGuild;
+  CViewTextMenuPtr _TextDynamicMission;
+  CViewTextMenuPtr _TextTalk;
+  CViewTextMenuPtr _TextChooseZCCharge;
+  CViewTextMenuPtr _TextChooseBuilding;
+  CViewTextMenuPtr _TextBuyRM;
+  CViewTextMenuPtr _TextUpgradeRM;
+  CViewTextMenuPtr _TextCancelZCCharge;
+  CViewTextMenuPtr _TextDestroyBuilding;
+  CViewTextMenuPtr _TextOutpostState;
+  CViewTextMenuPtr _TextOutpostBanishPlayer;
+  CViewTextMenuPtr _TextOutpostBanishGuild;
+  CViewTextMenuPtr _TextWebPage;
+  CViewTextMenuPtr _TextMissionRing[BOTCHATTYPE::MaxR2MissionEntryDatabase];
 
-	// Pack Animal
-	CViewTextMenuPtr _TextPAFollow;
-	CViewTextMenuPtr _TextPAStop;
-	CViewTextMenuPtr _TextPAFree;
-	CViewTextMenuPtr _TextPAEnterStable;
+  // Forage source
+  CViewTextMenuPtr _TextExtractRM;
 
-	// BotChat and player talk
-	CViewTextMenuPtr _TextNews;
-	CViewTextMenuPtr _TextTradeItem;
-	CViewTextMenuPtr _TextTradeTeleport;
-	CViewTextMenuPtr _TextTradeFaction;
-	CViewTextMenuPtr _TextTradeCosmetic;
-	CViewTextMenuPtr _TextTradeGuildOptions;
-	CViewTextMenuPtr _TextTradeOutpostBuilding;
-	CViewTextMenuPtr _TextTradeGuildRoleMaster;
-	CViewTextMenuPtr _TextTradePact;
-	CViewTextMenuPtr _TextTradePhrase;
-	CViewTextMenuPtr _TextChooseMission;
-	CViewTextMenuPtr _TextCreateGuild;
-	CViewTextMenuPtr _TextDynamicMission;
-	CViewTextMenuPtr _TextTalk;
-	CViewTextMenuPtr _TextChooseZCCharge;
-	CViewTextMenuPtr _TextChooseBuilding;
-	CViewTextMenuPtr _TextBuyRM;
-	CViewTextMenuPtr _TextUpgradeRM;
-	CViewTextMenuPtr _TextCancelZCCharge;
-	CViewTextMenuPtr _TextDestroyBuilding;
-	CViewTextMenuPtr _TextOutpostState;
-	CViewTextMenuPtr _TextOutpostBanishPlayer;
-	CViewTextMenuPtr _TextOutpostBanishGuild;
-	CViewTextMenuPtr _TextWebPage;
-	CViewTextMenuPtr _TextMissionRing[BOTCHATTYPE::MaxR2MissionEntryDatabase];
+  // Build Spire
+  CViewTextMenuPtr _TextBuildTotem;
 
-	// Forage source
-	CViewTextMenuPtr _TextExtractRM;
-
-	// Build Spire
-	CViewTextMenuPtr _TextBuildTotem;
-
-	// Use intermediate OK value. not good thing to do "text->setActive(false); text->setActive(true)" each frame for nothing.
-	bool			_OkTextNews;
-	bool			_OkTextTradeItem;
-	bool			_OkTextTradeTeleport;
-	bool			_OkTextTradeFaction;
-	bool			_OkTextTradeCosmetic;
-	bool			_OkTextTradeGuildOptions;
-	bool			_OkTextTradeOutpostBuilding;
-	bool			_OkTextTradeGuildRoleMaster;
-	bool			_OkTextTradePact;
-	bool			_OkTextTradePhrase;
-	bool			_OkTextChooseMission;
-	bool			_OkTextCreateGuild;
-	bool			_OkTextDynamicMission;
-	bool			_OkTextTalk;
-	bool			_OkTextChooseZCCharge;
-	bool			_OkTextChooseBuilding;
-	bool			_OkTextBuyRM;
-	bool			_OkTextUpgradeRM;
-	bool			_OkTextCancelZCCharge;
-	bool			_OkTextDestroyBuilding;
-	bool			_OkTextOutpostState;
-	bool			_OkTextWebPage;
+  // Use intermediate OK value. not good thing to do "text->setActive(false);
+  // text->setActive(true)" each frame for nothing.
+  bool _OkTextNews;
+  bool _OkTextTradeItem;
+  bool _OkTextTradeTeleport;
+  bool _OkTextTradeFaction;
+  bool _OkTextTradeCosmetic;
+  bool _OkTextTradeGuildOptions;
+  bool _OkTextTradeOutpostBuilding;
+  bool _OkTextTradeGuildRoleMaster;
+  bool _OkTextTradePact;
+  bool _OkTextTradePhrase;
+  bool _OkTextChooseMission;
+  bool _OkTextCreateGuild;
+  bool _OkTextDynamicMission;
+  bool _OkTextTalk;
+  bool _OkTextChooseZCCharge;
+  bool _OkTextChooseBuilding;
+  bool _OkTextBuyRM;
+  bool _OkTextUpgradeRM;
+  bool _OkTextCancelZCCharge;
+  bool _OkTextDestroyBuilding;
+  bool _OkTextOutpostState;
+  bool _OkTextWebPage;
 };
-
 
 class CEntityCL;
 
@@ -199,11 +191,13 @@ class CEntityCL;
  * index can be -1 (no owned animal)
  * Any CViewTextMenu* can be NULL
  */
-bool testMenuOptionForPackAnimal( CEntityCL* selectedAnimalInVision, uint index, bool clearAll,
-								  CViewTextMenu *pFollow, CViewTextMenu *pStop, CViewTextMenu *pFree,
-								  CViewTextMenu *pEnterStable, CViewTextMenu *pLeaveStable,
-								  CViewTextMenu *pMount, CViewTextMenu *pUnmount );
-
+bool testMenuOptionForPackAnimal(CEntityCL *selectedAnimalInVision, uint index,
+                                 bool clearAll, CViewTextMenu *pFollow,
+                                 CViewTextMenu *pStop, CViewTextMenu *pFree,
+                                 CViewTextMenu *pEnterStable,
+                                 CViewTextMenu *pLeaveStable,
+                                 CViewTextMenu *pMount,
+                                 CViewTextMenu *pUnmount);
 
 #endif // NL_GAME_CONTEXT_MENU_H
 

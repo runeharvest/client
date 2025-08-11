@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#if !defined(AFX_COLUMNTREEWND_H__0AEDF909_4AF6_4DE8_AF8C_4EB9E0843020__INCLUDED_)
+#if !defined(                                                                  \
+    AFX_COLUMNTREEWND_H__0AEDF909_4AF6_4DE8_AF8C_4EB9E0843020__INCLUDED_)
 #define AFX_COLUMNTREEWND_H__0AEDF909_4AF6_4DE8_AF8C_4EB9E0843020__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -28,67 +29,61 @@
 /////////////////////////////////////////////////////////////////////////////
 // CColumnTreeCtrl window
 
-class CColumnTreeWnd : public CWnd
-{
-// Construction
-public:	
-
-// Attributes
+class CColumnTreeWnd : public CWnd {
+  // Construction
 public:
-
-// Operations
+  // Attributes
 public:
-	BOOL Create(const RECT& rect, CWnd* pParentWnd, UINT nID);
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CColumnTreeWnd)
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Operations
 public:
-	enum ChildrenIDs { HeaderID = 1, TreeID = 2 };
+  BOOL Create(const RECT &rect, CWnd *pParentWnd, UINT nID);
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CColumnTreeWnd)
+  //}}AFX_VIRTUAL
 
-	void UpdateColumns();
+  // Implementation
+public:
+  enum ChildrenIDs { HeaderID = 1, TreeID = 2 };
 
-	CTreeCtrl& GetTreeCtrl() { return m_Tree; }
-	CHeaderCtrl& GetHeaderCtrl() { return m_Header; }
+  void UpdateColumns();
 
-	
+  CTreeCtrl &GetTreeCtrl() { return m_Tree; }
+  CHeaderCtrl &GetHeaderCtrl() { return m_Header; }
 
-	// Generated message map functions
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CColumnTreeCtrl)
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CColumnTreeCtrl)
+  afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 
-	virtual void OnDraw(CDC* pDC) {}
-	void UpdateScroller();
-	void RepositionControls();
+  virtual void OnDraw(CDC *pDC) {}
+  void UpdateScroller();
+  void RepositionControls();
 
 protected:
-	CColumnTreeCtrl m_Tree;
-	CHeaderCtrl m_Header;
-	int m_cyHeader;
-	int m_cxTotal;
-	int m_xPos;
-	int m_arrColWidths[16];
-	int m_xOffset;
+  CColumnTreeCtrl m_Tree;
+  CHeaderCtrl m_Header;
+  int m_cyHeader;
+  int m_cxTotal;
+  int m_xPos;
+  int m_arrColWidths[16];
+  int m_xOffset;
 
-	
 protected:
-	afx_msg void OnPaint();
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnHeaderItemChanged(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnTreeCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);	
-
+  afx_msg void OnPaint();
+  afx_msg BOOL OnEraseBkgnd(CDC *pDC);
+  afx_msg void OnSize(UINT nType, int cx, int cy);
+  afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar);
+  afx_msg void OnHeaderItemChanged(NMHDR *pNMHDR, LRESULT *pResult);
+  afx_msg void OnTreeCustomDraw(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_COLUMNTREECTRL_H__0AEDF909_4AF6_4DE8_AF8C_4EB9E0843020__INCLUDED_)

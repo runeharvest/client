@@ -19,18 +19,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
-
-
 #include "stdpch.h"
 
-#include "group_html_mail.h"
-#include "nel/misc/xml_auto_ptr.h"
 #include "../client_cfg.h"
 #include "../user_entity.h"
+#include "group_html_mail.h"
 #include "interface_manager.h"
+#include "nel/misc/xml_auto_ptr.h"
 
 // used for login cookie to be sent to the web server
 #include "../net_manager.h"
@@ -38,63 +33,55 @@
 using namespace std;
 using namespace NLMISC;
 
-
 // ***************************************************************************
 NLMISC_REGISTER_OBJECT(CViewBase, CGroupHTMLMail, std::string, "mail_html");
 
-CGroupHTMLMail::CGroupHTMLMail(const TCtorParam &param)
-: CGroupHTML(param)
-{
+CGroupHTMLMail::CGroupHTMLMail(const TCtorParam &param) : CGroupHTML(param) {}
+
+// ***************************************************************************
+
+CGroupHTMLMail::~CGroupHTMLMail() {}
+
+// ***************************************************************************
+
+void CGroupHTMLMail::addHTTPGetParams(string &url, bool /*trustedDomain*/) {
+  string user_name = UserEntity->getLoginName();
+  url += ((url.find('?') != string::npos) ? "&" : "?") + string("shard=") +
+         toString(CharacterHomeSessionId) + string("&user_login=") +
+         user_name + // FIXME: UrlEncode
+         string("&session_cookie=") + NetMngr.getLoginCookie().toString() +
+         string("&lang=") + CI18N::getCurrentLanguageCode();
 }
 
 // ***************************************************************************
 
-CGroupHTMLMail::~CGroupHTMLMail()
-{
+void CGroupHTMLMail::addHTTPPostParams(SFormFields &formfields,
+                                       bool /*trustedDomain*/) {
+  string user_name = UserEntity->getLoginName();
+  formfields.add("shard", toString(CharacterHomeSessionId));
+  formfields.add("user_login", user_name); // FIXME: UrlEncode
+  formfields.add("session_cookie", NetMngr.getLoginCookie().toString());
+  formfields.add("lang", CI18N::getCurrentLanguageCode());
 }
 
 // ***************************************************************************
 
-void CGroupHTMLMail::addHTTPGetParams (string &url, bool /*trustedDomain*/)
-{
-	string user_name = UserEntity->getLoginName ();
-	url += ((url.find('?') != string::npos) ? "&" : "?") +
-		string("shard=") + toString(CharacterHomeSessionId) +
-		string("&user_login=") + user_name + // FIXME: UrlEncode
-		string("&session_cookie=") + NetMngr.getLoginCookie().toString() + 
-		string("&lang=") + CI18N::getCurrentLanguageCode();
+string CGroupHTMLMail::home() const {
+  CInterfaceManager *pIM = CInterfaceManager::getInstance();
+  NLGUI::CDBManager::getInstance()
+      ->getDbProp("UI:VARIABLES:MAIL_WAITING")
+      ->setValue32(0); // FIXME: How is this const?!
+  return Home;
 }
 
 // ***************************************************************************
 
-void CGroupHTMLMail::addHTTPPostParams (SFormFields &formfields, bool /*trustedDomain*/)
-{
-	string user_name = UserEntity->getLoginName ();
-	formfields.add("shard", toString(CharacterHomeSessionId));
-	formfields.add("user_login", user_name); // FIXME: UrlEncode
-	formfields.add("session_cookie", NetMngr.getLoginCookie().toString());
-	formfields.add("lang", CI18N::getCurrentLanguageCode());
-}
-
-// ***************************************************************************
-
-string	CGroupHTMLMail::home () const
-{
-	CInterfaceManager *pIM = CInterfaceManager::getInstance();
-	NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:MAIL_WAITING")->setValue32(0); // FIXME: How is this const?!
-	return Home;
-}
-
-// ***************************************************************************
-
-void CGroupHTMLMail::handle ()
-{
-	// Do nothing if WebServer is not initialized
-	if (!WebServer.empty())
-	{
-		Home = "/webig/mailbox.php";
-		CGroupHTML::handle ();
-	}
+void CGroupHTMLMail::handle() {
+  // Do nothing if WebServer is not initialized
+  if (!WebServer.empty()) {
+    Home = "/webig/mailbox.php";
+    CGroupHTML::handle();
+  }
 }
 
 // ***************************************************************************

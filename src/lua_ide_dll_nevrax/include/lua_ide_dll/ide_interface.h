@@ -17,53 +17,51 @@
 #ifndef LUA_IDE_INTERFACE_H
 #define LUA_IDE_INTERFACE_H
 
-extern "C"
-{
-	#include "lua.h"
+extern "C" {
+#include "lua.h"
 }
 
 struct lua_State;
 
 // this files requires inclusion of lua
 
-const int LUA_IDE_INTERFACE_VERSION = 5; // please increment this version number each time 
-                                          // this interface change
-
+const int LUA_IDE_INTERFACE_VERSION = 5; // please increment this version number
+                                         // each time this interface change
 
 // called by the debugger in its event loop when the application is breaked
-struct IDebuggedAppMainLoop
-{
-	// 
-	virtual void breakEventLoop() = 0;
+struct IDebuggedAppMainLoop {
+  //
+  virtual void breakEventLoop() = 0;
 };
 
-struct ILuaIDEInterface
-{	
-	virtual void	   prepareDebug(const char *tmpProjectFile, lua_realloc_t reallocfunc, lua_free_t freefunc, HWND mainWnd) = 0;
-	virtual void	   stopDebug() = 0;
-	virtual void       showDebugger(bool visible = true) = 0;
-	virtual bool       isBreaked() = 0;
-	virtual void       doMainLoop() = 0;		
-	virtual void	   addFile(const char *filename) = 0;
-	virtual void	   expandProjectTree() = 0;
-	virtual void	   sortFiles() = 0;
-	virtual void	   setBreakPoint(const char *name, int line) = 0;
-	virtual void					setDebuggedAppMainLoop(IDebuggedAppMainLoop *mainAppLoop) = 0;
-	virtual IDebuggedAppMainLoop	*setDebuggedAppMainLoop() const = 0;
-	virtual lua_State *getLuaState() = 0;
-	// write in the log
-	virtual void	   debugInfo(const char *msg) = 0;
+struct ILuaIDEInterface {
+  virtual void prepareDebug(const char *tmpProjectFile,
+                            lua_realloc_t reallocfunc, lua_free_t freefunc,
+                            HWND mainWnd) = 0;
+  virtual void stopDebug() = 0;
+  virtual void showDebugger(bool visible = true) = 0;
+  virtual bool isBreaked() = 0;
+  virtual void doMainLoop() = 0;
+  virtual void addFile(const char *filename) = 0;
+  virtual void expandProjectTree() = 0;
+  virtual void sortFiles() = 0;
+  virtual void setBreakPoint(const char *name, int line) = 0;
+  virtual void setDebuggedAppMainLoop(IDebuggedAppMainLoop *mainAppLoop) = 0;
+  virtual IDebuggedAppMainLoop *setDebuggedAppMainLoop() const = 0;
+  virtual lua_State *getLuaState() = 0;
+  // write in the log
+  virtual void debugInfo(const char *msg) = 0;
 };
 
 #ifdef LUA_IDE_DLL_EXPORTS
-	#define LUA_IDE_API __declspec(dllexport)
+#define LUA_IDE_API __declspec(dllexport)
 #else
-	#define LUA_IDE_API __declspec(dllimport)
+#define LUA_IDE_API __declspec(dllimport)
 #endif
 
-typedef  int (* TGetLuaIDEInterfaceVersion) ();
+typedef int (*TGetLuaIDEInterfaceVersion)();
 
 // return the current version of the interface for the dll
-typedef  ILuaIDEInterface *(* TGetLuaIDEInterface) ();
+typedef ILuaIDEInterface *(*TGetLuaIDEInterface)();
 
 #endif

@@ -26,7 +26,7 @@
 void displayDebug();
 void displayDebugFps();
 void displayDebugUIUnderMouse();
-std::string getActionKey(const char* name, const char* param = "");
+std::string getActionKey(const char *name, const char *param = "");
 // Display an Help.
 void displayHelp();
 

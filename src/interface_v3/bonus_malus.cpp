@@ -21,28 +21,24 @@
 using namespace std;
 using namespace NLMISC;
 
-namespace BONUS_MALUS
-{
+namespace BONUS_MALUS {
 
-	NL_BEGIN_STRING_CONVERSION_TABLE (TBonusMalusSpecialTT)
-		NL_STRING_CONVERSION_TABLE_ENTRY(None)
-		NL_STRING_CONVERSION_TABLE_ENTRY(XpCatalyser)
-		NL_STRING_CONVERSION_TABLE_ENTRY(OutpostPVPOn)
-		NL_STRING_CONVERSION_TABLE_ENTRY(OutpostPVPOutOfZone)
-		NL_STRING_CONVERSION_TABLE_ENTRY(OutpostPVPInRound)
-		NL_STRING_CONVERSION_TABLE_ENTRY(DeathPenalty)
-	NL_END_STRING_CONVERSION_TABLE(TBonusMalusSpecialTT, BonusMalusTTConversion, Unknown)
+NL_BEGIN_STRING_CONVERSION_TABLE(TBonusMalusSpecialTT)
+NL_STRING_CONVERSION_TABLE_ENTRY(None)
+NL_STRING_CONVERSION_TABLE_ENTRY(XpCatalyser)
+NL_STRING_CONVERSION_TABLE_ENTRY(OutpostPVPOn)
+NL_STRING_CONVERSION_TABLE_ENTRY(OutpostPVPOutOfZone)
+NL_STRING_CONVERSION_TABLE_ENTRY(OutpostPVPInRound)
+NL_STRING_CONVERSION_TABLE_ENTRY(DeathPenalty)
+NL_END_STRING_CONVERSION_TABLE(TBonusMalusSpecialTT, BonusMalusTTConversion,
+                               Unknown)
 
-	TBonusMalusSpecialTT fromString(const std::string & str)
-	{
-		return BonusMalusTTConversion.fromString(str);
-	}
+TBonusMalusSpecialTT fromString(const std::string &str) {
+  return BonusMalusTTConversion.fromString(str);
+}
 
-	const std::string & toString(TBonusMalusSpecialTT clan)
-	{
-		return BonusMalusTTConversion.toString(clan);
-	}
-
+const std::string &toString(TBonusMalusSpecialTT clan) {
+  return BonusMalusTTConversion.toString(clan);
+}
 
 } // namespace BONUS_MALUS
-

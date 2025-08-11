@@ -21,73 +21,76 @@
 //
 #include <vector>
 
-
-namespace NL3D
-{
-	class UDriver;
-	class UAnimationSet;
-	class UPlayListManager;
-	class UPlayList;
-}
+namespace NL3D {
+class UDriver;
+class UAnimationSet;
+class UPlayListManager;
+class UPlayList;
+} // namespace NL3D
 
 class CSkySheet;
 
-
-
-class CSky
-{
+class CSky {
 public:
-	// ctor
-	CSky();
-	// dtor
-	~CSky();
-	/** init from a sky sheet and a scene
-	  * \param unsupportedObjects If not NULL, will be filled with the names of the shapes that the driver cannot render
-	  */
-	void init(NL3D::UDriver *drv, const CSkySheet &sheet, bool forceFallbaclVersion = false, float numHourInDay = 24.f, std::vector<std::string> *unsupportedObjects = NULL);
-	// release all datas, including the sky scene
-	void release();
-	/** Setup the sky
-	  * \param skyScene the sky is rendered fof
-	  * \return the number of visible objects
-	  */
-	uint setup(const CClientDate &date, const CClientDate &animationDate, float weatherLevel, CRGBA fogColor, const NLMISC::CVector &sunLightDir, bool envMapScene);
-	// Get the sky scene
-	NL3D::UScene	*getScene() { return _Scene; }
-	// Get number of objects in the sky
-	uint			 getNumObjects() const { return uint(_Objects.size()); }
-	const CSkyObject &getObject(uint index) const { return _Objects[index]; }
-	// test if the sky has a fog color
-	bool			  hasFogColor() const { return _FogColor != NULL; }
-	// compute fog color
-	NLMISC::CRGBA	 computeFogColor(const CClientDate &date, float weatherLevel) const;
-	float			 getWaterEnvMapCameraHeight() const { return _WaterEnvMapCameraHeight; }
-	uint8			 getWaterEnvMapAlpha() const { return _WaterEnvMapAlpha; }
+  // ctor
+  CSky();
+  // dtor
+  ~CSky();
+  /** init from a sky sheet and a scene
+   * \param unsupportedObjects If not NULL, will be filled with the names of the
+   * shapes that the driver cannot render
+   */
+  void init(NL3D::UDriver *drv, const CSkySheet &sheet,
+            bool forceFallbaclVersion = false, float numHourInDay = 24.f,
+            std::vector<std::string> *unsupportedObjects = NULL);
+  // release all datas, including the sky scene
+  void release();
+  /** Setup the sky
+   * \param skyScene the sky is rendered fof
+   * \return the number of visible objects
+   */
+  uint setup(const CClientDate &date, const CClientDate &animationDate,
+             float weatherLevel, CRGBA fogColor,
+             const NLMISC::CVector &sunLightDir, bool envMapScene);
+  // Get the sky scene
+  NL3D::UScene *getScene() { return _Scene; }
+  // Get number of objects in the sky
+  uint getNumObjects() const { return uint(_Objects.size()); }
+  const CSkyObject &getObject(uint index) const { return _Objects[index]; }
+  // test if the sky has a fog color
+  bool hasFogColor() const { return _FogColor != NULL; }
+  // compute fog color
+  NLMISC::CRGBA computeFogColor(const CClientDate &date,
+                                float weatherLevel) const;
+  float getWaterEnvMapCameraHeight() const { return _WaterEnvMapCameraHeight; }
+  uint8 getWaterEnvMapAlpha() const { return _WaterEnvMapAlpha; }
+
 private:
-	std::vector<CSkyObject> _Objects; // all the object in the sky
-	std::vector<NLMISC::CBitmap *>	_Bitmaps; // all the bitmaps for the color lookups
-	NL3D::UScene			*_Scene;
-	NL3D::UDriver			*_Driver;
-	NL3D::UInstanceGroup	*_IG;
-	double					 _AnimLengthInSeconds;
-	float					 _NumHourInDay;
-	NL3D::UAnimationSet		*_AnimationSet;
-	NL3D::UPlayListManager	*_PlayListManager;
-	NL3D::UPlayList			*_PlayList;
-	// Bitmap that gives the lighting of the sky scene depending on weather & hour
-	NLMISC::CBitmap			*_AmbientSunLight;
-	NLMISC::CBitmap			*_DiffuseSunLight;
-	NLMISC::CBitmap			*_FogColor;
-	float					_WaterEnvMapCameraHeight;
-	uint8					_WaterEnvMapAlpha;
+  std::vector<CSkyObject> _Objects; // all the object in the sky
+  std::vector<NLMISC::CBitmap *>
+      _Bitmaps; // all the bitmaps for the color lookups
+  NL3D::UScene *_Scene;
+  NL3D::UDriver *_Driver;
+  NL3D::UInstanceGroup *_IG;
+  double _AnimLengthInSeconds;
+  float _NumHourInDay;
+  NL3D::UAnimationSet *_AnimationSet;
+  NL3D::UPlayListManager *_PlayListManager;
+  NL3D::UPlayList *_PlayList;
+  // Bitmap that gives the lighting of the sky scene depending on weather & hour
+  NLMISC::CBitmap *_AmbientSunLight;
+  NLMISC::CBitmap *_DiffuseSunLight;
+  NLMISC::CBitmap *_FogColor;
+  float _WaterEnvMapCameraHeight;
+  uint8 _WaterEnvMapAlpha;
 };
 
-
-// retrieve a bitmap from its name, find it in the map if it has already been built, or load it and add it otherwise
-NLMISC::CBitmap *buildSharedBitmap(const std::string &filename,
-						   std::map<std::string, NLMISC::CBitmap *> &bitmapByName,
-						   std::vector<NLMISC::CBitmap *> &builtBitmaps,
-						   bool &alreadyBuilt
-						  );
+// retrieve a bitmap from its name, find it in the map if it has already been
+// built, or load it and add it otherwise
+NLMISC::CBitmap *
+buildSharedBitmap(const std::string &filename,
+                  std::map<std::string, NLMISC::CBitmap *> &bitmapByName,
+                  std::vector<NLMISC::CBitmap *> &builtBitmaps,
+                  bool &alreadyBuilt);
 
 #endif

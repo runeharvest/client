@@ -19,27 +19,22 @@
 
 #include "entity_sheet.h"
 
-class COutpostSheet : public CEntitySheet
-{
+class COutpostSheet : public CEntitySheet {
 public:
-
-	uint32 NbMaxSpawnedSquad;
-	uint32 NbMaxSpawnedMercenarySquad;
-	uint32 ChallengeCost;
-	uint32 MaxTotalSquad;
+  uint32 NbMaxSpawnedSquad;
+  uint32 NbMaxSpawnedMercenarySquad;
+  uint32 ChallengeCost;
+  uint32 MaxTotalSquad;
 
 public:
-	// ctor
-	COutpostSheet();
+  // ctor
+  COutpostSheet();
 
-	/// From CEntitySheet
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// From CEntitySheet
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// From CEntitySheet  : serialize sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// From CEntitySheet  : serialize sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
-
 
 #endif

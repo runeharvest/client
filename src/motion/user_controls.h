@@ -17,25 +17,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_USER_CONTROLS_H
 #define CL_USER_CONTROLS_H
-
 
 /////////////
 // INCLUDE //
 /////////////
 // Misc.
-#include "nel/misc/types_nl.h"
 #include "nel/misc/time_nl.h"
+#include "nel/misc/types_nl.h"
 #include "nel/misc/vector.h"
 // Std.
 #include <string>
 
 namespace NLMISC {
-	class CCDBNodeLeaf;
+class CCDBNodeLeaf;
 }
 
 ///////////
@@ -47,279 +43,281 @@ namespace NLMISC {
  * \author Nevrax France
  * \date 2001
  */
-class CUserControls
-{
-	friend class CAHForward;
-	friend class CAHBackward;
-	friend class CAHToggleAutoWalk;
+class CUserControls {
+  friend class CAHForward;
+  friend class CAHBackward;
+  friend class CAHToggleAutoWalk;
+
 public:
-	/// moving modes
-	enum TMoveMode
-	{
-		InterfaceMode = 0,	// Interface Mode (with mouse displayed)
-		AIMode,				// Mode for the AI.
-		DeathMode,			// Mode for the Death.
-		MountMode,			// Mode for the Mount.
-		ThirdMode,			// Third Person View Mode
+  /// moving modes
+  enum TMoveMode {
+    InterfaceMode = 0, // Interface Mode (with mouse displayed)
+    AIMode,            // Mode for the AI.
+    DeathMode,         // Mode for the Death.
+    MountMode,         // Mode for the Mount.
+    ThirdMode,         // Third Person View Mode
 
-		nbMode				// Not really a mode, just here to know how many modes are there.
-	};
+    nbMode // Not really a mode, just here to know how many modes are there.
+  };
 
-	enum TDirectionMove
-	{
-		none		= 0x00,
-		forward		= 0x01,
-		backward	= 0x02,
-		left		= 0x04,
-		right		= 0x08,
-		autowalk	= 0x10
-	};
+  enum TDirectionMove {
+    none = 0x00,
+    forward = 0x01,
+    backward = 0x02,
+    left = 0x04,
+    right = 0x08,
+    autowalk = 0x10
+  };
 
 protected:
-	NLMISC::TTime	_LeftClickStart;
-	NLMISC::TTime	_LeftClickEnd;
-	NLMISC::TTime	_RightClickStart;
-	NLMISC::TTime	_RightClickEnd;
-	NLMISC::TTime	_TimeBeforeMouseSlide;
-	NLMISC::TTime	_TimeLongClick;
+  NLMISC::TTime _LeftClickStart;
+  NLMISC::TTime _LeftClickEnd;
+  NLMISC::TTime _RightClickStart;
+  NLMISC::TTime _RightClickEnd;
+  NLMISC::TTime _TimeBeforeMouseSlide;
+  NLMISC::TTime _TimeLongClick;
 
 private:
-	/// Initialize all the components.
-	void init();
+  /// Initialize all the components.
+  void init();
 
-	/// Just manage the free look.
-	void freeLook(bool fullMode);
-	/// Just manage the camera look
-	void cameraLook(bool fullMode);
-	/// common to freeLook and cameraLook
-	void getMouseAngleMove(float &dx, float &dy);
+  /// Just manage the free look.
+  void freeLook(bool fullMode);
+  /// Just manage the camera look
+  void cameraLook(bool fullMode);
+  /// common to freeLook and cameraLook
+  void getMouseAngleMove(float &dx, float &dy);
 
-	/// Manage interactions in interactive mode (start).
-	void interfaceModeStart();
-	/// Manage interactions in interactive mode (stop).
-	void interfaceModeStop();
-	/// Manage interactions in interactive mode.
-	void interfaceMode();
+  /// Manage interactions in interactive mode (start).
+  void interfaceModeStart();
+  /// Manage interactions in interactive mode (stop).
+  void interfaceModeStop();
+  /// Manage interactions in interactive mode.
+  void interfaceMode();
 
-	/// Manage the AI Mode (start).
-	void aiModeStart();
-	/// Manage the AI Mode (stop).
-	void aiModeStop();
-	/// Manage the AI Mode.
-	void aiMode();
+  /// Manage the AI Mode (start).
+  void aiModeStart();
+  /// Manage the AI Mode (stop).
+  void aiModeStop();
+  /// Manage the AI Mode.
+  void aiMode();
 
-	/// Manage the Death Mode (start).
-	void deathModeStart();
-	/// Manage the Death Mode (stop).
-	void deathModeStop();
-	/// Manage the Death Mode.
-	void deathMode();
+  /// Manage the Death Mode (start).
+  void deathModeStart();
+  /// Manage the Death Mode (stop).
+  void deathModeStop();
+  /// Manage the Death Mode.
+  void deathMode();
 
-	/// Manage the Mount Mode (start).
-	void mountModeStart();
-	/// Manage the Mount Mode (stop).
-	void mountModeStop();
-	/// Manage the Mount Mode.
-	void mountMode();
+  /// Manage the Mount Mode (start).
+  void mountModeStart();
+  /// Manage the Mount Mode (stop).
+  void mountModeStop();
+  /// Manage the Mount Mode.
+  void mountMode();
 
-	/// Manage the Third Person View Mode (start).
-	void thirdModeStart();
-	/// Manage the Third Person View Mode (stop).
-	void thirdModeStop();
-	/// Manage the Third Person View Mode.
-	void thirdMode();
+  /// Manage the Third Person View Mode (start).
+  void thirdModeStart();
+  /// Manage the Third Person View Mode (stop).
+  void thirdModeStop();
+  /// Manage the Third Person View Mode.
+  void thirdMode();
 
-	/// Manage some common actions.
-	void commonMove();
-	/// Move the caracter according to the inputs
-	void move();
-	/// Calculate the destination point when clicking on the ground in "Free Head" Mode.
-	void findDestination(float x, float y);
-	/// ...
-	void turnBack();
-	/// Update the cursor position.
-	void updateCursorPosition();
-	/// Manage some common view setup.
-	void commonSetView();
+  /// Manage some common actions.
+  void commonMove();
+  /// Move the caracter according to the inputs
+  void move();
+  /// Calculate the destination point when clicking on the ground in "Free Head"
+  /// Mode.
+  void findDestination(float x, float y);
+  /// ...
+  void turnBack();
+  /// Update the cursor position.
+  void updateCursorPosition();
+  /// Manage some common view setup.
+  void commonSetView();
 
-	// Execute action depending on the cursor position (left/right click).
-	void execActionCursorPos(bool rightClick, bool dblClick);
+  // Execute action depending on the cursor position (left/right click).
+  void execActionCursorPos(bool rightClick, bool dblClick);
 
-	// test merge the camera Yaw and user Yaw. Only in some cases
-	void testApplyCameraYawToUser();
+  // test merge the camera Yaw and user Yaw. Only in some cases
+  void testApplyCameraYawToUser();
 
-	///  when user moves, some actions must be cancelled
-	void cancelActionsWhenMoving();
+  ///  when user moves, some actions must be cancelled
+  void cancelActionsWhenMoving();
 
 public:
-	/// Constructor
-	CUserControls();
+  /// Constructor
+  CUserControls();
 
-	void reset();
+  void reset();
 
-	/// Return the string associated to the motion Mode.
-	std::string modeStr() const;
-	/// Return the motion Mode.
-	TMoveMode mode() const {return _Mode;}
-	/// Change the current motion Mode.
-	void mode(const TMoveMode mode);
+  /// Return the string associated to the motion Mode.
+  std::string modeStr() const;
+  /// Return the motion Mode.
+  TMoveMode mode() const { return _Mode; }
+  /// Change the current motion Mode.
+  void mode(const TMoveMode mode);
 
-	/// Update the motion.
-	void update();
+  /// Update the motion.
+  void update();
 
-	/// Lock or unlock the motion.
-	void locked(bool l) {_Locked = l;}
-	bool locked() {return _Locked;}
+  /// Lock or unlock the motion.
+  void locked(bool l) { _Locked = l; }
+  bool locked() { return _Locked; }
 
-	/// Begin Free Look. Additionaly, cancel any follow/moteTo of the user
-	void startFreeLook();
+  /// Begin Free Look. Additionaly, cancel any follow/moteTo of the user
+  void startFreeLook();
 
-	/// Stop Free Look (can be called multiple times if needed). Additionaly, the mouse/pointer is restored
-	void stopFreeLook();
+  /// Stop Free Look (can be called multiple times if needed). Additionaly, the
+  /// mouse/pointer is restored
+  void stopFreeLook();
 
-	/// Is the camera inside the character.
-	bool isInternalView() {return _InternalView;}
+  /// Is the camera inside the character.
+  bool isInternalView() { return _InternalView; }
 
-	/// Update keyboard rotation
-	void keyboardRotationLR (bool left, bool right);
-	void keyboardRotationUD (bool up, bool down);
-	void keyboardRotationCameraLR (bool left, bool right);
+  /// Update keyboard rotation
+  void keyboardRotationLR(bool left, bool right);
+  void keyboardRotationUD(bool up, bool down);
+  void keyboardRotationCameraLR(bool left, bool right);
 
-	void startCombat() {_CameraAuto = true;}
+  void startCombat() { _CameraAuto = true; }
 
-	/// Enable/Disable Autowalk
-	void autowalkState(bool enable);
-	/// Return the autowalk state ('true'=enable).
-	bool autowalkState() const {return ((_DirectionMove & autowalk)!=0);}
+  /// Enable/Disable Autowalk
+  void autowalkState(bool enable);
+  /// Return the autowalk state ('true'=enable).
+  bool autowalkState() const { return ((_DirectionMove & autowalk) != 0); }
 
-	/// Update velocity
-	static void updateVelocity (float deltaTime, float acceleration, float brake, float speedMax, float &speed);
+  /// Update velocity
+  static void updateVelocity(float deltaTime, float acceleration, float brake,
+                             float speedMax, float &speed);
 
+  // get the camera Delta Yaw
+  float getCameraDeltaYaw() const { return _UserCameraDeltaYaw; }
 
-	// get the camera Delta Yaw
-	float	getCameraDeltaYaw() const {return _UserCameraDeltaYaw;}
+  // just reset the camera Delta Yaw (instantaneously)
+  void resetCameraDeltaYaw();
 
-	// just reset the camera Delta Yaw (instantaneously)
-	void	resetCameraDeltaYaw();
+  // reset the camera Delta Yaw (smooth over time, canceled by user)
+  void resetSmoothCameraDeltaYaw();
 
-	// reset the camera Delta Yaw (smooth over time, canceled by user)
-	void	resetSmoothCameraDeltaYaw();
+  // append to the camera Delta Yaw (NB: any smooth reset is then canceled)
+  void appendCameraDeltaYaw(float dYaw);
 
-	// append to the camera Delta Yaw (NB: any smooth reset is then canceled)
-	void	appendCameraDeltaYaw(float dYaw);
+  // reset the camera Delta Yaw and change the user front so the final Yaw
+  // remains the same
+  void applyCameraDeltaYawToUser();
 
-	// reset the camera Delta Yaw and change the user front so the final Yaw remains the same
-	void	applyCameraDeltaYawToUser();
+  // true if there is currently a smooth reset of the cameraDeltaYaw (in force
+  // mode)
+  bool isResetSmoothCDYForced() const {
+    return _ResetSmoothCameraDeltaYaw == ResetCDYForced;
+  }
 
-	// true if there is currently a smooth reset of the cameraDeltaYaw (in force mode)
-	bool	isResetSmoothCDYForced() const {return _ResetSmoothCameraDeltaYaw==ResetCDYForced;}
+  // capture the mouse, prevent the free look from being trigger on a long click
+  void captureMouse() { _MouseCaptured = true; }
+  void releaseMouse() { _MouseCaptured = false; }
+  bool isMouseCaptured() { return _MouseCaptured; }
 
-	// capture the mouse, prevent the free look from being trigger on a long click
-	void    captureMouse() { _MouseCaptured = true; }
-	void    releaseMouse() { _MouseCaptured = false; }
-	bool    isMouseCaptured() { return _MouseCaptured; }
+  /// user has to release forward key before he can go forward again
+  void needReleaseForward();
 
-	/// user has to release forward key before he can go forward again
-	void	needReleaseForward();
-
-	/// return true if user do forward or backward move action with key or mouth
-	bool	isMoving() { return _DirectionMove != none; }
+  /// return true if user do forward or backward move action with key or mouth
+  bool isMoving() { return _DirectionMove != none; }
 
 private:
+  bool _MouseCaptured; // no free look allowed when mouse is captures
 
-	bool   _MouseCaptured; // no free look allowed when mouse is captures
+  // Is the camera controled by the user or not.
+  bool _CameraAuto;
 
-	// Is the camera controled by the user or not.
-	bool	_CameraAuto;
+  bool _LastFrameForward;
+  bool _LastFrameBackward;
+  bool _LastFrameAutowalk;
+  bool _LastFrameStrafeLeft;
+  bool _LastFrameStrafeRight;
+  bool _LastFrameTurnLeft;
+  bool _LastFrameTurnRight;
+  bool _LastFrameLeftButtonDown;
+  // NB: modified only when not in freelook mode
+  float _LastFrameMousePosX;
+  float _LastFrameMousePosY;
+  bool _CurrentFrameFreeLookCalled;
+  /// Used to lock motion.
+  bool _Locked;
 
-	bool	_LastFrameForward;
-	bool	_LastFrameBackward;
-	bool	_LastFrameAutowalk;
-	bool	_LastFrameStrafeLeft;
-	bool	_LastFrameStrafeRight;
-	bool	_LastFrameTurnLeft;
-	bool	_LastFrameTurnRight;
-	bool	_LastFrameLeftButtonDown;
-	// NB: modified only when not in freelook mode
-	float	_LastFrameMousePosX;
-	float	_LastFrameMousePosY;
-	bool	_CurrentFrameFreeLookCalled;
-	/// Used to lock motion.
-	bool	_Locked;
+  /// Are we in displacement or not ?
+  uint32 _DirectionMove;
 
-	/// Are we in displacement or not ?
-	uint32 _DirectionMove;
+  /// moving mode
+  TMoveMode _Mode;
+  /// last moving mode
+  TMoveMode _LastMode;
 
-	/// moving mode
-	TMoveMode _Mode;
-	/// last moving mode
-	TMoveMode _LastMode;
+  /// speed in translation
+  float _TransSpeed;
 
-	/// speed in translation
-	float _TransSpeed;
+  /// fly velocity
+  float _FlyVerticalVelocity;
+  float _FlyFrontVelocity;
+  float _FlyLateralVelocity;
+  float _RotateUserLRVelocity;
+  float _RotateUserUDVelocity;
+  float _RotateCameraLRVelocity;
 
-	/// fly velocity
-	float _FlyVerticalVelocity;
-	float _FlyFrontVelocity;
-	float _FlyLateralVelocity;
-	float _RotateUserLRVelocity;
-	float _RotateUserUDVelocity;
-	float _RotateCameraLRVelocity;
+  ///
+  bool _UpdateView;
 
-	///
-	bool _UpdateView;
+  ///
+  NLMISC::CVector _Start;
+  ///
+  NLMISC::CVector _Destination;
 
-	///
-	NLMISC::CVector _Start;
-	///
-	NLMISC::CVector _Destination;
+  ///
+  float _Acc;
+  float _T0;
+  float _T;
+  float _V0;
 
-	///
-	float _Acc;
-	float _T0;
-	float _T;
-	float _V0;
+  ///
+  float _ZOscil;
 
-	///
-	float _ZOscil;
+  ///
+  float _Dist;
+  float _PrevDist;
 
-	///
-	float _Dist;
-	float _PrevDist;
+  ///
+  bool _TurnBack;
 
-	///
-	bool _TurnBack;
+  /// "true" if the character has a destination to go.
+  bool _ClickMove;
 
-	/// "true" if the character has a destination to go.
-	bool _ClickMove;
+  ///
+  float _T0View;
+  float _TView;
+  float _ViewSpeed;
 
-	///
-	float _T0View;
-	float _TView;
-	float _ViewSpeed;
+  bool _FreeLook;
 
-	bool _FreeLook;
+  bool _InternalView;
 
-	bool _InternalView;
+  // User Camera Yaw
+  float _UserCameraDeltaYaw;
+  // Forced mode is related to moveTo/follow feature
+  enum TResetCDY { ResetCDYOff = 0, ResetCDYOn, ResetCDYForced };
+  TResetCDY _ResetSmoothCameraDeltaYaw;
 
-	// User Camera Yaw
-	float		_UserCameraDeltaYaw;
-	// Forced mode is related to moveTo/follow feature
-	enum	TResetCDY {ResetCDYOff=0, ResetCDYOn, ResetCDYForced};
-	TResetCDY	_ResetSmoothCameraDeltaYaw;
+  /// when true user has to release forward key before he can go forward again
+  bool _NeedReleaseForward;
 
-	/// when true user has to release forward key before he can go forward again
-	bool _NeedReleaseForward;
+  /// when true the next forward action will cancel any moveto
+  bool _NextForwardCancelMoveTo;
 
-	/// when true the next forward action will cancel any moveto
-	bool _NextForwardCancelMoveTo;
-
-	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _UiVarMkMoveDB;
+  NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _UiVarMkMoveDB;
 };
 
 /// User Controls (mouse, keyboard, interfaces, ...)
 extern CUserControls UserControls;
-
 
 #endif // CL_USER_CONTROLS_H
 

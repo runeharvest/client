@@ -6,5 +6,5 @@
 #include "StdAfx.h"
 
 #ifdef _DEBUG
-int CTraceFn::nIndent=-1;	    // current TRACE indent level
+int CTraceFn::nIndent = -1; // current TRACE indent level
 #endif

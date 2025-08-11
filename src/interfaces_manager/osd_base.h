@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_OSD_BASE_H
 #define CL_OSD_BASE_H
 
 #include "nel/misc/types_nl.h"
 #include "osd.h"
-
 
 /**
  * Class to manage OSD Base.
@@ -29,60 +26,57 @@
  * \author Nevrax France
  * \date 2001
  */
-class COSDBase
-{
+class COSDBase {
 public:
+  /// Constructor
+  COSDBase();
 
-	/// Constructor
-	COSDBase();
+  /** \name Background
+   * Variables to manage the background of the OSD.
+   */
+  //@{
+  /// Display mode for the background.
+  COSD::TBG _BG_Mode;
+  /// Id of the texture for the background.
+  uint _BG;
+  /// Color of the Background.
+  CRGBA _BG_Color;
+  //@}
 
-	/** \name Background
-	 * Variables to manage the background of the OSD.
-	 */
-	//@{
-	/// Display mode for the background.
-	COSD::TBG	_BG_Mode;
-	/// Id of the texture for the background.
-	uint		_BG;
-	/// Color of the Background.
-	CRGBA		_BG_Color;
-	//@}
+  /** \name Title Bar
+   * Variables to manage the Title Bar of the OSD.
+   */
+  //@{
+  /// Display mode for the Title Bar.
+  COSD::TTB _TB_Mode;
+  /// Id of the texture for the Title BAr.
+  uint _TB;
+  /// Color of the Title Bar.
+  CRGBA _TB_Color;
+  /// Pen of the Title Bar.
+  CPen _TB_Pen;
+  //@}
 
-	/** \name Title Bar
-	 * Variables to manage the Title Bar of the OSD.
-	 */
-	//@{
-	/// Display mode for the Title Bar.
-	COSD::TTB	_TB_Mode;
-	/// Id of the texture for the Title BAr.
-	uint		_TB;
-	/// Color of the Title Bar.
-	CRGBA		_TB_Color;
-	/// Pen of the Title Bar.
-	CPen		_TB_Pen;
-	//@}
+  /** \name HighLight
+   * Variables to manage the HighLight of the OSD.
+   */
+  //@{
+  /// Color of the HighLight.
+  CRGBA _HL_Color;
+  /// HighLight Size (in Pixel).
+  float _HL_Size;
+  //@}
 
-	/** \name HighLight
-	 * Variables to manage the HighLight of the OSD.
-	 */
-	//@{
-	/// Color of the HighLight.
-	CRGBA		_HL_Color;
-	/// HighLight Size (in Pixel).
-	float		_HL_Size;
-	//@}
-
-	/** \name Resize
-	 * Variables to manage the Resize of the OSD.
-	 */
-	//@{
-	/// Resize borders Color
-	CRGBA		_RS_Color;
-	/// Resize size (in pixel).
-	float		_RS_Size;
-	//@}
+  /** \name Resize
+   * Variables to manage the Resize of the OSD.
+   */
+  //@{
+  /// Resize borders Color
+  CRGBA _RS_Color;
+  /// Resize size (in pixel).
+  float _RS_Size;
+  //@}
 };
-
 
 #endif // CL_OSD_BASE_H
 

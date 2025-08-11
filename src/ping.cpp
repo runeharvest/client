@@ -17,8 +17,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "ping.h"
+#include "stdpch.h"
 
 #include "interface_v3/interface_manager.h"
 #include "time_client.h"
@@ -26,52 +26,44 @@
 using namespace NLMISC;
 using namespace NLGUI;
 
-void CPing::init()
-{
-	CInterfaceManager *pIM = CInterfaceManager::getInstance();
-	if(pIM)
-	{
-		CCDBNodeLeaf *pNodeLeaf = CDBManager::getInstance()->getDbProp("SERVER:DEBUG_INFO:Ping", false);
-		if(pNodeLeaf)
-		{
-			ICDBNode::CTextId textId;
-			pNodeLeaf->addObserver(this, textId);
-			//	nlwarning("CPing: cannot add the observer");
-		}
-		else
-			nlwarning("CPing: 'SERVER:DEBUG_INFO:Ping' does not exist.");
-	}
+void CPing::init() {
+  CInterfaceManager *pIM = CInterfaceManager::getInstance();
+  if (pIM) {
+    CCDBNodeLeaf *pNodeLeaf =
+        CDBManager::getInstance()->getDbProp("SERVER:DEBUG_INFO:Ping", false);
+    if (pNodeLeaf) {
+      ICDBNode::CTextId textId;
+      pNodeLeaf->addObserver(this, textId);
+      //	nlwarning("CPing: cannot add the observer");
+    } else
+      nlwarning("CPing: 'SERVER:DEBUG_INFO:Ping' does not exist.");
+  }
 }
 
-void CPing::release()
-{
-	CInterfaceManager *pIM = CInterfaceManager::getInstance();
-	if(pIM)
-	{
-		CCDBNodeLeaf *pNodeLeaf = CDBManager::getInstance()->getDbProp("SERVER:DEBUG_INFO:Ping", false);
-		if(pNodeLeaf)
-		{
-			ICDBNode::CTextId textId;
-			pNodeLeaf->removeObserver(this, textId);
-		}
-		else
-			nlwarning("CPing: 'SERVER:DEBUG_INFO:Ping' does not exist.");
-	}
+void CPing::release() {
+  CInterfaceManager *pIM = CInterfaceManager::getInstance();
+  if (pIM) {
+    CCDBNodeLeaf *pNodeLeaf =
+        CDBManager::getInstance()->getDbProp("SERVER:DEBUG_INFO:Ping", false);
+    if (pNodeLeaf) {
+      ICDBNode::CTextId textId;
+      pNodeLeaf->removeObserver(this, textId);
+    } else
+      nlwarning("CPing: 'SERVER:DEBUG_INFO:Ping' does not exist.");
+  }
 }
 
-void CPing::update(NLMISC::ICDBNode* node)
-{
-	CCDBNodeLeaf *leaf = safe_cast<CCDBNodeLeaf *>(node);
-	uint32 before = (uint32)leaf->getValue32();
-	uint32 current = (uint32)(0xFFFFFFFF & ryzomGetLocalTime());
-	if(before > current)
-	{
-		//nlwarning("DB PING Pb before '%u' after '%u'.", before, current);
-		if(ClientCfg.Check)
-			nlstop;
-	}
-	_Ping = current - before;
-	_RdyToPing = true;
+void CPing::update(NLMISC::ICDBNode *node) {
+  CCDBNodeLeaf *leaf = safe_cast<CCDBNodeLeaf *>(node);
+  uint32 before = (uint32)leaf->getValue32();
+  uint32 current = (uint32)(0xFFFFFFFF & ryzomGetLocalTime());
+  if (before > current) {
+    // nlwarning("DB PING Pb before '%u' after '%u'.", before, current);
+    if (ClientCfg.Check)
+      nlstop;
+  }
+  _Ping = current - before;
+  _RdyToPing = true;
 }
 
 /* end of file */

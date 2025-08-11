@@ -14,26 +14,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RZ_ITEM_INFO_WAITER_H
 #define RZ_ITEM_INFO_WAITER_H
 
-class	IItemInfoWaiter
-{
+class IItemInfoWaiter {
 public:
-	IItemInfoWaiter() {ItemSlotId= 0; ItemSheet= 0;}
-	virtual ~IItemInfoWaiter() {}
-	// The item SheetId. If differ from current sheet in the SlotId, the infos are not updated / requested
-	uint			ItemSheet;
-	// The item SlotId to retrieve info.
-	uint			ItemSlotId;
+  IItemInfoWaiter() {
+    ItemSlotId = 0;
+    ItemSheet = 0;
+  }
+  virtual ~IItemInfoWaiter() {}
+  // The item SheetId. If differ from current sheet in the SlotId, the infos are
+  // not updated / requested
+  uint ItemSheet;
+  // The item SlotId to retrieve info.
+  uint ItemSlotId;
 
-	// Called when the info is received for this slot.
-	virtual void	infoReceived() =0;
+  // Called when the info is received for this slot.
+  virtual void infoReceived() = 0;
 };
 
 #endif // RZ_DBCTRL_SHEET_INFO_WAITER_H
 
 /* End of item_info_waiter.h */
-

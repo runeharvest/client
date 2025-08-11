@@ -6,7 +6,7 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
-#define countof(x)	(sizeof(x)/sizeof(x[0]))
+#define countof(x) (sizeof(x) / sizeof(x[0]))
 
 #ifdef _DEBUG
 
@@ -37,17 +37,20 @@
 //		TRACEFN(...)
 // }
 //
-#define TRACEFN CTraceFn __fooble; TRACE
+#define TRACEFN                                                                \
+  CTraceFn __fooble;                                                           \
+  TRACE
 //
 // This class implements TRACEFN. Don't ever use directly!
 //
 class CTraceFn {
 private:
-	static int	nIndent;				// current indent level
-	friend void AFX_CDECL AfxTrace(LPCTSTR lpszFormat, ...);
+  static int nIndent; // current indent level
+  friend void AFX_CDECL AfxTrace(LPCTSTR lpszFormat, ...);
+
 public:
-	CTraceFn()  { nIndent++; }		// constructor bumps indent
-	~CTraceFn() { nIndent--; }		// destructor restores it
+  CTraceFn() { nIndent++; }  // constructor bumps indent
+  ~CTraceFn() { nIndent--; } // destructor restores it
 };
 
 #else // NOT _DEBUG

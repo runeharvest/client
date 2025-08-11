@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_PACS_CLIENT_H
 #define CL_PACS_CLIENT_H
-
 
 /////////////
 // INCLUDE //
@@ -40,21 +37,21 @@ class CIGCallback; // collision with igs of the landscapes (trees..)
 // USING //
 ///////////
 using NL3D::UInstanceGroup;
-using NLPACS::UMoveContainer;
-using NLPACS::UGlobalRetriever;
 using NLPACS::UGlobalPosition;
+using NLPACS::UGlobalRetriever;
+using NLPACS::UMoveContainer;
 
 ////////////
 // GLOBAL //
 ////////////
 // Global Move Container.
-extern UMoveContainer	*PACS;
-extern CIGCallback		*IGCallbacks;
-extern UGlobalRetriever	*GR;
-extern const float		LRRefeshRadius;
+extern UMoveContainer *PACS;
+extern CIGCallback *IGCallbacks;
+extern UGlobalRetriever *GR;
+extern const float LRRefeshRadius;
 // World Images
-extern const uint8 staticWI;	//  Static World Image
-extern const uint8 dynamicWI;	// Dynamic World Image
+extern const uint8 staticWI;  //  Static World Image
+extern const uint8 dynamicWI; // Dynamic World Image
 // Collision Masks.
 extern const NLPACS::UMovePrimitive::TCollisionMask MaskColNone;
 extern const NLPACS::UMovePrimitive::TCollisionMask MaskColPlayer;
@@ -71,29 +68,28 @@ extern const uint16 UserDataEntity;
 // FUNCTIONS //
 ///////////////
 /// Initialize PACS.
-void initPACS (const char* rbank, const char* gr, NLMISC::IProgressCallback &progress);
-void releasePACS ();
+void initPACS(const char *rbank, const char *gr,
+              NLMISC::IProgressCallback &progress);
+void releasePACS();
 
 /** Initialize landscape IG collisions
-  */
+ */
 void initLandscapeIGCallbacks();
 /** release landscape IG collisions.
-  */
+ */
 void releaseLandscapeIGCallbacks();
-
-
 
 /// Get the cluster from a global position.
 UInstanceGroup *getCluster(const UGlobalPosition &gp);
 
 /// PACS primitive manager
-void	initPrimitiveBlocks();
-void	addPacsPrim(const std::string &filename);
-void	deletePrimitiveBlocks();
+void initPrimitiveBlocks();
+void addPacsPrim(const std::string &filename);
+void deletePrimitiveBlocks();
 
 /// The pacs primitives
 typedef CHashMap<std::string, NLPACS::UPrimitiveBlock *> TPacsPrimMap;
-extern TPacsPrimMap	PacsPrims;
+extern TPacsPrimMap PacsPrims;
 
 #endif // CL_PACS_CLIENT_H
 

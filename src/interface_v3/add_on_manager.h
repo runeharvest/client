@@ -17,9 +17,8 @@
 #ifndef NL_ADD_ON_MANAGER_H
 #define NL_ADD_ON_MANAGER_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/misc/progress_callback.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /**
@@ -28,33 +27,32 @@
  * \author Nevrax France
  * \date 2004
  */
-class CAddOnManager
-{
+class CAddOnManager {
 public:
+  /// Constructor
+  CAddOnManager();
 
-	/// Constructor
-	CAddOnManager();
+  /** Parse File in rootPath, take only one that match posFilterList, and that
+   *don't match negFilterList eg: addSearchFiles("uiaddon", "*.xml;*.lua;*.tga",
+   *"login_*.xml;out_v2_*.xml");
+   */
+  void addSearchFiles(const std::string &path, const std::string &posFilterList,
+                      const std::string &negFilterList,
+                      NLMISC::IProgressCallback *progressCallBack = NULL);
 
-	/** Parse File in rootPath, take only one that match posFilterList, and that don't match negFilterList
-	 *	eg: addSearchFiles("uiaddon", "*.xml;*.lua;*.tga", "login_*.xml;out_v2_*.xml");
-	 */
-	void	addSearchFiles(const std::string &path, const std::string &posFilterList, const std::string &negFilterList, NLMISC::IProgressCallback *progressCallBack= NULL);
-
-	/** Get All files added in addSearchFiles, that match one filter in filterList
-	 *	eg: getFiles("*.xml;*.tga", vec);
-	 *	NB: only filenames are returned (eg clock.xml), not full path
-	 */
-	void	getFiles(const std::string &filterList, std::vector<std::string> &files);
+  /** Get All files added in addSearchFiles, that match one filter in filterList
+   *	eg: getFiles("*.xml;*.tga", vec);
+   *	NB: only filenames are returned (eg clock.xml), not full path
+   */
+  void getFiles(const std::string &filterList, std::vector<std::string> &files);
 
 private:
-	std::set<std::string>	_FileSet;
+  std::set<std::string> _FileSet;
 };
-
 
 // ***************************************************************************
 // Interface AddOnManager
-extern CAddOnManager	InterfaceAddOnManager;
-
+extern CAddOnManager InterfaceAddOnManager;
 
 #endif // NL_ADD_ON_MANAGER_H
 

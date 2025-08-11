@@ -17,7 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef PARSER_MODULES_H
 #define PARSER_MODULES_H
 
@@ -25,67 +24,60 @@
 
 using namespace NLGUI;
 
-class CIF3DSceneParser : public CInterfaceParser::IParserModule
-{
+class CIF3DSceneParser : public CInterfaceParser::IParserModule {
 public:
-	CIF3DSceneParser();
-	~CIF3DSceneParser();
+  CIF3DSceneParser();
+  ~CIF3DSceneParser();
 
-	bool parse( xmlNodePtr cur, CInterfaceGroup *parentGroup );
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
-class CIFDDXParser : public CInterfaceParser::IParserModule
-{
+class CIFDDXParser : public CInterfaceParser::IParserModule {
 public:
-	CIFDDXParser();
-	~CIFDDXParser();
+  CIFDDXParser();
+  ~CIFDDXParser();
 
-	bool parse( xmlNodePtr cur, CInterfaceGroup *parentGroup );
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
-class CActionCategoryParser : public CInterfaceParser::IParserModule
-{
+class CActionCategoryParser : public CInterfaceParser::IParserModule {
 public:
-	CActionCategoryParser();
-	~CActionCategoryParser();
+  CActionCategoryParser();
+  ~CActionCategoryParser();
 
-	bool parse( xmlNodePtr cur, CInterfaceGroup *parentGroup );
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
-class CCommandParser : public CInterfaceParser::IParserModule
-{
+class CCommandParser : public CInterfaceParser::IParserModule {
 public:
-	CCommandParser();
-	~CCommandParser();
+  CCommandParser();
+  ~CCommandParser();
 
-	bool parse( xmlNodePtr cur, CInterfaceGroup *parentGroup );
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
-class CKeyParser : public CInterfaceParser::IParserModule
-{
+class CKeyParser : public CInterfaceParser::IParserModule {
 public:
-	CKeyParser();
-	~CKeyParser();
+  CKeyParser();
+  ~CKeyParser();
 
-	bool parse( xmlNodePtr cur, CInterfaceGroup *parentGroup );
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
-class CMacroParser : public CInterfaceParser::IParserModule
-{
+class CMacroParser : public CInterfaceParser::IParserModule {
 public:
-	CMacroParser();
-	~CMacroParser();
+  CMacroParser();
+  ~CMacroParser();
 
-	bool parse( xmlNodePtr cur, CInterfaceGroup *parentGroup );
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
-class CLandmarkParser : public CInterfaceParser::IParserModule
-{
+class CLandmarkParser : public CInterfaceParser::IParserModule {
 public:
-	CLandmarkParser();
-	~CLandmarkParser();
+  CLandmarkParser();
+  ~CLandmarkParser();
 
-	bool parse( xmlNodePtr cur, CInterfaceGroup *parentGroup );
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 };
 
 #endif

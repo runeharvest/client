@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#if !defined(AFX_BREAKPOINTCONDITION_H__D516A9A9_1F2C_4E2E_B35D_694EDDCD5F3E__INCLUDED_)
+#if !defined(                                                                  \
+    AFX_BREAKPOINTCONDITION_H__D516A9A9_1F2C_4E2E_B35D_694EDDCD5F3E__INCLUDED_)
 #define AFX_BREAKPOINTCONDITION_H__D516A9A9_1F2C_4E2E_B35D_694EDDCD5F3E__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -26,38 +27,36 @@
 /////////////////////////////////////////////////////////////////////////////
 // CBreakPointCondition dialog
 
-class CBreakPointCondition : public CDialog
-{
-// Construction
+class CBreakPointCondition : public CDialog {
+  // Construction
 public:
-	CBreakPointCondition(CWnd* pParent = NULL);   // standard constructor
+  CBreakPointCondition(CWnd *pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CBreakPointCondition)
-	enum { IDD = IDD_BREAKPOINT_CONDITION };
-	CEdit	m_ConditionCtrl;
-	CString	m_Condition;
-	//}}AFX_DATA
+  // Dialog Data
+  //{{AFX_DATA(CBreakPointCondition)
+  enum { IDD = IDD_BREAKPOINT_CONDITION };
+  CEdit m_ConditionCtrl;
+  CString m_Condition;
+  //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CBreakPointCondition)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CBreakPointCondition)
 protected:
+  virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV support
+                                                   //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CBreakPointCondition)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+protected:
+  // Generated message map functions
+  //{{AFX_MSG(CBreakPointCondition)
+  virtual BOOL OnInitDialog();
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_BREAKPOINTCONDITION_H__D516A9A9_1F2C_4E2E_B35D_694EDDCD5F3E__INCLUDED_)

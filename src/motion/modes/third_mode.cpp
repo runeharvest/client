@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 //////////////
 // Includes //
 //////////////
@@ -24,16 +21,15 @@
 // 3D Interface.
 #include "nel/3d/u_camera.h"
 // Client.
-#include "../../input.h"
-#include "../user_controls.h"
 #include "../../actions_client.h"
-#include "../../user_entity.h"
-#include "../../view.h"
+#include "../../entities.h"
+#include "../../input.h"
 #include "../../interface_v3/interface_manager.h"
 #include "../../misc.h"
-#include "../../entities.h"
 #include "../../time_client.h"
-
+#include "../../user_entity.h"
+#include "../../view.h"
+#include "../user_controls.h"
 
 ///////////
 // Using //
@@ -42,14 +38,12 @@ using namespace std;
 using namespace NLMISC;
 using namespace NL3D;
 
-
 /////////////
 // Externs //
 /////////////
-extern sint					CompassMode;
-extern UCamera				MainCam;
-extern CEventsListener		EventsListener;				// Inputs Manager
-
+extern sint CompassMode;
+extern UCamera MainCam;
+extern CEventsListener EventsListener; // Inputs Manager
 
 ////////////
 // GLOBAL //
@@ -63,47 +57,42 @@ extern CEventsListener		EventsListener;				// Inputs Manager
 // thirdModeStart :
 // Manage the Third Person View Mode (start).
 //-----------------------------------------------
-void CUserControls::thirdModeStart()
-{
-	// Third person view, user is selectable.
-	UserEntity->selectable(true);
-	// External View
-	_InternalView = false;
+void CUserControls::thirdModeStart() {
+  // Third person view, user is selectable.
+  UserEntity->selectable(true);
+  // External View
+  _InternalView = false;
 
-	// Initialize the camera
-	UserEntity->dir(UserEntity->front());
+  // Initialize the camera
+  UserEntity->dir(UserEntity->front());
 
-	// Update the mount direction.
-	CEntityCL *mount = EntitiesMngr.entity(UserEntity->parent());
-	if(mount)
-	{
-		mount->front(UserEntity->front());
-		mount->dir(UserEntity->dir());
-	}
+  // Update the mount direction.
+  CEntityCL *mount = EntitiesMngr.entity(UserEntity->parent());
+  if (mount) {
+    mount->front(UserEntity->front());
+    mount->dir(UserEntity->dir());
+  }
 
-	// Show/hide all or parts of the user body (after _InternaView is set).
-	UserEntity->updateVisualDisplay();
-}// thirdModeStart //
+  // Show/hide all or parts of the user body (after _InternaView is set).
+  UserEntity->updateVisualDisplay();
+} // thirdModeStart //
 
 //-----------------------------------------------
 // thirdModeStop :
 // Manage the Third Person View Mode (stop).
 //-----------------------------------------------
-void CUserControls::thirdModeStop()
-{
-}// thirdModeStop //
+void CUserControls::thirdModeStop() {} // thirdModeStop //
 
 //-----------------------------------------------
 // thirdMode :
 // Manage the Third Person View Mode.
 //-----------------------------------------------
-void CUserControls::thirdMode()
-{
-	// Manage common moves.
-	commonMove();
+void CUserControls::thirdMode() {
+  // Manage common moves.
+  commonMove();
 
-	// Set the view
-	View.viewPos(UserEntity->pos());
-	commonSetView();
+  // Set the view
+  View.viewPos(UserEntity->pos());
+  commonSetView();
 
-}// thirdMode //
+} // thirdMode //

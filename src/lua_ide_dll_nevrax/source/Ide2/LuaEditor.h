@@ -31,107 +31,107 @@
 
 class CProjectFile;
 
-class CLuaEditor : public CWnd
-{
-// Construction
+class CLuaEditor : public CWnd {
+  // Construction
 public:
-	CLuaEditor();
+  CLuaEditor();
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CLuaEditor)
+  //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CLuaEditor)
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Implementation
 public:
-	void SetFocus(BOOL hasFocus);
-	void SetLuaLexer();
-	BOOL PreparePrint(CDC* pDC, CPrintInfo* pInfo);
-	void PrintPage(CDC* pDC, CPrintInfo* pInfo);
-	void EndPrint(CDC* pDC, CPrintInfo* pInfo);
-	void SetStackTraceLevel(int nLevel);
-	void SetCallStackMargins();
-	int GetCurrentLine();
-	int GetLineCount();
-	int GetTextLength();
-	int GetCursorPos();
-	void GotoLastLine();
-	void WordLeft();
-	void WordRight();
-	void WordLeftExtend();
-	void WordRightExtend();
-	void WordPartLeft();
-	void WordPartRight();
-	void WordPartLeftExtend();
-	void WordPartRightExtend();
-	void FindText(const char *txt, BOOL matchCase, BOOL wholeWord, BOOL regExp, BOOL forward, int startPos, int &first, int &last);
-	CString GetLine(int nLine);
-	CString GetSubString(int start, int length);
-	void ClearAll();
-	void AddText(const char* szText);
-	void SetReadOnly(BOOL bReadOnly);
-	void SetEditorMargins();
-	void GrabFocus();
-	void Copy();
-	void Paste();
-	BOOL CanPaste();
-	void Clear();
-	void Cut();
-	BOOL CanCutOrClear();
-	void SelectAll();
-	void SetSelection(int start, int end);
-	void GetSelection(int &start, int &end);
-	void Redo();
-	BOOL CanRedo();
-	void Undo();
-	BOOL CanUndo();
-	void SetBreakPointsIn(CProjectFile* pPF);
-	void GotoLine(int nLine);
-	void SetCursorLine(int nLine);
-	void SetCursorPos(int pos);
-	void SetBreakpoint(int nLine);
-	void ClearAllBreakpoints();
-	BOOL Save(CFile* pFile);
-	BOOL Load(CFile* pFile);
-	BOOL ToggleBreakpoint(int nLine);
-	int LineFromPoint(CPoint& pt);
-	BOOL Create(CWnd* pParentWnd, UINT nCtrlID);
-	virtual ~CLuaEditor();
+  void SetFocus(BOOL hasFocus);
+  void SetLuaLexer();
+  BOOL PreparePrint(CDC *pDC, CPrintInfo *pInfo);
+  void PrintPage(CDC *pDC, CPrintInfo *pInfo);
+  void EndPrint(CDC *pDC, CPrintInfo *pInfo);
+  void SetStackTraceLevel(int nLevel);
+  void SetCallStackMargins();
+  int GetCurrentLine();
+  int GetLineCount();
+  int GetTextLength();
+  int GetCursorPos();
+  void GotoLastLine();
+  void WordLeft();
+  void WordRight();
+  void WordLeftExtend();
+  void WordRightExtend();
+  void WordPartLeft();
+  void WordPartRight();
+  void WordPartLeftExtend();
+  void WordPartRightExtend();
+  void FindText(const char *txt, BOOL matchCase, BOOL wholeWord, BOOL regExp,
+                BOOL forward, int startPos, int &first, int &last);
+  CString GetLine(int nLine);
+  CString GetSubString(int start, int length);
+  void ClearAll();
+  void AddText(const char *szText);
+  void SetReadOnly(BOOL bReadOnly);
+  void SetEditorMargins();
+  void GrabFocus();
+  void Copy();
+  void Paste();
+  BOOL CanPaste();
+  void Clear();
+  void Cut();
+  BOOL CanCutOrClear();
+  void SelectAll();
+  void SetSelection(int start, int end);
+  void GetSelection(int &start, int &end);
+  void Redo();
+  BOOL CanRedo();
+  void Undo();
+  BOOL CanUndo();
+  void SetBreakPointsIn(CProjectFile *pPF);
+  void GotoLine(int nLine);
+  void SetCursorLine(int nLine);
+  void SetCursorPos(int pos);
+  void SetBreakpoint(int nLine);
+  void ClearAllBreakpoints();
+  BOOL Save(CFile *pFile);
+  BOOL Load(CFile *pFile);
+  BOOL ToggleBreakpoint(int nLine);
+  int LineFromPoint(CPoint &pt);
+  BOOL Create(CWnd *pParentWnd, UINT nCtrlID);
+  virtual ~CLuaEditor();
 
-// thread safe functions
-	//void tsAddText(const char *szMsg) {	AddText(szMsg); };
-	//void tsSetReadOnly(BOOL bReadOnly) { SetReadOnly(bReadOnly); };
+  // thread safe functions
+  // void tsAddText(const char *szMsg) {	AddText(szMsg); };
+  // void tsSetReadOnly(BOOL bReadOnly) { SetReadOnly(bReadOnly); };
 
-	void Print(bool showDialog);
-	CharacterRange GetSelection();
+  void Print(bool showDialog);
+  CharacterRange GetSelection();
+
 protected:
-	int (*m_fnScintilla)(void*,int,int,int);
-	void *m_ptrScintilla;
-	CUIntArray	m_pages;
-	BOOL m_bShowCalltips;
-	CString m_strCallTip;
+  int (*m_fnScintilla)(void *, int, int, int);
+  void *m_ptrScintilla;
+  CUIntArray m_pages;
+  BOOL m_bShowCalltips;
+  CString m_strCallTip;
 
 public:
-	int Sci(int nCmd, int wParam=0, int lParam=0);
+  int Sci(int nCmd, int wParam = 0, int lParam = 0);
 
-	// Generated message map functions
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CLuaEditor)
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CLuaEditor)
+  afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+  afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_LUAEDITOR_H__C002AF8D_DFEF_4577_A494_10F2B3DF2458__INCLUDED_)

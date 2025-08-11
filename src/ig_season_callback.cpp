@@ -16,47 +16,45 @@
 
 #include "stdpch.h"
 
-#include "ig_season_callback.h"
-#include "weather.h"
 #include "character_cl.h"
 #include "client_sheets/entity_sheet.h"
 #include "entities.h"
+#include "ig_season_callback.h"
+#include "weather.h"
 
 CIGSeasonCallback IGSeasonCallback;
 
-void CIGSeasonCallback::instanceGroupAdded(NL3D::UInstanceGroup *ig)
-{
-	H_AUTO(RZ_IGSeasonCallback)
-	// Set the season texture for all the buildings
+void CIGSeasonCallback::instanceGroupAdded(NL3D::UInstanceGroup *ig) {
+  H_AUTO(RZ_IGSeasonCallback)
+  // Set the season texture for all the buildings
 
-	uint8 selectedTextureSet = (uint8) computeCurrSeason();
+  uint8 selectedTextureSet = (uint8)computeCurrSeason();
 
-	const uint numInstances = ig->getNumInstance();
-	for(uint k = 0; k < numInstances; k++)
-	{
-		NL3D::UInstance instance = ig->getInstance (k);
-		if (!instance.empty())
-			instance.selectTextureSet(selectedTextureSet);  // TODO Nico : instant loading here (async not useful)
-	}
-	// for all the bot objects, force to rebuild them to update their textures
-	for (uint k = 0; k < CLFECOMMON::INVALID_SLOT; ++k)
-	{
-		CCharacterCL *charCL = dynamic_cast<CCharacterCL *>(EntitiesMngr.entity(k));
-		if (charCL && charCL->getSheet())
-		{
-			std::string sheetName = charCL->getSheet()->Id.toString();
-			static const  char *botObjectPrefix = "object_";
-			if (NLMISC::nlstricmp(sheetName.substr(0, strlen(botObjectPrefix)), botObjectPrefix) == 0)
-			{
-				for(uint k = 0; k < charCL->instances().size(); ++k)
-				{
-					charCL->instances()[k].selectTextureSet(selectedTextureSet, false); // want immediate change here (frozen any way ...)
-				}
-				if (!charCL->instance().empty())
-				{
-					charCL->instance().selectTextureSet(selectedTextureSet);
-				}
-			}
-		}
-	}
+  const uint numInstances = ig->getNumInstance();
+  for (uint k = 0; k < numInstances; k++) {
+    NL3D::UInstance instance = ig->getInstance(k);
+    if (!instance.empty())
+      instance.selectTextureSet(
+          selectedTextureSet); // TODO Nico : instant loading here (async not
+                               // useful)
+  }
+  // for all the bot objects, force to rebuild them to update their textures
+  for (uint k = 0; k < CLFECOMMON::INVALID_SLOT; ++k) {
+    CCharacterCL *charCL = dynamic_cast<CCharacterCL *>(EntitiesMngr.entity(k));
+    if (charCL && charCL->getSheet()) {
+      std::string sheetName = charCL->getSheet()->Id.toString();
+      static const char *botObjectPrefix = "object_";
+      if (NLMISC::nlstricmp(sheetName.substr(0, strlen(botObjectPrefix)),
+                            botObjectPrefix) == 0) {
+        for (uint k = 0; k < charCL->instances().size(); ++k) {
+          charCL->instances()[k].selectTextureSet(
+              selectedTextureSet,
+              false); // want immediate change here (frozen any way ...)
+        }
+        if (!charCL->instance().empty()) {
+          charCL->instance().selectTextureSet(selectedTextureSet);
+        }
+      }
+    }
+  }
 }

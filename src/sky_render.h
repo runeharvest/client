@@ -14,21 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
-
 #ifndef CL_SKY_RENDER_H
 #define CL_SKY_RENDER_H
 
 #include "nel/misc/rgba.h"
 
-
-namespace NL3D
-{
-	class UCamera;
-	class UInstance;
-}
+namespace NL3D {
+class UCamera;
+class UInstance;
+} // namespace NL3D
 
 class CLightCycleManager;
 
@@ -41,17 +35,14 @@ void renderSky(const CLightCycleManager &lcm, NLMISC::CRGBA fogColor);
 // delete the sky scene
 void deleteSkyScene();
 
-
 // the scene containing sky
-extern NL3D::UScene	    *SkyScene;
+extern NL3D::UScene *SkyScene;
 // Instance of sky used for 1st pass drawing
-extern NL3D::UInstance  Sky;
-// Instance of sky used for 2ndt pass drawing. We use a second instance to keep texture pointers.
-extern NL3D::UInstance  Sky2ndPass;
+extern NL3D::UInstance Sky;
+// Instance of sky used for 2ndt pass drawing. We use a second instance to keep
+// texture pointers.
+extern NL3D::UInstance Sky2ndPass;
 // A shape used to draw fog part
-extern NL3D::UInstance	SkyFogPart;
-
-
+extern NL3D::UInstance SkyFogPart;
 
 #endif
-

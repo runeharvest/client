@@ -14,13 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_RELEASE_H
 #define CL_RELEASE_H
 
 #include "nel/misc/types_nl.h"
-
 
 // Saving ingame resolution when in windowed mode
 void saveIngameResolution();
@@ -32,8 +29,6 @@ void releaseMainLoop(bool closeConnection);
 void release();
 // Release all.
 void releaseOutGame();
-
-
 
 #endif // CL_RELEASE_H
 

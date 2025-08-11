@@ -14,32 +14,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BEHAVIOUR_CONTEXT
 #define CL_BEHAVIOUR_CONTEXT
 
-#include "game_share/mode_and_behaviour.h"
 #include "game_share/entity_types.h"
 #include "game_share/magic_fx.h"
+#include "game_share/mode_and_behaviour.h"
 #include "game_share/multi_target.h"
 
-
 // a behaviour and its associatted context
-class CBehaviourContext
-{
+class CBehaviourContext {
 public:
-	MBEHAV::CBehaviour Behav;
-	double			   BehavTime; // Time in second at which the behaviour is occuring
-	// list of multi targets for spells
-	CMultiTarget	   Targets;
-public:
-	// ctor
-	CBehaviourContext();
+  MBEHAV::CBehaviour Behav;
+  double BehavTime; // Time in second at which the behaviour is occuring
+  // list of multi targets for spells
+  CMultiTarget Targets;
 
+public:
+  // ctor
+  CBehaviourContext();
 };
-
-
-
 
 #endif

@@ -17,12 +17,12 @@
 // WatchList.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "ide2.h"
 #include "WatchList.h"
+#include "ide2.h"
+#include "stdafx.h"
 
-#include "MainFrame.h"
 #include "Debugger.h"
+#include "MainFrame.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,127 +33,102 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CWatchList
 
-CWatchList::CWatchList()
-{
-}
+CWatchList::CWatchList() {}
 
-CWatchList::~CWatchList()
-{
-}
-
+CWatchList::~CWatchList() {}
 
 BEGIN_MESSAGE_MAP(CWatchList, CColumnTreeWnd)
-	//{{AFX_MSG_MAP(CWatchList)	
-	ON_NOTIFY(TVN_ENDLABELEDIT, TreeID, OnEndLabelEdit)	
-	ON_NOTIFY(WM_CHAR, TreeID, OnChar)	
-	ON_WM_KEYDOWN()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CWatchList)
+ON_NOTIFY(TVN_ENDLABELEDIT, TreeID, OnEndLabelEdit)
+ON_NOTIFY(WM_CHAR, TreeID, OnChar)
+ON_WM_KEYDOWN()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CWatchList message handlers
 
-
-BOOL CWatchList::PreCreateWindow(CREATESTRUCT& cs) 
-{	
-	//cs.style |= TVS_HASLINES|TVS_EDITLABELS;	
-	return CColumnTreeWnd::PreCreateWindow(cs);
+BOOL CWatchList::PreCreateWindow(CREATESTRUCT &cs) {
+  // cs.style |= TVS_HASLINES|TVS_EDITLABELS;
+  return CColumnTreeWnd::PreCreateWindow(cs);
 }
 
-
-
-void CWatchList::AddEmptyRow()
-{
-	CEntry	entry;
-	entry.Item = GetTreeCtrl().InsertItem("", 0, 0, TVI_ROOT);
-	_Entries.push_back(entry);
+void CWatchList::AddEmptyRow() {
+  CEntry entry;
+  entry.Item = GetTreeCtrl().InsertItem("", 0, 0, TVI_ROOT);
+  _Entries.push_back(entry);
 }
 
-
-void CWatchList::OnEndLabelEdit(NMHDR * pNotifyStruct, LRESULT * result)
-{
-	ASSERT(!_Entries.empty());
-	LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO) pNotifyStruct;
-	// if item is not the last item, just replace if string not empty, or erase otherwise
-	bool isLast = ptvdi->item.hItem == _Entries.back().Item;
-	bool found = true;
-	for (int k = 0; k < (int) _Entries.size(); ++k)
-	{
-		if (_Entries[k].Item == ptvdi->item.hItem)
-		{
-			found = true;
-			if (!ptvdi->item.pszText || strlen(ptvdi->item.pszText) == 0)
-			{
-				_Entries.erase(_Entries.begin() + k);
-				GetTreeCtrl().DeleteItem(ptvdi->item.hItem);
-			}
-			else
-			{
-				_Entries[k].Expr = ptvdi->item.pszText;
-			}
-			break;
-		}
-	}
-	ASSERT(found);
-	if (isLast)
-	{
-		AddEmptyRow();
-		GetTreeCtrl().SelectItem(_Entries.back().Item);
-	}
-	else
-	{
-		GetTreeCtrl().SelectItem(ptvdi->item.hItem);
-	}
-	*result = FALSE;
-	Redraw();
+void CWatchList::OnEndLabelEdit(NMHDR *pNotifyStruct, LRESULT *result) {
+  ASSERT(!_Entries.empty());
+  LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)pNotifyStruct;
+  // if item is not the last item, just replace if string not empty, or erase
+  // otherwise
+  bool isLast = ptvdi->item.hItem == _Entries.back().Item;
+  bool found = true;
+  for (int k = 0; k < (int)_Entries.size(); ++k) {
+    if (_Entries[k].Item == ptvdi->item.hItem) {
+      found = true;
+      if (!ptvdi->item.pszText || strlen(ptvdi->item.pszText) == 0) {
+        _Entries.erase(_Entries.begin() + k);
+        GetTreeCtrl().DeleteItem(ptvdi->item.hItem);
+      } else {
+        _Entries[k].Expr = ptvdi->item.pszText;
+      }
+      break;
+    }
+  }
+  ASSERT(found);
+  if (isLast) {
+    AddEmptyRow();
+    GetTreeCtrl().SelectItem(_Entries.back().Item);
+  } else {
+    GetTreeCtrl().SelectItem(ptvdi->item.hItem);
+  }
+  *result = FALSE;
+  Redraw();
 }
 
-
-
-void CWatchList::Redraw()
-{	
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	for (int k = 0; k < (int) _Entries.size(); ++k)
-	{
-		if (_Entries[k].Expr.empty())
-		{
-			GetTreeCtrl().SetItemText(_Entries[k].Item, "");
-		}
-		else
-		{
-			GetTreeCtrl().SetItemText(_Entries[k].Item, (_Entries[k].Expr + std::string("\t") + (LPCTSTR) pFrame->GetDebugger()->Eval(_Entries[k].Expr.c_str())).c_str());
-		}
-	}				
+void CWatchList::Redraw() {
+  CMainFrame *pFrame = (CMainFrame *)AfxGetMainWnd();
+  for (int k = 0; k < (int)_Entries.size(); ++k) {
+    if (_Entries[k].Expr.empty()) {
+      GetTreeCtrl().SetItemText(_Entries[k].Item, "");
+    } else {
+      GetTreeCtrl().SetItemText(
+          _Entries[k].Item,
+          (_Entries[k].Expr + std::string("\t") +
+           (LPCTSTR)pFrame->GetDebugger()->Eval(_Entries[k].Expr.c_str()))
+              .c_str());
+    }
+  }
 }
 
-void CWatchList::OnChar(NMHDR * pNotifyStruct, LRESULT * result)
-{
-	/*
-	NMCHAR *nm = (NMCHAR *) pNotifyStruct;
-	if (_Entries.size() > 1 && nm->ch == VK_DELETE)
-	{
-		if (GetTreeCtrl().GetSelectedItem() != 0)
-		{
-			for (int k = 0; k < (int) _Entries.size(); ++k)
-			{
-				if (_Entries[k].Item == GetTreeCtrl().GetSelectedItem())
-				{					
-					_Entries.erase(_Entries.begin() + k);
-					GetTreeCtrl().DeleteItem(_Entries[k].Item);
-					GetTreeCtrl().SelectItem(_Entries[k % _Entries.size()].Item);
-					*result = TRUE;
-				}
-			}			
-		}
-	}
-	*/
-	*result = FALSE;
+void CWatchList::OnChar(NMHDR *pNotifyStruct, LRESULT *result) {
+  /*
+  NMCHAR *nm = (NMCHAR *) pNotifyStruct;
+  if (_Entries.size() > 1 && nm->ch == VK_DELETE)
+  {
+          if (GetTreeCtrl().GetSelectedItem() != 0)
+          {
+                  for (int k = 0; k < (int) _Entries.size(); ++k)
+                  {
+                          if (_Entries[k].Item ==
+  GetTreeCtrl().GetSelectedItem())
+                          {
+                                  _Entries.erase(_Entries.begin() + k);
+                                  GetTreeCtrl().DeleteItem(_Entries[k].Item);
+                                  GetTreeCtrl().SelectItem(_Entries[k %
+  _Entries.size()].Item); *result = TRUE;
+                          }
+                  }
+          }
+  }
+  */
+  *result = FALSE;
 }
 
+void CWatchList::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
-
-void CWatchList::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
-{
-		
-	CColumnTreeWnd::OnKeyDown(nChar, nRepCnt, nFlags);
+  CColumnTreeWnd::OnKeyDown(nChar, nRepCnt, nFlags);
 }

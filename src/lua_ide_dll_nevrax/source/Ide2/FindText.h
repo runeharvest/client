@@ -26,41 +26,39 @@
 /////////////////////////////////////////////////////////////////////////////
 // CFindText dialog
 
-class CFindText : public CDialog
-{
-// Construction
+class CFindText : public CDialog {
+  // Construction
 public:
-	CFindText(CWnd* pParent = NULL);   // standard constructor
+  CFindText(CWnd *pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CFindText)
-	enum { IDD = IDD_FINDTEXT };
-	CEdit	m_TextToFindCtrl;
-	BOOL	m_MatchCase;
-	BOOL	m_WholeWord;
-	BOOL	m_RegExp;
-	CString	m_TextToFind;
-	//}}AFX_DATA
+  // Dialog Data
+  //{{AFX_DATA(CFindText)
+  enum { IDD = IDD_FINDTEXT };
+  CEdit m_TextToFindCtrl;
+  BOOL m_MatchCase;
+  BOOL m_WholeWord;
+  BOOL m_RegExp;
+  CString m_TextToFind;
+  //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CFindText)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CFindText)
 protected:
+  virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV support
+                                                   //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CFindText)
-	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+protected:
+  // Generated message map functions
+  //{{AFX_MSG(CFindText)
+  afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_FINDTEXT_H__3EADBB50_16D1_4818_B42B_2BD1841DE9C5__INCLUDED_)

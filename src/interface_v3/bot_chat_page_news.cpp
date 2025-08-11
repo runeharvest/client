@@ -17,28 +17,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "bot_chat_page_news.h"
 #include "interface_manager.h"
 #include "nel/gui/interface_group.h"
+#include "stdpch.h"
 
 static const char *WIN_BOT_CHAT_PAGE_NEWS = "ui:interface:bot_chat_news";
 
 // ***************************************************************************
-void CBotChatPageNews::begin()
-{
-	CBotChatPage::begin();
-	CInterfaceManager *im = CInterfaceManager::getInstance();
-	// clear intro text
-	NLGUI::CDBManager::getInstance()->getDbProp(BOT_CHAT_BASE_DB_PATH ":NEWS")->setValue32(0);
-	//
-	activateWindow(WIN_BOT_CHAT_PAGE_NEWS, true);
+void CBotChatPageNews::begin() {
+  CBotChatPage::begin();
+  CInterfaceManager *im = CInterfaceManager::getInstance();
+  // clear intro text
+  NLGUI::CDBManager::getInstance()
+      ->getDbProp(BOT_CHAT_BASE_DB_PATH ":NEWS")
+      ->setValue32(0);
+  //
+  activateWindow(WIN_BOT_CHAT_PAGE_NEWS, true);
 }
 
 // ***************************************************************************
-void CBotChatPageNews::end()
-{
-	activateWindow(WIN_BOT_CHAT_PAGE_NEWS, false);
-}
+void CBotChatPageNews::end() { activateWindow(WIN_BOT_CHAT_PAGE_NEWS, false); }

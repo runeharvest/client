@@ -17,100 +17,96 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BOT_CHAT_MANAGER_H
 #define CL_BOT_CHAT_MANAGER_H
-
 
 class CBotChatPage;
 class CPrerequisitInfos;
 
-namespace NLGUI
-{
-	class CInterfaceGroup;
+namespace NLGUI {
+class CInterfaceGroup;
 }
 
-class	IMissionPrereqInfosWaiter
-{
+class IMissionPrereqInfosWaiter {
 public:
-	IMissionPrereqInfosWaiter() { MissionSlotId = 0; }
-	virtual ~IMissionPrereqInfosWaiter() {}
+  IMissionPrereqInfosWaiter() { MissionSlotId = 0; }
+  virtual ~IMissionPrereqInfosWaiter() {}
 
-	// The mission SheetId. If differ from current sheet in the SlotId, the infos are not updated / requested
-//	uint			ItemSheet;
-	// The mission SlotId to retrieve info.
-	uint16			MissionSlotId;
+  // The mission SheetId. If differ from current sheet in the SlotId, the infos
+  // are not updated / requested
+  //	uint			ItemSheet;
+  // The mission SlotId to retrieve info.
+  uint16 MissionSlotId;
 
-	// Called when the info is received for this slot.
-	virtual void	missionInfoReceived(const CPrerequisitInfos &infos) = 0;
+  // Called when the info is received for this slot.
+  virtual void missionInfoReceived(const CPrerequisitInfos &infos) = 0;
 };
-
 
 /** Bot chat management.
-  * The bot chat manager allow to change the current bot chat page, and contains pointer to the various pages
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date August 2003
-  */
-class CBotChatManager
-{
+ * The bot chat manager allow to change the current bot chat page, and contains
+ * pointer to the various pages \author Nicolas Vizerie \author Nevrax France
+ * \date August 2003
+ */
+class CBotChatManager {
 public:
-	~CBotChatManager();
+  ~CBotChatManager();
 
-	// Get the unique instance of that class
-	static CBotChatManager *getInstance();
+  // Get the unique instance of that class
+  static CBotChatManager *getInstance();
 
-	// release singleton
-	static void releaseInstance();
+  // release singleton
+  static void releaseInstance();
 
-	// Get current setupped page, or NULL if none
-	CBotChatPage		   *getCurrPage() const { return _CurrPage; }
-	/** Set the current page to display. Any previous page is hidden. Passing NULL just close all windows.
-	  * NB : this doesn't send the BOT_CHAT:END msg to the server, see endDialog
-	  */
-	void					setCurrPage(CBotChatPage *page);
-	// Increment current session ID. (a session is all talk heppening during the selection of a target npc)
-	uint16					getSessionID() { return _SessionID; }
-	void					incrementSessionID() { ++ _SessionID; }
-	// Update the current page. Should be called at each frame
-	void					update();
-	// Close the botchat, and send 'end' msg to the server
-	void					endDialog();
-	// this class retains the flags of mission option that has been chosen in the contextual menu
-	/*
-	uint                    getChosenMissionFlags() const { return _ChosenMissionFlags; }
-	void					setChosenMissionFlags(uint flag) { _ChosenMissionFlags = flag; }
-	*/
+  // Get current setupped page, or NULL if none
+  CBotChatPage *getCurrPage() const { return _CurrPage; }
+  /** Set the current page to display. Any previous page is hidden. Passing NULL
+   * just close all windows. NB : this doesn't send the BOT_CHAT:END msg to the
+   * server, see endDialog
+   */
+  void setCurrPage(CBotChatPage *page);
+  // Increment current session ID. (a session is all talk heppening during the
+  // selection of a target npc)
+  uint16 getSessionID() { return _SessionID; }
+  void incrementSessionID() { ++_SessionID; }
+  // Update the current page. Should be called at each frame
+  void update();
+  // Close the botchat, and send 'end' msg to the server
+  void endDialog();
+  // this class retains the flags of mission option that has been chosen in the
+  // contextual menu
+  /*
+  uint                    getChosenMissionFlags() const { return
+  _ChosenMissionFlags; } void
+  setChosenMissionFlags(uint flag) { _ChosenMissionFlags = flag; }
+  */
 
-	// ***
-	// Add a Waiter on mission prereq info (MissionHelp opening). no-op if here, but reorder
-	void				addMissionInfoWaiter(IMissionPrereqInfosWaiter *waiter);
-	// remove a Waiter on mission prereq info (MissionHelp closing). no-op if not here. NB: no delete
-	void				removeMissionInfoWaiter(IMissionPrereqInfosWaiter *waiter);
-	// Called on impulse
-	void				onReceiveMissionInfo(uint16 missionSlotId, const CPrerequisitInfos &infos);
-	// Called for local client debugging
-	void				debugLocalReceiveMissionInfo();
+  // ***
+  // Add a Waiter on mission prereq info (MissionHelp opening). no-op if here,
+  // but reorder
+  void addMissionInfoWaiter(IMissionPrereqInfosWaiter *waiter);
+  // remove a Waiter on mission prereq info (MissionHelp closing). no-op if not
+  // here. NB: no delete
+  void removeMissionInfoWaiter(IMissionPrereqInfosWaiter *waiter);
+  // Called on impulse
+  void onReceiveMissionInfo(uint16 missionSlotId,
+                            const CPrerequisitInfos &infos);
+  // Called for local client debugging
+  void debugLocalReceiveMissionInfo();
 
-
-/////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////
 private:
-	CBotChatPage  *_CurrPage;
-	uint16		   _SessionID;
-	static CBotChatManager *_Instance;
-	//uint           _ChosenMissionFlags;
+  CBotChatPage *_CurrPage;
+  uint16 _SessionID;
+  static CBotChatManager *_Instance;
+  // uint           _ChosenMissionFlags;
 
-	// *** keep infos on opened mission help windows (for prerequisits)
-	typedef std::list<IMissionPrereqInfosWaiter*>	TMissionPrereqInfosWaiter;
-	TMissionPrereqInfosWaiter						_MissionInfoWaiters;
+  // *** keep infos on opened mission help windows (for prerequisits)
+  typedef std::list<IMissionPrereqInfosWaiter *> TMissionPrereqInfosWaiter;
+  TMissionPrereqInfosWaiter _MissionInfoWaiters;
 
 private:
-	CBotChatManager();
+  CBotChatManager();
 };
-
-
-
 
 #endif

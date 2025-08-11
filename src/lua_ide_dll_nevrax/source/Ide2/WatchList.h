@@ -31,56 +31,51 @@
 /////////////////////////////////////////////////////////////////////////////
 // CWatchList window
 
-class CWatchList : public CColumnTreeWnd
-{
-// Construction
+class CWatchList : public CColumnTreeWnd {
+  // Construction
 public:
-	CWatchList();
+  CWatchList();
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWatchList)
-	protected:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
-
-// Implementation
-public:	
-	void Redraw();
-	void UpdateRow(int iItem);	
-	void AddEmptyRow();
-	virtual ~CWatchList();
-
-	// Generated message map functions
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CWatchList)
 protected:
-	struct CEntry
-	{
-		std::string Expr;
-		HTREEITEM Item;
-	};
+  virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
+  //}}AFX_VIRTUAL
 
-	std::vector<CEntry> _Entries;
-	
-	
+  // Implementation
+public:
+  void Redraw();
+  void UpdateRow(int iItem);
+  void AddEmptyRow();
+  virtual ~CWatchList();
 
-	//{{AFX_MSG(CWatchList)	
-	afx_msg void OnEndLabelEdit(NMHDR * pNotifyStruct, LRESULT * result);	
-	afx_msg void OnChar(NMHDR * pNotifyStruct, LRESULT * result);
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-	//}}AFX_MSG
+  // Generated message map functions
+protected:
+  struct CEntry {
+    std::string Expr;
+    HTREEITEM Item;
+  };
 
-	DECLARE_MESSAGE_MAP()
+  std::vector<CEntry> _Entries;
+
+  //{{AFX_MSG(CWatchList)
+  afx_msg void OnEndLabelEdit(NMHDR *pNotifyStruct, LRESULT *result);
+  afx_msg void OnChar(NMHDR *pNotifyStruct, LRESULT *result);
+  afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+  //}}AFX_MSG
+
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_WATCHLIST_H__4FA481A7_E054_4238_9DA3_7C729FAFC3B3__INCLUDED_)

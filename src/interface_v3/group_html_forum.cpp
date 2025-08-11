@@ -19,19 +19,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
-
-
 #include "stdpch.h"
 
-#include "group_html_forum.h"
-#include "nel/misc/xml_auto_ptr.h"
 #include "../client_cfg.h"
 #include "../user_entity.h"
+#include "group_html_forum.h"
 #include "guild_manager.h"
 #include "interface_manager.h"
+#include "nel/misc/xml_auto_ptr.h"
 
 // used for login cookie to be sent to the web server
 #include "../net_manager.h"
@@ -39,93 +34,77 @@
 using namespace std;
 using namespace NLMISC;
 
-
 // ***************************************************************************
 NLMISC_REGISTER_OBJECT(CViewBase, CGroupHTMLForum, std::string, "forum_html");
 
-CGroupHTMLForum::CGroupHTMLForum(const TCtorParam &param)
-: CGroupHTML(param)
-{
+CGroupHTMLForum::CGroupHTMLForum(const TCtorParam &param) : CGroupHTML(param) {}
+
+// ***************************************************************************
+
+CGroupHTMLForum::~CGroupHTMLForum() {}
+
+// ***************************************************************************
+
+void CGroupHTMLForum::addHTTPGetParams(string &url, bool /*trustedDomain*/) {
+  string user_name = UserEntity->getLoginName();
+  const SGuild &guild = CGuildManager::getInstance()->getGuild();
+  string gname = guild.Name;
+
+  if (!gname.empty()) {
+    string temp;
+    for (uint i = 0; i < gname.size(); ++i) {
+      if (gname[i] != ' ')
+        temp.push_back(gname[i]);
+      else
+        temp += "%20";
+    }
+    gname.swap(temp);
+
+    url += ((url.find('?') != string::npos) ? "&" : "?") + string("shard=") +
+           toString(CharacterHomeSessionId) + string("&user_login=") +
+           user_name + string("&forum=") + gname + string("&session_cookie=") +
+           NetMngr.getLoginCookie().toString();
+  } else {
+    nlwarning("WEB: guild name is empty, unable to GET guild forum pages.");
+  }
 }
 
 // ***************************************************************************
 
-CGroupHTMLForum::~CGroupHTMLForum()
-{
+void CGroupHTMLForum::addHTTPPostParams(SFormFields &formfields,
+                                        bool /*trustedDomain*/) {
+  string user_name = UserEntity->getLoginName();
+  const SGuild &guild = CGuildManager::getInstance()->getGuild();
+  string gname = guild.Name;
+
+  if (!gname.empty()) {
+    formfields.add("shard", toString(CharacterHomeSessionId));
+    formfields.add("user_login", user_name);
+    formfields.add("forum", gname);
+    formfields.add("session_cookie", NetMngr.getLoginCookie().toString());
+  } else {
+    nlwarning("WEB: guild name is empty, unable to POST to guild forum pages.");
+  }
 }
 
 // ***************************************************************************
 
-void CGroupHTMLForum::addHTTPGetParams (string &url, bool /*trustedDomain*/)
-{
- 	string user_name = UserEntity->getLoginName ();
-	const SGuild &guild = CGuildManager::getInstance()->getGuild();
-	string	gname = guild.Name;
-
-	if (!gname.empty())
-	{
-		string temp;
-		for (uint i=0; i<gname.size(); ++i)
-		{
-			if (gname[i] != ' ')
-				temp.push_back(gname[i]);
-			else
-				temp += "%20";
-		}
-		gname.swap(temp);
-
-		url += ((url.find('?') != string::npos) ? "&" : "?") +
-		string("shard=") + toString(CharacterHomeSessionId) +
-		string("&user_login=") + user_name +
-		string("&forum=") + gname +
-		string("&session_cookie=") + NetMngr.getLoginCookie().toString();
-	}
-	else
-	{
-		nlwarning("WEB: guild name is empty, unable to GET guild forum pages.");
-	}
+string CGroupHTMLForum::home() const {
+  CInterfaceManager *pIM = CInterfaceManager::getInstance();
+  NLGUI::CDBManager::getInstance()
+      ->getDbProp("UI:VARIABLES:FORUM_UPDATED")
+      ->setValue32(0); // FIXME: How is this const?!
+  return Home;
 }
 
 // ***************************************************************************
 
-void CGroupHTMLForum::addHTTPPostParams (SFormFields &formfields, bool /*trustedDomain*/)
-{
-	string user_name = UserEntity->getLoginName ();
-	const SGuild &guild = CGuildManager::getInstance()->getGuild();
-	string	gname = guild.Name;
-
-	if (!gname.empty())
-	{
-		formfields.add("shard", toString(CharacterHomeSessionId));
-		formfields.add("user_login", user_name);
-		formfields.add("forum", gname);
-		formfields.add("session_cookie", NetMngr.getLoginCookie().toString());
-	}
-	else
-	{
-		nlwarning("WEB: guild name is empty, unable to POST to guild forum pages.");
-	}
-}
-
-// ***************************************************************************
-
-string	CGroupHTMLForum::home () const
-{
-	CInterfaceManager *pIM = CInterfaceManager::getInstance();
-	NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:FORUM_UPDATED")->setValue32(0); // FIXME: How is this const?!
-	return Home;
-}
-
-// ***************************************************************************
-
-void CGroupHTMLForum::handle ()
-{
-	// Do nothing if WebServer is not initialized
-	if (!WebServer.empty())
-	{
-		Home = "/webig/forum.php";
-		CGroupHTML::handle ();
-	}
+void CGroupHTMLForum::handle() {
+  // Do nothing if WebServer is not initialized
+  if (!WebServer.empty()) {
+    Home = "/webig/forum.php";
+    CGroupHTML::handle();
+  }
 }
 
 // ***************************************************************************

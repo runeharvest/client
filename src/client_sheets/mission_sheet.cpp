@@ -14,24 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 //////////////
 // INCLUDES //
 //////////////
-#include "stdpch.h"	// First include for pre-compiled headers.
+#include "stdpch.h" // First include for pre-compiled headers.
 // Application
 #include "mission_sheet.h"
 // Georges
 #include "nel/georges/u_form_elm.h"
 
-
 /////////////
 // DEFINES //
 /////////////
 #define NB_STEPS_PER_MISSION 20
-
 
 ///////////
 // USING //
@@ -40,52 +35,44 @@ using namespace NLGEORGES;
 using namespace NLMISC;
 using namespace std;
 
-
 //-----------------------------------------------
 // build :
 // Build the sheet from an external script.
 //-----------------------------------------------
-void CMissionSheet::build(const NLGEORGES::UFormElm &item)
-{
-	// Load the descriptors.
-	if(!item.getValueByName(Name, "Name"))
-		debug("key 'Name' not found.");
+void CMissionSheet::build(const NLGEORGES::UFormElm &item) {
+  // Load the descriptors.
+  if (!item.getValueByName(Name, "Name"))
+    debug("key 'Name' not found.");
 
-	if(!item.getValueByName(Description, "Description"))
-		debug("key 'Description' not found.");
+  if (!item.getValueByName(Description, "Description"))
+    debug("key 'Description' not found.");
 
-	if(!item.getValueByName(RewardDescription, "RewardDescription"))
-		debug("key 'RewardDescription' not found.");
+  if (!item.getValueByName(RewardDescription, "RewardDescription"))
+    debug("key 'RewardDescription' not found.");
 
-	// load mission steps description
-	for (uint i =1; i< NB_STEPS_PER_MISSION + 1;i++)
-	{
-		const UFormElm * stepStruct;
-		string varName = string("step") + NLMISC::toString(i);
-		item.getNodeByName (&stepStruct, varName);
+  // load mission steps description
+  for (uint i = 1; i < NB_STEPS_PER_MISSION + 1; i++) {
+    const UFormElm *stepStruct;
+    string varName = string("step") + NLMISC::toString(i);
+    item.getNodeByName(&stepStruct, varName);
 
-		if (stepStruct)
-		{
-			string stepDesc;
-			stepStruct->getValueByName(stepDesc,"Description");
-			if ( !stepDesc.empty() )
-				StepsDescription.push_back(stepDesc);
-		}
-
-	}
-}// build //
-
+    if (stepStruct) {
+      string stepDesc;
+      stepStruct->getValueByName(stepDesc, "Description");
+      if (!stepDesc.empty())
+        StepsDescription.push_back(stepDesc);
+    }
+  }
+} // build //
 
 //-----------------------------------------------
 // serial :
 // Serialize character sheet into binary data file.
 //-----------------------------------------------
-void CMissionSheet::serial(NLMISC::IStream &f)
-{
-	// Serialize class components.
-	f.serial(Name);
-	f.serial(Description);
-	f.serial(RewardDescription);
-	f.serialCont(StepsDescription);
-}// serial //
-
+void CMissionSheet::serial(NLMISC::IStream &f) {
+  // Serialize class components.
+  f.serial(Name);
+  f.serial(Description);
+  f.serial(RewardDescription);
+  f.serialCont(StepsDescription);
+} // serial //

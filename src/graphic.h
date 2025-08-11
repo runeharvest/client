@@ -14,21 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef GE_GRAPHIC_H
 #define GE_GRAPHIC_H
 
-
 // Interface 3D.
-#include "nel/3d/u_texture.h"
 #include "nel/3d/u_driver.h"
+#include "nel/3d/u_texture.h"
 
 #include "nel/misc/rgba.h"
 
-
-void drawBitmapTiled ( NL3D::UDriver *driver, float x, float y, float width, float height, uint32 windowWidth, uint32 windowHeight, NL3D::UTextureFile & texture, uint32 textureWidth, uint32 textureHeight, bool blend, NLMISC::CRGBA col);
-
-
+void drawBitmapTiled(NL3D::UDriver *driver, float x, float y, float width,
+                     float height, uint32 windowWidth, uint32 windowHeight,
+                     NL3D::UTextureFile &texture, uint32 textureWidth,
+                     uint32 textureHeight, bool blend, NLMISC::CRGBA col);
 
 #endif // GE_GRAPHIC_H

@@ -18,14 +18,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_GROUP_QUICK_HELP_H
 #define CL_GROUP_QUICK_HELP_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/gui/group_html.h"
+#include "nel/misc/types_nl.h"
 
 /**
  * Quick help group
@@ -33,72 +30,68 @@
  * \author Nevrax France
  * \date 2002
  */
-class CGroupQuickHelp : public CGroupHTML
-{
+class CGroupQuickHelp : public CGroupHTML {
 public:
+  // Constructor
+  CGroupQuickHelp(const TCtorParam &param);
+  ~CGroupQuickHelp();
 
-	// Constructor
-	CGroupQuickHelp(const TCtorParam &param);
-	~CGroupQuickHelp();
-
-	// Submit an event
-	bool submitEvent (const char *event);
+  // Submit an event
+  bool submitEvent(const char *event);
 
 private:
+  // CInterfaceGroup Interface
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual void updateCoords();
 
-	// CInterfaceGroup Interface
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parentGroup);
-	virtual void updateCoords();
+  // From CGroupHTML
+  virtual void beginElement(NLGUI::CHtmlElement &elm);
+  virtual void endBuild();
+  virtual void browse(const char *url);
+  virtual std::string home() const NL_OVERRIDE;
 
-	// From CGroupHTML
-	virtual void beginElement (NLGUI::CHtmlElement &elm);
-	virtual void endBuild ();
-	virtual void browse (const char *url);
-	virtual std::string	home() const NL_OVERRIDE;
+  // Modify uri with '.html' or '_??.html' ending to have current user language,
+  // If the uri is not found locally, then try "en" as fallback language
+  // ie. 'help_ru.html' does not exists, return 'help_en.html'
+  std::string getLanguageUrl(const std::string &href, std::string lang) const;
 
-	// Modify uri with '.html' or '_??.html' ending to have current user language,
-	// If the uri is not found locally, then try "en" as fallback language
-	// ie. 'help_ru.html' does not exists, return 'help_en.html'
-	std::string getLanguageUrl(const std::string &href, std::string lang) const;
+  // Init parsing value
+  void initParameters();
 
-	// Init parsing value
-	void initParameters();
+  // Update the paragraph font size according the current step
+  void updateParagraph();
 
-	// Update the paragraph font size according the current step
-	void updateParagraph ();
+  // Set the text attribute for a group and its sub group
+  void setGroupTextSize(CInterfaceGroup *group, bool selected);
 
-	// Set the text attribute for a group and its sub group
-	void setGroupTextSize (CInterfaceGroup *group, bool selected);
+  // Evaluate a condition
+  bool evalExpression(const std::string &condition);
 
-	// Evaluate a condition
-	bool evalExpression (const std::string &condition);
+  // A quick help step
+  class CStep {
+  public:
+    std::set<std::string> EventToComplete;
+    std::string Condition;
+    std::string URL;
+  };
 
-	// A quick help step
-	class CStep
-	{
-	public:
-		std::set<std::string>	EventToComplete;
-		std::string				Condition;
-		std::string				URL;
-	};
+  // Activate a step
+  void activateCurrentStep();
 
-	// Activate a step
-	void activateCurrentStep ();
+  // The quick help steps
+  std::vector<CStep> _Steps;
 
-	// The quick help steps
-	std::vector<CStep>	_Steps;
+  // The current step
+  uint _CurrentStep;
 
-	// The current step
-	uint	_CurrentStep;
+  // Parameters
+  uint _NonSelectedSize;
+  NLMISC::CRGBA _NonSelectedColor;
+  NLMISC::CRGBA _NonSelectedLinkColor;
+  bool _NonSelectedGlobalColor;
+  bool _UpdateParagraphNextUpdateCoords;
 
-	// Parameters
-	uint			_NonSelectedSize;
-	NLMISC::CRGBA	_NonSelectedColor;
-	NLMISC::CRGBA	_NonSelectedLinkColor;
-	bool			_NonSelectedGlobalColor;
-	bool			_UpdateParagraphNextUpdateCoords;
-
-	bool			_IsQuickHelp;
+  bool _IsQuickHelp;
 };
 
 #endif

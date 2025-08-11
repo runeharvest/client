@@ -19,23 +19,21 @@
 
 #include <string>
 
-namespace BONUS_MALUS
-{
-	enum TBonusMalusSpecialTT
-	{
-		None=0,
-		XpCatalyser,
-		OutpostPVPOn,
-		OutpostPVPOutOfZone,
-		OutpostPVPInRound,
-		DeathPenalty,
+namespace BONUS_MALUS {
+enum TBonusMalusSpecialTT {
+  None = 0,
+  XpCatalyser,
+  OutpostPVPOn,
+  OutpostPVPOutOfZone,
+  OutpostPVPInRound,
+  DeathPenalty,
 
-		Unknown,
-		NbSpecialTT = Unknown,
-	};
+  Unknown,
+  NbSpecialTT = Unknown,
+};
 
-	TBonusMalusSpecialTT fromString(const std::string & str);
-	const std::string & toString(TBonusMalusSpecialTT clan);
+TBonusMalusSpecialTT fromString(const std::string &str);
+const std::string &toString(TBonusMalusSpecialTT clan);
 
 } // namespace BONUS_MALUS
 

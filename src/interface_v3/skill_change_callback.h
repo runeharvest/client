@@ -19,7 +19,6 @@
 
 #include "nel/misc/types_nl.h"
 
-
 // ***************************************************************************
 /**
  * Callbakc called when a value of a skill change
@@ -27,14 +26,12 @@
  * \author Nevrax France
  * \date 2004
  */
-class ISkillChangeCallback
-{
+class ISkillChangeCallback {
 public:
-	/*	Called only if SKILL or BaseSKILL change (not progressbar)
-	*/
-	virtual	void	onSkillChange() =0;
+  /*	Called only if SKILL or BaseSKILL change (not progressbar)
+   */
+  virtual void onSkillChange() = 0;
 };
-
 
 #endif // NL_SKILL_CHANGE_CALLBACK_H
 

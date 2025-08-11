@@ -17,15 +17,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_GROUP_HTML_QCM_H
 #define CL_GROUP_HTML_QCM_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/gui/group_html.h"
-
+#include "nel/misc/types_nl.h"
 
 /**
  * Mail HTML group
@@ -33,20 +29,16 @@
  * \author Nevrax France
  * \date April 2004
  */
-class CGroupHTMLQCM : public CGroupHTML
-{
+class CGroupHTMLQCM : public CGroupHTML {
 public:
+  // Constructor
+  CGroupHTMLQCM(const TCtorParam &param);
+  ~CGroupHTMLQCM();
 
-	// Constructor
-	CGroupHTMLQCM(const TCtorParam &param);
-	~CGroupHTMLQCM();
-
-	// From CGroupHTML
-	virtual void addText (const char * buf, int len);
+  // From CGroupHTML
+  virtual void addText(const char *buf, int len);
 
 private:
-
 };
 
 #endif // CL_GROUP_HTML_MAIL_H
-

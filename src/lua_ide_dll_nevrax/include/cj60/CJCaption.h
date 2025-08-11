@@ -15,12 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // CJCaption.h : header file
-// 
-// Copyright (c) 1998-99 Kirk Stowell   
+//
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,22 +36,22 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said!
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
-// ==========================================================================  
-// HISTORY:	  
-// ==========================================================================  
-//			1.00	16 Jan 1999	- Initial first release.  
-// ==========================================================================  
-//  
+// ==========================================================================
+// HISTORY:
+// ==========================================================================
+//			1.00	16 Jan 1999	- Initial first release.
+// ==========================================================================
+//
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CJCAPTION_H__
@@ -64,40 +64,38 @@
 /////////////////////////////////////////////////////////////////////////////
 // CCJCaption window
 
-class AFX_EXT_CLASS CCJCaption : public CStatic
-{
-// Construction
+class AFX_EXT_CLASS CCJCaption : public CStatic {
+  // Construction
 public:
-	CCJCaption();
+  CCJCaption();
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CCJCaption)
+  //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCJCaption)
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Implementation
 public:
-	virtual ~CCJCaption();
+  virtual ~CCJCaption();
 
-	// Generated message map functions
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CCJCaption)
-	afx_msg void OnPaint();
-	afx_msg void OnSysColorChange();
-	//}}AFX_MSG
+  //{{AFX_MSG(CCJCaption)
+  afx_msg void OnPaint();
+  afx_msg void OnSysColorChange();
+  //}}AFX_MSG
 
-	DECLARE_MESSAGE_MAP()
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately
+// before the previous line.
 
 #endif //__CJCAPTION_H__

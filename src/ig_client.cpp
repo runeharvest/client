@@ -17,29 +17,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 /////////////
 // INCLUDE //
 /////////////
 // Misc.
-#include "nel/misc/path.h"
 #include "nel/misc/debug.h"
+#include "nel/misc/path.h"
 // 3D Interface.
 #include "nel/3d/u_driver.h"
 #include "nel/3d/u_scene.h"
 // Net.
 #include "nel/net/unitime.h"
 // Client.
-#include "ig_client.h"
 #include "entity_fx.h"
+#include "ig_client.h"
 #include "misc.h"
 // std.
-#include <string>
 #include <fstream>
-
+#include <string>
 
 ///////////
 // USING //
@@ -49,34 +46,28 @@ using namespace NL3D;
 using namespace NLNET;
 using namespace std;
 
-
 ////////////
 // GLOBAL //
 ////////////
 map<string, UInstanceGroup *> IGCity;
 map<string, UInstanceGroup *> IGLoaded;
 
-CLandscapeIGManager			LandscapeIGManager;
-
+CLandscapeIGManager LandscapeIGManager;
 
 ////////////
 // EXTERN //
 ////////////
-extern UDriver	*Driver;
-extern UScene	*Scene;
-
+extern UDriver *Driver;
+extern UScene *Scene;
 
 //-----------------------------------------------
 // initIG :
 // Initialize Instances Group
 //-----------------------------------------------
-void initIG()
-{
-	// Initialize lightmaps colors for the fireworks.
+void initIG() {
+  // Initialize lightmaps colors for the fireworks.
 
-	// Fireworks is group 5
-	Scene->setLightGroupColor (LightGroupFireworks, CRGBA(0,0,0));
+  // Fireworks is group 5
+  Scene->setLightGroupColor(LightGroupFireworks, CRGBA(0, 0, 0));
 
-}// initIG //
-
-
+} // initIG //

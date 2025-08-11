@@ -17,16 +17,15 @@
 #include "stdpch.h"
 //
 #include "editor.h"
-#include "tool_select_rotate.h"
 #include "tool_select_move.h"
+#include "tool_select_rotate.h"
 //
-#include "../net_manager.h"
-#include "../motion/user_controls.h"
-#include "../interface_v3/interface_manager.h"
-#include "../entity_cl.h"
 #include "../entities.h"
+#include "../entity_cl.h"
+#include "../interface_v3/interface_manager.h"
+#include "../motion/user_controls.h"
+#include "../net_manager.h"
 #include "displayer_visual.h"
-
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
@@ -34,126 +33,116 @@
 
 using namespace NLMISC;
 
-namespace R2
-{
+namespace R2 {
 
 // ***************************************************************
-CToolSelectRotate::CToolSelectRotate()
-{
-	_StartAngle = 0;
-	_MouseStartX = -1;
-	_State = Idle;
-}
-
-
-// ***************************************************************
-void CToolSelectRotate::updateAction(CInstance &instance)
-{
-	//H_AUTO(R2_CToolSelectRotate_updateAction)
-	CEntityCL *entity = instance.getEntity();
-	if (entity)
-	{
-		setMouseCursor("r2ed_tool_rotating.tga");
-		setEntityAngle(*entity, instance, (float) ((getMouseX() - _MouseStartX) * NLMISC::Pi / 180) + _StartAngle);
-	}
-}
-
-
-// ***************************************************************
-void CToolSelectRotate::setRotateInProgress(bool rotateInProgress, CInstance &instance)
-{
-	//H_AUTO(R2_CToolSelectRotate_setRotateInProgress)
-	CDisplayerVisual *dv = instance.getDisplayerVisual();
-	if (dv) dv->setRotateInProgress(rotateInProgress);
+CToolSelectRotate::CToolSelectRotate() {
+  _StartAngle = 0;
+  _MouseStartX = -1;
+  _State = Idle;
 }
 
 // ***************************************************************
-void CToolSelectRotate::beginAction(CInstance &instance)
-{
-	//H_AUTO(R2_CToolSelectRotate_beginAction)
-	_MouseStartX = getMouseX();
-	_StartAngle = (float) instance.getObjectTable()->toNumber("Angle");
-	setRotateInProgress(true, instance);
+void CToolSelectRotate::updateAction(CInstance &instance) {
+  // H_AUTO(R2_CToolSelectRotate_updateAction)
+  CEntityCL *entity = instance.getEntity();
+  if (entity) {
+    setMouseCursor("r2ed_tool_rotating.tga");
+    setEntityAngle(*entity, instance,
+                   (float)((getMouseX() - _MouseStartX) * NLMISC::Pi / 180) +
+                       _StartAngle);
+  }
 }
 
 // ***************************************************************
-void CToolSelectRotate::cancelAction(CInstance &instance)
-{
-	//H_AUTO(R2_CToolSelectRotate_cancelAction)
-	CEntityCL *entity = instance.getEntity();
-	nlassert(entity);
-	getEditor().requestRollbackLocalNode(instance.getId(), "Angle");
-	setRotateInProgress(false, instance);
+void CToolSelectRotate::setRotateInProgress(bool rotateInProgress,
+                                            CInstance &instance) {
+  // H_AUTO(R2_CToolSelectRotate_setRotateInProgress)
+  CDisplayerVisual *dv = instance.getDisplayerVisual();
+  if (dv)
+    dv->setRotateInProgress(rotateInProgress);
 }
 
 // ***************************************************************
-void CToolSelectRotate::commitAction(CInstance &instance)
-{
-	//H_AUTO(R2_CToolSelectRotate_commitAction)
-	getDMC().newAction(CI18N::get("uiR2EDRotateAction") + instance.getDisplayName());
-	// nothing to do, entity already has good angle
-	getEditor().requestCommitLocalNode(instance.getId(), "Angle");
-	setRotateInProgress(false, instance);
+void CToolSelectRotate::beginAction(CInstance &instance) {
+  // H_AUTO(R2_CToolSelectRotate_beginAction)
+  _MouseStartX = getMouseX();
+  _StartAngle = (float)instance.getObjectTable()->toNumber("Angle");
+  setRotateInProgress(true, instance);
 }
 
 // ***************************************************************
-void CToolSelectRotate::setEntityAngle(CEntityCL &/* entity */, CInstance &instance, float angle)
-{
-	//H_AUTO(R2_CToolSelectRotate_setEntityAngle)
-	CObjectNumber *angleObject = new CObjectNumber(angle);
-	getEditor().requestSetLocalNode(instance.getId(), "Angle", angleObject);
-	delete angleObject;
+void CToolSelectRotate::cancelAction(CInstance &instance) {
+  // H_AUTO(R2_CToolSelectRotate_cancelAction)
+  CEntityCL *entity = instance.getEntity();
+  nlassert(entity);
+  getEditor().requestRollbackLocalNode(instance.getId(), "Angle");
+  setRotateInProgress(false, instance);
 }
 
 // ***************************************************************
-bool CToolSelectRotate::isActionPossibleOn(const CInstance &instance) const
-{
-	//H_AUTO(R2_CToolSelectRotate_isActionPossibleOn)
-	CInstance &mutableInstance = const_cast<CInstance &>(instance);
-	CDisplayerVisual *dv = mutableInstance.getDisplayerVisual();
-	if (dv && dv->getActualDisplayMode() != CDisplayerVisual::DisplayModeVisible)
-	{
-		return false;
-	}
-	if (instance.getEntity() != NULL)
-	{
-		return !instance.getClass()["NameToProp"]["Angle"].isNil();
-	}
-	return false;
+void CToolSelectRotate::commitAction(CInstance &instance) {
+  // H_AUTO(R2_CToolSelectRotate_commitAction)
+  getDMC().newAction(CI18N::get("uiR2EDRotateAction") +
+                     instance.getDisplayName());
+  // nothing to do, entity already has good angle
+  getEditor().requestCommitLocalNode(instance.getId(), "Angle");
+  setRotateInProgress(false, instance);
 }
 
 // ***************************************************************
-bool CToolSelectRotate::onMouseLeftButtonDown()
-{
-	//H_AUTO(R2_CToolSelectRotate_onMouseLeftButtonDown)
-	bool result = CToolMaintainedAction::onMouseLeftButtonDown();
-	if (!result) return false;
-	if (_State == ActionNotPossible)
-	{
-		CTool::TSmartPtr holder(this);
-		cancel();
-		// for ergonomy, switch to the 'move' tool
-		getEditor().setCurrentTool(new CToolSelectMove);
-		return getEditor().getCurrentTool()->onMouseLeftButtonDown();
-	}
-	return true;
+void CToolSelectRotate::setEntityAngle(CEntityCL & /* entity */,
+                                       CInstance &instance, float angle) {
+  // H_AUTO(R2_CToolSelectRotate_setEntityAngle)
+  CObjectNumber *angleObject = new CObjectNumber(angle);
+  getEditor().requestSetLocalNode(instance.getId(), "Angle", angleObject);
+  delete angleObject;
 }
 
+// ***************************************************************
+bool CToolSelectRotate::isActionPossibleOn(const CInstance &instance) const {
+  // H_AUTO(R2_CToolSelectRotate_isActionPossibleOn)
+  CInstance &mutableInstance = const_cast<CInstance &>(instance);
+  CDisplayerVisual *dv = mutableInstance.getDisplayerVisual();
+  if (dv &&
+      dv->getActualDisplayMode() != CDisplayerVisual::DisplayModeVisible) {
+    return false;
+  }
+  if (instance.getEntity() != NULL) {
+    return !instance.getClass()["NameToProp"]["Angle"].isNil();
+  }
+  return false;
+}
+
+// ***************************************************************
+bool CToolSelectRotate::onMouseLeftButtonDown() {
+  // H_AUTO(R2_CToolSelectRotate_onMouseLeftButtonDown)
+  bool result = CToolMaintainedAction::onMouseLeftButtonDown();
+  if (!result)
+    return false;
+  if (_State == ActionNotPossible) {
+    CTool::TSmartPtr holder(this);
+    cancel();
+    // for ergonomy, switch to the 'move' tool
+    getEditor().setCurrentTool(new CToolSelectMove);
+    return getEditor().getCurrentTool()->onMouseLeftButtonDown();
+  }
+  return true;
+}
 
 /////////////////////
 // ACTION HANDLERS //
 /////////////////////
 
 /**
-  * Make the select/rotate tool current
-  */
-class CAHSelectRotate : public IActionHandler
-{
-	virtual void execute(CCtrlBase * /* pCaller */, const std::string &/* sParams */)
-	{
-		getEditor().setCurrentTool(new CToolSelectRotate);
-	}
+ * Make the select/rotate tool current
+ */
+class CAHSelectRotate : public IActionHandler {
+  virtual void execute(CCtrlBase * /* pCaller */,
+                       const std::string & /* sParams */) {
+    getEditor().setCurrentTool(new CToolSelectRotate);
+  }
 };
 REGISTER_ACTION_HANDLER(CAHSelectRotate, "r2ed_select_rotate");
 
-} // R2
+} // namespace R2

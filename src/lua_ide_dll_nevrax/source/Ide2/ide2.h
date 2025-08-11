@@ -25,10 +25,10 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"       // main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CIdeApp:
@@ -42,66 +42,61 @@ class CProjectFile;
 class CMainFrame;
 struct IDebuggedAppMainLoop;
 
-class CMultiDocTemplateEx : public CMultiDocTemplate
-{
+class CMultiDocTemplateEx : public CMultiDocTemplate {
 public:
-	CMultiDocTemplateEx(UINT nIDResource, CRuntimeClass* pDocClass,
-					  CRuntimeClass* pFrameClass, CRuntimeClass* pViewClass);
-	// helper for cycling bewteen documents
-	void MoveDocAfter(CDocument *doc, CDocument *target);
+  CMultiDocTemplateEx(UINT nIDResource, CRuntimeClass *pDocClass,
+                      CRuntimeClass *pFrameClass, CRuntimeClass *pViewClass);
+  // helper for cycling bewteen documents
+  void MoveDocAfter(CDocument *doc, CDocument *target);
 };
 
-class CIdeApp : public CWinApp
-{
+class CIdeApp : public CWinApp {
 public:
-	void MainLoop();
-	CMainFrame *GetMainFrame();
-	BOOL FirstFileIsNewer(CString strPathName1, CString strPathName2);
-	void DeleteAllFilesInCurrentDir();
-	BOOL SaveModifiedDocuments();
-	CLuaView* OpenProjectFilesView(CProjectFile* pPF, int nLine=-1);
-	CLuaView* LoadProjectFilesView(CProjectFile* pPF);
-	CLuaView* FindProjectFilesView(CProjectFile* pPF);
-	void CheckExternallyModifiedFiles();
-	CString GetModuleDir();
-	void FormatMessage(char* pszAPI);
-	CIdeApp();
+  void MainLoop();
+  CMainFrame *GetMainFrame();
+  BOOL FirstFileIsNewer(CString strPathName1, CString strPathName2);
+  void DeleteAllFilesInCurrentDir();
+  BOOL SaveModifiedDocuments();
+  CLuaView *OpenProjectFilesView(CProjectFile *pPF, int nLine = -1);
+  CLuaView *LoadProjectFilesView(CProjectFile *pPF);
+  CLuaView *FindProjectFilesView(CProjectFile *pPF);
+  void CheckExternallyModifiedFiles();
+  CString GetModuleDir();
+  void FormatMessage(char *pszAPI);
+  CIdeApp();
 
-	CDocument *GetActiveDoc();
-	CMultiDocTemplateEx* m_pLuaTemplate;
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CIdeApp)
-	public:
-	virtual BOOL InitInstance();
-	virtual int ExitInstance();
-	//}}AFX_VIRTUAL
+  CDocument *GetActiveDoc();
+  CMultiDocTemplateEx *m_pLuaTemplate;
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CIdeApp)
+public:
+  virtual BOOL InitInstance();
+  virtual int ExitInstance();
+  //}}AFX_VIRTUAL
 
-// Implementation
-	//{{AFX_MSG(CIdeApp)
-	afx_msg void OnAppAbout();
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+  //{{AFX_MSG(CIdeApp)
+  afx_msg void OnAppAbout();
+  // NOTE - the ClassWizard will add and remove member functions here.
+  //    DO NOT EDIT what you see in these blocks of generated code !
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 
-public:		
-	HWND				  m_EmbeddingAppWnd;
-	IDebuggedAppMainLoop *m_DebuggedAppMainLoop;
+public:
+  HWND m_EmbeddingAppWnd;
+  IDebuggedAppMainLoop *m_DebuggedAppMainLoop;
 
 protected:
-	HMODULE m_hScintilla;
+  HMODULE m_hScintilla;
 };
 
-
-
-
 extern CIdeApp theApp;
-
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_IDE2_H__A3FA6447_9B87_4B84_A3F1_D73F185A1AAC__INCLUDED_)

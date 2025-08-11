@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_MISSION_ICON_SHEET_H
 #define RY_MISSION_ICON_SHEET_H
-
 
 /////////////
 // INCLUDE //
@@ -28,30 +25,24 @@
 // client
 #include "entity_sheet.h"
 
-
 /**
  * class describing a mission icon
  */
-class CMissionIconSheet : public CEntitySheet
-{
+class CMissionIconSheet : public CEntitySheet {
 public:
-	/// Constructor
-	CMissionIconSheet()
-	{
-		Type = MISSION_ICON;
-	};
+  /// Constructor
+  CMissionIconSheet() { Type = MISSION_ICON; };
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 
-	std::string		MainIconBg;
-	std::string		MainIconFg;
-	std::string		SmallIcon;
+  std::string MainIconBg;
+  std::string MainIconFg;
+  std::string SmallIcon;
 };
-
 
 #endif // RY_MISSION_SHEET_H
 

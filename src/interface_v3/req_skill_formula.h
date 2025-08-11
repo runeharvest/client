@@ -20,103 +20,99 @@
 #ifndef RY_REQ_SKILL_FORMULA_H
 #define RY_REQ_SKILL_FORMULA_H
 
-#include "nel/misc/types_nl.h"
 #include "game_share/skills.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /** A pair Required Skill / Required Level
  */
-class CSkillValue
-{
+class CSkillValue {
 public:
-	SKILLS::ESkills		Skill;
-	uint				Value;
+  SKILLS::ESkills Skill;
+  uint Value;
 
-	CSkillValue()
-	{
-		Skill= SKILLS::unknown;
-		Value= 0;
-	}
-	CSkillValue(SKILLS::ESkills	eSkill, uint value=0) : Skill(eSkill), Value(value) {}
+  CSkillValue() {
+    Skill = SKILLS::unknown;
+    Value = 0;
+  }
+  CSkillValue(SKILLS::ESkills eSkill, uint value = 0)
+      : Skill(eSkill), Value(value) {}
 
+  bool operator==(const CSkillValue &sv) const {
+    return Skill == sv.Skill && Value == sv.Value;
+  }
 
-	bool		operator==(const CSkillValue &sv) const
-	{
-		return Skill==sv.Skill && Value==sv.Value;
-	}
-
-	// true if can AND or OR
-	bool		andWith(const CSkillValue &sv);
-	bool		orWith(const CSkillValue &sv);
+  // true if can AND or OR
+  bool andWith(const CSkillValue &sv);
+  bool orWith(const CSkillValue &sv);
 };
-
 
 // ***************************************************************************
 /**	Required Skill Algebra: eg (SF10&SM10) | SC10 means
- *	that something is possible only if the player has either SF and SM to level 10, or SC to level 10
+ *	that something is possible only if the player has either SF and SM to
+ *level 10, or SC to level 10
  */
-class CReqSkillFormula
-{
+class CReqSkillFormula {
 public:
-	// a list of all required Skill/Level
-	class CSkillValueAnd
-	{
-	public:
-		std::list<CSkillValue>	AndSkills;
+  // a list of all required Skill/Level
+  class CSkillValueAnd {
+  public:
+    std::list<CSkillValue> AndSkills;
 
-		// assign to a single skillvalue. no op if unknown!
-		void	assign(const CSkillValue &sv);
+    // assign to a single skillvalue. no op if unknown!
+    void assign(const CSkillValue &sv);
 
-		// and with a. optimize where possible
-		void	andV(const CSkillValueAnd &a);
-	};
+    // and with a. optimize where possible
+    void andV(const CSkillValueAnd &a);
+  };
 
 public:
-	// the ORed list of req SkillValues
-	std::list<CSkillValueAnd>		OrSkills;
+  // the ORed list of req SkillValues
+  std::list<CSkillValueAnd> OrSkills;
 
-	// assign to a single skillvalue. no op if unknown!
-	void		assign(const CSkillValue &sv);
+  // assign to a single skillvalue. no op if unknown!
+  void assign(const CSkillValue &sv);
 
-	// And operation with a SkillValue. NB: if this.empty, assign()
-	void		andV(const CSkillValue &req);
+  // And operation with a SkillValue. NB: if this.empty, assign()
+  void andV(const CSkillValue &req);
 
-	// Or operation with a SkillValue.
-	void		orV(const CSkillValue &req);
+  // Or operation with a SkillValue.
+  void orV(const CSkillValue &req);
 
-	// And operation with another Req Skill Formula. NB: if this.empty, ope=
-	void		andV(const CReqSkillFormula &req);
+  // And operation with another Req Skill Formula. NB: if this.empty, ope=
+  void andV(const CReqSkillFormula &req);
 
-	// Or operation with another Req Skill Formula
-	void		orV(const CReqSkillFormula &req);
+  // Or operation with another Req Skill Formula
+  void orV(const CReqSkillFormula &req);
 
-	// empty formula?
-	bool		empty() const {return OrSkills.empty();}
+  // empty formula?
+  bool empty() const { return OrSkills.empty(); }
 
-	// single value formula?
-	bool		singleValue() const {return OrSkills.size()==1 && OrSkills.begin()->AndSkills.size()==1;}
+  // single value formula?
+  bool singleValue() const {
+    return OrSkills.size() == 1 && OrSkills.begin()->AndSkills.size() == 1;
+  }
 
-	// get the max required skill value for all skillvalue (either OR and AND)
-	uint		getMaxRequiredValue() const;
+  // get the max required skill value for all skillvalue (either OR and AND)
+  uint getMaxRequiredValue() const;
 
-	// for debug
-	void		log(const char *prefix) const;
+  // for debug
+  void log(const char *prefix) const;
 
-	// For SPhrase Info
-	void		getInfoText(std::string &info) const;
+  // For SPhrase Info
+  void getInfoText(std::string &info) const;
 
-	// return true if the requirement formula completes regarding the actual player state (through CSkillMananger). return true if empty()
-	bool		evaluate() const;
+  // return true if the requirement formula completes regarding the actual
+  // player state (through CSkillMananger). return true if empty()
+  bool evaluate() const;
 
 private:
-	// regroup SkillValueAnd together where possible
-	void		optimizeOR();
+  // regroup SkillValueAnd together where possible
+  void optimizeOR();
 
-	// true if the sv.Skill current base value is >= sv.Value
-	bool		isSkillValueTrained(const CSkillValue	&sv) const;
+  // true if the sv.Skill current base value is >= sv.Value
+  bool isSkillValueTrained(const CSkillValue &sv) const;
 };
-
 
 #endif // RY_REQ_SKILL_FORMULA_H
 

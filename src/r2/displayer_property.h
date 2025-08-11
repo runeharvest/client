@@ -19,23 +19,20 @@
 
 #include "base_displayer.h"
 
-namespace R2
-{
+namespace R2 {
 
 /*
 // TODO : factor functionnality with CVisualdisplayer
 class CPropertyDisplayer : public CBaseDisplayer
 {
 public:
-	typedef NLMISC::CSmartPtr<CPropertyDisplayer> TSmartPtr;
-	virtual ~CPropertyDisplayer() {}
-	virtual void update() = 0;
+        typedef NLMISC::CSmartPtr<CPropertyDisplayer> TSmartPtr;
+        virtual ~CPropertyDisplayer() {}
+        virtual void update() = 0;
 };
 
  */
 
-} // R2
-
-
+} // namespace R2
 
 #endif

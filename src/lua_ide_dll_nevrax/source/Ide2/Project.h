@@ -31,82 +31,88 @@
 
 class CWorkspaceWnd;
 
-typedef CTypedPtrArray<CPtrArray, CProjectFile*> CProjectFileArray;
+typedef CTypedPtrArray<CPtrArray, CProjectFile *> CProjectFileArray;
 
-class CProject  
-{
+class CProject {
 public:
-	void RemoveFile(CProjectFile* pPF);
-	BOOL Close();
-	BOOL New();
-	void UpdateDirectories();	
-	BOOL HasBreakPoint(const char* szFile, int nLine);
-	const BOOL GetBreakPoint(const char* szFile, int nLine, CProjectFile::CBreakPoint &bp);
-	CProject();
-	virtual ~CProject();
+  void RemoveFile(CProjectFile *pPF);
+  BOOL Close();
+  BOOL New();
+  void UpdateDirectories();
+  BOOL HasBreakPoint(const char *szFile, int nLine);
+  const BOOL GetBreakPoint(const char *szFile, int nLine,
+                           CProjectFile::CBreakPoint &bp);
+  CProject();
+  virtual ~CProject();
 
-	BOOL PositionBreakPoints();
-	void CleanIntermediateAndOutputFiles();
-	BOOL CheckBeforeBuild();
-	BOOL Compile(CProjectFile* pPF);
-	BOOL BuildOutputFiles();
-	BOOL BuildIntermediateFiles();
-	BOOL Build();
+  BOOL PositionBreakPoints();
+  void CleanIntermediateAndOutputFiles();
+  BOOL CheckBeforeBuild();
+  BOOL Compile(CProjectFile *pPF);
+  BOOL BuildOutputFiles();
+  BOOL BuildIntermediateFiles();
+  BOOL Build();
 
-	void InitForExternalDebug(const char *tmpProjectFile);
+  void InitForExternalDebug(const char *tmpProjectFile);
 
-	void SetModifiedFlag(BOOL bModified); 	
-	void SaveModified();
-	BOOL SaveAs();
-	BOOL Save();
-	BOOL Save(CString strPathName);
-	BOOL Save(CArchive& ar);
-	BOOL Load();
-	BOOL Load(CArchive& ar);
+  void SetModifiedFlag(BOOL bModified);
+  void SaveModified();
+  BOOL SaveAs();
+  BOOL Save();
+  BOOL Save(CString strPathName);
+  BOOL Save(CArchive &ar);
+  BOOL Load();
+  BOOL Load(CArchive &ar);
 
-	void RemoveProjectFiles();
-	void AddFile(CString strPathName);
-	void AddFile(CProjectFile* pPF);
-	int NofFiles() { return m_files.GetSize(); };
-	void Properties();
-	void AddFiles();
-	CProjectFile* GetProjectFile(UINT index);
-	CProjectFile* GetProjectFile(CString strPathName);
-	void RedrawFilesTree();
-	void NewProject();
+  void RemoveProjectFiles();
+  void AddFile(CString strPathName);
+  void AddFile(CProjectFile *pPF);
+  int NofFiles() { return m_files.GetSize(); };
+  void Properties();
+  void AddFiles();
+  CProjectFile *GetProjectFile(UINT index);
+  CProjectFile *GetProjectFile(CString strPathName);
+  void RedrawFilesTree();
+  void NewProject();
 
-	void SetPathName(CString strPathName) { m_strPathName=strPathName; };
-	CString GetProjectDir();
-	CString GetPathName() { return m_strPathName; };
-	CString GetName();
-	CString GetNameExt();
-	CString GetDebugNameExt() { return m_strOutputPrefix + ".debug"; };
-	CString GetReleaseNameExt() { return m_strOutputPrefix + ".release"; };
-	CString GetListingNameExt() { return m_strOutputPrefix + ".listing"; };
-	CString GetDebugPathNameExt() { return m_strOutputDirRoot + "\\" + GetDebugNameExt(); };
-	CString GetReleasePathNameExt() { return m_strOutputDirRoot + "\\" + GetReleaseNameExt(); };
-	CString GetListingPathNameExt() { return m_strOutputDirRoot + "\\" + GetListingNameExt(); };
-	CString GetOutputDir() { return m_strOutputDirRoot; };
-	CString GetIntermediateDir() { return m_strIntermediateDirRoot; };
-	BOOL CreateIntermediateDir();
-	BOOL CreateOutputDir();
+  void SetPathName(CString strPathName) { m_strPathName = strPathName; };
+  CString GetProjectDir();
+  CString GetPathName() { return m_strPathName; };
+  CString GetName();
+  CString GetNameExt();
+  CString GetDebugNameExt() { return m_strOutputPrefix + ".debug"; };
+  CString GetReleaseNameExt() { return m_strOutputPrefix + ".release"; };
+  CString GetListingNameExt() { return m_strOutputPrefix + ".listing"; };
+  CString GetDebugPathNameExt() {
+    return m_strOutputDirRoot + "\\" + GetDebugNameExt();
+  };
+  CString GetReleasePathNameExt() {
+    return m_strOutputDirRoot + "\\" + GetReleaseNameExt();
+  };
+  CString GetListingPathNameExt() {
+    return m_strOutputDirRoot + "\\" + GetListingNameExt();
+  };
+  CString GetOutputDir() { return m_strOutputDirRoot; };
+  CString GetIntermediateDir() { return m_strIntermediateDirRoot; };
+  BOOL CreateIntermediateDir();
+  BOOL CreateOutputDir();
 
-	BOOL IsBreakPointPossibleAtLine(int line);
+  BOOL IsBreakPointPossibleAtLine(int line);
 
 protected:
-	BOOL m_bModified;
-	BOOL m_LineToBPModified;
+  BOOL m_bModified;
+  BOOL m_LineToBPModified;
 
-	std::vector<BOOL> m_BPVect;
+  std::vector<BOOL> m_BPVect;
 
-	CProjectFileArray	m_files;
-	CString m_strPathName;
-	CString m_strIntermediateDir;
-	CString m_strOutputDir;
-	CString m_strOutputPrefix;
-	BOOL m_bGenerateListing;
+  CProjectFileArray m_files;
+  CString m_strPathName;
+  CString m_strIntermediateDir;
+  CString m_strOutputDir;
+  CString m_strOutputPrefix;
+  BOOL m_bGenerateListing;
 
-	CString m_strOutputDirRoot, m_strIntermediateDirRoot;
+  CString m_strOutputDirRoot, m_strIntermediateDirRoot;
 };
 
 #endif // !defined(AFX_PROJECT_H__07580CB8_BA8B_47B6_9813_78E51B8C971C__INCLUDED_)

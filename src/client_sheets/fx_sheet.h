@@ -14,33 +14,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_FX_SHEET_H
 #define CL_FX_SHEET_H
-
 
 /////////////
 // INCLUDE //
 /////////////
-#include "nel/misc/types_nl.h"
 #include "entity_sheet.h"
-#include <vector>
+#include "nel/misc/types_nl.h"
 #include <string>
-
+#include <vector>
 
 ///////////
 // USING //
 ///////////
 
-
 ///////////
 // CLASS //
 ///////////
-namespace NLGEORGES
-{
-	class UFormElm;
+namespace NLGEORGES {
+class UFormElm;
 }
 /**
  * Class to manage the FX sheet.
@@ -54,81 +47,70 @@ namespace NLGEORGES
  * \author Nevrax France
  * \date 2001
  */
-class CFXSheet : public CEntitySheet
-{
+class CFXSheet : public CEntitySheet {
 public:
-	class CPSStruct
-	{
-	public:
-		class CPSUserParamStruct
-		{
-		public:
-			/// Value for the USer Param 0
-			float		UserParam0;
-			/// Value for the USer Param 1
-			float		UserParam1;
-			/// Value for the USer Param 2
-			float		UserParam2;
-			/// Value for the USer Param 3
-			float		UserParam3;
+  class CPSStruct {
+  public:
+    class CPSUserParamStruct {
+    public:
+      /// Value for the USer Param 0
+      float UserParam0;
+      /// Value for the USer Param 1
+      float UserParam1;
+      /// Value for the USer Param 2
+      float UserParam2;
+      /// Value for the USer Param 3
+      float UserParam3;
 
-			/// Constructor
-			CPSUserParamStruct()
-			{
-				UserParam0 = 0.f;
-				UserParam1 = 0.f;
-				UserParam2 = 0.f;
-				UserParam3 = 0.f;
-			}
+      /// Constructor
+      CPSUserParamStruct() {
+        UserParam0 = 0.f;
+        UserParam1 = 0.f;
+        UserParam2 = 0.f;
+        UserParam3 = 0.f;
+      }
 
-			/// Serialize character sheet into binary data file.
-			virtual void serial(NLMISC::IStream &f)
-			{
-				f.serial(UserParam0);
-				f.serial(UserParam1);
-				f.serial(UserParam2);
-				f.serial(UserParam3);
-			}
-		};
+      /// Serialize character sheet into binary data file.
+      virtual void serial(NLMISC::IStream &f) {
+        f.serial(UserParam0);
+        f.serial(UserParam1);
+        f.serial(UserParam2);
+        f.serial(UserParam3);
+      }
+    };
 
-		/// PS Filename.
-		std::string						PSName;
-		/// PS launch according the animation or at the beginning.
-		bool							Anim;
-		/// Parameters by Power.
-		std::vector<CPSUserParamStruct> Power;
-		/// Index of the 'Standard' power
-		static uint StandardIndex;
+    /// PS Filename.
+    std::string PSName;
+    /// PS launch according the animation or at the beginning.
+    bool Anim;
+    /// Parameters by Power.
+    std::vector<CPSUserParamStruct> Power;
+    /// Index of the 'Standard' power
+    static uint StandardIndex;
 
+    /// Constructor
+    CPSStruct() { Anim = false; }
 
-		/// Constructor
-		CPSStruct()
-		{
-			Anim = false;
-		}
+    /// Serialize character sheet into binary data file.
+    virtual void serial(NLMISC::IStream &f) {
+      f.serial(PSName);
+      f.serial(Anim);
+      f.serialCont(Power);
+    }
+  };
 
-		/// Serialize character sheet into binary data file.
-		virtual void serial(NLMISC::IStream &f)
-		{
-			f.serial(PSName);
-			f.serial(Anim);
-			f.serialCont(Power);
-		}
-	};
+  std::vector<std::string> TrailList;
+  std::vector<CPSStruct> PSList;
 
-	std::vector<std::string>	TrailList;
-	std::vector<CPSStruct>		PSList;
+  /// Constructor
+  CFXSheet();
 
-	/// Constructor
-	CFXSheet();
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
-
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
 
 #endif // CL_FX_SHEET_H
 

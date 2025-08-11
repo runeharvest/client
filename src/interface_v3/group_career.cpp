@@ -18,15 +18,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 #include "group_career.h"
 #include "interface_manager.h"
 #include "nel/gui/interface_element.h"
 
-//#include "game_share/jobs.h"
+// #include "game_share/jobs.h"
 #include "nel/misc/xml_auto_ptr.h"
 
 using namespace std;
@@ -35,106 +33,101 @@ NLMISC_REGISTER_OBJECT(CViewBase, CGroupCareer, std::string, "career");
 NLMISC_REGISTER_OBJECT(CViewBase, CGroupJob, std::string, "job");
 
 // ***************************************************************************
-bool CGroupCareer::parse (xmlNodePtr cur, CInterfaceGroup *parentGroup)
-{
-	if(!CGroupContainer::parse(cur, parentGroup))
-		return false;
+bool CGroupCareer::parse(xmlNodePtr cur, CInterfaceGroup *parentGroup) {
+  if (!CGroupContainer::parse(cur, parentGroup))
+    return false;
 
-	CXMLAutoPtr ptr((const char*) xmlGetProp (cur, (xmlChar*)"career"));
+  CXMLAutoPtr ptr((const char *)xmlGetProp(cur, (xmlChar *)"career"));
 
-	uint careerIndex;
-	ROLES::ERole Career;
+  uint careerIndex;
+  ROLES::ERole Career;
 
-	if (ptr)
-	{
-		NLMISC::fromString((const char*)ptr, careerIndex);
-		Career= (ROLES::ERole) careerIndex;
-		if(Career==ROLES::role_unknown)
-		{
-			nlinfo ("unknown career %s in %s", (const char*)ptr, _Id.c_str());
-			return false;
-		}
-	}
-	else
-	{
-		nlinfo ("no career in %s", _Id.c_str());
-		return false;
-	}
+  if (ptr) {
+    NLMISC::fromString((const char *)ptr, careerIndex);
+    Career = (ROLES::ERole)careerIndex;
+    if (Career == ROLES::role_unknown) {
+      nlinfo("unknown career %s in %s", (const char *)ptr, _Id.c_str());
+      return false;
+    }
+  } else {
+    nlinfo("no career in %s", _Id.c_str());
+    return false;
+  }
 
-	if (Career >= ROLES::NB_ROLES)
-		Career = ROLES::fighter;
+  if (Career >= ROLES::NB_ROLES)
+    Career = ROLES::fighter;
 
-	string sTmp = ROLES::roleToUCString(Career);
-	for (uint32 i= 0; i < sTmp.size(); ++i)
-		if (sTmp[i] < 128)
-			if ( (sTmp[i] >= 'a') && (sTmp[i] <= 'z') )
-				sTmp[i] = sTmp[i] - 'a' + 'A';
+  string sTmp = ROLES::roleToUCString(Career);
+  for (uint32 i = 0; i < sTmp.size(); ++i)
+    if (sTmp[i] < 128)
+      if ((sTmp[i] >= 'a') && (sTmp[i] <= 'z'))
+        sTmp[i] = sTmp[i] - 'a' + 'A';
 
-	setTitle (sTmp);
+  setTitle(sTmp);
 
-	return true;
+  return true;
 }
 
 // ***************************************************************************
-bool CGroupJob::parse (xmlNodePtr /* cur */, CInterfaceGroup * /* parentGroup */)
-{
-	return false;
+bool CGroupJob::parse(xmlNodePtr /* cur */,
+                      CInterfaceGroup * /* parentGroup */) {
+  return false;
 
-//	if(!CGroupContainer::parse(cur, parentGroup))
-//		return false;
-//
-//	CXMLAutoPtr ptr = (char*) xmlGetProp (cur, (xmlChar*)"career");
-//
-//	if (ptr == NULL)
-//		return false;
-//
-//	uint careerIndex, jobIndex;
-//	ROLES::ERole Career;
-//	JOBS::TJob Job;
-//
-//	if (ptr)
-//	{
-//		fromString((const char*)ptr, careerIndex);
-//		Career= (ROLES::ERole) careerIndex;
-//		if(Career==ROLES::role_unknown)
-//		{
-//			nlinfo ("unknown career %s in %s", (const char*)ptr, _Id.c_str());
-//			return false;
-//		}
-//	}
-//	else
-//	{
-//		nlinfo ("no career in %s", _Id.c_str());
-//		return false;
-//	}
-//
-//	// get job
-//	ptr = xmlGetProp (cur, (xmlChar*)"job");
-//	if (ptr)
-//	{
-//		fromString((const char*)ptr, jobIndex);
-//		if(jobIndex==-1)
-//			Job= JOBS::All;
-//		else
-//			Job= JOBS::getJobForRace((ROLES::ERole)careerIndex, (EGSPD::CPeople::TPeople)jobIndex);
-//		if(Job==JOBS::Unknown)
-//		{
-//			nlinfo ("unknown job %s in %s", (const char*)ptr, _Id.c_str());
-//			return false;
-//		}
-//	}
-//	else
-//	{
-//		nlinfo ("no job in %s", _Id.c_str());
-//		return false;
-//	}
-//
-//	string sTmp = JOBS::jobToUCString(Job);
-//	for (uint32 i= 0; i < sTmp.size(); ++i)
-//		if (sTmp[i] < 128)
-//			if ( (sTmp[i] >= 'a') && (sTmp[i] <= 'z') )
-//				sTmp[i] = sTmp[i] - 'a' + 'A';
-//	seUCTitle (sTmp);
-//
-//	return true;
+  //	if(!CGroupContainer::parse(cur, parentGroup))
+  //		return false;
+  //
+  //	CXMLAutoPtr ptr = (char*) xmlGetProp (cur, (xmlChar*)"career");
+  //
+  //	if (ptr == NULL)
+  //		return false;
+  //
+  //	uint careerIndex, jobIndex;
+  //	ROLES::ERole Career;
+  //	JOBS::TJob Job;
+  //
+  //	if (ptr)
+  //	{
+  //		fromString((const char*)ptr, careerIndex);
+  //		Career= (ROLES::ERole) careerIndex;
+  //		if(Career==ROLES::role_unknown)
+  //		{
+  //			nlinfo ("unknown career %s in %s", (const char*)ptr,
+  //_Id.c_str()); 			return false;
+  //		}
+  //	}
+  //	else
+  //	{
+  //		nlinfo ("no career in %s", _Id.c_str());
+  //		return false;
+  //	}
+  //
+  //	// get job
+  //	ptr = xmlGetProp (cur, (xmlChar*)"job");
+  //	if (ptr)
+  //	{
+  //		fromString((const char*)ptr, jobIndex);
+  //		if(jobIndex==-1)
+  //			Job= JOBS::All;
+  //		else
+  //			Job= JOBS::getJobForRace((ROLES::ERole)careerIndex,
+  //(EGSPD::CPeople::TPeople)jobIndex); 		if(Job==JOBS::Unknown)
+  //		{
+  //			nlinfo ("unknown job %s in %s", (const char*)ptr,
+  //_Id.c_str()); 			return false;
+  //		}
+  //	}
+  //	else
+  //	{
+  //		nlinfo ("no job in %s", _Id.c_str());
+  //		return false;
+  //	}
+  //
+  //	string sTmp = JOBS::jobToUCString(Job);
+  //	for (uint32 i= 0; i < sTmp.size(); ++i)
+  //		if (sTmp[i] < 128)
+  //			if ( (sTmp[i] >= 'a') && (sTmp[i] <= 'z') )
+  //				sTmp[i] = sTmp[i] - 'a' + 'A';
+  //	seUCTitle (sTmp);
+  //
+  //	return true;
 }

@@ -19,15 +19,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_GROUP_HTML_CS_H
 #define CL_GROUP_HTML_CS_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/gui/group_html.h"
-
+#include "nel/misc/types_nl.h"
 
 /**
  * Forum HTML group
@@ -35,31 +31,26 @@
  * \author Nevrax France
  * \date 2002
  */
-class CGroupHTMLCS : public CGroupHTML
-{
+class CGroupHTMLCS : public CGroupHTML {
 public:
+  // Constructor
+  CGroupHTMLCS(const TCtorParam &param);
+  ~CGroupHTMLCS();
 
-	// Constructor
-	CGroupHTMLCS(const TCtorParam &param);
-	~CGroupHTMLCS();
-
-	// From CGroupHTML
-	virtual void addHTTPGetParams (std::string &url, bool trustedDomain);
-	virtual void addHTTPPostParams (SFormFields &formfields, bool trustedDomain);
-	virtual std::string	home() const NL_OVERRIDE;
+  // From CGroupHTML
+  virtual void addHTTPGetParams(std::string &url, bool trustedDomain);
+  virtual void addHTTPPostParams(SFormFields &formfields, bool trustedDomain);
+  virtual std::string home() const NL_OVERRIDE;
 
 private:
-
-	struct CParameter
-	{
-		std::string Name;
-		std::string Value;
-	};
-	void getParameters(std::vector<CParameter> &parameters, bool encodeForUrl);
+  struct CParameter {
+    std::string Name;
+    std::string Value;
+  };
+  void getParameters(std::vector<CParameter> &parameters, bool encodeForUrl);
 };
 
 // convert an ascii string to a valid url param string
 std::string convertToHTML(const std::string &s);
 
 #endif
-

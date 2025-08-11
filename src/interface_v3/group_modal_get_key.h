@@ -17,15 +17,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RZ_GROUP_MODAL_GET_KEY_H
 #define RZ_GROUP_MODAL_GET_KEY_H
 
-#include "nel/misc/types_nl.h"
 #include "../actions.h" // CLIENT
 #include "nel/gui/group_modal.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /**
@@ -34,22 +31,19 @@
  * \author Nevrax France
  * \date 2003
  */
-class CGroupModalGetKey : public CGroupModal
-{
+class CGroupModalGetKey : public CGroupModal {
 public:
+  /// Constructor
+  CGroupModalGetKey(const TCtorParam &param);
 
-	/// Constructor
-	CGroupModalGetKey(const TCtorParam &param);
+  virtual bool handleEvent(const NLGUI::CEventDescriptor &event);
 
-	virtual bool handleEvent (const NLGUI::CEventDescriptor &event);
-
-	virtual void setActive(bool state);
+  virtual void setActive(bool state);
 
 public:
-	CCombo		Combo;
-	std::string Caller;
+  CCombo Combo;
+  std::string Caller;
 };
-
 
 #endif // RZ_GROUP_MODAL_GET_KEY_H
 

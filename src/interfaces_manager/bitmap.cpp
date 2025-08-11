@@ -14,9 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "stdpch.h"
-
 
 //////////////
 // Includes //
@@ -27,8 +25,8 @@
 
 // Client.
 #include "bitmap.h"
-#include "interfaces_manager.h"
 #include "graphic.h"
+#include "interfaces_manager.h"
 
 ///////////
 // Using //
@@ -36,17 +34,14 @@
 using namespace NL3D;
 using namespace std;
 
-
 /////////////
 // Externs //
 /////////////
-extern UDriver	*Driver;
-
+extern UDriver *Driver;
 
 /////////////
 // Globals //
 /////////////
-
 
 ///////////////
 // Functions //
@@ -55,69 +50,60 @@ extern UDriver	*Driver;
 // CBitm :
 // Constructor.
 //-----------------------------------------------
-CBitm::CBitm(uint id)
-: CControl(id)
-{
-	init();
-}// CBitm //
+CBitm::CBitm(uint id) : CControl(id) { init(); } // CBitm //
 
 //-----------------------------------------------
 // CBitm :
 // Constructor.
 //-----------------------------------------------
-CBitm::CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, const CBitmapBase &bitmapBase)
-: CControl(id, x, y, x_pixel, y_pixel, w, h, w_pixel, h_pixel), CBitmapBase(bitmapBase)
-{
-	init();
-}// CBitm //
+CBitm::CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+             float h, float w_pixel, float h_pixel,
+             const CBitmapBase &bitmapBase)
+    : CControl(id, x, y, x_pixel, y_pixel, w, h, w_pixel, h_pixel),
+      CBitmapBase(bitmapBase) {
+  init();
+} // CBitm //
 
 //-----------------------------------------------
 // CBitm :
 // Constructor.
 //-----------------------------------------------
-CBitm::CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint texture, const CRGBA &rgba)
-: CControl(id, x, y, x_pixel, y_pixel, w, h, w_pixel, h_pixel), CBitmapBase(texture, rgba)
-{
-	init();
-}// CBitm //
-
+CBitm::CBitm(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+             float h, float w_pixel, float h_pixel, uint texture,
+             const CRGBA &rgba)
+    : CControl(id, x, y, x_pixel, y_pixel, w, h, w_pixel, h_pixel),
+      CBitmapBase(texture, rgba) {
+  init();
+} // CBitm //
 
 //-----------------------------------------------
 // init :
 // Initialize the button (1 function called for all constructors -> easier).
 //-----------------------------------------------
-void CBitm::init()
-{
-}// init //
-
-
+void CBitm::init() {} // init //
 
 //-----------------------------------------------
 // display :
 // Display the Button.
 //-----------------------------------------------
-void CBitm::display()
-{
-	// If the control is hide -> return
-	if(!_Show)
-		return;
+void CBitm::display() {
+  // If the control is hide -> return
+  if (!_Show)
+    return;
 
-	// Draw the Bitmap.
-	if ( _Tiled && !_TexturePath.empty() )
-	{
-		uint32 w, h;
-		CInterfMngr::getWindowSize(w, h);
-		drawBitmapTiled( Driver,_X_Display, _Y_Display, _W_Display, _H_Display, w, h, *_Texture, _TextureWidth, _TextureHeight, true, _RGBA);
-	}
-	else if (_Texture != NULL)
-	{
-		Driver->drawBitmap(_X_Display, _Y_Display, _W_Display, _H_Display, *_Texture, true, _RGBA);
-	}
-	else
-	{
-		Driver->drawQuad(_X_Display, _Y_Display, _W_Display, _H_Display, _RGBA);
-	}
+  // Draw the Bitmap.
+  if (_Tiled && !_TexturePath.empty()) {
+    uint32 w, h;
+    CInterfMngr::getWindowSize(w, h);
+    drawBitmapTiled(Driver, _X_Display, _Y_Display, _W_Display, _H_Display, w,
+                    h, *_Texture, _TextureWidth, _TextureHeight, true, _RGBA);
+  } else if (_Texture != NULL) {
+    Driver->drawBitmap(_X_Display, _Y_Display, _W_Display, _H_Display,
+                       *_Texture, true, _RGBA);
+  } else {
+    Driver->drawQuad(_X_Display, _Y_Display, _W_Display, _H_Display, _RGBA);
+  }
 
-//	Driver->drawBitmap(_X_Display, _Y_Display, _W_Display, _H_Display, *texture, true, _RGBA);
-}// display //
-
+  //	Driver->drawBitmap(_X_Display, _Y_Display, _W_Display, _H_Display,
+  //*texture, true, _RGBA);
+} // display //

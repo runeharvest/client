@@ -14,11 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "user_agent.h"
 #include "client_cfg.h"
+#include "stdpch.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -51,89 +49,68 @@
 #define new DEBUG_NEW
 #endif
 
-std::string getUserAgent()
-{
-	return getUserAgentName() + "/" + getUserAgentVersion();
+std::string getUserAgent() {
+  return getUserAgentName() + "/" + getUserAgentVersion();
 }
 
-std::string getUserAgentName()
-{
-	return "Ryzom";
+std::string getUserAgentName() { return "Ryzom"; }
+
+std::string getUserAgentVersion() {
+  static std::string s_userAgent;
+
+  if (s_userAgent.empty()) {
+    s_userAgent =
+        NLMISC::toString("%s-%s-%s", RYZOM_VERSION, RYZOM_SYSTEM, RYZOM_ARCH);
+  }
+
+  return s_userAgent;
 }
 
-std::string getUserAgentVersion()
-{
-	static std::string s_userAgent;
+std::string getVersion() { return RYZOM_VERSION; }
 
-	if (s_userAgent.empty())
-	{
-		s_userAgent = NLMISC::toString("%s-%s-%s", RYZOM_VERSION, RYZOM_SYSTEM, RYZOM_ARCH);
-	}
+std::string getDisplayVersion() {
+  static std::string s_version;
 
-	return s_userAgent;
-}
-
-std::string getVersion()
-{
-	return RYZOM_VERSION;
-}
-
-std::string getDisplayVersion()
-{
-	static std::string s_version;
-
-	if (s_version.empty())
-	{
+  if (s_version.empty()) {
 #if FINAL_VERSION
-		s_version = "FV ";
+    s_version = "FV ";
 #else
-		s_version = "DEV ";
+    s_version = "DEV ";
 #endif
-		if (ClientCfg.ExtendedCommands) s_version += "_E";
+    if (ClientCfg.ExtendedCommands)
+      s_version += "_E";
 
-		s_version += getVersion();
-	}
+    s_version += getVersion();
+  }
 
-	return s_version;
+  return s_version;
 }
 
-std::string getDebugVersion()
-{
-	static std::string s_version;
+std::string getDebugVersion() {
+  static std::string s_version;
 
-	if (s_version.empty())
-	{
-		s_version = getDisplayVersion();
+  if (s_version.empty()) {
+    s_version = getDisplayVersion();
 #ifdef BUILD_DATE
-		s_version += NLMISC::toString(" (%s)", BUILD_DATE);
+    s_version += NLMISC::toString(" (%s)", BUILD_DATE);
 #else
-		s_version += NLMISC::toString(" (%s %s)", __DATE__, __TIME__);
+    s_version += NLMISC::toString(" (%s %s)", __DATE__, __TIME__);
 #endif
-	}
+  }
 
-	return s_version;
+  return s_version;
 }
 
-bool isStereoAvailable()
-{
+bool isStereoAvailable() {
 #ifdef NL_STEREO_AVAILABLE
-	return true;
+  return true;
 #else
-	return false;
+  return false;
 #endif
 }
 
-std::string getRyzomClientIcon()
-{
-	return RYZOM_CLIENT_ICON;
-}
+std::string getRyzomClientIcon() { return RYZOM_CLIENT_ICON; }
 
-std::string getRyzomEtcPrefix()
-{
-	return RYZOM_ETC_PREFIX;
-}
+std::string getRyzomEtcPrefix() { return RYZOM_ETC_PREFIX; }
 
-std::string getRyzomSharePrefix()
-{
-	return RYZOM_SHARE_PREFIX;
-}
+std::string getRyzomSharePrefix() { return RYZOM_SHARE_PREFIX; }

@@ -14,21 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ANIMATION_FX_MISC_H
 #define CL_ANIMATION_FX_MISC_H
 
 class CAnimationFXIDArray;
 
 // misc. anim fxs
-enum
-{
-	AnimFXRangeWeaponImpact1 = 0,
-	AnimFXRangeWeaponImpact2 = 1,
-	AnimFXRangeWeaponImpact3 = 2,
-	AnimFXRangeWeaponImpact4 = 3,
-	AnimFXRangeWeaponImpact5 = 4,
+enum {
+  AnimFXRangeWeaponImpact1 = 0,
+  AnimFXRangeWeaponImpact2 = 1,
+  AnimFXRangeWeaponImpact3 = 2,
+  AnimFXRangeWeaponImpact4 = 3,
+  AnimFXRangeWeaponImpact5 = 4,
 };
 
 // gather various animation fx used in various places

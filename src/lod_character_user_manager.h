@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_LOD_CHARACTER_USER_MANAGER_H
 #define NL_LOD_CHARACTER_USER_MANAGER_H
 
 #include "nel/misc/types_nl.h"
 #include <map>
-
 
 // ***************************************************************************
 /**
@@ -31,30 +28,25 @@
  * \author Nevrax France
  * \date 2002
  */
-class CLodCharacterUserManager
-{
+class CLodCharacterUserManager {
 public:
+  /// Constructor
+  CLodCharacterUserManager();
 
-	/// Constructor
-	CLodCharacterUserManager();
+  /** init, reseting manager, and loading default shapeBank
+   *	It load and setup "homins.lod_character_desc" too
+   */
+  void init();
 
-	/** init, reseting manager, and loading default shapeBank
-	 *	It load and setup "homins.lod_character_desc" too
-	 */
-	void			init();
+  /// Add a .clodbank. nlwarning and return false if not found. Added to
+  /// "Scene".
+  bool addLodShapeBank(const std::string &filename);
 
-	/// Add a .clodbank. nlwarning and return false if not found. Added to "Scene".
-	bool			addLodShapeBank(const std::string &filename);
-
-
-// *****************
+  // *****************
 private:
-
 };
 
-
-extern	CLodCharacterUserManager	LodCharacterUserManager;
-
+extern CLodCharacterUserManager LodCharacterUserManager;
 
 #endif // NL_LOD_CHARACTER_USER_MANAGER_H
 

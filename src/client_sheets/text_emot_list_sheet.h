@@ -22,8 +22,8 @@
 /////////////
 #include "nel/misc/types_nl.h"
 
-#include "entity_sheet.h"
 #include "animation_set_list_sheet.h"
+#include "entity_sheet.h"
 
 /////////////
 // CLASSES //
@@ -34,52 +34,46 @@
  * \author Nevrax France
  * \date April 2004
  */
-class CTextEmotListSheet : public CEntitySheet
-{
+class CTextEmotListSheet : public CEntitySheet {
 public:
+  struct STextEmot {
+    std::string Path;
+    std::string Anim;
+    std::string EmoteId;
+    std::string FXToSpawn;
+    float FXSpawnDelay;
+    float FXSpawnDist;
+    bool UsableFromClientUI;
 
-	struct STextEmot
-	{
-		std::string Path;
-		std::string Anim;
-		std::string EmoteId;
-		std::string FXToSpawn;
-		float		FXSpawnDelay;
-		float		FXSpawnDist;
-		bool		UsableFromClientUI;
+    STextEmot() {
+      FXSpawnDelay = 0.f;
+      FXSpawnDist = 0.5f;
+      UsableFromClientUI = true;
+    }
 
-		STextEmot()
-		{
-			FXSpawnDelay = 0.f;
-			FXSpawnDist  = 0.5f;
-			UsableFromClientUI = true;
-		}
+    void serial(NLMISC::IStream &f) {
+      f.serial(Path);
+      f.serial(Anim);
+      f.serial(EmoteId);
+      f.serial(FXToSpawn);
+      f.serial(FXSpawnDelay);
+      f.serial(FXSpawnDist);
+      f.serial(UsableFromClientUI);
+    }
+  };
 
-		void serial(NLMISC::IStream &f)
-		{
-			f.serial(Path);
-			f.serial(Anim);
-			f.serial(EmoteId);
-			f.serial(FXToSpawn);
-			f.serial(FXSpawnDelay);
-			f.serial(FXSpawnDist);
-			f.serial(UsableFromClientUI);
-		}
-	};
-
-	std::vector<STextEmot> TextEmotList;
+  std::vector<STextEmot> TextEmotList;
 
 public:
-	/// Constructor
-	CTextEmotListSheet();
+  /// Constructor
+  CTextEmotListSheet();
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// Serialize sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
 
 #endif // CL_TEXT_EMOT_LIST_SHEET_H
 

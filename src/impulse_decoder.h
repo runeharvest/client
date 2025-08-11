@@ -14,19 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_IMPULSE_DECODER_H
 #define NL_IMPULSE_DECODER_H
 
 #include <vector>
 
-#include "nel/misc/types_nl.h"
 #include "nel/misc/bit_mem_stream.h"
+#include "nel/misc/types_nl.h"
 
 #include "game_share/action.h"
 #include "game_share/entity_types.h"
-
 
 /**
  * <Class description>
@@ -34,26 +31,26 @@
  * \author Nevrax France
  * \date 2001
  */
-class CImpulseDecoder
-{
+class CImpulseDecoder {
 private:
-	CLFECOMMON::TPacketNumber	_LastAck0[1];
-	CLFECOMMON::TPacketNumber	_LastAck1[2];
-	CLFECOMMON::TPacketNumber	_LastAck2[4];
+  CLFECOMMON::TPacketNumber _LastAck0[1];
+  CLFECOMMON::TPacketNumber _LastAck1[2];
+  CLFECOMMON::TPacketNumber _LastAck2[4];
 
 public:
+  /// Constructor
+  CImpulseDecoder();
 
-	/// Constructor
-	CImpulseDecoder();
+  ///
+  void decode(NLMISC::CBitMemStream &inbox,
+              CLFECOMMON::TPacketNumber receivedPacket,
+              CLFECOMMON::TPacketNumber receivedAck,
+              CLFECOMMON::TPacketNumber nextSentPacket,
+              std::vector<CLFECOMMON::CAction *> &actions);
 
-
-	///
-	void		decode(NLMISC::CBitMemStream &inbox, CLFECOMMON::TPacketNumber receivedPacket, CLFECOMMON::TPacketNumber receivedAck, CLFECOMMON::TPacketNumber nextSentPacket, std::vector<CLFECOMMON::CAction *> &actions);
-
-	///
-	void		reset();
+  ///
+  void reset();
 };
-
 
 #endif // NL_IMPULSE_DECODER_H
 

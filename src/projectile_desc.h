@@ -14,37 +14,30 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_PROJECTILE_DESC_H
 #define CL_PROJECTILE_DESC_H
 
-
-
 /** Description of a projectile
-  *
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2003
-  */
+ *
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2003
+ */
 /*
 class CProjectileDesc
 {
 public:
-	CAnimationFXSet Projectile;
-	CFXStickMode	ProjectileImpact;
-	float			ProjectileDelay; // delay before the projectile is thrown (may not be thrown at start of anim)
-	CAnimationFXSet Impact;
-public:
-	/// Build the fx from an external script.
-	void build(const NLGEORGES::UFormElm &item);
-	/// Serialize a CAnimationFXSheet.
-	void serial(NLMISC::IStream &f);
-	// build tracks for fxs, loading animation as necessary using the given animation set
-	void buildTrack(NL3D::UAnimationSet *as);
+        CAnimationFXSet Projectile;
+        CFXStickMode	ProjectileImpact;
+        float			ProjectileDelay; // delay before the projectile
+is thrown (may not be thrown at start of anim) CAnimationFXSet Impact; public:
+        /// Build the fx from an external script.
+        void build(const NLGEORGES::UFormElm &item);
+        /// Serialize a CAnimationFXSheet.
+        void serial(NLMISC::IStream &f);
+        // build tracks for fxs, loading animation as necessary using the given
+animation set void buildTrack(NL3D::UAnimationSet *as);
 };
 */
-
-
 
 #endif

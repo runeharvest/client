@@ -14,42 +14,38 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ANIMATION_FX_SET_SHEET_H
 #define CL_ANIMATION_FX_SET_SHEET_H
-
 
 #include "animation_fx_set_sheet.h"
 #include "animation_fx_sheet.h"
 #include "entity_sheet.h"
 
 /** A set of anim fx
-  * This class allow to inherit an array of fx in georges (otherwise a simple vector would have been sufficient)
-  *
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2003
-  */
-class CAnimationFXSetSheet : public CEntitySheet
-{
+ * This class allow to inherit an array of fx in georges (otherwise a simple
+ * vector would have been sufficient)
+ *
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2003
+ */
+class CAnimationFXSetSheet : public CEntitySheet {
 public:
-	enum { MaxNumFX = 4 };
-	std::vector<CAnimationFXSheet> FX;
-	bool						   CanReplaceStickMode[MaxNumFX];
-	bool						   CanReplaceStickBone[MaxNumFX];
+  enum { MaxNumFX = 4 };
+  std::vector<CAnimationFXSheet> FX;
+  bool CanReplaceStickMode[MaxNumFX];
+  bool CanReplaceStickBone[MaxNumFX];
+
 public:
-	// ctor
-	CAnimationFXSetSheet();
-	/// Build the fx from an external script.
-	void buildWithPrefix(const NLGEORGES::UFormElm &item, const std::string &prefix = "");
-	// from CEntitySheet
-	void build(const NLGEORGES::UFormElm &item);
-	/// Serialize sheet into binary data file.
-	void serial(NLMISC::IStream &f);
+  // ctor
+  CAnimationFXSetSheet();
+  /// Build the fx from an external script.
+  void buildWithPrefix(const NLGEORGES::UFormElm &item,
+                       const std::string &prefix = "");
+  // from CEntitySheet
+  void build(const NLGEORGES::UFormElm &item);
+  /// Serialize sheet into binary data file.
+  void serial(NLMISC::IStream &f);
 };
-
-
-
 
 #endif

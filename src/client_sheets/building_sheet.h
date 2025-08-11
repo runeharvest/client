@@ -14,17 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BUILDING_SHEET_H
 #define CL_BUILDING_SHEET_H
 
 /////////////
 // INCLUDE //
 /////////////
-#include "nel/misc/types_nl.h"
 #include "entity_sheet.h"
-
+#include "nel/misc/types_nl.h"
 
 ///////////
 // CLASS //
@@ -35,29 +32,26 @@
  * \author Nevrax France
  * \date 2002
  */
-class CBuildingSheet : public CEntitySheet
-{
+class CBuildingSheet : public CEntitySheet {
 public:
+  // todo hulud add ig for others states
 
-	// todo hulud add ig for others states
-
-	/// Name of the ig for builded state
-	std::string		BuildedIg;
-	std::string		BuildedIcon;
-	std::string		BuildingIcon;
-	std::string		Name;
+  /// Name of the ig for builded state
+  std::string BuildedIg;
+  std::string BuildedIcon;
+  std::string BuildingIcon;
+  std::string Name;
 
 public:
-	/// Constructor
-	CBuildingSheet();
+  /// Constructor
+  CBuildingSheet();
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
 
 #endif // CL_BUILDING_SHEET_H
 

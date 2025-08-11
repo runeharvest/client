@@ -18,11 +18,9 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-extern "C" 
-{
-	#include "lua.h" 
-} 
-
+extern "C" {
+#include "lua.h"
+}
 
 #if !defined(AFX_LUAHELPER_H__FE39E254_5793_42CE_B1CA_C38E7437E9AD__INCLUDED_)
 #define AFX_LUAHELPER_H__FE39E254_5793_42CE_B1CA_C38E7437E9AD__INCLUDED_
@@ -31,58 +29,57 @@ extern "C"
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 struct lua_State;
 struct Proto;
 struct lua_Debug;
 
-class CLuaHelper  
-{
+class CLuaHelper {
 public:
-	void SetExternalDebugging() { m_ExternalDebugging = true; }
-	void RestoreGlobals();
-	void CoverGlobals();
-	void Describe(char* szRet, int nIndex);
-	BOOL Eval(const char* szCode, char* szRet);
-	BOOL CheckSyntax(const CString &code, CString &errors);
-	BOOL GetCalltip(const char *szWord, char *szCalltip);
-	void DrawGlobalVariables();
-	void DrawLocalVariables();
-	const char* GetSource();
+  void SetExternalDebugging() { m_ExternalDebugging = true; }
+  void RestoreGlobals();
+  void CoverGlobals();
+  void Describe(char *szRet, int nIndex);
+  BOOL Eval(const char *szCode, char *szRet);
+  BOOL CheckSyntax(const CString &code, CString &errors);
+  BOOL GetCalltip(const char *szWord, char *szCalltip);
+  void DrawGlobalVariables();
+  void DrawLocalVariables();
+  const char *GetSource();
 
-	static BOOL ErrorStringToFileLine(CString strError, CString &strPathName, int &nLine);
-	static BOOL LoadDebugLines(CProjectFile* pPF);
+  static BOOL ErrorStringToFileLine(CString strError, CString &strPathName,
+                                    int &nLine);
+  static BOOL LoadDebugLines(CProjectFile *pPF);
 
-	CLuaHelper();
-	virtual ~CLuaHelper();
+  CLuaHelper();
+  virtual ~CLuaHelper();
 
-// debugger functions
-	BOOL PrepareDebugger(lua_realloc_t reallocfunc, lua_free_t freefunc);
-	BOOL StartDebugger();	
-	void StopDebugger();
+  // debugger functions
+  BOOL PrepareDebugger(lua_realloc_t reallocfunc, lua_free_t freefunc);
+  BOOL StartDebugger();
+  void StopDebugger();
 
-	void DrawStackTrace();
+  void DrawStackTrace();
 
-	lua_State* GetState() { return L; };
+  lua_State *GetState() { return L; };
 
-	void Free();
+  void Free();
 
 protected:
-	static CLuaHelper* m_pThis;
+  static CLuaHelper *m_pThis;
 
-	static int OutputTop(lua_State* L);
-	static int errormessage(lua_State* L);
-	static int lua_loadlib(lua_State* L);
-	static void line_hook (lua_State *L, lua_Debug *ar);
-	static void func_hook (lua_State *L, lua_Debug *ar);
-	static void hook (lua_State *L, lua_Debug *ar);
+  static int OutputTop(lua_State *L);
+  static int errormessage(lua_State *L);
+  static int lua_loadlib(lua_State *L);
+  static void line_hook(lua_State *L, lua_Debug *ar);
+  static void func_hook(lua_State *L, lua_Debug *ar);
+  static void hook(lua_State *L, lua_Debug *ar);
 
-	lua_State* L;
-	lua_Debug* m_pAr;
-	HMODULE m_hLoaded[8192];
-	int m_nLoaded;
+  lua_State *L;
+  lua_Debug *m_pAr;
+  HMODULE m_hLoaded[8192];
+  int m_nLoaded;
 
-	bool m_ExternalDebugging;
+  bool m_ExternalDebugging;
 };
 
 #endif // !defined(AFX_LUAHELPER_H__FE39E254_5793_42CE_B1CA_C38E7437E9AD__INCLUDED_)

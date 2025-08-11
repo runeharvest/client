@@ -17,7 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef CL_LOGIN_H
 #define CL_LOGIN_H
 
@@ -26,38 +25,37 @@
 #include <string>
 #include <vector>
 
-struct CShard
-{
-	CShard(const std::string &version, bool online, uint32 shardId, const std::string &name, uint32 nbPlayers, const std::string &wsAddr, const std::string &emergencyPatchURL)
-	{
-		Version		= version;
-		Online		= online;
-		ShardId		= shardId;
-		Name		= name;
-		NbPlayers	= nbPlayers;
-		WsAddr		= wsAddr;
-		EmergencyPatchURL	= emergencyPatchURL;
-	}
+struct CShard {
+  CShard(const std::string &version, bool online, uint32 shardId,
+         const std::string &name, uint32 nbPlayers, const std::string &wsAddr,
+         const std::string &emergencyPatchURL) {
+    Version = version;
+    Online = online;
+    ShardId = shardId;
+    Name = name;
+    NbPlayers = nbPlayers;
+    WsAddr = wsAddr;
+    EmergencyPatchURL = emergencyPatchURL;
+  }
 
-	std::string Version;
-	bool		Online;
-	uint32		ShardId;
-	std::string Name;
-	uint32		NbPlayers;
-	std::string WsAddr;
-	std::vector<std::string>	PatchURIs;
-	std::string EmergencyPatchURL;
+  std::string Version;
+  bool Online;
+  uint32 ShardId;
+  std::string Name;
+  uint32 NbPlayers;
+  std::string WsAddr;
+  std::vector<std::string> PatchURIs;
+  std::string EmergencyPatchURL;
 };
 
 extern std::string LoginLogin, LoginPassword, LoginCustomParameters;
 extern uint32 LoginShardId;
 
-
 extern uint32 AvailablePatchs;
 
-
-
-std::string checkLogin(const std::string &login, const std::string &password, const std::string &clientApp, const std::string &customParameters = "");
+std::string checkLogin(const std::string &login, const std::string &password,
+                       const std::string &clientApp,
+                       const std::string &customParameters = "");
 std::string selectShard(uint32 shardId, std::string &cookie, std::string &addr);
 std::string getBGDownloaderCommandLine();
 
@@ -69,19 +67,18 @@ void loginIntro();
 void mainLandPatch();
 
 extern std::vector<CShard> Shards;
-extern sint32		ShardSelected;
+extern sint32 ShardSelected;
 
-// TODO : nico : put this in an external file, this way it isn't included by the background downloader
+// TODO : nico : put this in an external file, this way it isn't included by the
+// background downloader
 #ifndef RY_BG_DOWNLOADER
 
 /*
  * HTTP client preconfigured to connect to the startup login host
  */
-class CStartupHttpClient : public NLWEB::CCurlHttpClient
-{
+class CStartupHttpClient : public NLWEB::CCurlHttpClient {
 public:
-
-	bool connectToLogin();
+  bool connectToLogin();
 };
 
 extern CStartupHttpClient HttpClient;

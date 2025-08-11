@@ -17,9 +17,9 @@
 // GotoLine.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "ide2.h"
 #include "GotoLine.h"
+#include "ide2.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,41 +30,34 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CGotoLine dialog
 
-
-CGotoLine::CGotoLine(CWnd* pParent /*=NULL*/)
-	: CDialog(CGotoLine::IDD, pParent)
-{
-	//{{AFX_DATA_INIT(CGotoLine)
-	m_Line = 0;
-	//}}AFX_DATA_INIT
+CGotoLine::CGotoLine(CWnd *pParent /*=NULL*/)
+    : CDialog(CGotoLine::IDD, pParent) {
+  //{{AFX_DATA_INIT(CGotoLine)
+  m_Line = 0;
+  //}}AFX_DATA_INIT
 }
 
-
-void CGotoLine::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CGotoLine)
-	DDX_Control(pDX, IDC_LINE, m_LineCtrl);
-	DDX_Text(pDX, IDC_LINE, m_Line);
-	//}}AFX_DATA_MAP
+void CGotoLine::DoDataExchange(CDataExchange *pDX) {
+  CDialog::DoDataExchange(pDX);
+  //{{AFX_DATA_MAP(CGotoLine)
+  DDX_Control(pDX, IDC_LINE, m_LineCtrl);
+  DDX_Text(pDX, IDC_LINE, m_Line);
+  //}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(CGotoLine, CDialog)
-	//{{AFX_MSG_MAP(CGotoLine)
-	ON_WM_SHOWWINDOW()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CGotoLine)
+ON_WM_SHOWWINDOW()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CGotoLine message handlers
 
-void CGotoLine::OnShowWindow(BOOL bShow, UINT nStatus) 
-{
-	CDialog::OnShowWindow(bShow, nStatus);
-	if (bShow)
-	{
-		m_LineCtrl.SetSel(0, -1);
-		m_LineCtrl.SetFocus();
-	}
+void CGotoLine::OnShowWindow(BOOL bShow, UINT nStatus) {
+  CDialog::OnShowWindow(bShow, nStatus);
+  if (bShow) {
+    m_LineCtrl.SetSel(0, -1);
+    m_LineCtrl.SetFocus();
+  }
 }

@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_CONTINENT_MANAGER_H
 #define CL_CONTINENT_MANAGER_H
-
 
 /////////////
 // INCLUDE //
@@ -26,9 +23,9 @@
 // Misc
 #include "nel/misc/types_nl.h"
 // std.
-#include <vector>
 #include <map>
 #include <string>
+#include <vector>
 // client
 #include "continent.h"
 // client sheets
@@ -38,16 +35,14 @@
 // CLASS //
 ///////////
 
-namespace NLMISC
-{
-	class CVectorD;
-	class CVector;
-	class IProgressCallback;
-}
+namespace NLMISC {
+class CVectorD;
+class CVector;
+class IProgressCallback;
+} // namespace NLMISC
 
-namespace NLGEORGES
-{
-	class UFormElm;
+namespace NLGEORGES {
+class UFormElm;
 }
 
 class CContinent;
@@ -60,100 +55,101 @@ struct CFogState;
  * \date 2001
  * \warning When you modify this class be sure _Current is always valid.
  */
-class CContinentManager
-{
+class CContinentManager {
 public:
-	/// Constructor
-	CContinentManager();
+  /// Constructor
+  CContinentManager();
 
-	/// preload continent sheets
-	void preloadSheets();
+  /// preload continent sheets
+  void preloadSheets();
 
-	/// Load & setup all continent.
-	void load();
+  /// Load & setup all continent.
+  void load();
 
-	// reset all datas
-	void reset();
+  // reset all datas
+  void reset();
 
-	/**
-	 * Select continent from a name.
-	 * \param const string &name : name of the continent to select.
-	 */
-	void select(const std::string &name, const NLMISC::CVectorD &pos, NLMISC::IProgressCallback &progress);
-	/// Select closest continent from a vector.
-	void select(const NLMISC::CVectorD &pos, NLMISC::IProgressCallback &progress);
+  /**
+   * Select continent from a name.
+   * \param const string &name : name of the continent to select.
+   */
+  void select(const std::string &name, const NLMISC::CVectorD &pos,
+              NLMISC::IProgressCallback &progress);
+  /// Select closest continent from a vector.
+  void select(const NLMISC::CVectorD &pos, NLMISC::IProgressCallback &progress);
 
-	/** Test whether the next call to updateStreamable will be blocking.
-	  * This happen for example when the player is too near of a village and when asynchronous loading is not sufficient.
-	  * \param pos player position
-	  */
-	bool isLoadingforced(const NLMISC::CVector &playerPos) const;
+  /** Test whether the next call to updateStreamable will be blocking.
+   * This happen for example when the player is too near of a village and when
+   * asynchronous loading is not sufficient. \param pos player position
+   */
+  bool isLoadingforced(const NLMISC::CVector &playerPos) const;
 
-	/** Given the position of the player, load / unload objects, asynchronously when possible (these are village for now)
-	  */
-	void updateStreamable(const NLMISC::CVector &playerPos);
-	/** Given the position of the player, load / unload objects, but always in a synchronous fashion.
-	  */
-	void forceUpdateStreamable(const NLMISC::CVector &playerPos, NLMISC::IProgressCallback &progress);
+  /** Given the position of the player, load / unload objects, asynchronously
+   * when possible (these are village for now)
+   */
+  void updateStreamable(const NLMISC::CVector &playerPos);
+  /** Given the position of the player, load / unload objects, but always in a
+   * synchronous fashion.
+   */
+  void forceUpdateStreamable(const NLMISC::CVector &playerPos,
+                             NLMISC::IProgressCallback &progress);
 
-	void removeVillages();
+  void removeVillages();
 
-	// get fog
-	void getFogState(TFogType fogType, float dayNight, float duskRatio, CLightCycleManager::TLightState lightState, const NLMISC::CVectorD &pos, CFogState &result);
+  // get fog
+  void getFogState(TFogType fogType, float dayNight, float duskRatio,
+                   CLightCycleManager::TLightState lightState,
+                   const NLMISC::CVectorD &pos, CFogState &result);
 
-	// Return a pointer on the current continent.
-	CContinent	*cur() {return _Current;}
+  // Return a pointer on the current continent.
+  CContinent *cur() { return _Current; }
 
-	// Return a pointer on the desired continent
-	CContinent	*get(const std::string &contName);
+  // Return a pointer on the desired continent
+  CContinent *get(const std::string &contName);
 
-	const std::string &getCurrentContinentSelectName();
+  const std::string &getCurrentContinentSelectName();
 
-	// load / save all user landmarks in xml format
-	void writeTo(xmlNodePtr node) const;
-	void readFrom(xmlNodePtr node);
+  // load / save all user landmarks in xml format
+  void writeTo(xmlNodePtr node) const;
+  void readFrom(xmlNodePtr node);
 
-	// load / saves all user landMarks
-	// \return number of landmarks loaded or saved
-	uint32 serialUserLandMarks(NLMISC::IStream &f);
+  // load / saves all user landMarks
+  // \return number of landmarks loaded or saved
+  uint32 serialUserLandMarks(NLMISC::IStream &f);
 
-	// rebuild visible landmarks on current map
-	void updateUserLandMarks();
+  // rebuild visible landmarks on current map
+  void updateUserLandMarks();
 
-	// load / saves all fow maps
-	void serialFOWMaps();
+  // load / saves all fow maps
+  void serialFOWMaps();
 
-	void reloadWeather();
+  void reloadWeather();
 
-	void reloadSky();
+  void reloadSky();
 
-	std::string getRegionNameByAlias(uint32 i);
+  std::string getRegionNameByAlias(uint32 i);
 
 protected:
-
-	void loadContinentLandMarks();
-	void readLMConts(const std::string &dataPath);
+  void loadContinentLandMarks();
+  void readLMConts(const std::string &dataPath);
 
 protected:
+  typedef std::map<std::string, CContinent *> TContinents;
 
-	typedef std::map<std::string, CContinent *> TContinents;
+  /// Map with all continents.
+  TContinents _Continents;
 
-	/// Map with all continents.
-	TContinents	_Continents;
+  /// Current continent selected.
+  CContinent *_Current;
+  CContinent *_Hibernated;
 
-	/// Current continent selected.
-	CContinent	*_Current;
-	CContinent	*_Hibernated;
-
-	/// Map to find region name by alias
-	std::map<uint32, std::string> aliasToRegionMap;
+  /// Map to find region name by alias
+  std::map<uint32, std::string> aliasToRegionMap;
 
 public:
-	// World Map Info
-	std::vector<CContLandMark> WorldMap;
-
+  // World Map Info
+  std::vector<CContLandMark> WorldMap;
 };
-
 
 #endif // CL_CONTINENT_MANAGER_H
 

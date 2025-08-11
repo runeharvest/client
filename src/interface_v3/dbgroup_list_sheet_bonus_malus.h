@@ -17,13 +17,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_DBGROUP_LIST_SHEET_BONUS_MALUS_H
 #define NL_DBGROUP_LIST_SHEET_BONUS_MALUS_H
 
-#include "nel/misc/types_nl.h"
 #include "dbgroup_list_sheet.h"
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /**
@@ -32,43 +30,41 @@
  * \author Nevrax France
  * \date 2003
  */
-class CDBGroupListSheetBonusMalus : public CDBGroupListSheet
-{
+class CDBGroupListSheetBonusMalus : public CDBGroupListSheet {
 public:
+  /// Constructor
+  CDBGroupListSheetBonusMalus(const TCtorParam &param);
 
-	/// Constructor
-	CDBGroupListSheetBonusMalus(const TCtorParam &param);
+  // A child node
+  struct CSheetChildTimer : public CDBGroupListSheet::CSheetChild {
+    CSheetChildTimer();
+    virtual void init(CDBGroupListSheet *pFather, uint index) NL_OVERRIDE;
+    virtual void update(CDBGroupListSheet *pFather) NL_OVERRIDE;
 
-	// A child node
-	struct	CSheetChildTimer : public CDBGroupListSheet::CSheetChild
-	{
-		CSheetChildTimer();
-		virtual void init(CDBGroupListSheet *pFather, uint index) NL_OVERRIDE;
-		virtual void update(CDBGroupListSheet *pFather) NL_OVERRIDE;
+    NLMISC::CCDBNodeLeaf *TimerDB;
+    NLMISC::CCDBNodeLeaf *DisabledDB;
+    uint TimerCache;
 
-		NLMISC::CCDBNodeLeaf *TimerDB;
-		NLMISC::CCDBNodeLeaf *DisabledDB;
-		uint TimerCache;
+    NLMISC::CRGBA _RegenTextColor;
+    NLMISC::CRGBA _RegenTextDisabledColor;
+  };
 
-		NLMISC::CRGBA _RegenTextColor;
-		NLMISC::CRGBA _RegenTextDisabledColor;
-	};
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup) NL_OVERRIDE;
 
-	virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup) NL_OVERRIDE;
-
-	virtual CSheetChild *createSheetChild() NL_OVERRIDE { return new CSheetChildTimer; }
+  virtual CSheetChild *createSheetChild() NL_OVERRIDE {
+    return new CSheetChildTimer;
+  }
 
 private:
-	friend CSheetChildTimer;
+  friend CSheetChildTimer;
 
-	bool _RegenTextEnabled;
-	std::string _RegenTextFct;
-	sint32 _RegenTextY;
-	uint32 _RegenTextFontSize;
-	NLMISC::CRGBA _RegenTextColor;
-	NLMISC::CRGBA _RegenTextDisabledColor;
+  bool _RegenTextEnabled;
+  std::string _RegenTextFct;
+  sint32 _RegenTextY;
+  uint32 _RegenTextFontSize;
+  NLMISC::CRGBA _RegenTextColor;
+  NLMISC::CRGBA _RegenTextDisabledColor;
 };
-
 
 #endif // NL_DBGROUP_LIST_SHEET_BONUS_MALUS_H
 

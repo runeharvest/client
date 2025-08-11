@@ -24,11 +24,12 @@
 //
 class AFX_EXT_CLASS CLoadLibrary {
 private:
-	HINSTANCE m_hinst;
+  HINSTANCE m_hinst;
+
 public:
-	CLoadLibrary(LPCTSTR lpszName) : m_hinst(LoadLibrary(lpszName)) { }
-	~CLoadLibrary()		 { FreeLibrary(m_hinst); }
-	operator HINSTANCE () { return m_hinst; } 	// cast operator
+  CLoadLibrary(LPCTSTR lpszName) : m_hinst(LoadLibrary(lpszName)) {}
+  ~CLoadLibrary() { FreeLibrary(m_hinst); }
+  operator HINSTANCE() { return m_hinst; } // cast operator
 };
 
 //////////////////
@@ -37,28 +38,28 @@ public:
 //
 // CModuleVersion ver
 // if (ver.GetFileVersionInfo("_T("mymodule))) {
-//		// info is in ver, you can call GetValue to get variable info like
-//		CString s = ver.GetValue(_T("CompanyName"));
+//		// info is in ver, you can call GetValue to get variable info
+//like 		CString s = ver.GetValue(_T("CompanyName"));
 // }
 //
 // You can also call the static fn DllGetVersion to get DLLVERSIONINFO.
 //
 class AFX_EXT_CLASS CModuleVersion : public VS_FIXEDFILEINFO {
 protected:
-	BYTE* m_pVersionInfo;	// all version info
+  BYTE *m_pVersionInfo; // all version info
 
-	struct TRANSLATION {
-		WORD langID;			// language ID
-		WORD charset;			// character set (code page)
-	} m_translation;
+  struct TRANSLATION {
+    WORD langID;  // language ID
+    WORD charset; // character set (code page)
+  } m_translation;
 
 public:
-	CModuleVersion();
-	virtual ~CModuleVersion();
+  CModuleVersion();
+  virtual ~CModuleVersion();
 
-	BOOL		GetFileVersionInfo(LPCTSTR modulename);
-	CString	GetValue(LPCTSTR lpKeyName);
-	static BOOL DllGetVersion(LPCTSTR modulename, DLLVERSIONINFO& dvi);
+  BOOL GetFileVersionInfo(LPCTSTR modulename);
+  CString GetValue(LPCTSTR lpKeyName);
+  static BOOL DllGetVersion(LPCTSTR modulename, DLLVERSIONINFO &dvi);
 };
 
 #endif

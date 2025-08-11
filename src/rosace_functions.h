@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_ROSACE_FUNCTIONS_H
 #define NL_ROSACE_FUNCTIONS_H
-
 
 /////////////
 // INCLUDE //
@@ -28,21 +25,17 @@
 // Client.
 #include "rosace.h"
 
-
 ////////////
 // GLOBAL //
 ////////////
 // Rosace.
 extern CRosace rosace;
 
-
 ///////////////
 // FUNCTIONS //
 ///////////////
 /// Initialize Rosace.
 void initRosace();
-
-
 
 #endif // NL_ROSACE_FUNCTIONS_H
 

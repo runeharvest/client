@@ -14,18 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_BITMAP_BASE_H
 #define NL_BITMAP_BASE_H
-
 
 /////////////
 // Include //
 /////////////
 // Misc.
-#include "nel/misc/types_nl.h"
 #include "nel/misc/rgba.h"
+#include "nel/misc/types_nl.h"
 // 3D Interface.
 #include "nel/3d/u_driver.h"
 
@@ -34,53 +31,51 @@
 ///////////
 using NLMISC::CRGBA;
 
-
 /**
  * <Class description>
  * \author Guillaume PUZIN
  * \author Nevrax France
  * \date 2001
  */
-class CBitmapBase
-{
+class CBitmapBase {
 protected:
-	uint					_TextureId;
-	NL3D::UTextureFile *	_Texture;
-	CRGBA					_RGBA;
+  uint _TextureId;
+  NL3D::UTextureFile *_Texture;
+  CRGBA _RGBA;
 
 public:
-	/// Constructor
-	CBitmapBase();
-	CBitmapBase(uint texture, const CRGBA &rgba);
+  /// Constructor
+  CBitmapBase();
+  CBitmapBase(uint texture, const CRGBA &rgba);
 
-	/// Set the texture.
-	void texture(uint texture);
+  /// Set the texture.
+  void texture(uint texture);
 
-	/// get the texture.
-	uint textureId() const;
+  /// get the texture.
+  uint textureId() const;
 
-	/// Set the rgba.
-	void rgba(const CRGBA &rgba);
+  /// Set the rgba.
+  void rgba(const CRGBA &rgba);
 
-	/// get the rgba.
-	const CRGBA &rgba() const;
+  /// get the rgba.
+  const CRGBA &rgba() const;
 
-	/// set the mode of the bitmap, either tiled (true) or stretched (false)
-	inline void tiled(bool tiled = true) { _Tiled = tiled; }
+  /// set the mode of the bitmap, either tiled (true) or stretched (false)
+  inline void tiled(bool tiled = true) { _Tiled = tiled; }
 
 private:
-	inline void init(uint texture, const CRGBA &rgba);
+  inline void init(uint texture, const CRGBA &rgba);
 
-// variables used to store internal datas
+  // variables used to store internal datas
 protected:
-	/// bool indicating if the bitmap is to be displayed tiled or stretched (default = false = stretched)
-	bool				_Tiled;
+  /// bool indicating if the bitmap is to be displayed tiled or stretched
+  /// (default = false = stretched)
+  bool _Tiled;
 
-	mutable std::string	_TexturePath;
-	mutable uint32		_TextureWidth;
-	mutable uint32		_TextureHeight;
+  mutable std::string _TexturePath;
+  mutable uint32 _TextureWidth;
+  mutable uint32 _TextureHeight;
 };
-
 
 #endif // NL_BITMAP_BASE_H
 

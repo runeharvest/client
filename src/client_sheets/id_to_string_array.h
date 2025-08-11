@@ -14,43 +14,38 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ID_TO_STRING_ARRAY_H
 #define CL_ID_TO_STRING_ARRAY_H
 
 #include "entity_sheet.h"
 
-
 /**
-  * An ID and its matching string. Intended to be used in an array (class CIDToStringArraySheet)
-  */
-class CIDToString
-{
+ * An ID and its matching string. Intended to be used in an array (class
+ * CIDToStringArraySheet)
+ */
+class CIDToString {
 public:
-	uint32 ID;
-	std::string String;
-public:
-	virtual void build(const NLGEORGES::UFormElm &item);
-	virtual void serial(NLMISC::IStream &f);
-};
+  uint32 ID;
+  std::string String;
 
+public:
+  virtual void build(const NLGEORGES::UFormElm &item);
+  virtual void serial(NLMISC::IStream &f);
+};
 
 /** Map a list of IDs to a list of string
-  */
-class CIDToStringArraySheet : public CEntitySheet
-{
+ */
+class CIDToStringArraySheet : public CEntitySheet {
 public:
-	std::vector<CIDToString> Array;
+  std::vector<CIDToString> Array;
+
 public:
-	// ctor
-	CIDToStringArraySheet();
-	/// Build the entity from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  // ctor
+  CIDToStringArraySheet();
+  /// Build the entity from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
 
 #endif

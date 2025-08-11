@@ -15,12 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // CJHeaderCtrl.h : header file
-// 
-// Copyright (c) 1998-99 Kirk Stowell   
+//
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,25 +36,25 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said, and for his article
-//		'Indicating sort order in header control' which is where the code for
-//		the sorting arrows in the header comes from.
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//		'Indicating sort order in header control' which is where the
+//code for 		the sorting arrows in the header comes from.
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
 //
-// ==========================================================================  
-// HISTORY:	  
-// ==========================================================================  
-//			1.00	16 Jan 1999	- Initial release.  
-// ==========================================================================  
-//  
+// ==========================================================================
+// HISTORY:
+// ==========================================================================
+//			1.00	16 Jan 1999	- Initial release.
+// ==========================================================================
+//
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CJFLATHEADERCTRL_H__
@@ -67,51 +67,51 @@
 /////////////////////////////////////////////////////////////////////////////
 // CCJFlatHeaderCtrl window
 
-class AFX_EXT_CLASS CCJFlatHeaderCtrl : public CHeaderCtrl
-{
-// Construction
+class AFX_EXT_CLASS CCJFlatHeaderCtrl : public CHeaderCtrl {
+  // Construction
 public:
-	CCJFlatHeaderCtrl();
+  CCJFlatHeaderCtrl();
 
-// Attributes
+  // Attributes
 public:
-	BOOL  m_bFlatHeader;
-	BOOL  m_bBoldFont;
-	CFont m_boldFont;
+  BOOL m_bFlatHeader;
+  BOOL m_bBoldFont;
+  CFont m_boldFont;
 
-// Operations
+  // Operations
 public:
-	void FlatHeader(BOOL bBoldFont = TRUE);
+  void FlatHeader(BOOL bBoldFont = TRUE);
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCJFlatHeaderCtrl)
-	public:
-	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CCJFlatHeaderCtrl)
 public:
-	void DrawFlatBorder();
-	int SetSortImage( int nCol, BOOL bAsc );
-	virtual ~CCJFlatHeaderCtrl();
+  virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+  //}}AFX_VIRTUAL
 
-	// Generated message map functions
+  // Implementation
+public:
+  void DrawFlatBorder();
+  int SetSortImage(int nCol, BOOL bAsc);
+  virtual ~CCJFlatHeaderCtrl();
+
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CCJFlatHeaderCtrl)
-	afx_msg void OnPaint();
-	//}}AFX_MSG
+  //{{AFX_MSG(CCJFlatHeaderCtrl)
+  afx_msg void OnPaint();
+  //}}AFX_MSG
 
-	DECLARE_MESSAGE_MAP()
+  DECLARE_MESSAGE_MAP()
 
 protected:
-	int  m_nSortCol;
-	BOOL m_bSortAsc;
+  int m_nSortCol;
+  BOOL m_bSortAsc;
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately
+// before the previous line.
 
 #endif // __CJFLATHEADERCTRL_H__

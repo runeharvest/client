@@ -14,29 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BOT_CHAT_PAGE_CREATE_GUILD_H
 #define CL_BOT_CHAT_PAGE_CREATE_GUILD_H
 
 #include "bot_chat_page.h"
 
 /** A page for the user to make a gift to the bot
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date August 2003
-  */
-class CBotChatPageCreateGuild : public CBotChatPage
-{
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date August 2003
+ */
+class CBotChatPageCreateGuild : public CBotChatPage {
 public:
-	virtual void begin();
-	virtual void end();
+  virtual void begin();
+  virtual void end();
 };
-
-
-
-
-
-
 
 #endif

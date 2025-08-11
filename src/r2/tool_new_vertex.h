@@ -17,30 +17,28 @@
 #ifndef R2_TOOL_NEW_VERTEX_H
 #define R2_TOOL_NEW_VERTEX_H
 
-
 #include "tool_choose_pos.h"
 
-namespace R2
-{
+namespace R2 {
 
-	class CToolNewVertex : public CToolChoosePos
-	{
-	public:
-		NLMISC_DECLARE_CLASS(R2::CToolNewVertex)
-		CToolNewVertex();
-	protected:
-		// from CToolChoosePos
-		virtual bool isValidChoosePos(const NLMISC::CVector2f &pos) const;
-		virtual void commit(const NLMISC::CVector &createPosition, float createAngle);
-		virtual const char *getToolUIName() const;
-		// from CTool
-		virtual bool onDeleteCmd();
-	private:
-		mutable sint			_CurrEdge;
-		mutable NLMISC::CVector _CurrPos;
-	};
+class CToolNewVertex : public CToolChoosePos {
+public:
+  NLMISC_DECLARE_CLASS(R2::CToolNewVertex)
+  CToolNewVertex();
 
-} // R2
+protected:
+  // from CToolChoosePos
+  virtual bool isValidChoosePos(const NLMISC::CVector2f &pos) const;
+  virtual void commit(const NLMISC::CVector &createPosition, float createAngle);
+  virtual const char *getToolUIName() const;
+  // from CTool
+  virtual bool onDeleteCmd();
 
+private:
+  mutable sint _CurrEdge;
+  mutable NLMISC::CVector _CurrPos;
+};
+
+} // namespace R2
 
 #endif

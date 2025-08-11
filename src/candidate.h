@@ -41,6 +41,5 @@ struct Candidate
 	uint32				nbVotes;
 };
 
-
 #endif // CL_CANDIDATE_H
 #endif

@@ -14,41 +14,34 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "filtered_chat_summary.h"
+#include "stdpch.h"
 
 //===================================================================================
-void CFilteredChatSummary::serial(NLMISC::IStream &f)
-{
-	sint ver= f.serialVersion(2);
-	f.serialCheck(NELID("USHC"));
-	f.serial(SrcGuild);
-	f.serial(SrcTeam);
-	f.serial(SrcAroundMe);
-	f.serial(SrcTell);
-	f.serial(SrcSystemInfo);
-	f.serialEnum(Target);
+void CFilteredChatSummary::serial(NLMISC::IStream &f) {
+  sint ver = f.serialVersion(2);
+  f.serialCheck(NELID("USHC"));
+  f.serial(SrcGuild);
+  f.serial(SrcTeam);
+  f.serial(SrcAroundMe);
+  f.serial(SrcTell);
+  f.serial(SrcSystemInfo);
+  f.serialEnum(Target);
 
-	if(ver>=1)
-		f.serial(SrcUniverse);
+  if (ver >= 1)
+    f.serial(SrcUniverse);
 
-	if(ver>=2)
-		f.serial(SrcRegion);
+  if (ver >= 2)
+    f.serial(SrcRegion);
 }
 
 //===================================================================================
-void CFilteredDynChatSummary::serial(NLMISC::IStream &f)
-{
-	sint ver = f.serialVersion(0);
-	f.serialCheck(NELID("USHC"));
-	if (ver >= 0)
-	{
-		for (uint8 i = 0; i < CChatGroup::MaxDynChanPerPlayer; i++)
-		{
-			f.serial(SrcDynChat[i]);
-		}
-	}
-
+void CFilteredDynChatSummary::serial(NLMISC::IStream &f) {
+  sint ver = f.serialVersion(0);
+  f.serialCheck(NELID("USHC"));
+  if (ver >= 0) {
+    for (uint8 i = 0; i < CChatGroup::MaxDynChanPerPlayer; i++) {
+      f.serial(SrcDynChat[i]);
+    }
+  }
 }

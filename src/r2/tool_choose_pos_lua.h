@@ -20,53 +20,47 @@
 #ifndef R2_TOOL_CHOOSE_POS_LUA_H
 #define R2_TOOL_CHOOSE_POS_LUA_H
 
-#include "tool_choose_pos.h"
-#include "nel/misc/vector.h"
 #include "nel/gui/lua_object.h"
+#include "nel/misc/vector.h"
+#include "tool_choose_pos.h"
 
 class CEntity;
 
-namespace NLGUI
-{
-	class CLuaObject;
+namespace NLGUI {
+class CLuaObject;
 }
 
-namespace R2
-{
+namespace R2 {
 
 /**
-  * Choose a position and forward the result to lua
-  */
-class CToolChoosePosLua : public CToolChoosePos
-{
+ * Choose a position and forward the result to lua
+ */
+class CToolChoosePosLua : public CToolChoosePos {
 public:
-	NLMISC_DECLARE_CLASS(R2::CToolChoosePosLua);
-	CToolChoosePosLua() { nlassert(0); }
-	CToolChoosePosLua(uint ghostSlot,
-					  const CLuaObject &validFunc,
-					  const CLuaObject &cancelFunc,
-					  const std::string &toolName,
-					  const std::string &cursValid = "curs_create.tga",
-					  const std::string &cursInvalid = "curs_stop.tga",
-					  const std::vector<NLMISC::CPolygon2D> &polyList = std::vector<NLMISC::CPolygon2D>(),
-					  const CPrimLook &polyValidLook = CPrimLook(),
-					  const CPrimLook &polyInvalidLook = CPrimLook()
-					 );
-	virtual const char *getToolUIName() const { return _ToolName.c_str(); }
+  NLMISC_DECLARE_CLASS(R2::CToolChoosePosLua);
+  CToolChoosePosLua() { nlassert(0); }
+  CToolChoosePosLua(uint ghostSlot, const CLuaObject &validFunc,
+                    const CLuaObject &cancelFunc, const std::string &toolName,
+                    const std::string &cursValid = "curs_create.tga",
+                    const std::string &cursInvalid = "curs_stop.tga",
+                    const std::vector<NLMISC::CPolygon2D> &polyList =
+                        std::vector<NLMISC::CPolygon2D>(),
+                    const CPrimLook &polyValidLook = CPrimLook(),
+                    const CPrimLook &polyInvalidLook = CPrimLook());
+  virtual const char *getToolUIName() const { return _ToolName.c_str(); }
+
 protected:
-	// from CToolChoosePos
-	virtual void commit(const NLMISC::CVector &createPosition, float createAngle);
-	virtual void cancel();
+  // from CToolChoosePos
+  virtual void commit(const NLMISC::CVector &createPosition, float createAngle);
+  virtual void cancel();
+
 private:
-	CLuaObject			_ValidFunc;
-	CLuaObject			_CancelFunc;
-	bool				_Commited;
-	std::string			_ToolName;
+  CLuaObject _ValidFunc;
+  CLuaObject _CancelFunc;
+  bool _Commited;
+  std::string _ToolName;
 };
 
-
-
-
-} // R2
+} // namespace R2
 
 #endif

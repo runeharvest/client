@@ -14,49 +14,45 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "scalable_time.h"
-#include "time_client.h"
 #include "nel/misc/time_nl.h"
+#include "stdpch.h"
+#include "time_client.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
 #endif
 
 // *************************************************************************************************
-CScalableTime::CScalableTime()
-{
-	_LastPerformanceTime = NLMISC::CTime::getPerformanceTime();
-	_ScaledPerformanceTime = (double) _LastPerformanceTime;
-	_TimeScale = 1.f;
+CScalableTime::CScalableTime() {
+  _LastPerformanceTime = NLMISC::CTime::getPerformanceTime();
+  _ScaledPerformanceTime = (double)_LastPerformanceTime;
+  _TimeScale = 1.f;
 }
 
 // *************************************************************************************************
-TTime CScalableTime::getScaledLocalTime()
-{
-	update();
-	return (TTime) (NLMISC::CTime::ticksToSecond ((NLMISC::TTicks) _ScaledPerformanceTime) * 1000.0);
+TTime CScalableTime::getScaledLocalTime() {
+  update();
+  return (TTime)(NLMISC::CTime::ticksToSecond(
+                     (NLMISC::TTicks)_ScaledPerformanceTime) *
+                 1000.0);
 }
 
 // *************************************************************************************************
-NLMISC::TTicks CScalableTime::getScaledPerformanceTime()
-{
-	update();
-	return (NLMISC::TTicks) _ScaledPerformanceTime;
+NLMISC::TTicks CScalableTime::getScaledPerformanceTime() {
+  update();
+  return (NLMISC::TTicks)_ScaledPerformanceTime;
 }
 
 // *************************************************************************************************
-void CScalableTime::setTimeScale(float scale)
-{
-	_TimeScale = std::max(0.f, scale);
+void CScalableTime::setTimeScale(float scale) {
+  _TimeScale = std::max(0.f, scale);
 }
 
 // *************************************************************************************************
-void CScalableTime::update()
-{
-	NLMISC::TTicks dt = NLMISC::CTime::getPerformanceTime() - _LastPerformanceTime;
-	_LastPerformanceTime = NLMISC::CTime::getPerformanceTime();
-	_ScaledPerformanceTime += (double) dt * (double) _TimeScale;
+void CScalableTime::update() {
+  NLMISC::TTicks dt =
+      NLMISC::CTime::getPerformanceTime() - _LastPerformanceTime;
+  _LastPerformanceTime = NLMISC::CTime::getPerformanceTime();
+  _ScaledPerformanceTime += (double)dt * (double)_TimeScale;
 }

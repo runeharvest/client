@@ -24,7 +24,7 @@
 
 #include <string>
 
-/** 
+/**
  * Returns the current path to the .app bundle on Mac OS X.
  * @note This path will have "Contents" as sub directory.
  */

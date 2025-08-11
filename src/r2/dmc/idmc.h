@@ -21,20 +21,30 @@
 
 #include <string>
 #include <vector>
-namespace R2
-{
-	class IDynamicMapClient
-	{
-	public:
-		virtual ~IDynamicMapClient(){}
-		// request commands
-		virtual void doRequestInsertNode(const std::string& instanceId, const std::string& name, sint32 position, const std::string& key, CObject* value) = 0;
-		virtual void doRequestSetNode(const std::string& instanceId, const std::string& attrName, CObject* value) = 0;
-		virtual void doRequestEraseNode(const std::string& instanceId, const std::string& attrName, sint32 position) = 0;
-		virtual void doRequestMoveNode(const std::string& instanceId, const std::string& attrName, sint32 position, const std::string& destInstanceId, const std::string& destAttrName, sint32 destPosition) = 0;
-		//
-		virtual CObject *find(const std::string& instanceId, const std::string& attrName = "", sint32 position = -1, const std::string &key ="") = 0;
-	};
-} //namespace DMS
+namespace R2 {
+class IDynamicMapClient {
+public:
+  virtual ~IDynamicMapClient() {}
+  // request commands
+  virtual void doRequestInsertNode(const std::string &instanceId,
+                                   const std::string &name, sint32 position,
+                                   const std::string &key, CObject *value) = 0;
+  virtual void doRequestSetNode(const std::string &instanceId,
+                                const std::string &attrName,
+                                CObject *value) = 0;
+  virtual void doRequestEraseNode(const std::string &instanceId,
+                                  const std::string &attrName,
+                                  sint32 position) = 0;
+  virtual void doRequestMoveNode(const std::string &instanceId,
+                                 const std::string &attrName, sint32 position,
+                                 const std::string &destInstanceId,
+                                 const std::string &destAttrName,
+                                 sint32 destPosition) = 0;
+  //
+  virtual CObject *find(const std::string &instanceId,
+                        const std::string &attrName = "", sint32 position = -1,
+                        const std::string &key = "") = 0;
+};
+} // namespace R2
 
-#endif //MC_IDMC_H
+#endif // MC_IDMC_H

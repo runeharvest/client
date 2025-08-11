@@ -20,8 +20,8 @@
 #ifndef CL_PING_H
 #define CL_PING_H
 
-#include <nel/misc/types_nl.h>
 #include <nel/misc/cdb.h>
+#include <nel/misc/types_nl.h>
 
 ///////////
 // CLASS //
@@ -32,32 +32,34 @@
  * \author Nevrax France
  * \date 2003
  */
-class CPing : public NLMISC::ICDBNode::IPropertyObserver
-{
+class CPing : public NLMISC::ICDBNode::IPropertyObserver {
 private:
-	uint32	_Ping;
-	bool	_RdyToPing;
+  uint32 _Ping;
+  bool _RdyToPing;
 
 public:
-	// Constructor.
-	CPing() {_Ping = 0; _RdyToPing = true;}
-	// Destructor.
-	~CPing() {;}
+  // Constructor.
+  CPing() {
+    _Ping = 0;
+    _RdyToPing = true;
+  }
+  // Destructor.
+  ~CPing() { ; }
 
-	// Add an observer on the database for the ping.
-	void init();
+  // Add an observer on the database for the ping.
+  void init();
 
-	// Release the observer on the database for the ping.
-	void release();
+  // Release the observer on the database for the ping.
+  void release();
 
-	// Method called when the ping message is back.
-	virtual void update(NLMISC::ICDBNode* node);
+  // Method called when the ping message is back.
+  virtual void update(NLMISC::ICDBNode *node);
 
-	// return the ping in ms.
-	uint32 getValue() {return _Ping;}
+  // return the ping in ms.
+  uint32 getValue() { return _Ping; }
 
-	void rdyToPing(bool rdy) {_RdyToPing = rdy;}
-	bool rdyToPing() const {return _RdyToPing;}
+  void rdyToPing(bool rdy) { _RdyToPing = rdy; }
+  bool rdyToPing() const { return _RdyToPing; }
 };
 
 #endif // CL_PING_H

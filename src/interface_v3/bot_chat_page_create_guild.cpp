@@ -18,98 +18,82 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "bot_chat_page_create_guild.h"
-#include "interface_manager.h"
-#include "guild_manager.h"
-#include "nel/gui/interface_group.h"
-#include "nel/gui/action_handler.h"
-#include "nel/gui/group_editbox.h"
-#include "dbctrl_sheet.h"
+#include "../net_manager.h"
 #include "bot_chat_manager.h"
 #include "bot_chat_page_all.h"
-#include "../net_manager.h"
+#include "dbctrl_sheet.h"
+#include "guild_manager.h"
+#include "interface_manager.h"
+#include "nel/gui/action_handler.h"
+#include "nel/gui/group_editbox.h"
+#include "nel/gui/interface_group.h"
+#include "stdpch.h"
 
 using namespace std;
 
-static const char *WIN_BOT_CHAT_PAGE_CREATE_GUILD = "ui:interface:bot_chat_create_guild";
+static const char *WIN_BOT_CHAT_PAGE_CREATE_GUILD =
+    "ui:interface:bot_chat_create_guild";
 
 // ***************************************************************************
-void CBotChatPageCreateGuild::begin()
-{
-	CBotChatPage::begin();
-	CInterfaceManager *im = CInterfaceManager::getInstance();
-	// clear intro text
-	NLGUI::CDBManager::getInstance()->getDbProp(BOT_CHAT_BASE_DB_PATH ":CREATE_GUILD")->setValue32(0);
-	// show the dialog
-	activateWindow(WIN_BOT_CHAT_PAGE_CREATE_GUILD, true);
+void CBotChatPageCreateGuild::begin() {
+  CBotChatPage::begin();
+  CInterfaceManager *im = CInterfaceManager::getInstance();
+  // clear intro text
+  NLGUI::CDBManager::getInstance()
+      ->getDbProp(BOT_CHAT_BASE_DB_PATH ":CREATE_GUILD")
+      ->setValue32(0);
+  // show the dialog
+  activateWindow(WIN_BOT_CHAT_PAGE_CREATE_GUILD, true);
 }
 
 // ***************************************************************************
-void CBotChatPageCreateGuild::end()
-{
-	activateWindow(WIN_BOT_CHAT_PAGE_CREATE_GUILD, false);
+void CBotChatPageCreateGuild::end() {
+  activateWindow(WIN_BOT_CHAT_PAGE_CREATE_GUILD, false);
 }
 
 // ***************************************************************************
-class CHandlerGuildCreate : public IActionHandler
-{
-	virtual void execute (CCtrlBase * /* pCaller */, const string &Params)
-	{
-		CInterfaceManager *pIM = CInterfaceManager::getInstance();
-		string guildNameWin = getParam(Params, "guild");
-		string IconWin = getParam(Params, "icon");
-		string guildDescWin = getParam(Params, "desc");
+class CHandlerGuildCreate : public IActionHandler {
+  virtual void execute(CCtrlBase * /* pCaller */, const string &Params) {
+    CInterfaceManager *pIM = CInterfaceManager::getInstance();
+    string guildNameWin = getParam(Params, "guild");
+    string IconWin = getParam(Params, "icon");
+    string guildDescWin = getParam(Params, "desc");
 
-		CGroupEditBox *pGEB = dynamic_cast<CGroupEditBox*>(CWidgetManager::getInstance()->getElementFromId(guildNameWin));
-		if (pGEB == NULL) return;
+    CGroupEditBox *pGEB = dynamic_cast<CGroupEditBox *>(
+        CWidgetManager::getInstance()->getElementFromId(guildNameWin));
+    if (pGEB == NULL)
+      return;
 
-		CDBCtrlSheet *pCS = dynamic_cast<CDBCtrlSheet*>(CWidgetManager::getInstance()->getElementFromId(IconWin));
-		if (pCS == NULL) return;
+    CDBCtrlSheet *pCS = dynamic_cast<CDBCtrlSheet *>(
+        CWidgetManager::getInstance()->getElementFromId(IconWin));
+    if (pCS == NULL)
+      return;
 
-		CGroupEditBox *pDesc = dynamic_cast<CGroupEditBox*>(CWidgetManager::getInstance()->getElementFromId(guildDescWin));
+    CGroupEditBox *pDesc = dynamic_cast<CGroupEditBox *>(
+        CWidgetManager::getInstance()->getElementFromId(guildDescWin));
 
-		ucstring guildName = ucstring::makeFromUtf8(pGEB->getInputString()); // FIXME: UTF-8 (serial)
+    ucstring guildName =
+        ucstring::makeFromUtf8(pGEB->getInputString()); // FIXME: UTF-8 (serial)
 
-		ucstring guildDesc; // FIXME: UTF-8 (serial)
-		if (pDesc != NULL) guildDesc.fromUtf8(pDesc->getInputString()); // FIXME: UTF-8 (serial)
+    ucstring guildDesc; // FIXME: UTF-8 (serial)
+    if (pDesc != NULL)
+      guildDesc.fromUtf8(pDesc->getInputString()); // FIXME: UTF-8 (serial)
 
-		uint64 icon = CGuildManager::iconMake((uint8)pCS->getGuildBack(), (uint8)pCS->getGuildSymbol(),
-								pCS->getInvertGuildSymbol(), pCS->getGuildColor1(), pCS->getGuildColor2());
+    uint64 icon = CGuildManager::iconMake(
+        (uint8)pCS->getGuildBack(), (uint8)pCS->getGuildSymbol(),
+        pCS->getInvertGuildSymbol(), pCS->getGuildColor1(),
+        pCS->getGuildColor2());
 
-		const char *msgName = "GUILD:CREATE";
-		NLMISC::CBitMemStream out;
-		if(GenericMsgHeaderMngr.pushNameToStream(msgName, out))
-		{
-			out.serial( guildName );
-			out.serial( icon );
-			out.serial( guildDesc );
-			NetMngr.push(out);
-		}
-		//CBotChatManager::getInstance()->setCurrPage(NULL);
-	}
+    const char *msgName = "GUILD:CREATE";
+    NLMISC::CBitMemStream out;
+    if (GenericMsgHeaderMngr.pushNameToStream(msgName, out)) {
+      out.serial(guildName);
+      out.serial(icon);
+      out.serial(guildDesc);
+      NetMngr.push(out);
+    }
+    // CBotChatManager::getInstance()->setCurrPage(NULL);
+  }
 };
-REGISTER_ACTION_HANDLER (CHandlerGuildCreate, "enter_guild_creation");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+REGISTER_ACTION_HANDLER(CHandlerGuildCreate, "enter_guild_creation");

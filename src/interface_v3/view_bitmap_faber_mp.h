@@ -17,14 +17,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_VIEW_BITMAP_MP_FABER_H
 #define NL_VIEW_BITMAP_MP_FABER_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/gui/view_bitmap.h"
-
+#include "nel/misc/types_nl.h"
 
 ///\todo nico : do the real display when item icons are available
 #include "nel/gui/view_text.h"
@@ -35,51 +32,49 @@
  * \author Nevrax France
  * \date 2002
  */
-class CViewBitmapFaberMp : public CViewBitmap
-{
+class CViewBitmapFaberMp : public CViewBitmap {
 public:
-	CViewBitmapFaberMp(const TCtorParam &param) : CViewBitmap(param)
-	{
-		_AccIconBackId = _AccIconMainId = _AccIconOverId = _TextureNoItemId = -2;
-	}
-	/**
-	 * parse an xml node and initialize the base view members. Must call CViewBase::parse
-	 * \param cur : pointer to the xml node to be parsed
-	 * \param parentGroup : the parent group of the view
-	 * \partam id : a refence to the string that will receive the view ID
-	 * \return true if success
-	 */
-	bool parse(xmlNodePtr cur,CInterfaceGroup * parentGroup);
-	virtual uint32 getMemory() { return (uint32)(sizeof(*this) + _Id.size() + _AccIconBackString.size() +
-								_AccIconMainString.size() + _AccIconOverString.size() + _TextureNoItemName.size()); }
+  CViewBitmapFaberMp(const TCtorParam &param) : CViewBitmap(param) {
+    _AccIconBackId = _AccIconMainId = _AccIconOverId = _TextureNoItemId = -2;
+  }
+  /**
+   * parse an xml node and initialize the base view members. Must call
+   * CViewBase::parse \param cur : pointer to the xml node to be parsed \param
+   * parentGroup : the parent group of the view \partam id : a refence to the
+   * string that will receive the view ID \return true if success
+   */
+  bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual uint32 getMemory() {
+    return (uint32)(sizeof(*this) + _Id.size() + _AccIconBackString.size() +
+                    _AccIconMainString.size() + _AccIconOverString.size() +
+                    _TextureNoItemName.size());
+  }
 
-	/**
-	 * draw the view
-	 */
-	void draw();
+  /**
+   * draw the view
+   */
+  void draw();
 
 private:
-	CInterfaceProperty _SheetId;
-	std::string _AccIconBackString;
-	sint32		_AccIconBackId;
-	std::string _AccIconMainString;
-	sint32		_AccIconMainId;
-	std::string _AccIconOverString;
-	sint32		_AccIconOverId;
+  CInterfaceProperty _SheetId;
+  std::string _AccIconBackString;
+  sint32 _AccIconBackId;
+  std::string _AccIconMainString;
+  sint32 _AccIconMainId;
+  std::string _AccIconOverString;
+  sint32 _AccIconOverId;
 
+  std::string _TextureNoItemName;
+  sint32 _TextureNoItemId;
+  CInterfaceProperty _ColorNoItem;
 
-	std::string _TextureNoItemName;
-	sint32		_TextureNoItemId;
-	CInterfaceProperty _ColorNoItem;
-
-	CInterfaceProperty _NeededQuantity;
-	CInterfaceProperty _Quantity;
-	CInterfaceProperty _Quality;
-/*	CViewText* _SheetText;
-	CViewText* _QuantityText;
-	CViewText* _QualityText;*/
+  CInterfaceProperty _NeededQuantity;
+  CInterfaceProperty _Quantity;
+  CInterfaceProperty _Quality;
+  /*	CViewText* _SheetText;
+          CViewText* _QuantityText;
+          CViewText* _QualityText;*/
 };
-
 
 #endif // NL_VIEW_BITMAP_MP_FABER_H
 

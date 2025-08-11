@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_DBGROUP_LIST_SHEET_TEXT_PHRASE_ID_H
 #define NL_DBGROUP_LIST_SHEET_TEXT_PHRASE_ID_H
 
-#include "nel/misc/types_nl.h"
 #include "dbgroup_list_sheet_text.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /**
@@ -30,28 +27,23 @@
  * \author Nevrax France
  * \date 2003
  */
-class CDBGroupListSheetTextPhraseId : public CDBGroupListSheetText
-{
+class CDBGroupListSheetTextPhraseId : public CDBGroupListSheetText {
 public:
+  /// Constructor
+  CDBGroupListSheetTextPhraseId(const TCtorParam &param);
 
-	/// Constructor
-	CDBGroupListSheetTextPhraseId(const TCtorParam &param);
+  // A child node
+  struct CSheetChildPhrase : public CDBGroupListSheetText::CSheetChild {
+    CSheetChildPhrase();
+    virtual bool isInvalidated(CDBGroupListSheetText *pFather);
+    virtual void update(CDBGroupListSheetText *pFather);
+    virtual void updateViewText(CDBGroupListSheetText *pFather);
 
-	// A child node
-	struct	CSheetChildPhrase : public CDBGroupListSheetText::CSheetChild
-	{
-		CSheetChildPhrase();
-		virtual bool isInvalidated(CDBGroupListSheetText *pFather);
-		virtual void update(CDBGroupListSheetText *pFather);
-		virtual void updateViewText(CDBGroupListSheetText *pFather);
+    sint32 CacheVersion;
+  };
 
-		sint32		CacheVersion;
-	};
-
-	virtual CSheetChild *createSheetChild() { return new CSheetChildPhrase; }
-
+  virtual CSheetChild *createSheetChild() { return new CSheetChildPhrase; }
 };
-
 
 #endif // NL_DBGROUP_LIST_SHEET_TEXT_PHRASE_ID_H
 

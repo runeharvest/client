@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ANIMATION_TYPE_H
 #define CL_ANIMATION_TYPE_H
 
@@ -25,7 +23,6 @@
 enum TAnimationType { MOVE = 0, MOVE_BLEND_OUT, ACTION, animTypeCount };
 
 enum TAction { ACTION_MOVE = 0, ACTION_EMOTE };
-
 
 #endif // CL_ANIMATION_TYPE_H
 

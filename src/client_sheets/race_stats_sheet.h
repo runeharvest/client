@@ -14,122 +14,95 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef CL_RACE_STATS_SHEET_H
 #define CL_RACE_STATS_SHEET_H
 
 // Application
+#include "body_to_bone_sheet.h"
 #include "entity_sheet.h"
 #include "ground_fx_sheet.h"
-#include "body_to_bone_sheet.h"
 // Game Share
+#include "game_share/characteristics.h"
 #include "game_share/people.h"
 #include "game_share/slot_types.h"
-#include "game_share/characteristics.h"
-
 
 //=======================================================================================================
-namespace NLGEORGES
-{
-	class UFormElm;
+namespace NLGEORGES {
+class UFormElm;
 }
 
 /** Per Gender Infos. Used by RaceStats sheets
-  */
-struct CGenderInfo
-{
-	static const std::string UnknownItemName;
+ */
+struct CGenderInfo {
+  static const std::string UnknownItemName;
 
+  // skel
+  std::string Skelfilename;
+  // Anim set base name
+  std::string AnimSetBaseName;
+  // default equipment, sheath are not included
+  std::string Items[SLOTTYPE::NB_SLOT];
 
-	// skel
-	std::string Skelfilename;
-	// Anim set base name
-	std::string	AnimSetBaseName;
-	// default equipment, sheath are not included
-	std::string Items[SLOTTYPE::NB_SLOT];
+  std::string LodCharacterName;
+  float LodCharacterDistance;
+  // value to scale the "pos" channel of the animation of the player.
+  float CharacterScalePos;
+  // ground fxs
+  std::vector<CGroundFXSheet> GroundFX;
 
-	std::string	LodCharacterName;
-	float		LodCharacterDistance;
-	// value to scale the "pos" channel of the animation of the player.
-	float		CharacterScalePos;
-	// ground fxs
-	std::vector<CGroundFXSheet> GroundFX;
+  // Blendshapes minimum and maximum values
+  float BlendShapeMin[8], BlendShapeMax[8];
 
-	// Blendshapes minimum and maximum values
-	float BlendShapeMin[8], BlendShapeMax[8];
+  // Name positions on Z axis
+  float NamePosZLow;
+  float NamePosZNormal;
+  float NamePosZHigh;
 
-	// Name positions on Z axis
-	float NamePosZLow;
-	float NamePosZNormal;
-	float NamePosZHigh;
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // ctor
+  CGenderInfo();
+  /// Build
+  void build(const NLGEORGES::UFormElm &form, const std::string &prefix);
+  /// Serialize
+  void serial(NLMISC::IStream &f);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-	// ctor
-	CGenderInfo();
-	/// Build
-	void build(const NLGEORGES::UFormElm &form, const std::string &prefix);
-	/// Serialize
-	void serial(NLMISC::IStream &f);
-
-	/// Get the item name for a given slot.
-	const std::string &getItemName(SLOTTYPE::EVisualSlot slot) const;
+  /// Get the item name for a given slot.
+  const std::string &getItemName(SLOTTYPE::EVisualSlot slot) const;
 };
-
 
 //=======================================================================================================
 
 /** Class to manage .race_stats sheets
-  */
-class CRaceStatsSheet : public CEntitySheet
-{
+ */
+class CRaceStatsSheet : public CEntitySheet {
 public:
-	enum { NumAttackLists = 8 };
-	EGSPD::CPeople::TPeople	People;
-	// Start characteristics values for this race
-	sint8				CharacStartValue[CHARACTERISTICS::NUM_CHARACTERISTICS];
-	// Per gender infos. 0 is for male and 1 is for female
-	CGenderInfo			GenderInfos[2];
-	/// Skin to use for this race.
-	uint8				Skin;
-	// Automaton Type
-	std::string			Automaton;
-	// Body to bone. For meleeImpact localisation
-	CBodyToBoneSheet	BodyToBone;
-	// attack lists filenames
-	std::vector<NLMISC::TSStringId>	AttackLists;
+  enum { NumAttackLists = 8 };
+  EGSPD::CPeople::TPeople People;
+  // Start characteristics values for this race
+  sint8 CharacStartValue[CHARACTERISTICS::NUM_CHARACTERISTICS];
+  // Per gender infos. 0 is for male and 1 is for female
+  CGenderInfo GenderInfos[2];
+  /// Skin to use for this race.
+  uint8 Skin;
+  // Automaton Type
+  std::string Automaton;
+  // Body to bone. For meleeImpact localisation
+  CBodyToBoneSheet BodyToBone;
+  // attack lists filenames
+  std::vector<NLMISC::TSStringId> AttackLists;
+
 public:
-	// ctor
-	CRaceStatsSheet();
-	//
-	virtual void build(const NLGEORGES::UFormElm &item);
-	/// Serialize rce_stats sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  // ctor
+  CRaceStatsSheet();
+  //
+  virtual void build(const NLGEORGES::UFormElm &item);
+  /// Serialize rce_stats sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
+
 private:
-	void buildGroundFXs(const NLGEORGES::UFormElm &item, const std::string &name, std::vector<CGroundFXSheet> &dest);
+  void buildGroundFXs(const NLGEORGES::UFormElm &item, const std::string &name,
+                      std::vector<CGroundFXSheet> &dest);
 };
 
-
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -14,31 +14,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BOT_CHAT_PAGE_MISSION_END_H
 #define CL_BOT_CHAT_PAGE_MISSION_END_H
 
 #include "bot_chat_page.h"
 
 /** Page seen when a mission has been finished.
-  * The player may see a reward window, an end message, or a message describing the next step of the mission.
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date August 2003
-  */
-class CBotChatPageMissionEnd : public CBotChatPage
-{
+ * The player may see a reward window, an end message, or a message describing
+ * the next step of the mission. \author Nicolas Vizerie \author Nevrax France
+ * \date August 2003
+ */
+class CBotChatPageMissionEnd : public CBotChatPage {
 public:
-	// from CBotChatPage
-	virtual void begin();
-	virtual void end();
+  // from CBotChatPage
+  virtual void begin();
+  virtual void end();
 };
-
-
-
-
-
-
 
 #endif

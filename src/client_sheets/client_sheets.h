@@ -14,19 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_CLIENT_SHEETS_H
 #define RY_CLIENT_SHEETS_H
 
 #include "nel/misc/string_mapper.h"
 
 /** Regroup common things (like strings) here
-  * \author Matthieu 'Trap' Besson
-  * \author Nevrax France
-  * \date November 2003
-  */
+ * \author Matthieu 'Trap' Besson
+ * \author Nevrax France
+ * \date November 2003
+ */
 extern NLMISC::CStaticStringMapper ClientSheetsStrings;
 
 #endif
-

@@ -14,33 +14,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #include "stdpch.h"
 
-#include "continent_manager.h"
 #include "continent.h"
+#include "continent_manager.h"
 #include "ig_callback.h"
 #include "pacs_client.h"
-#include "continent_manager.h"
 #include "world_database_manager.h"
 
 #include "ig_enum.h"
 
 //===========================================================
-bool enumAllIGs(IIGEnum *callback)
-{
-	nlassert(callback);
-	if (IGCallbacks)
-	{
-		if (!IGCallbacks->enumIGs(callback))
-			return false;
-	}
+bool enumAllIGs(IIGEnum *callback) {
+  nlassert(callback);
+  if (IGCallbacks) {
+    if (!IGCallbacks->enumIGs(callback))
+      return false;
+  }
 
-	if ((ContinentMngr.cur() == 0) || !ContinentMngr.cur()->enumIGs(callback))
-		return false;
-	return true;
+  if ((ContinentMngr.cur() == 0) || !ContinentMngr.cur()->enumIGs(callback))
+    return false;
+  return true;
 }
 
 // ***************************************************************************
@@ -48,49 +42,44 @@ bool enumAllIGs(IIGEnum *callback)
 // ***************************************************************************
 
 //===========================================================
-void CIGNotifier::registerObserver(IIGObserver *obs)
-{
-	nlassert(obs);
-	_Observers.push_back(obs);
+void CIGNotifier::registerObserver(IIGObserver *obs) {
+  nlassert(obs);
+  _Observers.push_back(obs);
 }
 
 //===========================================================
-void CIGNotifier::removeObserver(IIGObserver *obs)
-{
-	_Observers.erase(std::remove(_Observers.begin(), _Observers.end(), obs), _Observers.end());
+void CIGNotifier::removeObserver(IIGObserver *obs) {
+  _Observers.erase(std::remove(_Observers.begin(), _Observers.end(), obs),
+                   _Observers.end());
 }
 
 //===========================================================
-bool CIGNotifier::isObserver(IIGObserver *obs) const
-{
-	TObservers::const_iterator it = std::find(_Observers.begin(), _Observers.end(), obs);
-	return it != _Observers.end();
-}
-
-
-//===========================================================
-void CIGNotifier::notifyIGLoaded(NL3D::UInstanceGroup *ig)
-{
-	for(TObservers::iterator it = _Observers.begin(); it != _Observers.end(); ++it)
-	{
-		(*it)->instanceGroupLoaded(ig);
-	}
+bool CIGNotifier::isObserver(IIGObserver *obs) const {
+  TObservers::const_iterator it =
+      std::find(_Observers.begin(), _Observers.end(), obs);
+  return it != _Observers.end();
 }
 
 //===========================================================
-void CIGNotifier::notifyIGAdded(NL3D::UInstanceGroup *ig)
-{
-	for(TObservers::iterator it = _Observers.begin(); it != _Observers.end(); ++it)
-	{
-		(*it)->instanceGroupAdded(ig);
-	}
+void CIGNotifier::notifyIGLoaded(NL3D::UInstanceGroup *ig) {
+  for (TObservers::iterator it = _Observers.begin(); it != _Observers.end();
+       ++it) {
+    (*it)->instanceGroupLoaded(ig);
+  }
 }
 
 //===========================================================
-void CIGNotifier::notifyIGRemoved(NL3D::UInstanceGroup *ig)
-{
-	for(TObservers::iterator it = _Observers.begin(); it != _Observers.end(); ++it)
-	{
-		(*it)->instanceGroupRemoved(ig);
-	}
+void CIGNotifier::notifyIGAdded(NL3D::UInstanceGroup *ig) {
+  for (TObservers::iterator it = _Observers.begin(); it != _Observers.end();
+       ++it) {
+    (*it)->instanceGroupAdded(ig);
+  }
+}
+
+//===========================================================
+void CIGNotifier::notifyIGRemoved(NL3D::UInstanceGroup *ig) {
+  for (TObservers::iterator it = _Observers.begin(); it != _Observers.end();
+       ++it) {
+    (*it)->instanceGroupRemoved(ig);
+  }
 }

@@ -20,38 +20,37 @@
 #ifndef DECAL_ANIM_H
 #define DECAL_ANIM_H
 
-
-namespace NLMISC
-{
-	class CVector2f;
+namespace NLMISC {
+class CVector2f;
 }
 
-namespace NLGUI
-{
-	class CLuaObject;
+namespace NLGUI {
+class CLuaObject;
 }
 
 using namespace NLGUI;
 
 class CDecal;
 
-// TODO nico : this would fit nicely in the particle system animation system (would be more flexible)
-class CDecalAnim
-{
+// TODO nico : this would fit nicely in the particle system animation system
+// (would be more flexible)
+class CDecalAnim {
 public:
-	std::string		Texture;
-	uint			DurationInMs;
-	//
-	float			EndScaleFactor;
-	float			EndAngleInDegrees;
-	NLMISC::CRGBA	StartDiffuse;
-	NLMISC::CRGBA	EndDiffuse;
-	NLMISC::CRGBA	StartEmissive;
-	NLMISC::CRGBA	EndEmissive;
+  std::string Texture;
+  uint DurationInMs;
+  //
+  float EndScaleFactor;
+  float EndAngleInDegrees;
+  NLMISC::CRGBA StartDiffuse;
+  NLMISC::CRGBA EndDiffuse;
+  NLMISC::CRGBA StartEmissive;
+  NLMISC::CRGBA EndEmissive;
+
 public:
-	CDecalAnim();
-	void updateDecal(const NLMISC::CVector2f &pos, float animRatio, CDecal &dest, float refScale) const;
-	void buildFromLuaTable(CLuaObject &table);
+  CDecalAnim();
+  void updateDecal(const NLMISC::CVector2f &pos, float animRatio, CDecal &dest,
+                   float refScale) const;
+  void buildFromLuaTable(CLuaObject &table);
 };
 
 #endif

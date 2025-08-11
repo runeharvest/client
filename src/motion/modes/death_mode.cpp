@@ -14,31 +14,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 //////////////
 // INCLUDES //
 //////////////
 #include "stdpch.h"
 // Client.
+#include "../../entities.h"
 #include "../../input.h"
-#include "../user_controls.h"
+#include "../../interface_v3/interface_manager.h"
 #include "../../user_entity.h"
 #include "../../view.h"
-#include "../../interface_v3/interface_manager.h"
-#include "../../entities.h"
-
+#include "../user_controls.h"
 
 ///////////
 // USING //
 ///////////
 
-
 ////////////
 // EXTERN //
 ////////////
-
 
 ///////////////
 // Functions //
@@ -47,37 +41,33 @@
 // deathModeStart :
 // Manage interactions in interactive mode (start).
 //-----------------------------------------------
-void CUserControls::deathModeStart()
-{
-	// Mouse free look
-	SetMouseCursor();
-	// No more Velocity.
-	UserEntity->frontVelocity(0);
-	UserEntity->lateralVelocity(0);
-	// No more autowalk
-	_DirectionMove		= none;
-	// Third person view but player dead, user is not selectable.
-	UserEntity->selectable(false);
-	_InternalView = false;
-	// Show/hide all or parts of the user body (after _InternaView is set).
-	UserEntity->updateVisualDisplay();
-}// deathModeStart //
+void CUserControls::deathModeStart() {
+  // Mouse free look
+  SetMouseCursor();
+  // No more Velocity.
+  UserEntity->frontVelocity(0);
+  UserEntity->lateralVelocity(0);
+  // No more autowalk
+  _DirectionMove = none;
+  // Third person view but player dead, user is not selectable.
+  UserEntity->selectable(false);
+  _InternalView = false;
+  // Show/hide all or parts of the user body (after _InternaView is set).
+  UserEntity->updateVisualDisplay();
+} // deathModeStart //
 
 //-----------------------------------------------
 // deathModeStop :
 // Manage interactions in interactive mode (stop).
 //-----------------------------------------------
-void CUserControls::deathModeStop()
-{
-}// deathModeStop //
+void CUserControls::deathModeStop() {} // deathModeStop //
 
 //-----------------------------------------------
 // deathMode :
 // Manage interactions in free head mode.
 //-----------------------------------------------
-void CUserControls::deathMode()
-{
-	// Set the view.
-	View.view(CVector(0,0.01f,-1));
-	View.viewPos(UserEntity->pos() + CVector(0,0,4));
-}// deathMode //
+void CUserControls::deathMode() {
+  // Set the view.
+  View.view(CVector(0, 0.01f, -1));
+  View.viewPos(UserEntity->pos() + CVector(0, 0, 4));
+} // deathMode //

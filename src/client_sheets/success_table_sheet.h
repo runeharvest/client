@@ -14,13 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_SUCCESS_TABLE_SHEET_H
 #define NL_SUCCESS_TABLE_SHEET_H
 
 #include "entity_sheet.h"
-
 
 // ***************************************************************************
 /**
@@ -29,50 +26,34 @@
  * \author Nevrax France
  * \date 2003
  */
-class CSuccessTableSheet : public CEntitySheet
-{
+class CSuccessTableSheet : public CEntitySheet {
 public:
-
-
-	/// The Difficulty Table
-	struct CSuccessEntry
-	{
-		sint32	RelativeLevel;
-		sint32	SuccessProbability;
-		sint32	PartialSuccessProbability;
-		void	serial(NLMISC::IStream &f)
-		{
-			f.serialVersion(0);
-			f.serial(RelativeLevel);
-			f.serial(SuccessProbability);
-			f.serial(PartialSuccessProbability);
-		}
-	};
-	std::vector<CSuccessEntry>		SuccessTable;
-
+  /// The Difficulty Table
+  struct CSuccessEntry {
+    sint32 RelativeLevel;
+    sint32 SuccessProbability;
+    sint32 PartialSuccessProbability;
+    void serial(NLMISC::IStream &f) {
+      f.serialVersion(0);
+      f.serial(RelativeLevel);
+      f.serial(SuccessProbability);
+      f.serial(PartialSuccessProbability);
+    }
+  };
+  std::vector<CSuccessEntry> SuccessTable;
 
 public:
+  /// Constructor
+  CSuccessTableSheet() { Type = SUCCESS_TABLE; }
 
-	/// Constructor
-	CSuccessTableSheet()
-	{
-		Type = SUCCESS_TABLE;
-	}
+  /// destructor
+  virtual ~CSuccessTableSheet() {}
 
-	/// destructor
-	virtual ~CSuccessTableSheet() {}
+  virtual void build(const NLGEORGES::UFormElm &root);
 
-	virtual void build(const NLGEORGES::UFormElm &root);
-
-	/// serialize
-	virtual void serial(NLMISC::IStream &f)
-	{
-		f.serialCont(SuccessTable);
-	}
-
-
+  /// serialize
+  virtual void serial(NLMISC::IStream &f) { f.serialCont(SuccessTable); }
 };
-
 
 #endif // NL_SUCCESS_TABLE_SHEET_H
 

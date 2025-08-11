@@ -19,29 +19,27 @@
 
 #include "nel/misc/types_nl.h"
 
-#include <string>
 #include <map>
+#include <string>
 
-namespace R2
-{
-	class CObject;
-	class CPalette
-	{
-	private:
-		typedef std::map<std::string, CObject*> TMap;
-	public:
-		CObject* getPaletteElement(const std::string& key) const;
+namespace R2 {
+class CObject;
+class CPalette {
+private:
+  typedef std::map<std::string, CObject *> TMap;
 
-		void addPaletteElement(const std::string& key, CObject* paletteElement);
+public:
+  CObject *getPaletteElement(const std::string &key) const;
 
-		bool isInPalette(const std::string &key) const;
+  void addPaletteElement(const std::string &key, CObject *paletteElement);
 
-		~CPalette();
+  bool isInPalette(const std::string &key) const;
 
-	private:
-		TMap _Map;
-	};
-} // namespace DMS
+  ~CPalette();
 
-#endif //DMS_PALETTE_H
+private:
+  TMap _Map;
+};
+} // namespace R2
 
+#endif // DMS_PALETTE_H

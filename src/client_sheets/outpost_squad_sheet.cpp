@@ -14,27 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "outpost_squad_sheet.h"
+#include "stdpch.h"
 
 #include "nel/georges/u_form_elm.h"
 
+// ****************************************************************************
+COutpostSquadSheet::COutpostSquadSheet() { Type = CEntitySheet::OUTPOST_SQUAD; }
 
 // ****************************************************************************
-COutpostSquadSheet::COutpostSquadSheet()
-{
-	Type = CEntitySheet::OUTPOST_SQUAD;
+void COutpostSquadSheet::build(const NLGEORGES::UFormElm &root) {
+  root.getValueByName(BuyPrice, "Buy Price");
 }
 
 // ****************************************************************************
-void COutpostSquadSheet::build(const NLGEORGES::UFormElm &root)
-{
-	root.getValueByName(BuyPrice, "Buy Price");
-}
-
-// ****************************************************************************
-void COutpostSquadSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(BuyPrice);
-}
-
+void COutpostSquadSheet::serial(NLMISC::IStream &f) { f.serial(BuyPrice); }

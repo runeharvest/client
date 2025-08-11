@@ -14,21 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_INTERF_SCRIPT_H
 #define CL_INTERF_SCRIPT_H
-
 
 /////////////
 // Include //
 /////////////
-#include "nel/misc/types_nl.h"
 #include "nel/misc/rgba.h"
+#include "nel/misc/types_nl.h"
 // Client.
+#include "button_base.h"
 #include "control.h"
 #include "osd.h"
-#include "button_base.h"
 // std
 #include <vector>
 
@@ -38,7 +35,6 @@
 // Using //
 ///////////
 using NLMISC::CRGBA;
-
 
 //////////////
 // Function //

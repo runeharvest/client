@@ -42,75 +42,73 @@ next level today!
 
 class CQuicConnectionImpl;
 
-class CQuicConnection
-{
+class CQuicConnection {
 public:
-	enum TState
-	{
-		Disconnected,
-		Connecting,
-		Connected,
-		Disconnecting,
-	};
+  enum TState {
+    Disconnected,
+    Connecting,
+    Connected,
+    Disconnecting,
+  };
 
-	CQuicConnection();
-	~CQuicConnection();
+  CQuicConnection();
+  ~CQuicConnection();
 
-	/// Connect
-	void connect(const NLNET::CInetHost &addr); // const CInetAddress &addr);
+  /// Connect
+  void connect(const NLNET::CInetHost &addr); // const CInetAddress &addr);
 
-	/// Shutdown and close gracefully, this object can be reused immediately for a new connection even if non-blocking
-	void disconnect(bool blocking = false);
+  /// Shutdown and close gracefully, this object can be reused immediately for a
+  /// new connection even if non-blocking
+  void disconnect(bool blocking = false);
 
-	/// Update connection state
-	void update();
+  /// Update connection state
+  void update();
 
-	/// Release QUIC resources asynchronously (during update), library can be safely reused even after this call
-	void release();
+  /// Release QUIC resources asynchronously (during update), library can be
+  /// safely reused even after this call
+  void release();
 
-	/// Check if still connecting or connected
-	TState state() const;
+  /// Check if still connecting or connected
+  TState state() const;
 
-	/// Check the maximum datagram length
-	uint32 maxSendLength() const;
+  /// Check the maximum datagram length
+  uint32 maxSendLength() const;
 
-	/// Check if the connection is in a limbo state
-	inline bool limbo() const
-	{
-		const TState s = state();
-		return s == Connecting || s == Disconnecting;
-	}
+  /// Check if the connection is in a limbo state
+  inline bool limbo() const {
+    const TState s = state();
+    return s == Connecting || s == Disconnecting;
+  }
 
-	/// Check if we can send
-	inline bool canSend() const
-	{
-		return state() == Connected && maxSendLength() > 0;
-	}
+  /// Check if we can send
+  inline bool canSend() const {
+    return state() == Connected && maxSendLength() > 0;
+  }
 
-	/// Check if the connection is connected
-	inline bool connected() const { return state() == Connected; }
+  /// Check if the connection is connected
+  inline bool connected() const { return state() == Connected; }
 
-	/// Send a datagram, fancier than a telegram, but not as reliable
-	// bool sendDatagram(const uint8 *buffer, uint32 size);
+  /// Send a datagram, fancier than a telegram, but not as reliable
+  // bool sendDatagram(const uint8 *buffer, uint32 size);
 
-	/// Send a datagram, this swaps the buffer with the previous one sent
-	/// Only one datagram may be in flight at a time
-	bool sendDatagramSwap(NLMISC::CBitMemStream &buffer, uint32 size);
+  /// Send a datagram, this swaps the buffer with the previous one sent
+  /// Only one datagram may be in flight at a time
+  bool sendDatagramSwap(NLMISC::CBitMemStream &buffer, uint32 size);
 
-	/// Check if any datagram has been received
-	bool datagramAvailable() const;
+  /// Check if any datagram has been received
+  bool datagramAvailable() const;
 
-	/// Receive a datagram
-	bool receiveDatagram(NLMISC::CBitMemStream &msgin);
+  /// Receive a datagram
+  bool receiveDatagram(NLMISC::CBitMemStream &msgin);
 
-	/// Check if quick is supported
-	bool isSupported() const;
+  /// Check if quick is supported
+  bool isSupported() const;
 
 private:
-	friend CQuicConnectionImpl;
+  friend CQuicConnectionImpl;
 
-	/// Internal implementation specific
-	CUniquePtr<CQuicConnectionImpl> m;
+  /// Internal implementation specific
+  CUniquePtr<CQuicConnectionImpl> m;
 };
 
 #endif /* NL_QUIC_TRANSCEIVER_H */

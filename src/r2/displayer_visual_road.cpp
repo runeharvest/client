@@ -16,10 +16,10 @@
 
 #include "stdpch.h"
 //
-#include "displayer_visual_road.h"
-#include "instance.h"
-#include "editor.h"
 #include "../global.h"
+#include "displayer_visual_road.h"
+#include "editor.h"
+#include "instance.h"
 //
 
 #ifdef DEBUG_NEW
@@ -29,116 +29,123 @@
 using namespace NLMISC;
 using namespace NL3D;
 
-namespace R2
-{
+namespace R2 {
 
 /*
-// *********************************************************************************************************
+//
+*********************************************************************************************************
 CPrimRender2::CPrimRender2()
 {
-	_VertexMeshs.setShapeName("road_flag.shape");
-	_EdgeMeshs.setShapeName("instance_link.shape");
-	_VertexScale = 1.f;
+        _VertexMeshs.setShapeName("road_flag.shape");
+        _EdgeMeshs.setShapeName("instance_link.shape");
+        _VertexScale = 1.f;
 }
 
-// *********************************************************************************************************
+//
+*********************************************************************************************************
 void CPrimRender2::setVertexShapeName(const std::string &name)
 {
-	_VertexMeshs.setShapeName(name);
+        _VertexMeshs.setShapeName(name);
 }
 
-// *********************************************************************************************************
+//
+*********************************************************************************************************
 void CPrimRender2::setEdgeShapeName(const std::string &name)
 {
-	_EdgeMeshs.setShapeName(name);
+        _EdgeMeshs.setShapeName(name);
 }
 
-// *********************************************************************************************************
-void CPrimRender2::setPoints(const std::vector<NLMISC::CVector> &wp, bool lastIsValid, bool closed)
+//
+*********************************************************************************************************
+void CPrimRender2::setPoints(const std::vector<NLMISC::CVector> &wp, bool
+lastIsValid, bool closed)
 {
-	uint iclosed = closed ? 1 : 0;
-	_VertexMeshs.resize(wp.size());
-	_EdgeMeshs.resize(std::max((sint) (wp.size() - 1 + iclosed), (sint) 0));
-	for(uint k = 0; k < wp.size(); ++k)
-	{
-		if (!_VertexMeshs[k].empty())
-		{
-			_VertexMeshs[k].setTransformMode(UTransform::DirectMatrix);
-			CMatrix flagMat;
-			flagMat.setPos(wp[k]);
-			flagMat.setScale(_VertexScale);
-			_VertexMeshs[k].setMatrix(flagMat);
-			_VertexMeshs[k].enableCastShadowMap(true);
-		}
-		if ((sint) k < (sint) (wp.size() - 1 + iclosed))
-		{
-			if (!_EdgeMeshs[k].empty())
-			{
-				if ((sint) k == (sint) (wp.size() - 2) && !lastIsValid)
-				{
-					_EdgeMeshs[k].hide();
-				}
-				else
-				{
-					CVector I = wp[(k + 1) % wp.size()] - wp[k];
-					CVector INormed = I.normed();
-					CVector K = (CVector::K - (CVector::K * INormed) * INormed).normed();
-					CVector J = K ^ INormed;
-					CMatrix connectorMat;
-					static volatile float scale =0.5f;
-					connectorMat.setRot(I, scale * J, scale * K);
-					connectorMat.setPos(wp[k]);
-					_EdgeMeshs[k].setTransformMode(UTransform::DirectMatrix);
-					_EdgeMeshs[k].setMatrix(connectorMat);
-					_EdgeMeshs[k].show();
-				}
-			}
-		}
-	}
+        uint iclosed = closed ? 1 : 0;
+        _VertexMeshs.resize(wp.size());
+        _EdgeMeshs.resize(std::max((sint) (wp.size() - 1 + iclosed), (sint) 0));
+        for(uint k = 0; k < wp.size(); ++k)
+        {
+                if (!_VertexMeshs[k].empty())
+                {
+                        _VertexMeshs[k].setTransformMode(UTransform::DirectMatrix);
+                        CMatrix flagMat;
+                        flagMat.setPos(wp[k]);
+                        flagMat.setScale(_VertexScale);
+                        _VertexMeshs[k].setMatrix(flagMat);
+                        _VertexMeshs[k].enableCastShadowMap(true);
+                }
+                if ((sint) k < (sint) (wp.size() - 1 + iclosed))
+                {
+                        if (!_EdgeMeshs[k].empty())
+                        {
+                                if ((sint) k == (sint) (wp.size() - 2) &&
+!lastIsValid)
+                                {
+                                        _EdgeMeshs[k].hide();
+                                }
+                                else
+                                {
+                                        CVector I = wp[(k + 1) % wp.size()] -
+wp[k]; CVector INormed = I.normed(); CVector K = (CVector::K - (CVector::K *
+INormed) * INormed).normed(); CVector J = K ^ INormed; CMatrix connectorMat;
+                                        static volatile float scale =0.5f;
+                                        connectorMat.setRot(I, scale * J, scale
+* K); connectorMat.setPos(wp[k]);
+                                        _EdgeMeshs[k].setTransformMode(UTransform::DirectMatrix);
+                                        _EdgeMeshs[k].setMatrix(connectorMat);
+                                        _EdgeMeshs[k].show();
+                                }
+                        }
+                }
+        }
 }
 
-// *********************************************************************************************************
+//
+*********************************************************************************************************
 void CPrimRender2::setEmissive(NLMISC::CRGBA color)
 {
-	_VertexMeshs.setEmissive(color);
-	_EdgeMeshs.setEmissive(color);
+        _VertexMeshs.setEmissive(color);
+        _EdgeMeshs.setEmissive(color);
 }
 */
 
 /*
 
-// *********************************************************************************************************
+//
+*********************************************************************************************************
 CDisplayerVisualRoad::~CDisplayerVisualRoad()
 {
 
 }
 
-// *********************************************************************************************************
+//
+*********************************************************************************************************
 void CDisplayerVisualRoad::onCreate()
 {
-	rebuild();
-	CVisualDisplayer::onCreate();
+        rebuild();
+        CVisualDisplayer::onCreate();
 }
 
 
-// *********************************************************************************************************
+//
+*********************************************************************************************************
 void CDisplayerVisualRoad::rebuild()
 {
-	const CObject *points = getObject(&getProps(), "Points");
-	static volatile bool wantDump = false;
-	if (wantDump)
-	{
-		points->dump();
-	}
-	if (!points) return;
-	std::vector<CVector> wayPoints;
-	wayPoints.resize(points->getSize());
-	for(uint k = 0; k < points->getSize(); ++k)
-	{
-		wayPoints[k] = getVector(points->getValue((uint32) k));
-	}
-	_Road.setWayPoints(wayPoints, true);
+        const CObject *points = getObject(&getProps(), "Points");
+        static volatile bool wantDump = false;
+        if (wantDump)
+        {
+                points->dump();
+        }
+        if (!points) return;
+        std::vector<CVector> wayPoints;
+        wayPoints.resize(points->getSize());
+        for(uint k = 0; k < points->getSize(); ++k)
+        {
+                wayPoints[k] = getVector(points->getValue((uint32) k));
+        }
+        _Road.setWayPoints(wayPoints, true);
 }
 */
 
-} // R2
+} // namespace R2

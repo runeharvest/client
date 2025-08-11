@@ -17,14 +17,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_DBGROUP_LIST_SHEET_MISSION_H
 #define CL_DBGROUP_LIST_SHEET_MISSION_H
 
-
-#include "nel/misc/types_nl.h"
 #include "dbgroup_list_sheet_text.h"
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /**
@@ -33,32 +30,28 @@
  * \author Nevrax France
  * \date 2003
  */
-class CDBGroupListSheetMission : public CDBGroupListSheetText
-{
+class CDBGroupListSheetMission : public CDBGroupListSheetText {
 public:
-	// A child node
-	struct	CSheetChildMission : public CDBGroupListSheetText::CSheetChild
-	{
-		//virtual void updateText(CDBGroupListSheetText * /* pFather */, std::string &/* text */) {}
-		virtual CViewText *createViewText() const;
-		virtual void updateViewText(CDBGroupListSheetText *pFather);
-		virtual bool isInvalidated(CDBGroupListSheetText *pFather);
-		// the sheet is valid if its text is not NULL
-		virtual bool isSheetValid(CDBGroupListSheetText *pFather);
-		virtual void update(CDBGroupListSheetText *pFather);
-		virtual void init(CDBGroupListSheetText *pFather, uint index);
+  // A child node
+  struct CSheetChildMission : public CDBGroupListSheetText::CSheetChild {
+    // virtual void updateText(CDBGroupListSheetText * /* pFather */,
+    // std::string &/* text */) {}
+    virtual CViewText *createViewText() const;
+    virtual void updateViewText(CDBGroupListSheetText *pFather);
+    virtual bool isInvalidated(CDBGroupListSheetText *pFather);
+    // the sheet is valid if its text is not NULL
+    virtual bool isSheetValid(CDBGroupListSheetText *pFather);
+    virtual void update(CDBGroupListSheetText *pFather);
+    virtual void init(CDBGroupListSheetText *pFather, uint index);
 
-		CInterfaceProperty	CurrentPreReqState;
-		uint8				CachePreReqState;
-	};
+    CInterfaceProperty CurrentPreReqState;
+    uint8 CachePreReqState;
+  };
 
-	CDBGroupListSheetMission (const TCtorParam &param)
-		: CDBGroupListSheetText(param)
-	{}
+  CDBGroupListSheetMission(const TCtorParam &param)
+      : CDBGroupListSheetText(param) {}
 
-	virtual CSheetChild *createSheetChild() { return new CSheetChildMission; }
+  virtual CSheetChild *createSheetChild() { return new CSheetChildMission; }
 };
-
-
 
 #endif

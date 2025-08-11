@@ -17,8 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_MAIN_LOOP_H
 #define CL_MAIN_LOOP_H
 
@@ -41,26 +39,22 @@ void commitCamera();
 
 void updateDayNightCycleHour();
 
-
-enum TScreenshotRequest
-{
-	ScreenshotRequestNone = 0,
-	ScreenshotRequestTGA,
-	ScreenshotRequestJPG,
-	ScreenshotRequestPNG
+enum TScreenshotRequest {
+  ScreenshotRequestNone = 0,
+  ScreenshotRequestTGA,
+  ScreenshotRequestJPG,
+  ScreenshotRequestPNG
 };
 
-extern TScreenshotRequest   ScreenshotRequest;
-extern bool					ShowInterface;	// Do the Chat OSD have to be displayed.
+extern TScreenshotRequest ScreenshotRequest;
+extern bool ShowInterface; // Do the Chat OSD have to be displayed.
 
-
-void destroyLoadingBitmap ();
-void drawLoadingBitmap (float progress);
+void destroyLoadingBitmap();
+void drawLoadingBitmap(float progress);
 void displayDebugUIUnderMouse();
 
 // in-game helper : pop messages to signal that the patch isn't completed yet
 void inGamePatchUncompleteWarning();
-
 
 // enable/disable bloom config interface
 void initBloomConfigUI();

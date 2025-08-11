@@ -17,11 +17,10 @@
 #ifndef NL_MESH_CAMERA_COL_MANAGER_H
 #define NL_MESH_CAMERA_COL_MANAGER_H
 
-#include "nel/misc/types_nl.h"
 #include "ig_enum.h"
-#include <vector>
+#include "nel/misc/types_nl.h"
 #include <map>
-
+#include <vector>
 
 // ***************************************************************************
 /**
@@ -30,34 +29,30 @@
  * \author Nevrax France
  * \date 2003
  */
-class CMeshCameraColManager : public IIGObserver
-{
+class CMeshCameraColManager : public IIGObserver {
 public:
-
-	/// Constructor
-	CMeshCameraColManager();
-	~CMeshCameraColManager();
+  /// Constructor
+  CMeshCameraColManager();
+  ~CMeshCameraColManager();
 
 private:
-	virtual void instanceGroupLoaded(NL3D::UInstanceGroup *ig);
-	virtual void instanceGroupAdded(NL3D::UInstanceGroup *ig);
-	virtual void instanceGroupRemoved(NL3D::UInstanceGroup *ig);
+  virtual void instanceGroupLoaded(NL3D::UInstanceGroup *ig);
+  virtual void instanceGroupAdded(NL3D::UInstanceGroup *ig);
+  virtual void instanceGroupRemoved(NL3D::UInstanceGroup *ig);
 
-	// A collection of collision mesh
-	class CMeshGroup
-	{
-	public:
-		std::vector<uint32>		Meshs;
-	};
+  // A collection of collision mesh
+  class CMeshGroup {
+  public:
+    std::vector<uint32> Meshs;
+  };
 
-	// mesh added to the collision manager per instance group
-	typedef	std::map<NL3D::UInstanceGroup*, CMeshGroup>	TIgMap;
-	TIgMap						_IgMap;
+  // mesh added to the collision manager per instance group
+  typedef std::map<NL3D::UInstanceGroup *, CMeshGroup> TIgMap;
+  TIgMap _IgMap;
 };
 
 // The instance
-extern CMeshCameraColManager	MeshCameraColManager;
-
+extern CMeshCameraColManager MeshCameraColManager;
 
 #endif // NL_MESH_CAMERA_COL_MANAGER_H
 

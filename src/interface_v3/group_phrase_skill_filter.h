@@ -17,17 +17,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_GROUP_PHRASE_SKILL_FILTER_H
 #define NL_GROUP_PHRASE_SKILL_FILTER_H
 
-#include "nel/misc/types_nl.h"
 #include "game_share/brick_families.h"
 #include "game_share/skills.h"
-#include "nel/gui/interface_group.h"
 #include "nel/gui/group_tree.h"
-
+#include "nel/gui/interface_group.h"
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /** A Group that display all skills according to Brick usage
@@ -35,55 +32,45 @@
  * \author Nevrax France
  * \date 2003
  */
-class CGroupPhraseSkillFilter : public CInterfaceGroup
-{
+class CGroupPhraseSkillFilter : public CInterfaceGroup {
 public:
-	CGroupPhraseSkillFilter(const TCtorParam &param);
+  CGroupPhraseSkillFilter(const TCtorParam &param);
 
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 
-	virtual void checkCoords();
+  virtual void checkCoords();
 
-	void touch()
-	{
-		_MustRebuild = true;
-	}
+  void touch() { _MustRebuild = true; }
 
 private:
-
-	void	rebuild();
-
-private:
-
-	// observer to know that brick family are modified
-	struct CBrickFamilyObs : public NLMISC::ICDBNode::IPropertyObserver
-	{
-		CGroupPhraseSkillFilter			*Owner;
-		BRICK_FAMILIES::TBrickFamily	BrickFamily;
-
-		virtual void update (NLMISC::ICDBNode *node);
-	};
-	friend struct CBrickFamilyObs;
-	CBrickFamilyObs		_BrickFamilyObs[BRICK_FAMILIES::NbFamilies];
+  void rebuild();
 
 private:
+  // observer to know that brick family are modified
+  struct CBrickFamilyObs : public NLMISC::ICDBNode::IPropertyObserver {
+    CGroupPhraseSkillFilter *Owner;
+    BRICK_FAMILIES::TBrickFamily BrickFamily;
 
-	/// Tell if we have to rebuild all the containers (only if new skill)
-	bool			_MustRebuild;
+    virtual void update(NLMISC::ICDBNode *node);
+  };
+  friend struct CBrickFamilyObs;
+  CBrickFamilyObs _BrickFamilyObs[BRICK_FAMILIES::NbFamilies];
 
-	/// AH for each ctrl node
-	std::string		_AHCtrlNode;
+private:
+  /// Tell if we have to rebuild all the containers (only if new skill)
+  bool _MustRebuild;
 
-	CGroupTree		*_Tree;
+  /// AH for each ctrl node
+  std::string _AHCtrlNode;
 
-	// true if a brick use this skill or one of his parent
-	bool			_BrickSkillUsage[SKILLS::NUM_SKILLS];
+  CGroupTree *_Tree;
 
-	// bkupSkillOpenedStateRecurs
-	void			bkupSkillOpenedStateRecurs(bool *skillOpened, CGroupTree::SNode *node);
+  // true if a brick use this skill or one of his parent
+  bool _BrickSkillUsage[SKILLS::NUM_SKILLS];
+
+  // bkupSkillOpenedStateRecurs
+  void bkupSkillOpenedStateRecurs(bool *skillOpened, CGroupTree::SNode *node);
 };
-
-
 
 #endif // NL_GROUP_PHRASE_SKILL_FILTER_H
 

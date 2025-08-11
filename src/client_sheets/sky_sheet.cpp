@@ -14,63 +14,60 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "sky_sheet.h"
+#include "stdpch.h"
 
 // *****************************************************************************************************
-CSkySheet::CSkySheet()
-{
-	AnimLengthInSeconds = 3; // by default, anim last 3 secconds (over 90 frames)
-	Type = SKY;
-	WaterEnvMapCameraHeight = 0.f;
-	WaterEnvMapAlpha = 255;
+CSkySheet::CSkySheet() {
+  AnimLengthInSeconds = 3; // by default, anim last 3 secconds (over 90 frames)
+  Type = SKY;
+  WaterEnvMapCameraHeight = 0.f;
+  WaterEnvMapAlpha = 255;
 }
 
 // *****************************************************************************************************
-void CSkySheet::build(const NLGEORGES::UFormElm &item, const std::string &prefix)
-{
-	item.getValueByName(InstanceGroupName, (prefix + "InstanceGroupName").c_str());
-	item.getValueByName(AnimationName, (prefix + "AnimationName").c_str());
-	item.getValueByName(AnimLengthInSeconds, (prefix + "AnimLengthInSeconds").c_str());
-	const NLGEORGES::UFormElm *elm = NULL;
-	if(item.getNodeByName (&elm, "Objects") && elm)
-	{
-		uint numObjects;
-		nlverify (elm->getArraySize (numObjects));
-		Objects.resize(numObjects);
-		// For each sky object
-		for(uint k = 0; k < numObjects; ++k)
-		{
-			const NLGEORGES::UFormElm *objectForm;
-			if (elm->getArrayNode (&objectForm, k) && objectForm)
-			{
-				Objects[k].build(*objectForm, "");
-			}
-		}
-	}
-	item.getValueByName(AmbientSunLightBitmap, (prefix + "AmbientSunLightBitmap").c_str());
-	item.getValueByName(DiffuseSunLightBitmap, (prefix + "DiffuseSunLightBitmap").c_str());
-	item.getValueByName(FogColorBitmap, (prefix + "FogColorBitmap").c_str());
-	item.getValueByName(WaterEnvMapCameraHeight, (prefix + "WaterEnvMapCameraHeight").c_str());
-	item.getValueByName(WaterEnvMapAlpha, (prefix + "WaterEnvMapAlpha").c_str());
+void CSkySheet::build(const NLGEORGES::UFormElm &item,
+                      const std::string &prefix) {
+  item.getValueByName(InstanceGroupName,
+                      (prefix + "InstanceGroupName").c_str());
+  item.getValueByName(AnimationName, (prefix + "AnimationName").c_str());
+  item.getValueByName(AnimLengthInSeconds,
+                      (prefix + "AnimLengthInSeconds").c_str());
+  const NLGEORGES::UFormElm *elm = NULL;
+  if (item.getNodeByName(&elm, "Objects") && elm) {
+    uint numObjects;
+    nlverify(elm->getArraySize(numObjects));
+    Objects.resize(numObjects);
+    // For each sky object
+    for (uint k = 0; k < numObjects; ++k) {
+      const NLGEORGES::UFormElm *objectForm;
+      if (elm->getArrayNode(&objectForm, k) && objectForm) {
+        Objects[k].build(*objectForm, "");
+      }
+    }
+  }
+  item.getValueByName(AmbientSunLightBitmap,
+                      (prefix + "AmbientSunLightBitmap").c_str());
+  item.getValueByName(DiffuseSunLightBitmap,
+                      (prefix + "DiffuseSunLightBitmap").c_str());
+  item.getValueByName(FogColorBitmap, (prefix + "FogColorBitmap").c_str());
+  item.getValueByName(WaterEnvMapCameraHeight,
+                      (prefix + "WaterEnvMapCameraHeight").c_str());
+  item.getValueByName(WaterEnvMapAlpha, (prefix + "WaterEnvMapAlpha").c_str());
 }
 
 // *****************************************************************************************************
-void CSkySheet::serial(NLMISC::IStream &f)
-{
-	f.serial(InstanceGroupName);
-	f.serial(AnimationName);
-	f.serial(AnimLengthInSeconds);
-	f.serialCont(Objects);
-	f.serial(AmbientSunLightBitmap);
-	f.serial(DiffuseSunLightBitmap);
-	f.serial(FogColorBitmap);
-	f.serial(WaterEnvMapCameraHeight);
-	f.serial(WaterEnvMapAlpha);
+void CSkySheet::serial(NLMISC::IStream &f) {
+  f.serial(InstanceGroupName);
+  f.serial(AnimationName);
+  f.serial(AnimLengthInSeconds);
+  f.serialCont(Objects);
+  f.serial(AmbientSunLightBitmap);
+  f.serial(DiffuseSunLightBitmap);
+  f.serial(FogColorBitmap);
+  f.serial(WaterEnvMapCameraHeight);
+  f.serial(WaterEnvMapAlpha);
 }
 
 // *****************************************************************************************************
-void CSkySheet::build(const NLGEORGES::UFormElm &item)
-{
-	build(item, "");
-}
+void CSkySheet::build(const NLGEORGES::UFormElm &item) { build(item, ""); }

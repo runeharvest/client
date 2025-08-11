@@ -15,12 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // CJCaption.cpp : implementation file
-// 
-// Copyright (c) 1998-99 Kirk Stowell   
+//
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,26 +36,26 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said!
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
-// ==========================================================================  
-// HISTORY:	  
-// ==========================================================================  
-//			1.00	16 Jan 1999	- Initial first release.  
-// ==========================================================================  
-//  
+// ==========================================================================
+// HISTORY:
+// ==========================================================================
+//			1.00	16 Jan 1999	- Initial first release.
+// ==========================================================================
+//
 /////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "CJCaption.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -66,66 +66,57 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CCJCaption
 
-CCJCaption::CCJCaption()
-{
-}
+CCJCaption::CCJCaption() {}
 
-CCJCaption::~CCJCaption()
-{
-}
-
+CCJCaption::~CCJCaption() {}
 
 BEGIN_MESSAGE_MAP(CCJCaption, CStatic)
-	//{{AFX_MSG_MAP(CCJCaption)
-	ON_WM_PAINT()
-	ON_WM_SYSCOLORCHANGE()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CCJCaption)
+ON_WM_PAINT()
+ON_WM_SYSCOLORCHANGE()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CCJCaption message handlers
 
-void CCJCaption::OnPaint() 
-{
-	CPaintDC dc(this); // device context for painting
+void CCJCaption::OnPaint() {
+  CPaintDC dc(this); // device context for painting
 
-	// Get the client rect for this control.
-	CRect rc;
-	GetClientRect(&rc);
-	
-	// Set the background to transparent, and draw a 3D
-	// border around the control.
-	dc.SetBkMode(TRANSPARENT);
-	dc.FillSolidRect(rc, ::GetSysColor(COLOR_BTNFACE));
+  // Get the client rect for this control.
+  CRect rc;
+  GetClientRect(&rc);
 
-	rc.bottom += 2;
-	dc.Draw3dRect(rc, ::GetSysColor(COLOR_3DSHADOW),
-		::GetSysColor(COLOR_3DHILIGHT));
-	rc.DeflateRect(1,1);
-	rc.bottom += 2;
-	dc.Draw3dRect(rc, ::GetSysColor(COLOR_3DHILIGHT),
-		::GetSysColor(COLOR_3DSHADOW));
-	
-	// Get the log font.
-	CFont newFont, *oldFont;
-	NONCLIENTMETRICS ncm;
-	ncm.cbSize = sizeof(NONCLIENTMETRICS);
-	VERIFY(::SystemParametersInfo(SPI_GETNONCLIENTMETRICS,
-		sizeof(NONCLIENTMETRICS), &ncm, 0));
-	newFont.CreateFontIndirect(&ncm.lfMessageFont);
-	
-	// Get the window text for this control.
-	CString strText;
-	GetWindowText(strText);
-	rc.left += 10;
+  // Set the background to transparent, and draw a 3D
+  // border around the control.
+  dc.SetBkMode(TRANSPARENT);
+  dc.FillSolidRect(rc, ::GetSysColor(COLOR_BTNFACE));
 
-	// Shuffle fonts and paint the text.
-	oldFont = dc.SelectObject(&newFont);
-	dc.DrawText(strText, rc, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
-	dc.SelectObject(oldFont);
+  rc.bottom += 2;
+  dc.Draw3dRect(rc, ::GetSysColor(COLOR_3DSHADOW),
+                ::GetSysColor(COLOR_3DHILIGHT));
+  rc.DeflateRect(1, 1);
+  rc.bottom += 2;
+  dc.Draw3dRect(rc, ::GetSysColor(COLOR_3DHILIGHT),
+                ::GetSysColor(COLOR_3DSHADOW));
+
+  // Get the log font.
+  CFont newFont, *oldFont;
+  NONCLIENTMETRICS ncm;
+  ncm.cbSize = sizeof(NONCLIENTMETRICS);
+  VERIFY(::SystemParametersInfo(SPI_GETNONCLIENTMETRICS,
+                                sizeof(NONCLIENTMETRICS), &ncm, 0));
+  newFont.CreateFontIndirect(&ncm.lfMessageFont);
+
+  // Get the window text for this control.
+  CString strText;
+  GetWindowText(strText);
+  rc.left += 10;
+
+  // Shuffle fonts and paint the text.
+  oldFont = dc.SelectObject(&newFont);
+  dc.DrawText(strText, rc, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+  dc.SelectObject(oldFont);
 }
 
-void CCJCaption::OnSysColorChange() 
-{
-	CStatic::OnSysColorChange();
-}
+void CCJCaption::OnSysColorChange() { CStatic::OnSysColorChange(); }

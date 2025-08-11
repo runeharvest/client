@@ -19,46 +19,46 @@
 
 #include "tool_maintained_action.h"
 
-namespace R2
-{
+namespace R2 {
 
 /**
-  * Tool to select an element in the scene
-  * If the left button is maintained down, then the selected element is moved
-  */
-class CToolSelectRotate : public CToolMaintainedAction
-{
+ * Tool to select an element in the scene
+ * If the left button is maintained down, then the selected element is moved
+ */
+class CToolSelectRotate : public CToolMaintainedAction {
 public:
-	NLMISC_DECLARE_CLASS(R2::CToolSelectRotate);
+  NLMISC_DECLARE_CLASS(R2::CToolSelectRotate);
 
-	CToolSelectRotate();
-	// from CTool
-	virtual const char *getToolUIName() const { return "selectRotate"; }
-	virtual bool  isCreationTool() const { return false; }
-	virtual bool  isActionPossibleOn(const CInstance &instance) const;
+  CToolSelectRotate();
+  // from CTool
+  virtual const char *getToolUIName() const { return "selectRotate"; }
+  virtual bool isCreationTool() const { return false; }
+  virtual bool isActionPossibleOn(const CInstance &instance) const;
+
 protected:
-	// from CToolMaintainedAction
-	virtual bool onMouseLeftButtonDown();
-	virtual void beginAction(CInstance &instance);
-	virtual void cancelAction(CInstance &instance);
-	virtual void commitAction(CInstance &instance);
-	virtual void updateAction(CInstance &instance);
-	virtual const char *getCursorForPossibleAction() const { return "r2ed_tool_can_rotate.tga"; }
-private:
-	float   _StartAngle;
-	sint32  _MouseStartX;
-private:
-	void setRotateInProgress(bool rotateInProgress, CInstance &instance);
-	// get orientation of an entity (in radians)
-	static float getEntityAngle(CEntityCL &entity);
-	// set orientation of an entity (in radians)
-	static void  setEntityAngle(CEntityCL &entity, CInstance &instance, float angle);
+  // from CToolMaintainedAction
+  virtual bool onMouseLeftButtonDown();
+  virtual void beginAction(CInstance &instance);
+  virtual void cancelAction(CInstance &instance);
+  virtual void commitAction(CInstance &instance);
+  virtual void updateAction(CInstance &instance);
+  virtual const char *getCursorForPossibleAction() const {
+    return "r2ed_tool_can_rotate.tga";
+  }
 
+private:
+  float _StartAngle;
+  sint32 _MouseStartX;
+
+private:
+  void setRotateInProgress(bool rotateInProgress, CInstance &instance);
+  // get orientation of an entity (in radians)
+  static float getEntityAngle(CEntityCL &entity);
+  // set orientation of an entity (in radians)
+  static void setEntityAngle(CEntityCL &entity, CInstance &instance,
+                             float angle);
 };
 
-
-
-
-} // R2
+} // namespace R2
 
 #endif

@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_DBGROUP_LIST_SHEET_TEXT_BRICK_COMPOSITION_H
 #define NL_DBGROUP_LIST_SHEET_TEXT_BRICK_COMPOSITION_H
 
-#include "nel/misc/types_nl.h"
 #include "dbgroup_list_sheet_text.h"
-
+#include "nel/misc/types_nl.h"
 
 // ***************************************************************************
 /**
@@ -30,50 +27,46 @@
  * \author Nevrax France
  * \date 2003
  */
-class CDBGroupListSheetTextBrickComposition : public CDBGroupListSheetText
-{
+class CDBGroupListSheetTextBrickComposition : public CDBGroupListSheetText {
 public:
+  /// Constructor
+  CDBGroupListSheetTextBrickComposition(const TCtorParam &param);
 
-	/// Constructor
-	CDBGroupListSheetTextBrickComposition(const TCtorParam &param);
+  virtual bool parse(xmlNodePtr cur, CInterfaceGroup *parentGroup);
 
-	virtual bool parse (xmlNodePtr cur, CInterfaceGroup *parentGroup);
+  // A child node
+  class CSheetChildBrick : public CDBGroupListSheetText::CSheetChild {
+  public:
+    CSheetChildBrick();
+    virtual ~CSheetChildBrick();
+    virtual void init(CDBGroupListSheetText *pFather, uint index);
+    virtual bool isInvalidated(CDBGroupListSheetText *pFather);
+    virtual void update(CDBGroupListSheetText *pFather);
+    virtual void updateViewText(CDBGroupListSheetText *pFather);
+    virtual void hide(CDBGroupListSheetText *pFather);
+    virtual sint getDeltaX(CDBGroupListSheetText *pFather) const;
 
-	// A child node
-	class	CSheetChildBrick : public CDBGroupListSheetText::CSheetChild
-	{
-	public:
-		CSheetChildBrick();
-		virtual ~CSheetChildBrick();
-		virtual void init(CDBGroupListSheetText *pFather, uint index);
-		virtual bool isInvalidated(CDBGroupListSheetText *pFather);
-		virtual void update(CDBGroupListSheetText *pFather);
-		virtual void updateViewText(CDBGroupListSheetText *pFather);
-		virtual void hide(CDBGroupListSheetText *pFather);
-		virtual	sint getDeltaX(CDBGroupListSheetText *pFather) const;
+    // The special costView for this child
+    CViewText *CostView;
+  };
 
-		// The special costView for this child
-		CViewText	*CostView;
-	};
+  virtual CSheetChild *createSheetChild() { return new CSheetChildBrick; }
 
-	virtual CSheetChild *createSheetChild() { return new CSheetChildBrick; }
-
-	sint32		getXCost() const {return _XCost;}
-	sint32		getYCost() const {return _YCost;}
+  sint32 getXCost() const { return _XCost; }
+  sint32 getYCost() const { return _YCost; }
 
 protected:
-	friend class	CSheetChildBrick;
-	sint32		_XCost;
-	sint32		_YCost;
-	sint32		_BrickParameterDeltaX;
+  friend class CSheetChildBrick;
+  sint32 _XCost;
+  sint32 _YCost;
+  sint32 _BrickParameterDeltaX;
 
-	// get the list of the list_sheet_text
-	CInterfaceGroup	*getList() const {return _List;}
+  // get the list of the list_sheet_text
+  CInterfaceGroup *getList() const { return _List; }
 
-	// get the textTemplate of the list_sheet_text
-	CViewText		&getTextTemplate() {return _TextTemplate;}
+  // get the textTemplate of the list_sheet_text
+  CViewText &getTextTemplate() { return _TextTemplate; }
 };
-
 
 #endif // NL_DBGROUP_LIST_SHEET_TEXT_BRICK_COMPOSITION_H
 

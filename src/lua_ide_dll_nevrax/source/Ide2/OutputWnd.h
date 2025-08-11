@@ -30,29 +30,30 @@ struct SCNotification;
 
 #include "ScintillaBar.h"
 
-class COutputWnd : public CScintillaBar
-{
+class COutputWnd : public CScintillaBar {
 public:
-	void GotoLine(CString strLine);
-	virtual BOOL Create(CWnd* pParentWnd, UINT nID, LPCTSTR lpszWindowName = NULL, CSize sizeDefault = CSize(200,100), DWORD dwStyle = CBRS_LEFT);
-	CScintillaView* GetOutput(int nOutput) { return (CScintillaView*)GetView(nOutput); };
-	void SetActiveOutput(int nOutput) { if ( GetActiveView()!=GetView(nOutput) ) SetActiveView(nOutput); };
+  void GotoLine(CString strLine);
+  virtual BOOL Create(CWnd *pParentWnd, UINT nID, LPCTSTR lpszWindowName = NULL,
+                      CSize sizeDefault = CSize(200, 100),
+                      DWORD dwStyle = CBRS_LEFT);
+  CScintillaView *GetOutput(int nOutput) {
+    return (CScintillaView *)GetView(nOutput);
+  };
+  void SetActiveOutput(int nOutput) {
+    if (GetActiveView() != GetView(nOutput))
+      SetActiveView(nOutput);
+  };
 
-	COutputWnd();
-	virtual ~COutputWnd();
+  COutputWnd();
+  virtual ~COutputWnd();
 
-	enum
-	{
-		outputBuild = 0,
-		outputDebug,
-		outputFiF
-	} outputTypes;
+  enum { outputBuild = 0, outputDebug, outputFiF } outputTypes;
 
-	virtual int OnSci(CScintillaView* pView, SCNotification* pNotify);
+  virtual int OnSci(CScintillaView *pView, SCNotification *pNotify);
 
 protected:
-	int OnBuildSci(SCNotification* pNotify);
-	int OnDebugSci(SCNotification* pNotify);
+  int OnBuildSci(SCNotification *pNotify);
+  int OnDebugSci(SCNotification *pNotify);
 };
 
 #endif // !defined(AFX_OUTPUTWND_H__804E57BF_EABF_48F9_B600_90503B44A217__INCLUDED_)

@@ -14,17 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_DEMO_H
 #define CL_DEMO_H
-
 
 /////////////
 // INCLUDE //
 /////////////
 #include "nel/misc/types_nl.h"
-
 
 ///////////////
 // FUNCTIONS //
@@ -33,7 +29,6 @@
 void initDemo();
 // Call a function for a demo to update.
 void updateDemo(double timeElapsed);
-
 
 #endif // CL_DEMO_H
 

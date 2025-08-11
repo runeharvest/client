@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 // Application
 #include "pact_sheet.h"
@@ -25,71 +23,65 @@
 using namespace NLGEORGES;
 
 //=================================================================================
-void CPactSheet::build(const NLGEORGES::UFormElm &root)
-{
-	Type = PACT;
-	const UFormElm *arrayDeathImpact = NULL;
-	if( root.getNodeByName( &arrayDeathImpact, "death_impact" ) )
-	{
-		if( arrayDeathImpact )
-		{
-			uint size;
-			nlverify( arrayDeathImpact->getArraySize(size) );
-			PactLose.resize( size );
+void CPactSheet::build(const NLGEORGES::UFormElm &root) {
+  Type = PACT;
+  const UFormElm *arrayDeathImpact = NULL;
+  if (root.getNodeByName(&arrayDeathImpact, "death_impact")) {
+    if (arrayDeathImpact) {
+      uint size;
+      nlverify(arrayDeathImpact->getArraySize(size));
+      PactLose.resize(size);
 
-			const UFormElm *node;
+      const UFormElm *node;
 
-			// variable is used for calculate pact effect in differential between pacts type
-			sint16 LoseHitPoints = 0;
-			sint16 LoseStamina = 0;
-			sint16 LoseSap = 0;
-			sint16 LoseSkills = 0;
+      // variable is used for calculate pact effect in differential between
+      // pacts type
+      sint16 LoseHitPoints = 0;
+      sint16 LoseStamina = 0;
+      sint16 LoseSap = 0;
+      sint16 LoseSkills = 0;
 
-			sint16 value;
+      sint16 value;
 
-			for( uint i = 0; i < size; ++i )
-			{
-				node = NULL;
-				arrayDeathImpact->getArrayNode( &node, i );
+      for (uint i = 0; i < size; ++i) {
+        node = NULL;
+        arrayDeathImpact->getArrayNode(&node, i);
 
-				if( node )
-				{
-					node->getValueByName( value, "HitPoints" );
-					value = 0 - value - LoseHitPoints;
-					LoseHitPoints += value;
-					PactLose[ i ].LoseHitPointsLevel = value;
+        if (node) {
+          node->getValueByName(value, "HitPoints");
+          value = 0 - value - LoseHitPoints;
+          LoseHitPoints += value;
+          PactLose[i].LoseHitPointsLevel = value;
 
-					node->getValueByName( value, "Stamina" );
-					value = 0 - value - LoseStamina;
-					LoseStamina += value;
-					PactLose[ i ].LoseStaminaLevel = value;
+          node->getValueByName(value, "Stamina");
+          value = 0 - value - LoseStamina;
+          LoseStamina += value;
+          PactLose[i].LoseStaminaLevel = value;
 
-					node->getValueByName( value, "Sap" );
-					value = 0 - value - LoseSap;
-					LoseSap += value;
-					PactLose[ i ].LoseSapLevel = value;
+          node->getValueByName(value, "Sap");
+          value = 0 - value - LoseSap;
+          LoseSap += value;
+          PactLose[i].LoseSapLevel = value;
 
-					node->getValueByName( value, "Skills" );
-					value = 0 - value - LoseSkills;
-					LoseSkills += value;
-					PactLose[ i ].LoseSkillsLevel = value;
+          node->getValueByName(value, "Skills");
+          value = 0 - value - LoseSkills;
+          LoseSkills += value;
+          PactLose[i].LoseSkillsLevel = value;
 
-					node->getValueByName( PactLose[ i ].Duration, "Duration" );
-					node->getValueByName( PactLose[ i ].Name, "Name" );
-				}
-			}
-		}
-		// get bitmap for icone display
-		root.getValueByName(Icon, "icon");
-		root.getValueByName(IconBackground, "icon_background");
-	}
+          node->getValueByName(PactLose[i].Duration, "Duration");
+          node->getValueByName(PactLose[i].Name, "Name");
+        }
+      }
+    }
+    // get bitmap for icone display
+    root.getValueByName(Icon, "icon");
+    root.getValueByName(IconBackground, "icon_background");
+  }
 }
 
-
 //=================================================================================
-void CPactSheet::serial(NLMISC::IStream &f)
-{
-	f.serialCont(PactLose);
-	f.serial(Icon);
-	f.serial(IconBackground);
+void CPactSheet::serial(NLMISC::IStream &f) {
+  f.serialCont(PactLose);
+  f.serial(Icon);
+  f.serial(IconBackground);
 }

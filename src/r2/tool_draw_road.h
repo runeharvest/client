@@ -19,8 +19,8 @@
 
 /*
 
-#include "tool.h"
 #include "displayer_visual_road.h"
+#include "tool.h"
 //
 #include "nel/misc/vector.h"
 
@@ -39,21 +39,21 @@ namespace R2
 class CToolDrawRoad : public CTool
 {
 public:
-	NLMISC_DECLARE_CLASS(R2::CToolDrawRoad);
-	virtual const char *getToolUIName() const { return "drawRoad"; }
-	virtual bool  isCreationTool() const { return true; }
-	CToolDrawRoad();
-	virtual void cancel();
-	virtual void updateAfterRender();
-	virtual void updateBeforeRender();
-	virtual bool onMouseLeftButtonClicked();
-	virtual bool onMouseRightButtonClicked();
-	virtual bool onMouseLeftButtonDown();
+        NLMISC_DECLARE_CLASS(R2::CToolDrawRoad);
+        virtual const char *getToolUIName() const { return "drawRoad"; }
+        virtual bool  isCreationTool() const { return true; }
+        CToolDrawRoad();
+        virtual void cancel();
+        virtual void updateAfterRender();
+        virtual void updateBeforeRender();
+        virtual bool onMouseLeftButtonClicked();
+        virtual bool onMouseRightButtonClicked();
+        virtual bool onMouseLeftButtonDown();
 private:
-	CRoad				 _Road; // the road being drawn
-	uint				 _NumWayPoints;
-	bool				 _ValidPos;
-	std::vector<NLMISC::CVector> _WayPoints;
+        CRoad				 _Road; // the road being drawn
+        uint				 _NumWayPoints;
+        bool				 _ValidPos;
+        std::vector<NLMISC::CVector> _WayPoints;
 };
 
 

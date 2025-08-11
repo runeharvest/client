@@ -14,61 +14,48 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_WEATHER_SETUP
 #define CL_WEATHER_SETUP
 
-#include "nel/misc/rgba.h"
 #include "client_sheets/weather_setup_sheet.h"
-#include "nel/misc/string_mapper.h"
 #include "game_share/fog_type.h"
 #include "game_share/time_weather_season/weather_setup.h"
+#include "nel/misc/rgba.h"
+#include "nel/misc/string_mapper.h"
 #include <vector>
 
-namespace NLGEORGES
-{
-	class UFormElm;
+namespace NLGEORGES {
+class UFormElm;
 }
-
 
 class CPrecipitation;
 
-
 /** Weather state client part.
-  * This includes pointer on precipitation fxs, that are not needed on server side
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2002
-  */
-class CWeatherStateClient
-{
+ * This includes pointer on precipitation fxs, that are not needed on server
+ * side \author Nicolas Vizerie \author Nevrax France \date 2002
+ */
+class CWeatherStateClient {
 public:
-	// struct describing a fx and its intensity
-	struct CFXDesc
-	{
-		float		   Ratio;
-		CPrecipitation *Precipitation; // the precipitation object
-	};
-	// FX
-	std::vector<CFXDesc> FXs;
-	// create vector of fx by using precipitation in the map
-	void setup(const CWeatherState &ws, std::map<std::string, CPrecipitation> &precipitationMap);
-	/** Blend 2 weather state together
-	  * Blend factor is clamped to [0, 1]
-	  */
-	static void          blend(CWeatherStateClient &dest, const CWeatherStateClient &s1, const CWeatherStateClient &s2, float blendFactor);
+  // struct describing a fx and its intensity
+  struct CFXDesc {
+    float Ratio;
+    CPrecipitation *Precipitation; // the precipitation object
+  };
+  // FX
+  std::vector<CFXDesc> FXs;
+  // create vector of fx by using precipitation in the map
+  void setup(const CWeatherState &ws,
+             std::map<std::string, CPrecipitation> &precipitationMap);
+  /** Blend 2 weather state together
+   * Blend factor is clamped to [0, 1]
+   */
+  static void blend(CWeatherStateClient &dest, const CWeatherStateClient &s1,
+                    const CWeatherStateClient &s2, float blendFactor);
 };
 
-class CWeatherSetupClient : public CWeatherSetup
-{
+class CWeatherSetupClient : public CWeatherSetup {
 public:
-	CWeatherStateClient WeatherStateClient;
+  CWeatherStateClient WeatherStateClient;
 };
-
-
 
 #endif
-
-
-

@@ -14,59 +14,51 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"	// First include for pre-compiled headers.
 #include "forage_source_sheet.h"
 #include "nel/georges/u_form_elm.h"
+#include "stdpch.h" // First include for pre-compiled headers.
 
 using namespace std;
 using namespace NLGEORGES;
 
-
 /*
  * Constructor
  */
-//CForageSourceSheet::CForageSourceSheet()
+// CForageSourceSheet::CForageSourceSheet()
 //{
-//}
-
+// }
 
 /*
  * Build the sheet from an external script.
  */
-void CForageSourceSheet::build(const NLGEORGES::UFormElm &item)
-{
-	if ( (! item.getValueByName( FxFilename, "FX" )) || (FxFilename.empty()) )
-		debug( "FX not found in forage_source sheet" );
-	if ( (! item.getValueByName( FxSafeFilename, "FXSafe" )) || (FxSafeFilename.empty()) )
-		debug( "FXSafe not found in forage_source sheet" );
-	if ( ! item.getValueByName( Knowledge, "Knowledge" ) )
-		debug( "Knowledge not found in forage_source sheet" );
-	const UFormElm *array;
-	if ( ! (item.getNodeByName( &array, "Icons" ) && array) )
-		debug( "Icons not found in forage_source sheet" );
-	else
-	{
-		uint nbIcons;
-		array->getArraySize( nbIcons );
-		for ( uint i=0; i!=nbIcons; ++i )
-		{
-			string iconFilename;
-			array->getArrayValue( iconFilename, i );
-			Icons.push_back( iconFilename );
-		}
-	}
+void CForageSourceSheet::build(const NLGEORGES::UFormElm &item) {
+  if ((!item.getValueByName(FxFilename, "FX")) || (FxFilename.empty()))
+    debug("FX not found in forage_source sheet");
+  if ((!item.getValueByName(FxSafeFilename, "FXSafe")) ||
+      (FxSafeFilename.empty()))
+    debug("FXSafe not found in forage_source sheet");
+  if (!item.getValueByName(Knowledge, "Knowledge"))
+    debug("Knowledge not found in forage_source sheet");
+  const UFormElm *array;
+  if (!(item.getNodeByName(&array, "Icons") && array))
+    debug("Icons not found in forage_source sheet");
+  else {
+    uint nbIcons;
+    array->getArraySize(nbIcons);
+    for (uint i = 0; i != nbIcons; ++i) {
+      string iconFilename;
+      array->getArrayValue(iconFilename, i);
+      Icons.push_back(iconFilename);
+    }
+  }
 }
-
 
 /*
  * Serialize character sheet into binary data file.
  */
-void CForageSourceSheet::serial(NLMISC::IStream &f)
-{
-	f.serial( FxFilename );
-	f.serial( FxSafeFilename );
-	f.serial( Knowledge );
-	f.serialCont( Icons );
+void CForageSourceSheet::serial(NLMISC::IStream &f) {
+  f.serial(FxFilename);
+  f.serial(FxSafeFilename);
+  f.serial(Knowledge);
+  f.serialCont(Icons);
 }

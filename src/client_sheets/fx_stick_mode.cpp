@@ -14,10 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "fx_stick_mode.h"
+#include "stdpch.h"
 
 #include "nel/georges/u_form_elm.h"
 
@@ -30,23 +28,23 @@ using namespace NLGEORGES;
 //-----------------------------------------------
 // build
 //-----------------------------------------------
-bool CFXStickMode::build(const NLGEORGES::UFormElm &item, const std::string &prefix /* = ""*/)
-{
-	bool ok = true;
-	uint32 stickMode;
-	ok &= item.getValueByName(stickMode, (prefix + "StickMode").c_str());
-	if (ok) Mode = (CFXStickMode::TStickMode) stickMode;
-	std::string userBoneName;
-	ok &= item.getValueByName(userBoneName, (prefix + "UserBone").c_str());
-	UserBoneName = NLMISC::CStringMapper::map(userBoneName);
-	return ok;
-}// build //
+bool CFXStickMode::build(const NLGEORGES::UFormElm &item,
+                         const std::string &prefix /* = ""*/) {
+  bool ok = true;
+  uint32 stickMode;
+  ok &= item.getValueByName(stickMode, (prefix + "StickMode").c_str());
+  if (ok)
+    Mode = (CFXStickMode::TStickMode)stickMode;
+  std::string userBoneName;
+  ok &= item.getValueByName(userBoneName, (prefix + "UserBone").c_str());
+  UserBoneName = NLMISC::CStringMapper::map(userBoneName);
+  return ok;
+} // build //
 
 //-----------------------------------------------
 // serial
 //-----------------------------------------------
-void CFXStickMode::serial(NLMISC::IStream &f)
-{
-	f.serialEnum(Mode);
-	NLMISC::CStringMapper::serialString(f, UserBoneName);
-}// serial //
+void CFXStickMode::serial(NLMISC::IStream &f) {
+  f.serialEnum(Mode);
+  NLMISC::CStringMapper::serialString(f, UserBoneName);
+} // serial //

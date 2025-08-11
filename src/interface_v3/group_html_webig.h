@@ -22,50 +22,43 @@
 #ifndef CL_GROUP_HTML_WEBIG_H
 #define CL_GROUP_HTML_WEBIG_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/gui/group_html.h"
+#include "nel/misc/types_nl.h"
 
 /**
-* Auth HTML group
-*/
-class CGroupHTMLAuth : public CGroupHTML
-{
+ * Auth HTML group
+ */
+class CGroupHTMLAuth : public CGroupHTML {
 public:
+  // Constructor
+  CGroupHTMLAuth(const TCtorParam &param);
+  ~CGroupHTMLAuth();
 
-	// Constructor
-	CGroupHTMLAuth(const TCtorParam &param);
-	~CGroupHTMLAuth();
-
-	// From CGroupHTML
-	virtual void addHTTPGetParams (std::string &url, bool trustedDomain);
-	virtual void addHTTPPostParams (SFormFields &formfields, bool trustedDomain);
-	virtual std::string	home() const NL_OVERRIDE;
-	virtual void handle ();
+  // From CGroupHTML
+  virtual void addHTTPGetParams(std::string &url, bool trustedDomain);
+  virtual void addHTTPPostParams(SFormFields &formfields, bool trustedDomain);
+  virtual std::string home() const NL_OVERRIDE;
+  virtual void handle();
 
 private:
-
 };
 
-
 /**
-* WebIG HTML group
-*/
-class CGroupHTMLWebIG : public CGroupHTMLAuth
-{
+ * WebIG HTML group
+ */
+class CGroupHTMLWebIG : public CGroupHTMLAuth {
 public:
+  // Constructor
+  CGroupHTMLWebIG(const TCtorParam &param);
+  ~CGroupHTMLWebIG();
 
-	// Constructor
-	CGroupHTMLWebIG(const TCtorParam &param);
-	~CGroupHTMLWebIG();
-
-	/// From CGroupHTMLAuth
-	virtual void addHTTPGetParams (std::string &url, bool trustedDomain);
-	virtual void addHTTPPostParams (SFormFields &formfields, bool trustedDomain);
-	virtual std::string	home() const NL_OVERRIDE;
-	virtual void handle ();
+  /// From CGroupHTMLAuth
+  virtual void addHTTPGetParams(std::string &url, bool trustedDomain);
+  virtual void addHTTPPostParams(SFormFields &formfields, bool trustedDomain);
+  virtual std::string home() const NL_OVERRIDE;
+  virtual void handle();
 
 private:
-
 };
 
 #endif // CL_GROUP_HTML_WEBIG_H

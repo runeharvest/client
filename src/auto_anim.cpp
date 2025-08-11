@@ -17,24 +17,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 /////////////
 // INCLUDE //
 /////////////
 // Misc.
-#include "nel/misc/path.h"
 #include "nel/misc/file.h"
+#include "nel/misc/path.h"
 // 3D Interface.
-#include "nel/3d/u_scene.h"
 #include "nel/3d/u_animation_set.h"
+#include "nel/3d/u_scene.h"
 // Client.
 #include "auto_anim.h"
 // std.
-#include <string>
 #include <fstream>
+#include <string>
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
@@ -48,67 +46,58 @@ using namespace NL3D;
 using namespace NLNET;
 using namespace std;
 
-
 ////////////
 // EXTERN //
 ////////////
-extern UDriver	*Driver;
-extern UScene	*Scene;
-
-
-// ***************************************************************************
-static NL3D::UAnimationSet	*AutoAnimSet= NULL;
+extern UDriver *Driver;
+extern UScene *Scene;
 
 // ***************************************************************************
-void initAutoAnimation()
-{
-	/* Load the automatic animations.
-	 * Automatics animations are listed in the file auto_animatons_list.txt
-	 * Each of this animations are loaded into an animations set
-	 * The animation set is gived to the scene as default automatique animation set
-	 */
-	CIFile file;
-	string listFilename = CPath::lookup("auto_animations_list.txt", false, false, false);
-	if (listFilename.empty() || !file.open (listFilename))
-	{
-		nlwarning ("No automatic animation files list (auto_animations_list.txt)");
-	}
-	else
-	{
-		nlassert(!AutoAnimSet);
-		// Create an animation set
-		AutoAnimSet = Driver->createAnimationSet();
-		nlassert (AutoAnimSet);
+static NL3D::UAnimationSet *AutoAnimSet = NULL;
 
-		while (!file.eof())
-		{
-			// Read a filename
-			char line[512];
-			file.getline(line, 512);
+// ***************************************************************************
+void initAutoAnimation() {
+  /* Load the automatic animations.
+   * Automatics animations are listed in the file auto_animatons_list.txt
+   * Each of this animations are loaded into an animations set
+   * The animation set is gived to the scene as default automatique animation
+   * set
+   */
+  CIFile file;
+  string listFilename =
+      CPath::lookup("auto_animations_list.txt", false, false, false);
+  if (listFilename.empty() || !file.open(listFilename)) {
+    nlwarning("No automatic animation files list (auto_animations_list.txt)");
+  } else {
+    nlassert(!AutoAnimSet);
+    // Create an animation set
+    AutoAnimSet = Driver->createAnimationSet();
+    nlassert(AutoAnimSet);
 
-			// Read the animation file
-			string animName = toLowerAscii(CFile::getFilenameWithoutExtension(line));
-			uint id = AutoAnimSet->addAnimation (line, animName.c_str ());
-			if (id == UAnimationSet::NotFound)
-			{
-				nlwarning ("Can't load automatic animation '%s'", line);
-			}
-		}
+    while (!file.eof()) {
+      // Read a filename
+      char line[512];
+      file.getline(line, 512);
 
-		// Add the animation set
-		AutoAnimSet->build ();
-		Scene->setAutomaticAnimationSet (AutoAnimSet);
-	}
+      // Read the animation file
+      string animName = toLowerAscii(CFile::getFilenameWithoutExtension(line));
+      uint id = AutoAnimSet->addAnimation(line, animName.c_str());
+      if (id == UAnimationSet::NotFound) {
+        nlwarning("Can't load automatic animation '%s'", line);
+      }
+    }
+
+    // Add the animation set
+    AutoAnimSet->build();
+    Scene->setAutomaticAnimationSet(AutoAnimSet);
+  }
 }
 
 // ***************************************************************************
-void releaseAutoAnimation()
-{
-	// if already created
-	if(AutoAnimSet)
-	{
-		Driver->deleteAnimationSet(AutoAnimSet);
-		AutoAnimSet= NULL;
-	}
+void releaseAutoAnimation() {
+  // if already created
+  if (AutoAnimSet) {
+    Driver->deleteAnimationSet(AutoAnimSet);
+    AutoAnimSet = NULL;
+  }
 }
-

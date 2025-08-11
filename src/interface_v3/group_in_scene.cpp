@@ -17,11 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
-
-
 #include "stdpch.h"
 
 #include "group_in_scene.h"
@@ -32,185 +27,164 @@
 using namespace std;
 using namespace NLMISC;
 
-extern CMatrix	MainSceneViewMatrix;
-extern CMatrix	InvMainSceneViewMatrix;
-
+extern CMatrix MainSceneViewMatrix;
+extern CMatrix InvMainSceneViewMatrix;
 
 // ***************************************************************************
-const float CGroupInScene::NearDrawClip= 1.f;
-
+const float CGroupInScene::NearDrawClip = 1.f;
 
 // ***************************************************************************
 NLMISC_REGISTER_OBJECT(CViewBase, CGroupInScene, std::string, "in_scene");
 
 REGISTER_UI_CLASS(CGroupInScene)
 
-CGroupInScene::CGroupInScene(const TCtorParam &param)
-: CInterfaceGroup(param)
-{
-	// Group in scene must update each frame
-	_NeedFrameUpdatePos= true;
+CGroupInScene::CGroupInScene(const TCtorParam &param) : CInterfaceGroup(param) {
+  // Group in scene must update each frame
+  _NeedFrameUpdatePos = true;
 
-	_OffsetX = 0;
-	_OffsetY = 0;
+  _OffsetX = 0;
+  _OffsetY = 0;
 
-	Scale= 1;
-	_UserScale= false;
+  Scale = 1;
+  _UserScale = false;
 
-	_ZBias= 0.f;
+  _ZBias = 0.f;
 
-	Position= CVector::Null;
+  Position = CVector::Null;
 
-	_ProjCenter= CVector::Null;
-	_IsGroupInScene = true;
+  _ProjCenter = CVector::Null;
+  _IsGroupInScene = true;
 }
 
 // ***************************************************************************
-CGroupInScene::~CGroupInScene()
-{
+CGroupInScene::~CGroupInScene() {}
+
+// ***************************************************************************
+void CGroupInScene::computeWindowPos(sint32 &newX, sint32 &newY,
+                                     CVector &newProjCenter) {
+  // don't change X/Y by default
+  newX = _X;
+  newY = _Y;
+  newProjCenter.x = float(_X) - _OffsetX;
+  newProjCenter.y = float(_Y) - _OffsetY;
+
+  if (getActive()) {
+    CViewRenderer &pVR = *CViewRenderer::getInstance();
+    nlassert(isValidDouble(Position.x) && isValidDouble(Position.y) &&
+             isValidDouble(Position.z));
+    CVector tmp = MainSceneViewMatrix * Position;
+    if (tmp.y >= 0.001) {
+      tmp = pVR.getFrustum().projectZ(tmp);
+
+      // Get the width and height
+      uint32 width, height;
+      CViewRenderer::getInstance()->getScreenSize(width, height);
+      tmp.x *= width;
+      tmp.y *= height;
+
+      // position without offset, in float
+      newProjCenter.x = tmp.x;
+      newProjCenter.y = tmp.y;
+
+      // Set the current Z
+      newProjCenter.z = -tmp.z;
+      _DepthForZSort = newProjCenter.z;
+      // Add ZBias (only if won't be clipped)
+      if (newProjCenter.z > NearDrawClip) {
+        newProjCenter.z += getZBias();
+        const float zthreshold = 0.01f;
+        newProjCenter.z =
+            max(newProjCenter.z, pVR.getFrustum().Near + zthreshold);
+        newProjCenter.z = max(newProjCenter.z, NearDrawClip + zthreshold);
+      }
+
+      // Set the position
+      newX = (sint)floor(tmp.x + 0.5f) + _OffsetX;
+      newY = (sint)floor(tmp.y + 0.5f) + _OffsetY;
+    } else {
+      _DepthForZSort = newProjCenter.z = tmp.y;
+    }
+  } else {
+    _DepthForZSort = newProjCenter.z = -1.f;
+  }
+
+  nlassert(isValidDouble(newProjCenter.z));
 }
 
 // ***************************************************************************
-void CGroupInScene::computeWindowPos(sint32 &newX, sint32 &newY, CVector &newProjCenter)
-{
-	// don't change X/Y by default
-	newX= _X;
-	newY= _Y;
-	newProjCenter.x= float(_X) - _OffsetX;
-	newProjCenter.y= float(_Y) - _OffsetY;
+void CGroupInScene::updateCoords() {
+  // Get the x and the y
+  computeWindowPos(_X, _Y, _ProjCenter);
 
-	if(getActive())
-	{
-		CViewRenderer &pVR = *CViewRenderer::getInstance();
-		nlassert(isValidDouble(Position.x) && isValidDouble(Position.y) && isValidDouble(Position.z));
-		CVector tmp = MainSceneViewMatrix * Position;
-		if (tmp.y>=0.001)
-		{
-			tmp = pVR.getFrustum().projectZ (tmp);
-
-			// Get the width and height
-			uint32 width, height;
-			CViewRenderer::getInstance()->getScreenSize(width, height);
-			tmp.x *= width;
-			tmp.y *= height;
-
-			// position without offset, in float
-			newProjCenter.x= tmp.x;
-			newProjCenter.y= tmp.y;
-
-			// Set the current Z
-			newProjCenter.z = -tmp.z;
-			_DepthForZSort= newProjCenter.z;
-			// Add ZBias (only if won't be clipped)
-			if(newProjCenter.z > NearDrawClip)
-			{
-				newProjCenter.z+= getZBias();
-				const float	zthreshold= 0.01f;
-				newProjCenter.z= max(newProjCenter.z, pVR.getFrustum().Near+zthreshold);
-				newProjCenter.z= max(newProjCenter.z, NearDrawClip + zthreshold);
-			}
-
-			// Set the position
-			newX = (sint)floor (tmp.x+0.5f) + _OffsetX;
-			newY = (sint)floor (tmp.y+0.5f) + _OffsetY;
-		}
-		else
-		{
-			_DepthForZSort= newProjCenter.z = tmp.y;
-		}
-	}
-	else
-	{
-		_DepthForZSort= newProjCenter.z = -1.f;
-	}
-
-	nlassert (isValidDouble (newProjCenter.z));
+  CInterfaceGroup::updateCoords();
 }
 
 // ***************************************************************************
-void CGroupInScene::updateCoords()
-{
-	// Get the x and the y
-	computeWindowPos(_X, _Y, _ProjCenter);
+void CGroupInScene::onFrameUpdateWindowPos(sint dx, sint dy) {
+  // I am the root group, so I decide of the new window position.
+  sint32 newX, newY;
+  computeWindowPos(newX, newY, _ProjCenter);
 
-	CInterfaceGroup::updateCoords();
+  dx = newX - _X;
+  dy = newY - _Y;
+
+  // Change the X and Y only here
+  _X = newX;
+  _Y = newY;
+
+  // CInterfaceGroup::onFrameUpdateWindowPos will apply the delta on XReal /
+  // YReal
+  CInterfaceGroup::onFrameUpdateWindowPos(dx, dy);
 }
 
 // ***************************************************************************
-void CGroupInScene::onFrameUpdateWindowPos (sint dx, sint dy)
-{
-	// I am the root group, so I decide of the new window position.
-	sint32	newX, newY;
-	computeWindowPos(newX, newY, _ProjCenter);
+void CGroupInScene::draw() {
+  H_AUTO(RZ_Interface_CGroupInScene_draw)
 
-	dx= newX - _X;
-	dy= newY - _Y;
+  if (_ProjCenter.z > NearDrawClip) {
+    CViewRenderer &pVR = *CViewRenderer::getInstance();
 
-	// Change the X and Y only here
-	_X= newX;
-	_Y= newY;
+    // Set the current Z, and projCenter / scale
+    if (_UserScale)
+      pVR.setInterfaceDepth(_ProjCenter, Scale);
+    else
+      pVR.setInterfaceDepth(_ProjCenter, 1);
 
-	// CInterfaceGroup::onFrameUpdateWindowPos will apply the delta on XReal / YReal
-	CInterfaceGroup::onFrameUpdateWindowPos(dx, dy);
-}
-
-// ***************************************************************************
-void CGroupInScene::draw()
-{
-	H_AUTO( RZ_Interface_CGroupInScene_draw )
-
-	if (_ProjCenter.z > NearDrawClip)
-	{
-		CViewRenderer &pVR = *CViewRenderer::getInstance();
-
-		// Set the current Z, and projCenter / scale
-		if(_UserScale)
-			pVR.setInterfaceDepth (_ProjCenter, Scale);
-		else
-			pVR.setInterfaceDepth (_ProjCenter, 1);
-
-		CInterfaceGroup::draw();
-	}
+    CInterfaceGroup::draw();
+  }
 }
 
 // ***************************************************************************
 
-bool CGroupInScene::parse (xmlNodePtr cur,  CInterfaceGroup *parent)
-{
-	if (!CInterfaceGroup::parse (cur,  parent))
-		return false;
+bool CGroupInScene::parse(xmlNodePtr cur, CInterfaceGroup *parent) {
+  if (!CInterfaceGroup::parse(cur, parent))
+    return false;
 
-	CXMLAutoPtr ptr;
+  CXMLAutoPtr ptr;
 
-	_OffsetX = 0;
-	ptr = xmlGetProp (cur, (xmlChar*)"in_scene_offset_x");
-	if (ptr)
-		fromString((const char*)ptr, _OffsetX);
-	_OffsetY = 0;
-	ptr = xmlGetProp (cur, (xmlChar*)"in_scene_offset_y");
-	if (ptr)
-		fromString((const char*)ptr, _OffsetY);
-	_UserScale= false;
-	ptr = xmlGetProp (cur, (xmlChar*)"user_scale");
-	if (ptr)
-		_UserScale= convertBool(ptr);
+  _OffsetX = 0;
+  ptr = xmlGetProp(cur, (xmlChar *)"in_scene_offset_x");
+  if (ptr)
+    fromString((const char *)ptr, _OffsetX);
+  _OffsetY = 0;
+  ptr = xmlGetProp(cur, (xmlChar *)"in_scene_offset_y");
+  if (ptr)
+    fromString((const char *)ptr, _OffsetY);
+  _UserScale = false;
+  ptr = xmlGetProp(cur, (xmlChar *)"user_scale");
+  if (ptr)
+    _UserScale = convertBool(ptr);
 
-	return true;
+  return true;
 }
 
 // ***************************************************************************
-void CGroupInScene::setUserScale(bool swd)
-{
-	_UserScale= swd;
-}
+void CGroupInScene::setUserScale(bool swd) { _UserScale = swd; }
 
 // ***************************************************************************
-void CGroupInScene::serial(NLMISC::IStream &f)
-{
-	CInterfaceGroup::serial(f);
-	f.serial(_OffsetX);
-	f.serial(_OffsetY);
-	f.serial(_UserScale);
+void CGroupInScene::serial(NLMISC::IStream &f) {
+  CInterfaceGroup::serial(f);
+  f.serial(_OffsetX);
+  f.serial(_OffsetY);
+  f.serial(_UserScale);
 }
-
-

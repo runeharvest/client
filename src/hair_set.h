@@ -14,64 +14,60 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_HAIR_SET_H
 #define CL_HAIR_SET_H
 
 #include "game_share/people.h"
 
-namespace NLMISC
-{
-	class IProgressCallback;
+namespace NLMISC {
+class IProgressCallback;
 }
 
 /** Records which hair item are valid for one race
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2002
-  */
-class CHairSet
-{
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2002
+ */
+class CHairSet {
 public:
-	/** Init the hair item after all the sheets have been loaded
-	  */
-	void init (NLMISC::IProgressCallback &progress);
+  /** Init the hair item after all the sheets have been loaded
+   */
+  void init(NLMISC::IProgressCallback &progress);
 
-	// remove all infos about hairs
-	void clear();
+  // remove all infos about hairs
+  void clear();
 
-	/** get the number of hair item for the given race
-	  */
-	uint getNumHairItem(EGSPD::CPeople::TPeople people) const;
+  /** get the number of hair item for the given race
+   */
+  uint getNumHairItem(EGSPD::CPeople::TPeople people) const;
 
-	/** get hair item id in sheet manager for the race
-	  * or -1 if index is invalid
-	  */
-	sint getHairItemId(EGSPD::CPeople::TPeople people, uint index) const;
+  /** get hair item id in sheet manager for the race
+   * or -1 if index is invalid
+   */
+  sint getHairItemId(EGSPD::CPeople::TPeople people, uint index) const;
 
-	// Tells whether this id in the sheet manager  is the id of a hair item
-	bool isHairItemId(uint id) const;
+  // Tells whether this id in the sheet manager  is the id of a hair item
+  bool isHairItemId(uint id) const;
 
-	// Gives the people for this hair id in the sheet manager, or unknown if not found
-	EGSPD::CPeople::TPeople getPeopleFromHairItemID(uint id) const;
+  // Gives the people for this hair id in the sheet manager, or unknown if not
+  // found
+  EGSPD::CPeople::TPeople getPeopleFromHairItemID(uint id) const;
 
-
-	/** Get the index of an hair item form its id in the sheet manager, or -1 if not found
-	  */
-	sint getHairItemFromId(EGSPD::CPeople::TPeople people, uint Id) const;
+  /** Get the index of an hair item form its id in the sheet manager, or -1 if
+   * not found
+   */
+  sint getHairItemFromId(EGSPD::CPeople::TPeople people, uint Id) const;
 
 private:
-	enum EPeople { Fyros = 0, Matis, Tryker, Zorai, NumPeople, DontKnow };
-	typedef std::vector<uint> TIntArray;
-private:
-	TIntArray _Hairs[NumPeople]; // 4 races
-private:
-	static EPeople convPeople(EGSPD::CPeople::TPeople people);
-	static EGSPD::CPeople::TPeople convPeople(EPeople people);
+  enum EPeople { Fyros = 0, Matis, Tryker, Zorai, NumPeople, DontKnow };
+  typedef std::vector<uint> TIntArray;
 
+private:
+  TIntArray _Hairs[NumPeople]; // 4 races
+private:
+  static EPeople convPeople(EGSPD::CPeople::TPeople people);
+  static EGSPD::CPeople::TPeople convPeople(EPeople people);
 };
-
 
 // the only instance of hair_set
 

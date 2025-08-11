@@ -14,47 +14,39 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_FILTERED_CHAT_SUMMARY_H
 #define CL_FILTERED_CHAT_SUMMARY_H
 
 #include "game_share/chat_group.h"
 
 // class for serialisation of user chat (filtered chat) infos
-class CFilteredChatSummary
-{
+class CFilteredChatSummary {
 public:
-	// Inputs
-	bool SrcGuild;
-	bool SrcTeam;
-	bool SrcAroundMe;
-	bool SrcTell;
-	bool SrcSystemInfo;
-	bool SrcRegion;
-	bool SrcUniverse;
-	// output
-	CChatGroup::TGroupType Target;
+  // Inputs
+  bool SrcGuild;
+  bool SrcTeam;
+  bool SrcAroundMe;
+  bool SrcTell;
+  bool SrcSystemInfo;
+  bool SrcRegion;
+  bool SrcUniverse;
+  // output
+  CChatGroup::TGroupType Target;
+
 public:
-	void serial(NLMISC::IStream &f);
+  void serial(NLMISC::IStream &f);
 };
 
 // class for serialisation of user dyn chat (filtered chat) info
-class CFilteredDynChatSummary
-{
+class CFilteredDynChatSummary {
 public:
-	// Inputs
-	bool SrcDynChat[CChatGroup::MaxDynChanPerPlayer];
-	// output
-	CChatGroup::TGroupType Target;
+  // Inputs
+  bool SrcDynChat[CChatGroup::MaxDynChanPerPlayer];
+  // output
+  CChatGroup::TGroupType Target;
+
 public:
-	void serial(NLMISC::IStream &f);
+  void serial(NLMISC::IStream &f);
 };
-
-
-
-
-
-
 
 #endif

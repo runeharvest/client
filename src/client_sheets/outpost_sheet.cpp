@@ -14,38 +14,34 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "outpost_sheet.h"
+#include "stdpch.h"
 
 #include "nel/georges/u_form_elm.h"
 
-
 // ****************************************************************************
-COutpostSheet::COutpostSheet()
-{
-	Type = CEntitySheet::OUTPOST;
+COutpostSheet::COutpostSheet() {
+  Type = CEntitySheet::OUTPOST;
 
-	NbMaxSpawnedSquad = 0;
-	NbMaxSpawnedMercenarySquad = 0;
-	ChallengeCost = 0;
-	MaxTotalSquad = 0;
+  NbMaxSpawnedSquad = 0;
+  NbMaxSpawnedMercenarySquad = 0;
+  ChallengeCost = 0;
+  MaxTotalSquad = 0;
 }
 
 // ****************************************************************************
-void COutpostSheet::build(const NLGEORGES::UFormElm &root)
-{
-	root.getValueByName(NbMaxSpawnedSquad, "Max Number of Spawned Squads");
-	root.getValueByName(NbMaxSpawnedMercenarySquad, "Max Number of Spawned Mercenary Squads");
-	root.getValueByName(ChallengeCost, "Challenge Cost");
-	root.getValueByName(MaxTotalSquad, "Max Total Squads");
+void COutpostSheet::build(const NLGEORGES::UFormElm &root) {
+  root.getValueByName(NbMaxSpawnedSquad, "Max Number of Spawned Squads");
+  root.getValueByName(NbMaxSpawnedMercenarySquad,
+                      "Max Number of Spawned Mercenary Squads");
+  root.getValueByName(ChallengeCost, "Challenge Cost");
+  root.getValueByName(MaxTotalSquad, "Max Total Squads");
 }
 
 // ****************************************************************************
-void COutpostSheet::serial(NLMISC::IStream &f)
-{
-	f.serial(NbMaxSpawnedSquad);
-	f.serial(NbMaxSpawnedMercenarySquad);
-	f.serial(ChallengeCost);
-	f.serial(MaxTotalSquad);
+void COutpostSheet::serial(NLMISC::IStream &f) {
+  f.serial(NbMaxSpawnedSquad);
+  f.serial(NbMaxSpawnedMercenarySquad);
+  f.serial(ChallengeCost);
+  f.serial(MaxTotalSquad);
 }
-

@@ -66,8 +66,6 @@ public:
 ////////////
 extern CTextManager TextMngr;
 
-
-
 #endif // NL_TEXT_MANAGER_H
 #endif
 

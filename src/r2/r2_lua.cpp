@@ -18,8 +18,8 @@
 // includes
 //-----------------------------------------------------------------------------
 
-#include "stdpch.h"
 #include "r2_lua.h"
+#include "stdpch.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
@@ -30,11 +30,8 @@
 void foo_r2_lua_cpp() {}
 #endif
 
-namespace R2
-{
+namespace R2 {
 
 const char *R2_LUA_PATH = "r2";
 
-} // R2
-
-
+} // namespace R2

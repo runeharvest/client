@@ -17,18 +17,16 @@
 #ifndef CL_BOT_CHAT_PAGE_RING_SESSIONS_H
 #define CL_BOT_CHAT_PAGE_RING_SESSIONS_H
 
-#include "bot_chat_page.h"
 #include "../entity_cl.h"
+#include "bot_chat_page.h"
 #include "nel/misc/vectord.h"
 
-class CBotChatPageRingSessions : public CBotChatPage
-{
+class CBotChatPageRingSessions : public CBotChatPage {
 public:
-	CBotChatPageRingSessions();
-	virtual void begin();
-	virtual void end();
-	NLMISC::CVectorD RingAccessPointPos;
+  CBotChatPageRingSessions();
+  virtual void begin();
+  virtual void end();
+  NLMISC::CVectorD RingAccessPointPos;
 };
-
 
 #endif

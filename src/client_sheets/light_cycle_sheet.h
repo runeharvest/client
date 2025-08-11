@@ -14,33 +14,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#ifndef	RY_LIGHT_CYCLE_SHEET_H
+#ifndef RY_LIGHT_CYCLE_SHEET_H
 #define RY_LIGHT_CYCLE_SHEET_H
 
 #include "entity_sheet.h"
 #include "game_share/light_cycle.h"
 
-
 /** class to manage light cycle sheets
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2003
-  *
-  */
-class CLightCycleSheet : public CEntitySheet
-{
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2003
+ *
+ */
+class CLightCycleSheet : public CEntitySheet {
 public:
-	// datas
-	CLightCycle	LightCycle;
-	// ctor
-	CLightCycleSheet();
-	// from CEntitySheet
-	virtual void build(const NLGEORGES::UFormElm &item);
-	virtual void serial(NLMISC::IStream &f);
-
+  // datas
+  CLightCycle LightCycle;
+  // ctor
+  CLightCycleSheet();
+  // from CEntitySheet
+  virtual void build(const NLGEORGES::UFormElm &item);
+  virtual void serial(NLMISC::IStream &f);
 };
-
 
 #endif

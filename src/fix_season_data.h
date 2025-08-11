@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_FIX_SEASON_DATA
 #define CL_FIX_SEASON_DATA
 
@@ -25,7 +22,8 @@
 // ***************************************************************************
 
 // Post fix each a season texture filename
-void SeasonPostfixTextureFilename (std::string &filename, EGSPD::CSeason::TSeason season);
+void SeasonPostfixTextureFilename(std::string &filename,
+                                  EGSPD::CSeason::TSeason season);
 
 // ***************************************************************************
 

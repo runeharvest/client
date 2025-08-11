@@ -20,37 +20,33 @@
 #include <string>
 #include <vector>
 
-
 #include "entity_sheet.h"
 #include "sky_object_sheet.h"
 
-class CSkySheet : public CEntitySheet
-{
+class CSkySheet : public CEntitySheet {
 public:
-	std::string InstanceGroupName;
-	std::string	AnimationName;
-	double		AnimLengthInSeconds;
-	std::vector<CSkyObjectSheet> Objects;
-	// bitmaps that gives the sky lighting depending
-	std::string AmbientSunLightBitmap;
-	std::string DiffuseSunLightBitmap;
-	// fog color
-	std::string	FogColorBitmap;
-	// Water env map (computed from sky scene)
-	float		WaterEnvMapCameraHeight;
-	uint8		WaterEnvMapAlpha;
+  std::string InstanceGroupName;
+  std::string AnimationName;
+  double AnimLengthInSeconds;
+  std::vector<CSkyObjectSheet> Objects;
+  // bitmaps that gives the sky lighting depending
+  std::string AmbientSunLightBitmap;
+  std::string DiffuseSunLightBitmap;
+  // fog color
+  std::string FogColorBitmap;
+  // Water env map (computed from sky scene)
+  float WaterEnvMapCameraHeight;
+  uint8 WaterEnvMapAlpha;
+
 public:
-	// ctor
-	CSkySheet();
-	// Build from an external script
-	void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
-	/// From CEntitySheet
-	virtual void build(const NLGEORGES::UFormElm &item);
-	/// From CEntitySheet  : serialize sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  // ctor
+  CSkySheet();
+  // Build from an external script
+  void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
+  /// From CEntitySheet
+  virtual void build(const NLGEORGES::UFormElm &item);
+  /// From CEntitySheet  : serialize sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
-
 
 #endif

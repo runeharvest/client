@@ -18,31 +18,31 @@
 // Microsoft Developer Studio generated include file.
 // Used by client.rc
 //
-#define IDI_ICON1                       101
-#define IDI_MAIN_ICON                   101
-#define IDD_SLASH_SCREEN                116
-#define IDB_SLASH_SCREEN                117
-#define IDD_CRASH_INFORMATION           118
-#define IDD_DIALOG1                     120
-#define IDD_ERROR_HELP_MESSAGE_BOX      125
-#define IDB_ERROR_LOGO                  128
-#define FROZEN                          1000
-#define NOT_CRASHED                     1001
-#define CRASHED                         1002
-#define REBOOTED                        1003
-#define WINDOWED                        1004
-#define NO_WINDOW                       1005
-#define KILLED                          1006
-#define IDC_RYZOM_ERROR_HELP            1010
-#define IDC_ERROR_MSG_TEXT              1012
+#define IDI_ICON1 101
+#define IDI_MAIN_ICON 101
+#define IDD_SLASH_SCREEN 116
+#define IDB_SLASH_SCREEN 117
+#define IDD_CRASH_INFORMATION 118
+#define IDD_DIALOG1 120
+#define IDD_ERROR_HELP_MESSAGE_BOX 125
+#define IDB_ERROR_LOGO 128
+#define FROZEN 1000
+#define NOT_CRASHED 1001
+#define CRASHED 1002
+#define REBOOTED 1003
+#define WINDOWED 1004
+#define NO_WINDOW 1005
+#define KILLED 1006
+#define IDC_RYZOM_ERROR_HELP 1010
+#define IDC_ERROR_MSG_TEXT 1012
 
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        129
-#define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1013
-#define _APS_NEXT_SYMED_VALUE           101
+#define _APS_NEXT_RESOURCE_VALUE 129
+#define _APS_NEXT_COMMAND_VALUE 40001
+#define _APS_NEXT_CONTROL_VALUE 1013
+#define _APS_NEXT_SYMED_VALUE 101
 #endif
 #endif

@@ -14,18 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
-
 #ifndef CL_REGISTER_INTERFACE_ELEMENTS_H
 #define CL_REGISTER_INTERFACE_ELEMENTS_H
 
-
 /** register all interface elements that exports some properties
-  */
+ */
 void registerInterfaceElements();
-
-
 
 #endif

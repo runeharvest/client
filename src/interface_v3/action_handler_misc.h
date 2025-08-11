@@ -18,20 +18,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_ACTION_HANDLER_MISC_H
 #define NL_ACTION_HANDLER_MISC_H
 
-#include "nel/misc/types_nl.h"
-#include "nel/gui/action_handler.h"
 #include "interface_manager.h"
+#include "nel/gui/action_handler.h"
+#include "nel/misc/types_nl.h"
 
-namespace NLGUI
-{
-	class CInterfaceGroup;
+namespace NLGUI {
+class CInterfaceGroup;
 }
-
 
 // ***************************************************************************
 /**
@@ -40,12 +36,10 @@ namespace NLGUI
  * \author Nevrax France
  * \date 2002
  */
-class CActionHandlerShowOne : public IActionHandler
-{
+class CActionHandlerShowOne : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
-
 
 // ***************************************************************************
 /**
@@ -54,12 +48,10 @@ public:
  * \author Nevrax France
  * \date 2002
  */
-class CActionHandlerHideClose : public IActionHandler
-{
+class CActionHandlerHideClose : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
-
 
 // ***************************************************************************
 /**
@@ -68,27 +60,20 @@ public:
  * \author Nevrax France
  * \date 2002
  */
-class CActionHandlerEnterModal : public IActionHandler
-{
+class CActionHandlerEnterModal : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
-
 
 // ***************************************************************************
 /**
- * Activate a modal window, but keep previous modal windows (push on the modal windows stack)
- * \author Nicolas Vizerie
- * \author Nevrax France
- * \date 2003
+ * Activate a modal window, but keep previous modal windows (push on the modal
+ * windows stack) \author Nicolas Vizerie \author Nevrax France \date 2003
  */
-class CActionHandlerPushModal : public IActionHandler
-{
+class CActionHandlerPushModal : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
-
-
 
 // ***************************************************************************
 /**
@@ -97,10 +82,9 @@ public:
  * \author Nevrax France
  * \date 2002
  */
-class CActionHandlerLeaveModal : public IActionHandler
-{
+class CActionHandlerLeaveModal : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
 
 // ***************************************************************************
@@ -110,12 +94,10 @@ public:
  * \author Nevrax France
  * \date 2002
  */
-class CActionHandlerActive : public IActionHandler
-{
+class CActionHandlerActive : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
-
 
 // ***************************************************************************
 /**
@@ -124,67 +106,63 @@ public:
  * \author Nevrax France
  * \date 2002
  */
-class CActionHandlerSetOpen : public IActionHandler
-{
+class CActionHandlerSetOpen : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
 
 // ***************************************************************************
 /**
- * Eval an interface expression. The result isn't used, but the expression can contain functions that are in fact, procedures.
- * \author Nicolas Vizerie
+ * Eval an interface expression. The result isn't used, but the expression can
+ * contain functions that are in fact, procedures. \author Nicolas Vizerie
  * \author Nevrax France
  * \date 2003
  */
-class CActionHandlerEvalExpr : public IActionHandler
-{
+class CActionHandlerEvalExpr : public IActionHandler {
 public:
-	virtual void execute (CCtrlBase *pCaller, const std::string &params);
+  virtual void execute(CCtrlBase *pCaller, const std::string &params);
 };
 
-
-
-/** Build a menu color widget with the given tooltip and chooser title (ccdTitle)
-  * (matching action handlers defined in action_handler_misc.cpp)
-  */
-CInterfaceGroup *createMenuColorWidget(const std::string &colDbEntry, const std::string &toolTipTextID, const std::string &ccdTitle);
+/** Build a menu color widget with the given tooltip and chooser title
+ * (ccdTitle) (matching action handlers defined in action_handler_misc.cpp)
+ */
+CInterfaceGroup *createMenuColorWidget(const std::string &colDbEntry,
+                                       const std::string &toolTipTextID,
+                                       const std::string &ccdTitle);
 
 // ***************************************************************************
-// callback used by set_server_string and set_server_id action handlers and by addServerString and addServerId
-// methods from CInterfaceManager to remove name from a received string like entityName$entityTitle$
-class CStringPostProcessRemoveName : public CInterfaceManager::IStringProcess
-{
+// callback used by set_server_string and set_server_id action handlers and by
+// addServerString and addServerId methods from CInterfaceManager to remove name
+// from a received string like entityName$entityTitle$
+class CStringPostProcessRemoveName : public CInterfaceManager::IStringProcess {
 public:
-	CStringPostProcessRemoveName():Woman(false) {}
-	bool Woman;
-	bool cbIDStringReceived(std::string &inOut);
+  CStringPostProcessRemoveName() : Woman(false) {}
+  bool Woman;
+  bool cbIDStringReceived(std::string &inOut);
 };
 
 // ***************************************************************************
 // same as above but for title
-class CStringPostProcessRemoveTitle : public CInterfaceManager::IStringProcess
-{
+class CStringPostProcessRemoveTitle : public CInterfaceManager::IStringProcess {
 public:
-	bool cbIDStringReceived(std::string &inOut);
+  bool cbIDStringReceived(std::string &inOut);
 };
 
 // ***************************************************************************
 // remove title except if the npc has only a title
-class CStringPostProcessNPCRemoveTitle : public CInterfaceManager::IStringProcess
-{
+class CStringPostProcessNPCRemoveTitle
+    : public CInterfaceManager::IStringProcess {
 public:
-	bool cbIDStringReceived(std::string &inOut);
+  bool cbIDStringReceived(std::string &inOut);
 };
 
-
-/** Capture current content of framebuffer and save the result. If a custom size is asked in ClientCfg, then the scene is rendered again
-  * instead (possibly multiple time)
-  */
+/** Capture current content of framebuffer and save the result. If a custom size
+ * is asked in ClientCfg, then the scene is rendered again instead (possibly
+ * multiple time)
+ */
 void screenShotTGA();
 void screenShotPNG();
 void screenShotJPG();
-
 
 #endif // NL_ACTION_HANDLER_MISC_H
 

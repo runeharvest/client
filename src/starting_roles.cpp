@@ -14,45 +14,43 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 //////////////
 // INCLUDES //
 //////////////
 #include "stdpch.h"
 //// Application
-//#include "starting_roles.h"
+// #include "starting_roles.h"
 //// Game Share
-//#include "game_share/skills_build.h"
-//#include "game_share/characs_build.h"
+// #include "game_share/skills_build.h"
+// #include "game_share/characs_build.h"
 //// Georges
-//#include "nel/georges/u_form_loader.h"
-//#include "nel/georges/u_form.h"
-//#include "nel/georges/u_form_elm.h"
+// #include "nel/georges/u_form_loader.h"
+// #include "nel/georges/u_form.h"
+// #include "nel/georges/u_form_elm.h"
 //// Misc
-//#include "nel/misc/progress_callback.h"
-//#include "client_sheets/starting_role_sheet.h"
-//#include "sheet_manager.h"
+// #include "nel/misc/progress_callback.h"
+// #include "client_sheets/starting_role_sheet.h"
+// #include "sheet_manager.h"
 //
 //
 //
 //// global instance for starting roles
-//CStartingRoleSet StartingRoleSet;
+// CStartingRoleSet StartingRoleSet;
 //
 //
-//using namespace NLMISC;
-//using namespace std;
+// using namespace NLMISC;
+// using namespace std;
 //
 //
 //// ***************************************************************************
-//CStartingRoleSet::CStartingRoleSet()
+// CStartingRoleSet::CStartingRoleSet()
 //{
-//	memset(_StartingRole, 0, sizeof(CStartingRoleSheet	*)*JOBS::NbJobs);
-//}
+//	memset(_StartingRole, 0, sizeof(CStartingRoleSheet
+//*)*JOBS::NbJobs);
+// }
 //
 //// ***************************************************************************
-//void CStartingRoleSet::init (NLMISC::IProgressCallback &progress)
+// void CStartingRoleSet::init (NLMISC::IProgressCallback &progress)
 //{
 //	// Get list of sheet of interest
 //	vector<CSheetId> sheetIDs;
@@ -64,29 +62,33 @@
 //		progress.progress ((float)k/(float)sheetIDs.size());
 //
 //		//	get the sheet
-//		CStartingRoleSheet	*sroleSheet= dynamic_cast<CStartingRoleSheet*>(SheetMngr.get(sheetIDs[k]));
-//		if( sroleSheet )
+//		CStartingRoleSheet	*sroleSheet=
+//dynamic_cast<CStartingRoleSheet*>(SheetMngr.get(sheetIDs[k])); 		if( sroleSheet
+//)
 //		{
 //			uint32	role= JOBS::getAssociatedRole(sroleSheet->Job);
 //			sint	jobDBId= JOBS::getJobDBIndex(sroleSheet->Job);
-//			if (jobDBId >=0 && role < ROLES::NB_ROLES) // valid role and race
+//			if (jobDBId >=0 && role < ROLES::NB_ROLES) // valid role
+//and race
 //			{
 //				_StartingRole[sroleSheet->Job]= sroleSheet;
 //			}
 //		}
 //		else
 //		{
-//			nlwarning("Could get correct sheet %s for starting roles", fileNames[k].c_str());
+//			nlwarning("Could get correct sheet %s for starting
+//roles", fileNames[k].c_str());
 //		}
 //	}
-//}
+// }
 //
 //
 //// ***************************************************************************
-//const CStartingRoleSheet *CStartingRoleSet::getStartingRole(JOBS::TJob eJob) const
+// const CStartingRoleSheet *CStartingRoleSet::getStartingRole(JOBS::TJob eJob)
+// const
 //{
 //	if (eJob == JOBS::Unknown)
 //		return NULL;
 //	else
 //		return _StartingRole[eJob];
-//}
+// }

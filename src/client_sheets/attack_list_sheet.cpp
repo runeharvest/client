@@ -14,60 +14,45 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "attack_list_sheet.h"
+#include "stdpch.h"
 //
 #include "nel/georges/u_form_elm.h"
 
 using namespace NLGEORGES;
 
 // *******************************************************************************************
-CAttackListSheet::CAttackListSheet()
-{
-	Type = ATTACK_LIST;
+CAttackListSheet::CAttackListSheet() { Type = ATTACK_LIST; }
+
+// *******************************************************************************************
+void CAttackListSheetEntry::build(const NLGEORGES::UFormElm &item,
+                                  const std::string &prefix) {
+  ID.build(item, prefix + "ID.");
+  Attack.build(item, prefix + "Attack.");
 }
 
 // *******************************************************************************************
-void CAttackListSheetEntry::build(const NLGEORGES::UFormElm &item, const std::string &prefix)
-{
-	ID.build(item, prefix + "ID."	);
-	Attack.build(item, prefix + "Attack.");
+void CAttackListSheetEntry::serial(NLMISC::IStream &f) {
+  f.serial(ID);
+  f.serial(Attack);
 }
 
 // *******************************************************************************************
-void CAttackListSheetEntry::serial(NLMISC::IStream &f)
-{
-	f.serial(ID);
-	f.serial(Attack);
+void CAttackListSheet::build(const NLGEORGES::UFormElm &item) {
+  const UFormElm *attacks = NULL;
+  if (item.getNodeByName(&attacks, "Attacks") && attacks) {
+    uint numAttacks;
+    nlverify(attacks->getArraySize(numAttacks));
+    Attacks.reserve(numAttacks);
+    for (uint k = 0; k < numAttacks; ++k) {
+      const UFormElm *attackNode = NULL;
+      if (attacks->getArrayNode(&attackNode, k) && attackNode) {
+        Attacks.push_back(CAttackListSheetEntry());
+        Attacks.back().build(*attackNode, "");
+      }
+    }
+  }
 }
 
 // *******************************************************************************************
-void CAttackListSheet::build(const NLGEORGES::UFormElm &item)
-{
-	const UFormElm *attacks = NULL;
-	if (item.getNodeByName(&attacks, "Attacks") && attacks)
-	{
-		uint numAttacks;
-		nlverify(attacks->getArraySize(numAttacks));
-		Attacks.reserve(numAttacks);
-		for(uint k = 0; k < numAttacks; ++k)
-		{
-			const UFormElm *attackNode = NULL;
-			if (attacks->getArrayNode(&attackNode, k) && attackNode)
-			{
-				Attacks.push_back(CAttackListSheetEntry());
-				Attacks.back().build(*attackNode, "");
-			}
-		}
-	}
-}
-
-// *******************************************************************************************
-void CAttackListSheet::serial(NLMISC::IStream &f)
-{
-	f.serialCont(Attacks);
-}
-
-
+void CAttackListSheet::serial(NLMISC::IStream &f) { f.serialCont(Attacks); }

@@ -17,22 +17,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_TIME_CLIENT_H
 #define CL_TIME_CLIENT_H
-
 
 /////////////
 // INCLUDE //
 /////////////
 // Misc.
-#include "nel/misc/types_nl.h"
 #include "nel/misc/time_nl.h"
+#include "nel/misc/types_nl.h"
 // Game Share
-#include "game_share/time_weather_season/time_and_season.h"
 #include "client_cfg.h"
+#include "game_share/time_weather_season/time_and_season.h"
 
 ///////////
 // USING //
@@ -44,71 +40,66 @@ class CClientDate;
 ////////////
 // GLOBAL //
 ////////////
-extern sint64	T0;			// Time for the last frame.
-extern sint64	T1;			// Time for the current frame.
-extern sint64	TS;			// Time since the really first Frame.
-extern sint64	DT64;		// Diff time with current and last frame in ms.
-extern float	DT;			// Diff time with current and last frame in sec.
-extern TTime	TSend;		// Next Time to send motions.
-extern TTime	DTSend;		// Delta of time to generate the next time to send motions.
-extern double	TimeInSec;	// Time for the current frame in second.
-extern double	FirstTimeInSec;	// Game local origin time
+extern sint64 T0;    // Time for the last frame.
+extern sint64 T1;    // Time for the current frame.
+extern sint64 TS;    // Time since the really first Frame.
+extern sint64 DT64;  // Diff time with current and last frame in ms.
+extern float DT;     // Diff time with current and last frame in sec.
+extern TTime TSend;  // Next Time to send motions.
+extern TTime DTSend; // Delta of time to generate the next time to send motions.
+extern double TimeInSec;      // Time for the current frame in second.
+extern double FirstTimeInSec; // Game local origin time
 
-
-extern TTime	LCT;
-extern TTime	LocalTimeStep;
-extern TTime	CurrentPacketTime;
-extern uint8	CurrentPacket;
-extern uint8	LastPacketReceived;
+extern TTime LCT;
+extern TTime LocalTimeStep;
+extern TTime CurrentPacketTime;
+extern uint8 CurrentPacket;
+extern uint8 LastPacketReceived;
 
 extern NLMISC::TGameCycle LastGameCycle;
 
-extern CRyzomTime			RT;
+extern CRyzomTime RT;
 
-extern CClientDate          SmoothedClientDate;
+extern CClientDate SmoothedClientDate;
 
 ///////////
 // CLASS //
 ///////////
-class CPacketInfos
-{
+class CPacketInfos {
 public:
-	uint8	Num;
-	TTime	Min;
-	TTime	Max;
+  uint8 Num;
+  TTime Min;
+  TTime Max;
 
-	CPacketInfos() {}
-	CPacketInfos(uint8 num, TTime min, TTime max)
-	{
-		Num = num;
-		Min = min;
-		Max = max;
-	}
+  CPacketInfos() {}
+  CPacketInfos(uint8 num, TTime min, TTime max) {
+    Num = num;
+    Min = min;
+    Max = max;
+  }
 };
 
 /** A representation of time in the client
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date 2003
-  */
-class CClientDate
-{
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date 2003
+ */
+class CClientDate {
 public:
-	sint32 Day;
-	float  Hour;
-	CClientDate(sint32 day = 0, float hour = 0.f) : Day(day), Hour(hour) {}
+  sint32 Day;
+  float Hour;
+  CClientDate(sint32 day = 0, float hour = 0.f) : Day(day), Hour(hour) {}
 };
 
 // 'less' comparison between 2 dates
-inline bool operator < (const CClientDate &lhs, const CClientDate &rhs)
-{
-	if (lhs.Day != rhs.Day) return lhs.Day < rhs.Day;
-	return lhs.Hour < rhs.Hour;
+inline bool operator<(const CClientDate &lhs, const CClientDate &rhs) {
+  if (lhs.Day != rhs.Day)
+    return lhs.Day < rhs.Day;
+  return lhs.Hour < rhs.Hour;
 }
 // equality between 2 dates
-inline bool operator == (const CClientDate &lhs, const CClientDate &rhs)
-{
-	return lhs.Day == rhs.Day && lhs.Hour == rhs.Hour;
+inline bool operator==(const CClientDate &lhs, const CClientDate &rhs) {
+  return lhs.Day == rhs.Day && lhs.Hour == rhs.Hour;
 }
 
 ///////////////
@@ -137,30 +128,27 @@ void updateClientTime();
 // update smoothed time (useful for sky animation)
 void updateSmoothedTime();
 
-inline NLMISC::TTime ryzomGetLocalTime()
-{
-	return NLMISC::CTime::getLocalTime();
+inline NLMISC::TTime ryzomGetLocalTime() {
+  return NLMISC::CTime::getLocalTime();
 }
 
-inline NLMISC::TTicks ryzomGetPerformanceTime()
-{
-	return NLMISC::CTime::getPerformanceTime();
+inline NLMISC::TTicks ryzomGetPerformanceTime() {
+  return NLMISC::CTime::getPerformanceTime();
 }
 
+class CTickRange {
+public:
+  NLMISC::TGameCycle StartTick;
+  NLMISC::TGameCycle EndTick;
 
-class CTickRange
-{
 public:
-	NLMISC::TGameCycle StartTick;
-	NLMISC::TGameCycle EndTick;
-public:
-	CTickRange(NLMISC::TGameCycle startTick = 0, NLMISC::TGameCycle endTick = 0) : StartTick(startTick), EndTick(endTick) {}
-	void extend(const CTickRange &other)
-	{
-		StartTick = std::min(StartTick, other.StartTick);
-		EndTick = std::max(EndTick, other.EndTick);
-	}
-	bool isEmpty() const { return StartTick == EndTick; }
+  CTickRange(NLMISC::TGameCycle startTick = 0, NLMISC::TGameCycle endTick = 0)
+      : StartTick(startTick), EndTick(endTick) {}
+  void extend(const CTickRange &other) {
+    StartTick = std::min(StartTick, other.StartTick);
+    EndTick = std::max(EndTick, other.EndTick);
+  }
+  bool isEmpty() const { return StartTick == EndTick; }
 };
 
 #endif // CL_TIME_CLIENT_H

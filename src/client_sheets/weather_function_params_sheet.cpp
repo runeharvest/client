@@ -14,31 +14,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "weather_function_params_sheet.h"
+#include "stdpch.h"
 //
-#include "nel/georges/u_form_elm.h"
 #include "nel/georges/u_form.h"
+#include "nel/georges/u_form_elm.h"
 #include "nel/georges/u_form_loader.h"
 
-
-
 //=======================================================================
-CWeatherFunctionParamsSheet::CWeatherFunctionParamsSheet()
-{
-	Type = WEATHER_FUNCTION_PARAMS;
+CWeatherFunctionParamsSheet::CWeatherFunctionParamsSheet() {
+  Type = WEATHER_FUNCTION_PARAMS;
 }
 
 //=======================================================================
-void CWeatherFunctionParamsSheet::build(const NLGEORGES::UFormElm &item)
-{
-	CWeatherFunctionParamsSheetBase::build(item);
+void CWeatherFunctionParamsSheet::build(const NLGEORGES::UFormElm &item) {
+  CWeatherFunctionParamsSheetBase::build(item);
 }
 
 //=======================================================================
-void CWeatherFunctionParamsSheet::serial(NLMISC::IStream &f)
-{
-	CWeatherFunctionParamsSheetBase::serial(f);
+void CWeatherFunctionParamsSheet::serial(NLMISC::IStream &f) {
+  CWeatherFunctionParamsSheetBase::serial(f);
 }

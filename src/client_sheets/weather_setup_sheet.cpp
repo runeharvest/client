@@ -14,27 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "weather_setup_sheet.h"
-
-
+#include "stdpch.h"
 
 //==================================================================================
-CWeatherSetupSheet::CWeatherSetupSheet()
-{
-	Type = WEATHER_SETUP;
+CWeatherSetupSheet::CWeatherSetupSheet() { Type = WEATHER_SETUP; }
+
+//==================================================================================
+void CWeatherSetupSheet::build(const NLGEORGES::UFormElm &item) {
+  CWeatherSetupSheetBase::build(item);
 }
 
 //==================================================================================
-void CWeatherSetupSheet::build(const NLGEORGES::UFormElm &item)
-{
-	CWeatherSetupSheetBase::build(item);
-}
-
-//==================================================================================
-void CWeatherSetupSheet::serial(NLMISC::IStream &f)
-{
-	CWeatherSetupSheetBase::serial(f);
+void CWeatherSetupSheet::serial(NLMISC::IStream &f) {
+  CWeatherSetupSheetBase::serial(f);
 }

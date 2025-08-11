@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_TELEPORT_H
 #define CL_TELEPORT_H
 
@@ -23,7 +21,6 @@
 // INCLUDE //
 /////////////
 #include "nel/misc/types_nl.h"
-
 
 ///////////
 // CLASS //
@@ -34,23 +31,21 @@
  * \author Nevrax France
  * \date 2002
  */
-class CTeleport
-{
+class CTeleport {
 public:
-	// Unknown position
-	static const NLMISC::CVectorD Unknown;
+  // Unknown position
+  static const NLMISC::CVectorD Unknown;
 
 public:
-	// Load Destinations.
-	static void load(const std::string &filename);
+  // Load Destinations.
+  static void load(const std::string &filename);
 
-	// Get the destination position or CTeleport::Unknown.
-	static const NLMISC::CVectorD &getPos(const std::string &dest);
-
+  // Get the destination position or CTeleport::Unknown.
+  static const NLMISC::CVectorD &getPos(const std::string &dest);
 
 private:
-	typedef std::map<std::string, NLMISC::CVectorD> TDestinations;
-	static TDestinations _Destinations;
+  typedef std::map<std::string, NLMISC::CVectorD> TDestinations;
+  static TDestinations _Destinations;
 };
 
 #endif // CL_TELEPORT_H

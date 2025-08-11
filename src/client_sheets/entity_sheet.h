@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ENTITY_SHEET_H
 #define CL_ENTITY_SHEET_H
 
@@ -23,24 +21,21 @@
 // INCLUDE //
 /////////////
 // Misc.
-#include "nel/misc/types_nl.h"
-#include "nel/misc/stream.h"
 #include "nel/misc/sheet_id.h"
-
+#include "nel/misc/stream.h"
+#include "nel/misc/types_nl.h"
 
 ///////////
 // USING //
 ///////////
 
-
 ///////////
 // CLASS //
 ///////////
-namespace NLGEORGES
-{
-	class UFormElm;
-	class UFormLoader;
-}
+namespace NLGEORGES {
+class UFormElm;
+class UFormLoader;
+} // namespace NLGEORGES
 
 /**
  * Class to manage an entity sheet
@@ -48,92 +43,87 @@ namespace NLGEORGES
  * \author Nevrax France
  * \date 2001
  */
-class CEntitySheet
-{
+class CEntitySheet {
 private:
-	static std::vector<std::string> _Debug;
+  static std::vector<std::string> _Debug;
 
 public:
-	enum TType
-	{
-		CHAR = 0,
-		FAUNA,
-		FLORA,
-		OBJECT,
-		FX,
-		BUILDING,
-		ITEM,
-		PLANT,
-		MISSION,
-		RACE_STATS,
-		PACT,
-		LIGHT_CYCLE,
-		WEATHER_SETUP,
-		CONTINENT,
-		WORLD,
-		WEATHER_FUNCTION_PARAMS,
-		UNKNOWN,
-		BOTCHAT,
-		MISSION_ICON,
-		SBRICK,
-		SPHRASE,
-		SKILLS_TREE,
-		UNBLOCK_TITLES,
-		SUCCESS_TABLE,
-		AUTOMATON_LIST,
-		ANIMATION_SET_LIST,
-		SPELL, // obsolete
-		SPELL_LIST, // obsolete
-		CAST_FX, // obsolete
-		EMOT,
-		ANIMATION_FX,
-		ID_TO_STRING_ARRAY,
-		FORAGE_SOURCE,
-		CREATURE_ATTACK,
-		ANIMATION_FX_SET,
-		ATTACK_LIST,
-		SKY,
-		TEXT_EMOT,
-		OUTPOST,
-		OUTPOST_SQUAD,
-		OUTPOST_BUILDING,
-		FACTION,
-		TypeCount,
-		UNKNOWN_SHEET_TYPE = TypeCount
-	};
+  enum TType {
+    CHAR = 0,
+    FAUNA,
+    FLORA,
+    OBJECT,
+    FX,
+    BUILDING,
+    ITEM,
+    PLANT,
+    MISSION,
+    RACE_STATS,
+    PACT,
+    LIGHT_CYCLE,
+    WEATHER_SETUP,
+    CONTINENT,
+    WORLD,
+    WEATHER_FUNCTION_PARAMS,
+    UNKNOWN,
+    BOTCHAT,
+    MISSION_ICON,
+    SBRICK,
+    SPHRASE,
+    SKILLS_TREE,
+    UNBLOCK_TITLES,
+    SUCCESS_TABLE,
+    AUTOMATON_LIST,
+    ANIMATION_SET_LIST,
+    SPELL,      // obsolete
+    SPELL_LIST, // obsolete
+    CAST_FX,    // obsolete
+    EMOT,
+    ANIMATION_FX,
+    ID_TO_STRING_ARRAY,
+    FORAGE_SOURCE,
+    CREATURE_ATTACK,
+    ANIMATION_FX_SET,
+    ATTACK_LIST,
+    SKY,
+    TEXT_EMOT,
+    OUTPOST,
+    OUTPOST_SQUAD,
+    OUTPOST_BUILDING,
+    FACTION,
+    TypeCount,
+    UNKNOWN_SHEET_TYPE = TypeCount
+  };
 
-	/// Type of the sheet.
-	TType				Type;
-	/// Sheet Id.
-	NLMISC::CSheetId	Id;
+  /// Type of the sheet.
+  TType Type;
+  /// Sheet Id.
+  NLMISC::CSheetId Id;
 
 public:
-	/// Add string to the debug stack.
-	static void debug(const std::string &str);
-	/// Flush the debug stack with a title parameter.
-	static void flush(const std::string &title);
+  /// Add string to the debug stack.
+  static void debug(const std::string &str);
+  /// Flush the debug stack with a title parameter.
+  static void flush(const std::string &title);
 
-	/// Constructor
-	CEntitySheet() { Type = UNKNOWN_SHEET_TYPE; }
-	/// Destructor.
-	virtual ~CEntitySheet() {}
+  /// Constructor
+  CEntitySheet() { Type = UNKNOWN_SHEET_TYPE; }
+  /// Destructor.
+  virtual ~CEntitySheet() {}
 
-	/// Build the entity from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item) = 0;
+  /// Build the entity from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item) = 0;
 
-	/// Return the type of the sheet.
-	inline TType type() const {return Type;}
+  /// Return the type of the sheet.
+  inline TType type() const { return Type; }
 
+  // TType enum/string conversion
+  static const std::string &typeToString(TType e);
+  static TType typeFromString(const std::string &s);
 
-	// TType enum/string conversion
-	static const std::string &typeToString(TType e);
-	static TType			  typeFromString(const std::string &s);
-
-
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f) = 0;
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f) = 0;
 };
-
 
 #endif // CL_ENTITY_SHEET_H
 

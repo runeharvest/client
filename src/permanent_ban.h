@@ -17,7 +17,6 @@
 #ifndef RY_PERMANENT_BAN_H
 #define RY_PERMANENT_BAN_H
 
-
 // set ban markers
 void setPermanentBanMarkers(bool on);
 
@@ -26,7 +25,5 @@ bool testPermanentBanMarkers();
 
 // corrupt the bnp so that next patch will be slow
 void applyPermanentBanPunishment();
-
-
 
 #endif

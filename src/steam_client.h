@@ -14,52 +14,50 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef CL_STEAM_CLIENT_H
 #define CL_STEAM_CLIENT_H
 
-#include "nel/misc/types_nl.h"
 #include "nel/misc/dynloadlib.h"
+#include "nel/misc/types_nl.h"
 
 /**
- * Steam API helper to be able to call Steam functions/methods without linking to any library.
- * The library is dynamically loaded and is optional.
+ * Steam API helper to be able to call Steam functions/methods without linking
+ * to any library. The library is dynamically loaded and is optional.
  *
  * \author Cedric 'Kervala' OCHS
  * \date 2016
  */
-class CSteamClient
-{
+class CSteamClient {
 public:
-	CSteamClient();
-	~CSteamClient();
+  CSteamClient();
+  ~CSteamClient();
 
-	/**
-	 *	Dynamically load Steam client library and functions pointers.
-	 *	Also retrieve authentication session ticket if available.
-	 *	If no authentication session ticket retrieved, returns false.
-	 */
-	bool init();
+  /**
+   *	Dynamically load Steam client library and functions pointers.
+   *	Also retrieve authentication session ticket if available.
+   *	If no authentication session ticket retrieved, returns false.
+   */
+  bool init();
 
-	/**
-	 *	Shutdown Steam client and unload library.
-	 */
-	bool release();
+  /**
+   *	Shutdown Steam client and unload library.
+   */
+  bool release();
 
-	/**
-	 *	Return the authentication session ticket if available.
-	 */
-	std::string getAuthSessionTicket() const { return _AuthSessionTicket; }
+  /**
+   *	Return the authentication session ticket if available.
+   */
+  std::string getAuthSessionTicket() const { return _AuthSessionTicket; }
 
 private:
-	// handle on Steam DLL
-	NLMISC::NL_LIB_HANDLE _Handle;
+  // handle on Steam DLL
+  NLMISC::NL_LIB_HANDLE _Handle;
 
-	// true if succeeded to initialize (must call shutdown)
-	bool _Initialized;
+  // true if succeeded to initialize (must call shutdown)
+  bool _Initialized;
 
-	// the retrieved authentication session ticket
-	std::string _AuthSessionTicket;
+  // the retrieved authentication session ticket
+  std::string _AuthSessionTicket;
 };
 
 #endif

@@ -17,7 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #if 0
 #include "stdpch.h"
 
@@ -26,7 +25,6 @@
 // INCLUDE //
 /////////////
 #include "text_manager.h"
-
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW

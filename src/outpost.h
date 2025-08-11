@@ -17,67 +17,69 @@
 #ifndef NL_OUTPOST_H
 #define NL_OUTPOST_H
 
-#include "nel/misc/types_nl.h"
-#include "nel/misc/vector.h"
-#include "nel/misc/quat.h"
-#include "nel/misc/smart_ptr.h"
 #include "client_sheets/continent_sheet.h"
 #include "game_share/misc_const.h"
-
+#include "nel/misc/quat.h"
+#include "nel/misc/smart_ptr.h"
+#include "nel/misc/types_nl.h"
+#include "nel/misc/vector.h"
 
 class CVillage;
-
 
 // ***************************************************************************
 /**
  * Class to manage an outpost on client:
  *		- collisions
- *		- display in 3D through a CVillage* (nb: used only to display ruins now)
- *	Yoyo: ugly: wait for static object and collision stuff
+ *		- display in 3D through a CVillage* (nb: used only to display
+ *ruins now) Yoyo: ugly: wait for static object and collision stuff
  */
-class COutpost
-{
+class COutpost {
 public:
+  COutpost();
+  COutpost(const COutpost &other);
+  COutpost &operator=(const COutpost &) {
+    nlstop; /*forbidden*/
+    return *this;
+  }
+  ~COutpost();
 
-	COutpost();
-	COutpost(const COutpost &other);
-	COutpost &operator=(const COutpost &) {nlstop;/*forbidden*/return *this;}
-	~COutpost();
+  /// Build the outpost
+  bool setupOutpost(const CContinentParameters::CZC &zone, sint32 outpostId,
+                    CVillage *village);
 
-	/// Build the outpost
-	bool	setupOutpost(const CContinentParameters::CZC &zone, sint32 outpostId, CVillage *village);
+  // Get the outpost Id. -1 if not setuped
+  sint32 getOutpostId() const { return _OutpostId; }
 
-	// Get the outpost Id. -1 if not setuped
-	sint32	getOutpostId () const	{return _OutpostId;}
+  // Set the building properties
+  void setBuildingPosition(uint building, const NLMISC::CQuat &rot,
+                           const NLMISC::CVector &position);
 
-	// Set the building properties
-	void	setBuildingPosition (uint building, const NLMISC::CQuat &rot, const NLMISC::CVector &position);
+  // Register Collisions
+  void initOutpost();
 
-	// Register Collisions
-	void initOutpost ();
-
-	// Remove Collisions
-	void removeOutpost ();
+  // Remove Collisions
+  void removeOutpost();
 
 private:
-	// Outpost building
-	class CBuilding
-	{
-	public:
-		CBuilding() {Position= NLMISC::CVector::Null; Rotation= NLMISC::CQuat::Identity;}
-		NLMISC::CQuat		Rotation;
-		NLMISC::CVector		Position;
-	};
-	CBuilding _Buildings[RZ_MAX_BUILDING_PER_OUTPOST];
-	std::vector<NLPACS::UMovePrimitive *> _AddedPrims;
+  // Outpost building
+  class CBuilding {
+  public:
+    CBuilding() {
+      Position = NLMISC::CVector::Null;
+      Rotation = NLMISC::CQuat::Identity;
+    }
+    NLMISC::CQuat Rotation;
+    NLMISC::CVector Position;
+  };
+  CBuilding _Buildings[RZ_MAX_BUILDING_PER_OUTPOST];
+  std::vector<NLPACS::UMovePrimitive *> _AddedPrims;
 
-	// Outpost number
-	sint						_OutpostId;
+  // Outpost number
+  sint _OutpostId;
 
-	// We may want to display the village as ruins
-	NLMISC::CRefPtr<CVillage>	_Village;
+  // We may want to display the village as ruins
+  NLMISC::CRefPtr<CVillage> _Village;
 };
-
 
 #endif // NL_OUTPOST_H
 

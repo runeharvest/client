@@ -14,63 +14,52 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "sphrase_sheet.h"
 #include "nel/georges/u_form_elm.h"
 #include "nel/misc/common.h"
+#include "stdpch.h"
 
 using namespace std;
 using namespace NLMISC;
 using namespace NLGEORGES;
 
-
 // Easy macro to translate value from georges
-#define TRANSLATE_VAL( _Var_, _key_ )						\
-	if(!root.getValueByName(_Var_, _key_))					\
-		debug( string("key '") + string(_key_) + string("' not found.") );
-
+#define TRANSLATE_VAL(_Var_, _key_)                                            \
+  if (!root.getValueByName(_Var_, _key_))                                      \
+    debug(string("key '") + string(_key_) + string("' not found."));
 
 // ***************************************************************************
-void CSPhraseSheet::build (const NLGEORGES::UFormElm &root)
-{
-	string sTmp, sTmp2;
+void CSPhraseSheet::build(const NLGEORGES::UFormElm &root) {
+  string sTmp, sTmp2;
 
-	uint i;
-	for (i = 0; i < SPHRASE_MAX_BRICK; ++i)
-	{
-		sTmp2 = string("brick ") + toString(i);
-		root.getValueByName (sTmp, sTmp2.c_str());
-		if (!sTmp.empty())
-		{
-			CSheetId id(sTmp);
-			Bricks.push_back(id);
-		}
-	}
+  uint i;
+  for (i = 0; i < SPHRASE_MAX_BRICK; ++i) {
+    sTmp2 = string("brick ") + toString(i);
+    root.getValueByName(sTmp, sTmp2.c_str());
+    if (!sTmp.empty()) {
+      CSheetId id(sTmp);
+      Bricks.push_back(id);
+    }
+  }
 
-	// read castable
-	TRANSLATE_VAL(Castable, "castable");
+  // read castable
+  TRANSLATE_VAL(Castable, "castable");
 
-	// read ShowInActionProgression
-	TRANSLATE_VAL(ShowInActionProgression, "ShowInActionProgression");
+  // read ShowInActionProgression
+  TRANSLATE_VAL(ShowInActionProgression, "ShowInActionProgression");
 
-	// read ShowInAPOnlyIfLearnt
-	TRANSLATE_VAL(ShowInAPOnlyIfLearnt, "ShowInAPOnlyIfLearnt");
-
+  // read ShowInAPOnlyIfLearnt
+  TRANSLATE_VAL(ShowInAPOnlyIfLearnt, "ShowInAPOnlyIfLearnt");
 }
 
 // ***************************************************************************
-bool	CSPhraseSheet::isValid() const
-{
-	if(Bricks.empty())
-		return false;
-	for(uint i=0;i<Bricks.size();i++)
-	{
-		if(Bricks[i]==CSheetId::Unknown)
-			return false;
-	}
+bool CSPhraseSheet::isValid() const {
+  if (Bricks.empty())
+    return false;
+  for (uint i = 0; i < Bricks.size(); i++) {
+    if (Bricks[i] == CSheetId::Unknown)
+      return false;
+  }
 
-	return true;
+  return true;
 }
-

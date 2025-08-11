@@ -17,38 +17,34 @@
 #ifndef R2_CONFIG_H
 #define R2_CONFIG_H
 
-
 #include "config_var.h"
 
 // access to config vars
-namespace R2
-{
+namespace R2 {
 
-
-
-extern CConfigVarRGBA	CV_MapEntityHighlightColor;
-extern CConfigVarRGBA	CV_MapEntitySelectColor;
-extern CConfigVarRGBA	CV_MapEntityFrozenColor;
-extern CConfigVarRGBA	CV_MapEntityLockedColor;
-extern CConfigVarRGBA	CV_ArrayInstanceColor;
+extern CConfigVarRGBA CV_MapEntityHighlightColor;
+extern CConfigVarRGBA CV_MapEntitySelectColor;
+extern CConfigVarRGBA CV_MapEntityFrozenColor;
+extern CConfigVarRGBA CV_MapEntityLockedColor;
+extern CConfigVarRGBA CV_ArrayInstanceColor;
 extern CConfigVarString CV_MapEntitySelectTexture;
 extern CConfigVarString CV_MapEntityDefaultTexture;
 extern CConfigVarString CV_MapEntityFarTexture;
-extern CConfigVarFloat  CV_MapEntityFarArrowSize;
+extern CConfigVarFloat CV_MapEntityFarArrowSize;
 extern CConfigVarString CV_MapEntitySmallTexture;
 extern CConfigVarString CV_MapEntitySmallHighlightTexture;
 extern CConfigVarString CV_MapEntityOrientTexture;
-extern CConfigVarFloat  CV_MapEntityOrientOriginDist;
-extern CConfigVarFloat  CV_MapEntityOrientBlendTimeInMs;
-extern CConfigVarFloat  CV_MapEntityOrientOriginDistSmall;
-extern CConfigVarFloat  CV_MapEntityCloseDist;
+extern CConfigVarFloat CV_MapEntityOrientOriginDist;
+extern CConfigVarFloat CV_MapEntityOrientBlendTimeInMs;
+extern CConfigVarFloat CV_MapEntityOrientOriginDistSmall;
+extern CConfigVarFloat CV_MapEntityCloseDist;
 extern CConfigVarString CV_MapEntityInvalidTexture;
 extern CConfigVarString CV_MapEntityInvalidTextureSmall;
 //
 extern CConfigVarString CV_MapGlowStarTexture;
-extern CConfigVarFloat  CV_MapGlowStarSize;
-extern CConfigVarFloat	CV_MapGlowStarSpeed[2];
-extern CConfigVarFloat  CV_FloatingShapeRefScale;
+extern CConfigVarFloat CV_MapGlowStarSize;
+extern CConfigVarFloat CV_MapGlowStarSpeed[2];
+extern CConfigVarFloat CV_FloatingShapeRefScale;
 //
 extern CConfigVarFloat CV_RegionFadeTimeInMs;
 extern CConfigVarRGBA CV_FocusedRegionColor;
@@ -70,32 +66,34 @@ extern CConfigVarSInt32 CV_MapAutoPanSpeedInPixels;
 extern CConfigVarSInt32 CV_MapAutoFastPanNumTicks;
 //
 extern CConfigVarString CV_FootStepMapTexture;
-extern CConfigVarFloat	CV_FootStepMapWidth;
+extern CConfigVarFloat CV_FootStepMapWidth;
 extern CConfigVarString CV_FootStepDecalTexture;
-extern CConfigVarFloat	CV_FootStepDecalUScale;
-extern CConfigVarFloat	CV_FootStepDecalWidth;
-extern CConfigVarString	CV_WanderDecalTexture;
-extern CConfigVarFloat	CV_WanderDecalSize;
-extern CConfigVarRGBA	CV_FootStepMapHiddenColor;
-extern CConfigVarRGBA	CV_FootStepMapFocusedColor;
-extern CConfigVarRGBA	CV_FootStepMapSelectedColor;
-extern CConfigVarRGBA	CV_FootStepDecalHiddenColor;
-extern CConfigVarRGBA	CV_FootStepDecalFocusedColor;
-extern CConfigVarRGBA	CV_FootStepDecalSelectedColor;
+extern CConfigVarFloat CV_FootStepDecalUScale;
+extern CConfigVarFloat CV_FootStepDecalWidth;
+extern CConfigVarString CV_WanderDecalTexture;
+extern CConfigVarFloat CV_WanderDecalSize;
+extern CConfigVarRGBA CV_FootStepMapHiddenColor;
+extern CConfigVarRGBA CV_FootStepMapFocusedColor;
+extern CConfigVarRGBA CV_FootStepMapSelectedColor;
+extern CConfigVarRGBA CV_FootStepDecalHiddenColor;
+extern CConfigVarRGBA CV_FootStepDecalFocusedColor;
+extern CConfigVarRGBA CV_FootStepDecalSelectedColor;
 //
-extern CConfigVarFloat	CV_AutoGroupMaxDist;
+extern CConfigVarFloat CV_AutoGroupMaxDist;
 //
-extern CConfigVarRGBA	CV_InaccessiblePosColor0;
-extern CConfigVarRGBA	CV_InaccessiblePosColor1;
-extern CConfigVarFloat  CV_InaccessiblePosAnimDurationInMS;
+extern CConfigVarRGBA CV_InaccessiblePosColor0;
+extern CConfigVarRGBA CV_InaccessiblePosColor1;
+extern CConfigVarFloat CV_InaccessiblePosAnimDurationInMS;
 //
-extern CConfigVarFloat  CV_DecalTopBlendStartDist; // distance at which the color starts to fade for player & selection decals
-extern CConfigVarFloat  CV_DecalBottomBlendStartDist; // distance at which the color starts to fade for player & selection decals
-extern CConfigVarFloat  CV_DecalBlendLength; // length for decal color fading (player & selection decals)
+extern CConfigVarFloat
+    CV_DecalTopBlendStartDist; // distance at which the color starts to fade for
+                               // player & selection decals
+extern CConfigVarFloat
+    CV_DecalBottomBlendStartDist; // distance at which the color starts to fade
+                                  // for player & selection decals
+extern CConfigVarFloat CV_DecalBlendLength; // length for decal color fading
+                                            // (player & selection decals)
 
-
-
-} // R2
-
+} // namespace R2
 
 #endif

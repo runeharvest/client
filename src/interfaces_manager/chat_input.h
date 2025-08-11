@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_CHAT_INPUT_H
 #define NL_CHAT_INPUT_H
 
-#include "nel/misc/types_nl.h"
 #include "capture.h"
-
+#include "nel/misc/types_nl.h"
 
 /**
  * CChatInput class which manage the text input for chat boxes
@@ -29,29 +26,32 @@
  * \author Nevrax France
  * \date 2001
  */
-class CChatInput : public CCapture
-{
+class CChatInput : public CCapture {
 public:
-	/// default Constructor
-	CChatInput(uint id);
+  /// default Constructor
+  CChatInput(uint id);
 
-	///Constructor
-	CChatInput(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint numFunc, const CPen &pen);
-	CChatInput(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint numFunc, uint32 fontSize, CRGBA color, bool shadow);
+  /// Constructor
+  CChatInput(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+             float h, float w_pixel, float h_pixel, uint numFunc,
+             const CPen &pen);
+  CChatInput(uint id, float x, float y, float x_pixel, float y_pixel, float w,
+             float h, float w_pixel, float h_pixel, uint numFunc,
+             uint32 fontSize, CRGBA color, bool shadow);
 
-	/// Destructor.
-	~CChatInput();
+  /// Destructor.
+  ~CChatInput();
 
-	/// do like a 'RETURN' keypressed : force the analysis of the line and send the message/execute the command
-	void execute();
+  /// do like a 'RETURN' keypressed : force the analysis of the line and send
+  /// the message/execute the command
+  void execute();
 
 private:
-	/// Initialize the control (1 function called for all constructors -> easier).
-	inline void init();
-	/// callback
-	virtual void operator () (const CEvent& event);
+  /// Initialize the control (1 function called for all constructors -> easier).
+  inline void init();
+  /// callback
+  virtual void operator()(const CEvent &event);
 };
-
 
 #endif // NL_CHAT_INPUT_H
 

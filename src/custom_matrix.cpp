@@ -14,35 +14,30 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdpch.h"
 #include "custom_matrix.h"
-
-
+#include "stdpch.h"
 
 // *********************************************************
-bool CCustomMatrix::set(bool newOn, const NLMISC::CMatrix &newMat)
-{
-	if (newOn)
-	{
-		if (On)
-		{
-			float srcMatUnpacked[16];
-			float destMatUnpacked[16];
-			Matrix.get(srcMatUnpacked);
-			newMat.get(destMatUnpacked);
-			if (std::equal(srcMatUnpacked, srcMatUnpacked + 16, destMatUnpacked)) return false;
-		}
-		On = newOn;
-		Matrix = newMat;
-		return true;
-	}
+bool CCustomMatrix::set(bool newOn, const NLMISC::CMatrix &newMat) {
+  if (newOn) {
+    if (On) {
+      float srcMatUnpacked[16];
+      float destMatUnpacked[16];
+      Matrix.get(srcMatUnpacked);
+      newMat.get(destMatUnpacked);
+      if (std::equal(srcMatUnpacked, srcMatUnpacked + 16, destMatUnpacked))
+        return false;
+    }
+    On = newOn;
+    Matrix = newMat;
+    return true;
+  }
 
-	Matrix = newMat;
-	if (newOn != On)
-	{
-		On = newOn;
-		return true;
-	}
+  Matrix = newMat;
+  if (newOn != On) {
+    On = newOn;
+    return true;
+  }
 
-	return false;
+  return false;
 }

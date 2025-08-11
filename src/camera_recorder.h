@@ -14,16 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef  CL_CAMERA_RECORDER_H
-#define  CL_CAMERA_RECORDER_H
-
-
+#ifndef CL_CAMERA_RECORDER_H
+#define CL_CAMERA_RECORDER_H
 
 void updateCameraRecorder();
 bool isRecordingCamera();
 
-
 #endif
-
-
-

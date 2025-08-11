@@ -14,16 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_SPHRASE_SHEET_H
 #define RY_SPHRASE_SHEET_H
 
-#include "nel/misc/types_nl.h"
-#include "nel/misc/sheet_id.h"
 #include "entity_sheet.h"
+#include "nel/misc/sheet_id.h"
+#include "nel/misc/types_nl.h"
 
-#define SPHRASE_MAX_BRICK	100
+#define SPHRASE_MAX_BRICK 100
 
 // ***************************************************************************
 /**
@@ -32,42 +30,39 @@
  * \author Nevrax France
  * \date 2003 September
  */
-class CSPhraseSheet : public CEntitySheet
-{
+class CSPhraseSheet : public CEntitySheet {
 public:
-	// All these values are sheet id
-	std::vector<NLMISC::CSheetId>	Bricks;
-	// False if it is an upgrade phrase for instance. true means it can be memorized
-	bool							Castable;
-	// True if it can be shown in the ActionProgression window
-	bool							ShowInActionProgression;
-	// True if it can be shown in the ActionProgression window (only if all bricks learn)
-	bool							ShowInAPOnlyIfLearnt;
+  // All these values are sheet id
+  std::vector<NLMISC::CSheetId> Bricks;
+  // False if it is an upgrade phrase for instance. true means it can be
+  // memorized
+  bool Castable;
+  // True if it can be shown in the ActionProgression window
+  bool ShowInActionProgression;
+  // True if it can be shown in the ActionProgression window (only if all bricks
+  // learn)
+  bool ShowInAPOnlyIfLearnt;
 
 public:
+  CSPhraseSheet() {
+    Type = CEntitySheet::SPHRASE;
+    Castable = true;
+    ShowInActionProgression = true;
+    ShowInAPOnlyIfLearnt = false;
+  }
 
-	CSPhraseSheet ()
-	{
-		Type = CEntitySheet::SPHRASE;
-		Castable= true;
-		ShowInActionProgression= true;
-		ShowInAPOnlyIfLearnt= false;
-	}
+  virtual void build(const NLGEORGES::UFormElm &root);
 
-	virtual void build (const NLGEORGES::UFormElm &root);
+  virtual void serial(NLMISC::IStream &s) {
+    s.serialCont(Bricks);
+    s.serial(Castable);
+    s.serial(ShowInActionProgression);
+    s.serial(ShowInAPOnlyIfLearnt);
+  }
 
-	virtual void serial (NLMISC::IStream &s)
-	{
-		s.serialCont (Bricks);
-		s.serial(Castable);
-		s.serial(ShowInActionProgression);
-		s.serial(ShowInAPOnlyIfLearnt);
-	}
-
-	// Valid if Bricks not empty and all Bricks sheetId != NULL.
-	bool	isValid() const;
+  // Valid if Bricks not empty and all Bricks sheetId != NULL.
+  bool isValid() const;
 };
-
 
 #endif // RY_SPHRASE_SHEET_H
 

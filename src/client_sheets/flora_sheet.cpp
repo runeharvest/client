@@ -14,81 +14,74 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "flora_sheet.h"
+#include "stdpch.h"
 //
 #include "nel/georges/u_form_elm.h"
 
 using namespace NLGEORGES;
 
 // ***************************************************************************************************
-CFloraSheet::CFloraSheet()
-{
-	Type = FLORA;
-	_TotalWeight = 0;
+CFloraSheet::CFloraSheet() {
+  Type = FLORA;
+  _TotalWeight = 0;
 }
 
 // ***************************************************************************************************
-void CFloraSheet::build(const NLGEORGES::UFormElm &item)
-{
-	const UFormElm *plantArray = NULL;
-	if (item.getNodeByName(&plantArray, "Plants") && plantArray)
-	{
-		uint numPlants;
-		nlverify(plantArray->getArraySize(numPlants));
-		_Plants.reserve(numPlants);
-		for(uint k = 0; k < numPlants; ++k)
-		{
-			const UFormElm *subNode = NULL;
-			if (plantArray->getArrayNode(&subNode, k) && subNode)
-			{
-				CPlantInfo pi;
-				pi.build(*subNode);
-				pi.CumulatedWeight = _TotalWeight;
-				_TotalWeight += pi.Weight;
-				_Plants.push_back(pi);
-			}
-		}
-	}
-	item.getValueByName(MicroLifeThreshold, "MicroLifeThreshold");
+void CFloraSheet::build(const NLGEORGES::UFormElm &item) {
+  const UFormElm *plantArray = NULL;
+  if (item.getNodeByName(&plantArray, "Plants") && plantArray) {
+    uint numPlants;
+    nlverify(plantArray->getArraySize(numPlants));
+    _Plants.reserve(numPlants);
+    for (uint k = 0; k < numPlants; ++k) {
+      const UFormElm *subNode = NULL;
+      if (plantArray->getArrayNode(&subNode, k) && subNode) {
+        CPlantInfo pi;
+        pi.build(*subNode);
+        pi.CumulatedWeight = _TotalWeight;
+        _TotalWeight += pi.Weight;
+        _Plants.push_back(pi);
+      }
+    }
+  }
+  item.getValueByName(MicroLifeThreshold, "MicroLifeThreshold");
 }
 
 // ***************************************************************************************************
-void CFloraSheet::serial(NLMISC::IStream &f)
-{
-	f.serialCont(_Plants);
-	f.serial(MicroLifeThreshold);
-	f.serial(_TotalWeight);
+void CFloraSheet::serial(NLMISC::IStream &f) {
+  f.serialCont(_Plants);
+  f.serial(MicroLifeThreshold);
+  f.serial(_TotalWeight);
 }
 
 // ***************************************************************************************************
-void CPlantInfo::build(const NLGEORGES::UFormElm &item)
-{
-	item.getValueByName(SheetName, "File name");
-	item.getValueByName(Weight, "MicroLifeWeight");
-	if (Weight == 0)
-	{
-		nlwarning("Plant with weight equal to 0");
-	}
+void CPlantInfo::build(const NLGEORGES::UFormElm &item) {
+  item.getValueByName(SheetName, "File name");
+  item.getValueByName(Weight, "MicroLifeWeight");
+  if (Weight == 0) {
+    nlwarning("Plant with weight equal to 0");
+  }
 }
 
 // ***************************************************************************************************
-void CPlantInfo::serial(NLMISC::IStream &f)
-{
-	f.serial(SheetName);
-	f.serial(CumulatedWeight);
+void CPlantInfo::serial(NLMISC::IStream &f) {
+  f.serial(SheetName);
+  f.serial(CumulatedWeight);
 }
 
 // ***************************************************************************************************
-const CPlantInfo *CFloraSheet::getPlantInfoFromWeightedIndex(uint64 index) const
-{
-	if (_TotalWeight == 0) return NULL;
-	CPlantInfo comp;
-	comp.CumulatedWeight = index;
-	std::vector<CPlantInfo>::const_iterator it = std::lower_bound(_Plants.begin(), _Plants.end(), comp);
-	if (it == _Plants.end()) return &(_Plants.back());
-	if (it == _Plants.begin()) return &(_Plants.front());
-	return it->CumulatedWeight == index ? &(*it) : &(*(it - 1));
+const CPlantInfo *
+CFloraSheet::getPlantInfoFromWeightedIndex(uint64 index) const {
+  if (_TotalWeight == 0)
+    return NULL;
+  CPlantInfo comp;
+  comp.CumulatedWeight = index;
+  std::vector<CPlantInfo>::const_iterator it =
+      std::lower_bound(_Plants.begin(), _Plants.end(), comp);
+  if (it == _Plants.end())
+    return &(_Plants.back());
+  if (it == _Plants.begin())
+    return &(_Plants.front());
+  return it->CumulatedWeight == index ? &(*it) : &(*(it - 1));
 }

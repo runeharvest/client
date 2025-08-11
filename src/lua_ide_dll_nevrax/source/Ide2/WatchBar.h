@@ -27,28 +27,27 @@
 
 #include "WatchList.h"
 
-class CWatchBar : public CCJControlBar  
-{
+class CWatchBar : public CCJControlBar {
 public:
-	CWatchBar();
-	virtual ~CWatchBar();
+  CWatchBar();
+  virtual ~CWatchBar();
 
-	void Redraw() { m_watches.Redraw(); }
+  void Redraw() { m_watches.Redraw(); }
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWatchBar)
-	//}}AFX_VIRTUAL
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CWatchBar)
+  //}}AFX_VIRTUAL
 
-// Generated message map functions
+  // Generated message map functions
 protected:
-	CWatchList m_watches;
+  CWatchList m_watches;
 
-	//{{AFX_MSG(CWatchBar)
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//afx_msg void OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CWatchBar)
+  afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+  // afx_msg void OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult);
+  // }}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 #endif // !defined(AFX_WATCHBAR_H__B3588692_9C51_457B_B360_FCF2CF7336A6__INCLUDED_)

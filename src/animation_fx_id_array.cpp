@@ -14,12 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "animation_fx_id_array.h"
-#include "sheet_manager.h"
 #include "global.h"
+#include "sheet_manager.h"
+#include "stdpch.h"
 //
 #include "nel/3d/u_scene.h"
 
@@ -30,65 +28,61 @@
 extern NL3D::UScene *Scene;
 
 // *********************************************************************
-CAnimationFXIDArray::CAnimationFXIDArray()
-{
-	_AnimSet = NULL;
+CAnimationFXIDArray::CAnimationFXIDArray() { _AnimSet = NULL; }
+
+// *********************************************************************
+void CAnimationFXIDArray::release() {
+  _IDToFXArray.clear();
+  if (Scene && _AnimSet) {
+    Driver->deleteAnimationSet(_AnimSet);
+  }
+  _AnimSet = NULL;
 }
 
 // *********************************************************************
-void CAnimationFXIDArray::release()
-{
-	_IDToFXArray.clear();
-	if (Scene && _AnimSet)
-	{
-		Driver->deleteAnimationSet(_AnimSet);
-	}
-	_AnimSet = NULL;
+void CAnimationFXIDArray::init(const CIDToStringArraySheet &sheet,
+                               NL3D::UAnimationSet *animSet,
+                               bool mustDeleteAnimSet /* = false*/) {
+  release();
+  // retrieve pointer on all fxs
+  for (uint k = 0; k < sheet.Array.size(); ++k) {
+    const CAnimationFXSheet *afs = dynamic_cast<const CAnimationFXSheet *>(
+        SheetMngr.get(NLMISC::CSheetId(sheet.Array[k].String)));
+    if (afs) {
+      CIDToFX idToFX;
+      idToFX.FX.init(afs, animSet);
+      idToFX.ID = sheet.Array[k].ID;
+      _IDToFXArray.push_back(idToFX);
+    }
+  }
+  // sort by ids
+  std::sort(_IDToFXArray.begin(), _IDToFXArray.end());
+  if (mustDeleteAnimSet) {
+    _AnimSet = animSet;
+  }
 }
 
 // *********************************************************************
-void CAnimationFXIDArray::init(const CIDToStringArraySheet &sheet, NL3D::UAnimationSet *animSet, bool mustDeleteAnimSet /* = false*/)
-{
-	release();
-	// retrieve pointer on all fxs
-	for(uint k = 0; k < sheet.Array.size(); ++k)
-	{
-		const CAnimationFXSheet *afs = dynamic_cast<const CAnimationFXSheet *>(SheetMngr.get(NLMISC::CSheetId(sheet.Array[k].String)));
-		if (afs)
-		{
-			CIDToFX idToFX;
-			idToFX.FX.init(afs, animSet);
-			idToFX.ID = sheet.Array[k].ID;
-			_IDToFXArray.push_back(idToFX);
-		}
-	}
-	// sort by ids
-	std::sort(_IDToFXArray.begin(), _IDToFXArray.end());
-	if (mustDeleteAnimSet)
-	{
-		_AnimSet = animSet;
-	}
+void CAnimationFXIDArray::init(const std::string &sheetName,
+                               NL3D::UAnimationSet *animSet,
+                               bool mustDeleteAnimSet /*= false*/) {
+  CIDToStringArraySheet *array = dynamic_cast<CIDToStringArraySheet *>(
+      SheetMngr.get(NLMISC::CSheetId(sheetName)));
+  if (array) {
+    init(*array, animSet, mustDeleteAnimSet);
+  }
 }
 
 // *********************************************************************
-void CAnimationFXIDArray::init(const std::string &sheetName, NL3D::UAnimationSet *animSet, bool mustDeleteAnimSet /*= false*/)
-{
-	CIDToStringArraySheet *array = dynamic_cast<CIDToStringArraySheet *>(SheetMngr.get(NLMISC::CSheetId(sheetName)));
-	if (array)
-	{
-		init(*array, animSet, mustDeleteAnimSet);
-	}
-}
-
-
-// *********************************************************************
-const CAnimationFX *CAnimationFXIDArray::getFX(uint32 id) const
-{
-	// after init, element are sorted by ids
-	CIDToFX comp;
-	comp.ID = id;
-	std::vector<CIDToFX>::const_iterator it = std::lower_bound(_IDToFXArray.begin(), _IDToFXArray.end(), comp);
-	if (it == _IDToFXArray.end()) return NULL;
-	if (it->ID != id) return NULL;
-	return &(it->FX);
+const CAnimationFX *CAnimationFXIDArray::getFX(uint32 id) const {
+  // after init, element are sorted by ids
+  CIDToFX comp;
+  comp.ID = id;
+  std::vector<CIDToFX>::const_iterator it =
+      std::lower_bound(_IDToFXArray.begin(), _IDToFXArray.end(), comp);
+  if (it == _IDToFXArray.end())
+    return NULL;
+  if (it->ID != id)
+    return NULL;
+  return &(it->FX);
 }

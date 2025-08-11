@@ -14,26 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 /////////////
 // INCLUDE //
 /////////////
-#include "stdpch.h"	// First include for pre-compiled headers.
+#include "stdpch.h" // First include for pre-compiled headers.
 // Application
 #include "building_sheet.h"
 // Georges
 #include "nel/georges/u_form_elm.h"
-
-
 
 ///////////
 // USING //
 ///////////
 using namespace NLGEORGES;
 using namespace std;
-
 
 /////////////
 // METHODS //
@@ -42,39 +36,35 @@ using namespace std;
 // CBuildingSheet :
 // Constructor.
 //-----------------------------------------------
-CBuildingSheet::CBuildingSheet()
-{
-	// Initialize the type.
-	Type = CEntitySheet::BUILDING;
-}// CBuildingSheet //
+CBuildingSheet::CBuildingSheet() {
+  // Initialize the type.
+  Type = CEntitySheet::BUILDING;
+} // CBuildingSheet //
 
 //-----------------------------------------------
 // build :
 // Build the sheet from an external script.
 //-----------------------------------------------
-void CBuildingSheet::build(const NLGEORGES::UFormElm &item)
-{
-	// Load the name.
-	if(!item.getValueByName(BuildedIg, "builded_ig"))
-		debug("builded_ig not found.");
-	if(!item.getValueByName(BuildedIcon, "builded_icon"))
-		debug("builded_icon not found.");
-	if(!item.getValueByName(BuildingIcon, "building_icon"))
-		debug("building_icon not found.");
-	if(!item.getValueByName(Name, "name"))
-		debug("name not found.");
-}// build //
+void CBuildingSheet::build(const NLGEORGES::UFormElm &item) {
+  // Load the name.
+  if (!item.getValueByName(BuildedIg, "builded_ig"))
+    debug("builded_ig not found.");
+  if (!item.getValueByName(BuildedIcon, "builded_icon"))
+    debug("builded_icon not found.");
+  if (!item.getValueByName(BuildingIcon, "building_icon"))
+    debug("building_icon not found.");
+  if (!item.getValueByName(Name, "name"))
+    debug("name not found.");
+} // build //
 
 //-----------------------------------------------
 // serial :
 // Serialize character sheet into binary data file.
 //-----------------------------------------------
-void CBuildingSheet::serial(NLMISC::IStream &f)
-{
-	// Serialize class components.
-	f.serial(BuildedIg);
-	f.serial(BuildedIcon);
-	f.serial(BuildingIcon);
-	f.serial(Name);
-}// serial //
-
+void CBuildingSheet::serial(NLMISC::IStream &f) {
+  // Serialize class components.
+  f.serial(BuildedIg);
+  f.serial(BuildedIcon);
+  f.serial(BuildingIcon);
+  f.serial(Name);
+} // serial //

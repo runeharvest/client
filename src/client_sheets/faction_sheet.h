@@ -20,35 +20,26 @@
 #include "entity_sheet.h"
 
 /** Sheet of a faction
-  *  NB : it doesn't derives from CEntitySheet, because its instances are aggragated in a CContinentSheet
-  *
-  * \author Jerome Vuarand
-  * \author Nevrax France
-  * \date 2005
-  */
+ *  NB : it doesn't derives from CEntitySheet, because its instances are
+ * aggragated in a CContinentSheet
+ *
+ * \author Jerome Vuarand
+ * \author Nevrax France
+ * \date 2005
+ */
 
-class CFactionSheet : public CEntitySheet
-{
+class CFactionSheet : public CEntitySheet {
 public:
-	std::string Icon;
+  std::string Icon;
 
-	// ctor
-	CFactionSheet()
-	{
-		Type = FACTION;
-	}
+  // ctor
+  CFactionSheet() { Type = FACTION; }
 
-	/// Build the sheet from an external script.
-	void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize character sheet into binary data file.
-	void serial(NLMISC::IStream &f);
-
+  /// Serialize character sheet into binary data file.
+  void serial(NLMISC::IStream &f);
 };
-
-
-
-
-
 
 #endif

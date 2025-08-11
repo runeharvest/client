@@ -19,53 +19,50 @@
 
 #include "stdpch.h"
 //
-#include "decal_anim.h"
 #include "decal.h"
+#include "decal_anim.h"
 #include "nel/gui/lua_ihm.h"
 #include "nel/gui/lua_object.h"
 //
-#include "nel/misc/vector_2f.h"
 #include "nel/misc/algo.h"
-
+#include "nel/misc/vector_2f.h"
 
 using namespace NLMISC;
 
 // *****************************************************************************
-CDecalAnim::CDecalAnim()
-{
-	DurationInMs = 1000;
-	EndScaleFactor = 1.f;
-	EndAngleInDegrees = 0.f;
-	StartDiffuse = CRGBA::White;
-	EndDiffuse = CRGBA::Black;
-	StartEmissive = CRGBA::Black;
-	EndEmissive = CRGBA::Black;
+CDecalAnim::CDecalAnim() {
+  DurationInMs = 1000;
+  EndScaleFactor = 1.f;
+  EndAngleInDegrees = 0.f;
+  StartDiffuse = CRGBA::White;
+  EndDiffuse = CRGBA::Black;
+  StartEmissive = CRGBA::Black;
+  EndEmissive = CRGBA::Black;
 }
 
 // *****************************************************************************
-void CDecalAnim::updateDecal(const NLMISC::CVector2f &pos, float animRatio, CDecal &dest, float refScale) const
-{
-	dest.setTexture(Texture);
-	dest.setWorldMatrixForSpot(pos, refScale * blend(1.f, EndScaleFactor, animRatio), blend(0.f, EndAngleInDegrees, animRatio));
-	dest.setDiffuse(blend(StartDiffuse, EndDiffuse, animRatio));
-	dest.setEmissive(blend(StartEmissive, EndEmissive, animRatio));
+void CDecalAnim::updateDecal(const NLMISC::CVector2f &pos, float animRatio,
+                             CDecal &dest, float refScale) const {
+  dest.setTexture(Texture);
+  dest.setWorldMatrixForSpot(pos,
+                             refScale * blend(1.f, EndScaleFactor, animRatio),
+                             blend(0.f, EndAngleInDegrees, animRatio));
+  dest.setDiffuse(blend(StartDiffuse, EndDiffuse, animRatio));
+  dest.setEmissive(blend(StartEmissive, EndEmissive, animRatio));
 }
 
-
-
-
 // *****************************************************************************
-void CDecalAnim::buildFromLuaTable(CLuaObject &table)
-{
-	// retrieve a value from a lua table or affect a default value if not found
-	#define GET_LUA_VALUE(dest, Type, CastType, Default) \
-	(dest) = (table[#dest].is##Type()) ? (CastType) table[#dest].to##Type() : (Default);
-	GET_LUA_VALUE(DurationInMs,      Number, uint, 1000)
-	GET_LUA_VALUE(EndScaleFactor,    Number, float, 1.f)
-	GET_LUA_VALUE(EndAngleInDegrees, Number, float, 1.f)
-	GET_LUA_VALUE(Texture, String, std::string, "")
-	GET_LUA_VALUE(StartDiffuse, RGBA, CRGBA, CRGBA::White)
-	GET_LUA_VALUE(EndDiffuse, RGBA, CRGBA, CRGBA::White)
-	GET_LUA_VALUE(StartEmissive, RGBA, CRGBA, CRGBA::Black)
-	GET_LUA_VALUE(EndEmissive, RGBA, CRGBA, CRGBA::Black)
+void CDecalAnim::buildFromLuaTable(CLuaObject &table) {
+// retrieve a value from a lua table or affect a default value if not found
+#define GET_LUA_VALUE(dest, Type, CastType, Default)                           \
+  (dest) = (table[#dest].is##Type()) ? (CastType)table[#dest].to##Type()       \
+                                     : (Default);
+  GET_LUA_VALUE(DurationInMs, Number, uint, 1000)
+  GET_LUA_VALUE(EndScaleFactor, Number, float, 1.f)
+  GET_LUA_VALUE(EndAngleInDegrees, Number, float, 1.f)
+  GET_LUA_VALUE(Texture, String, std::string, "")
+  GET_LUA_VALUE(StartDiffuse, RGBA, CRGBA, CRGBA::White)
+  GET_LUA_VALUE(EndDiffuse, RGBA, CRGBA, CRGBA::White)
+  GET_LUA_VALUE(StartEmissive, RGBA, CRGBA, CRGBA::Black)
+  GET_LUA_VALUE(EndEmissive, RGBA, CRGBA, CRGBA::Black)
 }

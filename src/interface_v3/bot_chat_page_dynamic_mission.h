@@ -17,16 +17,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_BOT_CHAT_PAGE_DYNAMIC_MISSION_H
 #define CL_BOT_CHAT_PAGE_DYNAMIC_MISSION_H
 
 #include "bot_chat_page.h"
 
-namespace NLGUI
-{
-	class CDBGroupComboBox;
+namespace NLGUI {
+class CDBGroupComboBox;
 }
 
 // number of choices that the player must make to create a dynamic mission
@@ -35,43 +32,42 @@ const uint DYNAMIC_MISSION_NUM_CHOICES = 3;
 const uint DYNAMIC_MISSION_MAX_NUM_OPTIONS = 8;
 
 /** A page from which the user can create a dynamic mission
-  * \author Nicolas Vizerie
-  * \author Nevrax France
-  * \date September 2003
-  */
-class CBotChatPageDynamicMission : public CBotChatPage
-{
+ * \author Nicolas Vizerie
+ * \author Nevrax France
+ * \date September 2003
+ */
+class CBotChatPageDynamicMission : public CBotChatPage {
 public:
-	// ctor
-	CBotChatPageDynamicMission();
-	// from CBotChatPage
-	virtual void begin();
-	virtual void end();
-	virtual void init();
-	virtual void update();
-	/** Must be called by action handler when selection in combo box has changed.
-	  * This send a msg to the server and reset the description text id
-	  */
-	void		selectionChanged(uint choice);
-	// force to regenerate current mission
-	void		regen();
-private:
-	// The control for each choice list
-	NLGUI::CDBGroupComboBox *_ChoiceCB[DYNAMIC_MISSION_NUM_CHOICES];
-	// current choice for each group (-1 means that choice has not been made)
-	sint			  _Choice[DYNAMIC_MISSION_NUM_CHOICES];
-	// For each text ID, true if the text has been received
-	bool			  _TextReceived[DYNAMIC_MISSION_NUM_CHOICES][DYNAMIC_MISSION_MAX_NUM_OPTIONS];
+  // ctor
+  CBotChatPageDynamicMission();
+  // from CBotChatPage
+  virtual void begin();
+  virtual void end();
+  virtual void init();
+  virtual void update();
+  /** Must be called by action handler when selection in combo box has changed.
+   * This send a msg to the server and reset the description text id
+   */
+  void selectionChanged(uint choice);
+  // force to regenerate current mission
+  void regen();
 
-	//
-	bool			  _MissionValid;
 private:
-	void		invalidateMission();
-	//
-	void		sendChoices();
+  // The control for each choice list
+  NLGUI::CDBGroupComboBox *_ChoiceCB[DYNAMIC_MISSION_NUM_CHOICES];
+  // current choice for each group (-1 means that choice has not been made)
+  sint _Choice[DYNAMIC_MISSION_NUM_CHOICES];
+  // For each text ID, true if the text has been received
+  bool _TextReceived[DYNAMIC_MISSION_NUM_CHOICES]
+                    [DYNAMIC_MISSION_MAX_NUM_OPTIONS];
+
+  //
+  bool _MissionValid;
+
+private:
+  void invalidateMission();
+  //
+  void sendChoices();
 };
-
-
-
 
 #endif

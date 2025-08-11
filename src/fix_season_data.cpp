@@ -14,31 +14,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
 
 #include "nel/3d/u_instance.h"
 
 #include "fix_season_data.h"
-#include "game_share/time_weather_season/time_and_season.h"
 #include "game_share/season_file_ext.h"
+#include "game_share/time_weather_season/time_and_season.h"
 
 using namespace std;
 using namespace NLMISC;
 
 // ***************************************************************************
 
-void SeasonPostfixTextureFilename (string &filename, EGSPD::CSeason::TSeason season)
-{
-	string ext = CFile::getExtension(filename);
-	string name = CFile::getFilenameWithoutExtension(filename);
-	filename = CFile::getPath (filename);
-	filename += name;
-	filename += CSeasonFileExt::getExtension (season);
-	filename += ".";
-	filename += ext;
+void SeasonPostfixTextureFilename(string &filename,
+                                  EGSPD::CSeason::TSeason season) {
+  string ext = CFile::getExtension(filename);
+  string name = CFile::getFilenameWithoutExtension(filename);
+  filename = CFile::getPath(filename);
+  filename += name;
+  filename += CSeasonFileExt::getExtension(season);
+  filename += ".";
+  filename += ext;
 }
 
 // ***************************************************************************
-

@@ -19,24 +19,19 @@
 
 #include "entity_sheet.h"
 
-class COutpostSquadSheet : public CEntitySheet
-{
+class COutpostSquadSheet : public CEntitySheet {
 public:
-
-	uint32 BuyPrice;
+  uint32 BuyPrice;
 
 public:
-	// ctor
-	COutpostSquadSheet();
+  // ctor
+  COutpostSquadSheet();
 
-	/// From CEntitySheet
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// From CEntitySheet
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// From CEntitySheet  : serialize sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// From CEntitySheet  : serialize sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
-
 
 #endif

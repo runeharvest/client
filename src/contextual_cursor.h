@@ -17,8 +17,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_CONTEXTUAL_CURSOR_H
 #define CL_CONTEXTUAL_CURSOR_H
 
@@ -28,58 +26,59 @@
 // Misc
 #include "nel/misc/types_nl.h"
 
-
 /**
  * Class to manage contextual cursor.
  * \author Guillaume PUZIN
  * \author Nevrax France
  * \date 2001
  */
-class CContextualCursor
-{
+class CContextualCursor {
 public:
-	/// Callback function to call per context.
-	typedef void (*TFunc) (void);
-	typedef void (*TFunc2) (bool,bool);
+  /// Callback function to call per context.
+  typedef void (*TFunc)(void);
+  typedef void (*TFunc2)(bool, bool);
 
 protected:
-	typedef struct
-	{
-		float	distMax;
-		TFunc	checkFunc;
-		TFunc2	execFunc;
-		std::string cursor;
-		bool		isString;		// True if this cursor is a string cursor and not an icon cursor
-	}TFunctions;
+  typedef struct {
+    float distMax;
+    TFunc checkFunc;
+    TFunc2 execFunc;
+    std::string cursor;
+    bool isString; // True if this cursor is a string cursor and not an icon
+                   // cursor
+  } TFunctions;
 
-	typedef std::map<std::string, TFunctions> TContext;
+  typedef std::map<std::string, TFunctions> TContext;
 
-	TContext _Contexts;
+  TContext _Contexts;
 
-	/// Current Context.
-	std::string _Context;
+  /// Current Context.
+  std::string _Context;
 
 public:
-	/// Constructor
-	CContextualCursor();
+  /// Constructor
+  CContextualCursor();
 
-	void release();
+  void release();
 
-	/// Insert a context and associate the function. If the context already exist -> replace the function if 'replace' = true.
-	void add(bool isString, const std::string &contextName, const std::string &texture, float distMax, TFunc checkFunc, TFunc2 execFunc, bool replace = true);
-	/// Remove a context.
-	void del(const std::string &contextName);
+  /// Insert a context and associate the function. If the context already exist
+  /// -> replace the function if 'replace' = true.
+  void add(bool isString, const std::string &contextName,
+           const std::string &texture, float distMax, TFunc checkFunc,
+           TFunc2 execFunc, bool replace = true);
+  /// Remove a context.
+  void del(const std::string &contextName);
 
-	// Select a nex context.
-	bool context(const std::string &contextName, float dist = 0, const std::string &cursName = std::string());
-	inline const std::string &context() const {return _Context;}
+  // Select a nex context.
+  bool context(const std::string &contextName, float dist = 0,
+               const std::string &cursName = std::string());
+  inline const std::string &context() const { return _Context; }
 
-	// Check if there is an entity under the cursor.
-	void check();
-	/// Execute the Action according to the cursor state.
-	void execute(bool rightClick, bool dblClick);
+  // Check if there is an entity under the cursor.
+  void check();
+  /// Execute the Action according to the cursor state.
+  void execute(bool rightClick, bool dblClick);
 };
-
 
 #endif // CL_CONTEXTUAL_CURSOR_H
 

@@ -14,11 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_MISSION_SHEET_H
 #define RY_MISSION_SHEET_H
-
 
 /////////////
 // INCLUDE //
@@ -28,38 +25,28 @@
 // client
 #include "entity_sheet.h"
 
-
 /**
  * class describing a mission sheet
  * \author Nicolas Brigand
  * \author Nevrax France
  * \date 2002
  */
-class CMissionSheet : public CEntitySheet
-{
+class CMissionSheet : public CEntitySheet {
 public:
-	/// Constructor
-	CMissionSheet()
-	{
-		Type = MISSION;
-	};
+  /// Constructor
+  CMissionSheet() { Type = MISSION; };
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 
-	std::string Name;
-	std::string Description;
-	std::vector<std::string> StepsDescription;
-	std::string RewardDescription;
-
-
-
-
+  std::string Name;
+  std::string Description;
+  std::vector<std::string> StepsDescription;
+  std::string RewardDescription;
 };
-
 
 #endif // RY_MISSION_SHEET_H
 

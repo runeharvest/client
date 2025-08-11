@@ -14,34 +14,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ACTIONS_CLIENT_H
 #define CL_ACTIONS_CLIENT_H
-
 
 /////////////
 // INCLUDE //
 /////////////
 
 // Client
-#include "actions.h"			// Manage Inputs
-
+#include "actions.h" // Manage Inputs
 
 ////////////
 // GLOBAL //
 ////////////
-extern CActionsManager Actions;	// Actions Manager.
-extern CActionsManager EditActions;	// Actions Manager.
+extern CActionsManager Actions;     // Actions Manager.
+extern CActionsManager EditActions; // Actions Manager.
 extern CActionsContext ActionsContext;
-
 
 ///////////////
 // FUNCTIONS //
 ///////////////
 /// Initialize Actions.
 void initActions();
-
 
 #endif // CL_ACTIONS_CLIENT_H
 

@@ -18,18 +18,12 @@
 #define R2_LUA_H
 
 /** Common lua definitions
-  */
-namespace R2
-{
-
+ */
+namespace R2 {
 
 // default lua path where R2 stuffs are put
 extern const char *R2_LUA_PATH;
 
-
-
-
-} // R2
-
+} // namespace R2
 
 #endif

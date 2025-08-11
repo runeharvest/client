@@ -14,24 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "light_cycle_sheet.h"
+#include "stdpch.h"
 
+CLightCycleSheet::CLightCycleSheet() { Type = CEntitySheet::LIGHT_CYCLE; }
 
-CLightCycleSheet::CLightCycleSheet()
-{
-	Type = CEntitySheet::LIGHT_CYCLE;
+void CLightCycleSheet::build(const NLGEORGES::UFormElm &item) {
+  LightCycle.build(item);
 }
 
-
-void CLightCycleSheet::build(const NLGEORGES::UFormElm &item)
-{
-	LightCycle.build(item);
-}
-
-void CLightCycleSheet::serial(NLMISC::IStream &f)
-{
-	LightCycle.serial(f);
-}
+void CLightCycleSheet::serial(NLMISC::IStream &f) { LightCycle.serial(f); }

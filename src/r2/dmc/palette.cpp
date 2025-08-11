@@ -16,8 +16,8 @@
 
 #include "stdpch.h"
 
-#include "palette.h"
 #include "game_share/object.h"
+#include "palette.h"
 
 #include <assert.h>
 
@@ -27,52 +27,43 @@
 
 using namespace R2;
 
-namespace R2
-{
+namespace R2 {
 
-CObject* CPalette::getPaletteElement(const std::string& key) const
-{
-	//H_AUTO(R2_CPalette_getPaletteElement)
-	TMap::const_iterator find(_Map.find(key));
-	if (find != _Map.end())
-	{
-		return find->second;
-	}
-	return 0;
+CObject *CPalette::getPaletteElement(const std::string &key) const {
+  // H_AUTO(R2_CPalette_getPaletteElement)
+  TMap::const_iterator find(_Map.find(key));
+  if (find != _Map.end()) {
+    return find->second;
+  }
+  return 0;
 }
 
-void CPalette::addPaletteElement(const std::string& key, CObject* paletteElement)
-{
-	//H_AUTO(R2_CPalette_addPaletteElement)
-	std::pair< TMap::iterator, bool> result;
-	result = _Map.insert( std::pair<std::string, CObject*>(key, paletteElement));
+void CPalette::addPaletteElement(const std::string &key,
+                                 CObject *paletteElement) {
+  // H_AUTO(R2_CPalette_addPaletteElement)
+  std::pair<TMap::iterator, bool> result;
+  result = _Map.insert(std::pair<std::string, CObject *>(key, paletteElement));
 
-
-	if (!result.second)
-	{
-		nlwarning("Palette element added twice : %s", key.c_str());
-		delete paletteElement;
-	}
+  if (!result.second) {
+    nlwarning("Palette element added twice : %s", key.c_str());
+    delete paletteElement;
+  }
 }
 
-bool CPalette::isInPalette(const std::string &key) const
-{
-	//H_AUTO(R2_CPalette_isInPalette)
-	TMap::const_iterator found(_Map.find(key));
-	if (found != _Map.end())
-		return true;
-	return false;
+bool CPalette::isInPalette(const std::string &key) const {
+  // H_AUTO(R2_CPalette_isInPalette)
+  TMap::const_iterator found(_Map.find(key));
+  if (found != _Map.end())
+    return true;
+  return false;
 }
 
-CPalette::~CPalette()
-{
-	TMap::iterator first(_Map.begin()), last(_Map.end());
-	for (; first != last; ++first)
-	{
-		delete(first->second);
-	}
-	_Map.clear();
+CPalette::~CPalette() {
+  TMap::iterator first(_Map.begin()), last(_Map.end());
+  for (; first != last; ++first) {
+    delete (first->second);
+  }
+  _Map.clear();
 }
 
-} // R2
-
+} // namespace R2

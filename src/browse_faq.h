@@ -19,12 +19,6 @@
 
 #include "nel/misc/config_file.h"
 
-
-
 void browseFAQ(NLMISC::CConfigFile &cf);
-
-
-
-
 
 #endif

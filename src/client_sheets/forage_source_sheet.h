@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef NL_FORAGE_SOURCE_SHEET_H
 #define NL_FORAGE_SOURCE_SHEET_H
 
-#include "nel/misc/types_nl.h"
 #include "entity_sheet.h"
-
+#include "nel/misc/types_nl.h"
 
 /**
  * Class to manage the forage source sheet.
@@ -29,25 +26,22 @@
  * \author Nevrax France
  * \date 2003
  */
-class CForageSourceSheet : public CEntitySheet
-{
+class CForageSourceSheet : public CEntitySheet {
 public:
+  /// Constructor
+  CForageSourceSheet() { Type = CEntitySheet::FORAGE_SOURCE; }
 
-	/// Constructor
-	CForageSourceSheet() { Type = CEntitySheet::FORAGE_SOURCE; }
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
 
-	/// Build the sheet from an external script.
-	virtual void build(const NLGEORGES::UFormElm &item);
+  /// Serialize character sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
 
-	/// Serialize character sheet into binary data file.
-	virtual void serial(NLMISC::IStream &f);
-
-	std::string					FxFilename;
-	std::string					FxSafeFilename;
-	uint8						Knowledge;
-	std::vector<std::string>	Icons;
+  std::string FxFilename;
+  std::string FxSafeFilename;
+  uint8 Knowledge;
+  std::vector<std::string> Icons;
 };
-
 
 #endif // NL_FORAGE_SOURCE_SHEET_H
 

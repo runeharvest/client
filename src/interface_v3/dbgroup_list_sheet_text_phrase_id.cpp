@@ -17,77 +17,74 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "dbgroup_list_sheet_text_phrase_id.h"
 #include "sphrase_manager.h"
+#include "stdpch.h"
 
-NLMISC_REGISTER_OBJECT(CViewBase, CDBGroupListSheetTextPhraseId, std::string, "list_sheet_phraseid");
-
-// ***************************************************************************
-CDBGroupListSheetTextPhraseId::CDBGroupListSheetTextPhraseId(const TCtorParam &param)
-:CDBGroupListSheetText(param)
-{
-	_CheckCoordAccelerated = false;
-}
-
-
+NLMISC_REGISTER_OBJECT(CViewBase, CDBGroupListSheetTextPhraseId, std::string,
+                       "list_sheet_phraseid");
 
 // ***************************************************************************
-CDBGroupListSheetTextPhraseId::CSheetChildPhrase::CSheetChildPhrase()
-{
-	CacheVersion= 0;
-}
-
-
-// ***************************************************************************
-void CDBGroupListSheetTextPhraseId::CSheetChildPhrase::updateViewText(CDBGroupListSheetText * /* pFather */)
-{
-	std::string	text;
-	if(Ctrl->getType()!=CCtrlSheetInfo::SheetType_SPhraseId)
-		return;
-
-	// Get the User Name of the phrase
-	Ctrl->getContextHelp(text);
-
-	Text->setText(text);
+CDBGroupListSheetTextPhraseId::CDBGroupListSheetTextPhraseId(
+    const TCtorParam &param)
+    : CDBGroupListSheetText(param) {
+  _CheckCoordAccelerated = false;
 }
 
 // ***************************************************************************
-bool CDBGroupListSheetTextPhraseId::CSheetChildPhrase::isInvalidated(CDBGroupListSheetText * /* pFather */)
-{
-	if(Ctrl->getType()!=CCtrlSheetInfo::SheetType_SPhraseId)
-		return false;
-
-	// Empty phrase? no problem.
-	sint32	id= Ctrl->getSPhraseId();
-	if(id==0)
-		return false;
-
-	// Verify that the id and the version of the Phrase is the same, else the name may have changed
-	CSPhraseManager	*pPM= CSPhraseManager::getInstance();
-	sint32	version= pPM->getPhraseVersion(id);
-	if(CacheVersion!=version)
-		return true;
-	else
-		return false;
+CDBGroupListSheetTextPhraseId::CSheetChildPhrase::CSheetChildPhrase() {
+  CacheVersion = 0;
 }
 
 // ***************************************************************************
-void CDBGroupListSheetTextPhraseId::CSheetChildPhrase::update(CDBGroupListSheetText * /* pFather */)
-{
-	if(Ctrl->getType()!=CCtrlSheetInfo::SheetType_SPhraseId)
-		return;
+void CDBGroupListSheetTextPhraseId::CSheetChildPhrase::updateViewText(
+    CDBGroupListSheetText * /* pFather */) {
+  std::string text;
+  if (Ctrl->getType() != CCtrlSheetInfo::SheetType_SPhraseId)
+    return;
 
-	// Empty phrase? no op.
-	sint32	id= Ctrl->getSPhraseId();
-	if(id==0)
-		return;
+  // Get the User Name of the phrase
+  Ctrl->getContextHelp(text);
 
-	// Verify that the id and the version of the Phrase is the same, else the name may have changed
-	CSPhraseManager	*pPM= CSPhraseManager::getInstance();
-	sint32	version= pPM->getPhraseVersion(id);
-	// update version
-	CacheVersion= version;
+  Text->setText(text);
+}
+
+// ***************************************************************************
+bool CDBGroupListSheetTextPhraseId::CSheetChildPhrase::isInvalidated(
+    CDBGroupListSheetText * /* pFather */) {
+  if (Ctrl->getType() != CCtrlSheetInfo::SheetType_SPhraseId)
+    return false;
+
+  // Empty phrase? no problem.
+  sint32 id = Ctrl->getSPhraseId();
+  if (id == 0)
+    return false;
+
+  // Verify that the id and the version of the Phrase is the same, else the name
+  // may have changed
+  CSPhraseManager *pPM = CSPhraseManager::getInstance();
+  sint32 version = pPM->getPhraseVersion(id);
+  if (CacheVersion != version)
+    return true;
+  else
+    return false;
+}
+
+// ***************************************************************************
+void CDBGroupListSheetTextPhraseId::CSheetChildPhrase::update(
+    CDBGroupListSheetText * /* pFather */) {
+  if (Ctrl->getType() != CCtrlSheetInfo::SheetType_SPhraseId)
+    return;
+
+  // Empty phrase? no op.
+  sint32 id = Ctrl->getSPhraseId();
+  if (id == 0)
+    return;
+
+  // Verify that the id and the version of the Phrase is the same, else the name
+  // may have changed
+  CSPhraseManager *pPM = CSPhraseManager::getInstance();
+  sint32 version = pPM->getPhraseVersion(id);
+  // update version
+  CacheVersion = version;
 }

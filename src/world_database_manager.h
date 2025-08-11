@@ -14,31 +14,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_WORLD_DATABASE_MANAGER_H
 #define CL_WORLD_DATABASE_MANAGER_H
-
 
 /////////////
 // INCLUDE //
 /////////////
 #include "nel/misc/types_nl.h"
 
-
 ///////////
 // CLASS //
 ///////////
 class CContinentManager;
-
 
 ////////////
 // GLOBAL //
 ////////////
 // Continent Manager.
 extern CContinentManager ContinentMngr;
-
-
 
 #endif // CL_WORLD_DATABASE_MANAGER_H
 

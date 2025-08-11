@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_ATTACK_SHEET_H
 #define CL_ATTACK_SHEET_H
 
@@ -26,46 +24,44 @@
 //
 #include "nel/misc/uv.h"
 
-
-class CAttackSheet
-{
+class CAttackSheet {
 public:
-	MAGICFX::TSpellMode	ProjectileMode;
-	std::string			AttackBeginFX;  // .animation_fx_set
-	std::string			AttackLoopFX;   // .animation_fx_set
-	std::string			AttackEndFX;    // .animation_fx_set
-	std::string			AttackStaticObjectCastFX;    // .animation_fx_set
-	std::string			AttackFailFX;   // .animation_fx_set
-	std::string			ProjectileFX;
-	std::string			ImpactFX;
-	float				ProjectileDelay;
-	float				StaticObjectProjectileDelay;
-	bool				IsImpactLocalised;				  // is the impact localised ?
-	                                                  // if so, the localisation is the same for aiming point, main impact, and physical impact, and is the localisation of the physical impact
-	                                                  // if not : projectile aiming point is given by "DefaultAimingPoint", physical damage uses its localisation, and main impact uses default localisation of fx.
+  MAGICFX::TSpellMode ProjectileMode;
+  std::string AttackBeginFX;            // .animation_fx_set
+  std::string AttackLoopFX;             // .animation_fx_set
+  std::string AttackEndFX;              // .animation_fx_set
+  std::string AttackStaticObjectCastFX; // .animation_fx_set
+  std::string AttackFailFX;             // .animation_fx_set
+  std::string ProjectileFX;
+  std::string ImpactFX;
+  float ProjectileDelay;
+  float StaticObjectProjectileDelay;
+  bool IsImpactLocalised; // is the impact localised ?
+                          // if so, the localisation is the same for aiming
+                          // point, main impact, and physical impact, and is the
+                          // localisation of the physical impact if not :
+                          // projectile aiming point is given by
+                          // "DefaultAimingPoint", physical damage uses its
+                          // localisation, and main impact uses default
+                          // localisation of fx.
 
-	CFXStickMode		DefaultCastingPoint;
-	CFXStickMode		DefaultAimingPoint;
-	bool				PlayImpactFXOnlyOnMainTarget; // Only may target play the impact fx (but other target play the impact anim)
-	bool				PlayImpactAnim;
-	bool				LetProjectileStickedOnTarget;
-	bool				ForceUseProjectileDelay;
-	bool				ApplyItemOffsetToWeaponBone;
+  CFXStickMode DefaultCastingPoint;
+  CFXStickMode DefaultAimingPoint;
+  bool PlayImpactFXOnlyOnMainTarget; // Only may target play the impact fx (but
+                                     // other target play the impact anim)
+  bool PlayImpactAnim;
+  bool LetProjectileStickedOnTarget;
+  bool ForceUseProjectileDelay;
+  bool ApplyItemOffsetToWeaponBone;
 
-	NLMISC::CVector     AdditionnalStartOffset;
+  NLMISC::CVector AdditionnalStartOffset;
+
 public:
-	// ctor
-	CAttackSheet();
-	virtual void build(const NLGEORGES::UFormElm &item, const std::string &prefix);
-	virtual void serial(NLMISC::IStream &f);
+  // ctor
+  CAttackSheet();
+  virtual void build(const NLGEORGES::UFormElm &item,
+                     const std::string &prefix);
+  virtual void serial(NLMISC::IStream &f);
 };
-
-
-
-
-
-
-
-
 
 #endif

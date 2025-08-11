@@ -14,22 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_INIT_MAIN_LOOP_H
 #define CL_INIT_MAIN_LOOP_H
 
 #include <string>
 
-#include "nel/misc/types_nl.h"
-#include "nel/misc/progress_callback.h"
 #include "global.h"
+#include "nel/misc/progress_callback.h"
+#include "nel/misc/types_nl.h"
 
 #include "3d_notes.h"
 
-namespace NL3D
-{
-	class UTextureFile;
+namespace NL3D {
+class UTextureFile;
 };
 
 // active/desactive welcome window
@@ -41,20 +38,19 @@ void initHardwareCursor(bool secondCall = false);
 // Initialize the main loop.
 void initMainLoop();
 
-
 // *** Loading sessions
 
 // Start a loading session
-void beginLoading (TBackground background);
+void beginLoading(TBackground background);
 
 // End a loading session
-void endLoading ();
+void endLoading();
 
 // Set the loading continent
-void setLoadingContinent (class CContinent *continent);
+void setLoadingContinent(class CContinent *continent);
 
-extern CProgress				ProgressBar;
-//extern C3DNotes					Notes;
+extern CProgress ProgressBar;
+// extern C3DNotes					Notes;
 
 extern uint64 StartInitTime;
 extern uint64 StartPlayTime;
@@ -65,9 +61,9 @@ extern uint64 StartPlayTime;
 #define USE_ESCAPE_DURING_LOADING true
 #endif // FINAL_VERSION
 
-extern bool					UseEscapeDuringLoading;
+extern bool UseEscapeDuringLoading;
 
-void loadBackgroundBitmap (TBackground background);
+void loadBackgroundBitmap(TBackground background);
 
 #endif // CL_INIT_MAIN_LOOP_H
 

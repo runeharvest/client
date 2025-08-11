@@ -14,17 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_RADIO_BUTTON_H
 #define CL_RADIO_BUTTON_H
 
-//Misc
+// Misc
 #include "nel/misc/types_nl.h"
 
-//Client
+// Client
 #include "button.h"
-
 
 // forward declaration of the CRadioController class (see radio_controler.h)
 class CRadioController;
@@ -35,47 +32,51 @@ class CRadioController;
  * \author Nevrax France
  * \date 2001
  */
-class CRadioButton : public CButton
-{
+class CRadioButton : public CButton {
 public:
+  /// default constructor
+  CRadioButton(uint id);
 
-	/// default constructor
-	CRadioButton(uint id);
+  /// constructors
+  explicit CRadioButton(uint id, float x, float y, float x_pixel, float y_pixel,
+                        float w, float h, float w_pixel, float h_pixel,
+                        uint numFuncOn, uint numFuncR, uint numFuncD,
+                        const CButtonBase &buttonBase);
+  explicit CRadioButton(uint id, float x, float y, float x_pixel, float y_pixel,
+                        float w, float h, float w_pixel, float h_pixel,
+                        uint numFuncOn, uint numFuncR, uint numFuncD, CRGBA on,
+                        CRGBA off, CRGBA disable);
 
-	/// constructors
-	explicit CRadioButton(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint numFuncOn, uint numFuncR, uint numFuncD, const CButtonBase &buttonBase);
-	explicit CRadioButton(uint id, float x, float y, float x_pixel, float y_pixel, float w, float h, float w_pixel, float h_pixel, uint numFuncOn, uint numFuncR, uint numFuncD, CRGBA on, CRGBA off, CRGBA disable);
+  /// the click method, does nothing if linked to a radio controller, calls
+  /// radioClick otherwise
+  virtual void click(float x, float y, bool &taken);
 
+  /**
+   * method called by the radio controller of the radio button,, do like the
+   * click method for regular buttons \param float x : the x position of the
+   * mouse \param float y : the y position of the mouse \param bool& taken :
+   * boolean indicating if the click has be taken by another control before or
+   * not
+   */
+  void radioClick(float x, float y, bool &taken);
 
-	/// the click method, does nothing if linked to a radio controller, calls radioClick otherwise
-	virtual void click(float x, float y, bool &taken);
+  /**
+   * select this radio button (call unselectAll on the radio controller before
+   * calling the CButton::select method)
+   */
+  virtual void select();
 
-	/**
-	* method called by the radio controller of the radio button,, do like the click method for regular buttons
-	* \param float x : the x position of the mouse
-	* \param float y : the y position of the mouse
-	* \param bool& taken : boolean indicating if the click has be taken by another control before or not
-	*/
-	void radioClick(float x, float y, bool &taken);
+  /**
+   * set the radio controller which controls this radio button
+   * \param pointer on the CRadioController
+   */
+  void setController(CRadioController *controller);
 
-	/**
-	* select this radio button (call unselectAll on the radio controller before calling the CButton::select method)
-	*/
-	virtual void select();
-
-	/**
-	* set the radio controller which controls this radio button
-	* \param pointer on the CRadioController
-	*/
-	void setController(CRadioController *controller);
-
-
-// attributes
+  // attributes
 private:
-	/// the radio controller of this radio button
-	CRadioController	*_Controller;
+  /// the radio controller of this radio button
+  CRadioController *_Controller;
 };
-
 
 #endif // CL_RADIO_BUTTON_H
 

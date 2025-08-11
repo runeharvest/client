@@ -24,7 +24,7 @@
 
 // Update Utilities (configuration etc)
 // Only put utility update functions here that are used in the main loop.
-// This is mainly for system configuration related functions 
+// This is mainly for system configuration related functions
 // such as config file changes.
 
 /// Compare ClientCfg and LastClientCfg to know what we must update

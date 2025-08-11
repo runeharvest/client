@@ -15,12 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // CJCJSearchEdit.h : header file
-// 
-// Copyright (c) 1998-99 Kirk Stowell   
+//
+// Copyright (c) 1998-99 Kirk Stowell
 //		mailto:kstowell@codejockeys.com
 //		http://www.codejockeys.com/kstowell/
 //
-// This source code may be used in compiled form in any way you desire. 
+// This source code may be used in compiled form in any way you desire.
 // Source file(s) may be redistributed unmodified by any means PROVIDING
 // they are not sold for profit without the authors expressed written consent,
 // and providing that this notice and the authors name and all copyright
@@ -36,23 +36,23 @@
 // it at your own risk! The author accepts no liability for any damage/loss of
 // business that this product may cause.
 //
-// ==========================================================================  
+// ==========================================================================
 //
 // Acknowledgements:
-//	<>  Many thanks to all of you, who have encouraged me to update my articles
-//		and code, and who sent in bug reports and fixes.
+//	<>  Many thanks to all of you, who have encouraged me to update my
+//articles 		and code, and who sent in bug reports and fixes.
 //  <>  Many thanks Zafir Anjum (zafir@codeguru.com) for the tremendous job that
 //      he has done with codeguru, enough can not be said!
-//	<>  Many thanks to Microsoft for making the source code availiable for MFC. 
-//		Since most of this work is a modification from existing classes and 
+//	<>  Many thanks to Microsoft for making the source code availiable for
+//MFC. 		Since most of this work is a modification from existing classes and
 //		methods, this library would not have been possible.
 //
-// ==========================================================================  
-// HISTORY:	  
-// ==========================================================================  
-//			1.00	16 Jan 1999	- Initial release.  
-// ==========================================================================  
-//  
+// ==========================================================================
+// HISTORY:
+// ==========================================================================
+//			1.00	16 Jan 1999	- Initial release.
+// ==========================================================================
+//
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef __SEARCHEDIT_H__
@@ -67,70 +67,73 @@
 /////////////////////////////////////////////////////////////////////////////
 
 typedef enum SEARCH_TYPE {
-	SEARCH_DIRECTORY = 0,
-	SEARCH_FILE,
-	SEARCH_POPUP,
+  SEARCH_DIRECTORY = 0,
+  SEARCH_FILE,
+  SEARCH_POPUP,
 };
 
 class CEditButton : public CButton {
 public:
-	CEditButton();
+  CEditButton();
+
 protected:
-	UINT	m_nID;
-	CWnd*	m_pWnd;
-	CFont	m_Font;
-	SEARCH_TYPE m_eType;
-	UINT m_nMenu;
+  UINT m_nID;
+  CWnd *m_pWnd;
+  CFont m_Font;
+  SEARCH_TYPE m_eType;
+  UINT m_nMenu;
+
 public:
-	UINT GetNextID(CWnd* pWnd) const;
-	virtual BOOL Create(CWnd* pWnd, SEARCH_TYPE eType, UINT nMenu);
-	virtual ~CEditButton();
+  UINT GetNextID(CWnd *pWnd) const;
+  virtual BOOL Create(CWnd *pWnd, SEARCH_TYPE eType, UINT nMenu);
+  virtual ~CEditButton();
+
 protected:
-	afx_msg void OnClicked();
-	DECLARE_MESSAGE_MAP()
+  afx_msg void OnClicked();
+  DECLARE_MESSAGE_MAP()
 };
 
-class AFX_EXT_CLASS CCJSearchEdit : public CEdit
-{
-// Construction
+class AFX_EXT_CLASS CCJSearchEdit : public CEdit {
+  // Construction
 public:
-	CCJSearchEdit();
+  CCJSearchEdit();
 
-// Attributes
+  // Attributes
 public:
-	SEARCH_TYPE m_eType;
-	UINT m_nMenu;
+  SEARCH_TYPE m_eType;
+  UINT m_nMenu;
 
-// Operations
+  // Operations
 public:
-	void SetSearchType(SEARCH_TYPE eType, UINT nMenu=-1);
+  void SetSearchType(SEARCH_TYPE eType, UINT nMenu = -1);
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCJSearchEdit)
-	protected:
-	virtual void PreSubclassWindow();
-	//}}AFX_VIRTUAL
-
-// Implementation
-public:
-	virtual ~CCJSearchEdit();
-
-	// Generated message map functions
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CCJSearchEdit)
 protected:
-	CEditButton m_button;
+  virtual void PreSubclassWindow();
+  //}}AFX_VIRTUAL
 
-	//{{AFX_MSG(CCJSearchEdit)
-	afx_msg void OnEnable(BOOL bEnable);
-	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-	//}}AFX_MSG
+  // Implementation
+public:
+  virtual ~CCJSearchEdit();
 
-	DECLARE_MESSAGE_MAP()
+  // Generated message map functions
+protected:
+  CEditButton m_button;
+
+  //{{AFX_MSG(CCJSearchEdit)
+  afx_msg void OnEnable(BOOL bEnable);
+  afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+  //}}AFX_MSG
+
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately
+// before the previous line.
 
 #endif // __SEARCHEDIT_H__

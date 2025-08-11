@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #include "stdpch.h"
-
 
 /////////////
 // INCLUDE //
@@ -38,41 +35,36 @@
 using namespace NLMISC;
 using namespace NL3D;
 
-
 ////////////
 // EXTERN //
 ////////////
 extern UDriver *Driver;
 
-
 ////////////
 // GLOBAL //
 ////////////
-CActionsContext	ActionsContext;			// Register action managers
-CActionsManager Actions;				// Default actions Manager
-CEventsListener			EventsListener;	// Inputs Manager
+CActionsContext ActionsContext; // Register action managers
+CActionsManager Actions;        // Default actions Manager
+CEventsListener EventsListener; // Inputs Manager
 
 //-----------------------------------------------
 // initActions :
 // Initialize Actions.
 //-----------------------------------------------
-void initActions()
-{
-	/* Add the Actions listener to the Interface Manager Events Server, NOT TO THE DRIVER
-		This is because the interfaceManager filter the events
-	*/
-	CInputHandlerManager	*pIH= CInputHandlerManager::getInstance();
-	EventsListener.addToServer(pIH->FilteredEventServer);
-}// initActions //
+void initActions() {
+  /* Add the Actions listener to the Interface Manager Events Server, NOT TO THE
+     DRIVER This is because the interfaceManager filter the events
+  */
+  CInputHandlerManager *pIH = CInputHandlerManager::getInstance();
+  EventsListener.addToServer(pIH->FilteredEventServer);
+} // initActions //
 
-void uninitActions()
-{
-	/* Add the Actions listener to the Interface Manager Events Server, NOT TO THE DRIVER
-		This is because the interfaceManager filter the events
-	*/
-	CInputHandlerManager	*pIH= CInputHandlerManager::getInstance();
-	EventsListener.removeFromServer(pIH->FilteredEventServer);
-	Actions.clear();
-	EditActions.clear();
-}// initActions //
-
+void uninitActions() {
+  /* Add the Actions listener to the Interface Manager Events Server, NOT TO THE
+     DRIVER This is because the interfaceManager filter the events
+  */
+  CInputHandlerManager *pIH = CInputHandlerManager::getInstance();
+  EventsListener.removeFromServer(pIH->FilteredEventServer);
+  Actions.clear();
+  EditActions.clear();
+} // initActions //

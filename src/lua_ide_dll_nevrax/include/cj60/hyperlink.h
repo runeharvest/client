@@ -21,7 +21,7 @@
 // when the user clicks on the link.
 //
 // Copyright Chris Maunder, 1997
-// Feel free to use and distribute. May not be sold for profit. 
+// Feel free to use and distribute. May not be sold for profit.
 
 #ifndef __HYPERLINK_H__
 #define __HYPERLINK_H__
@@ -33,85 +33,84 @@
 /////////////////////////////////////////////////////////////////////////////
 // CHyperLink window
 
-class AFX_EXT_CLASS CHyperLink : public CStatic
-{
-// Construction/destruction
+class AFX_EXT_CLASS CHyperLink : public CStatic {
+  // Construction/destruction
 public:
-    CHyperLink();
-    virtual ~CHyperLink();
+  CHyperLink();
+  virtual ~CHyperLink();
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
+  void SetURL(CString strURL);
+  CString GetURL() const;
 
-    void SetURL(CString strURL);
-    CString GetURL() const;
+  void SetColours(COLORREF crLinkColour, COLORREF crVisitedColour,
+                  COLORREF crHoverColour = -1);
+  COLORREF GetLinkColour() const;
+  COLORREF GetVisitedColour() const;
+  COLORREF GetHoverColour() const;
 
-    void SetColours(COLORREF crLinkColour, COLORREF crVisitedColour, 
-                    COLORREF crHoverColour = -1);
-    COLORREF GetLinkColour() const;
-    COLORREF GetVisitedColour() const;
-    COLORREF GetHoverColour() const;
+  void SetVisited(BOOL bVisited = TRUE);
+  BOOL GetVisited() const;
 
-    void SetVisited(BOOL bVisited = TRUE);
-    BOOL GetVisited() const;
+  void SetLinkCursor(HCURSOR hCursor);
+  HCURSOR GetLinkCursor() const;
 
-    void SetLinkCursor(HCURSOR hCursor);
-    HCURSOR GetLinkCursor() const;
+  void SetUnderline(BOOL bUnderline = TRUE);
+  BOOL GetUnderline() const;
 
-    void SetUnderline(BOOL bUnderline = TRUE);
-    BOOL GetUnderline() const;
+  void SetAutoSize(BOOL bAutoSize = TRUE);
+  BOOL GetAutoSize() const;
 
-    void SetAutoSize(BOOL bAutoSize = TRUE);
-    BOOL GetAutoSize() const;
+  HINSTANCE GotoURL(LPCTSTR url, int showcmd);
 
-    HINSTANCE GotoURL(LPCTSTR url, int showcmd);
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CHyperLink)
+public:
+  virtual BOOL PreTranslateMessage(MSG *pMsg);
 
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CHyperLink)
-    public:
-    virtual BOOL PreTranslateMessage(MSG* pMsg);
-    protected:
-    virtual void PreSubclassWindow();
-    //}}AFX_VIRTUAL
-
-// Implementation
 protected:
-    void ReportError(int nError);
-    LONG GetRegKey(HKEY key, LPCTSTR subkey, LPTSTR retdata);
-    void PositionWindow();
-    void SetDefaultCursor();
+  virtual void PreSubclassWindow();
+  //}}AFX_VIRTUAL
 
-// Protected attributes
+  // Implementation
 protected:
-    COLORREF m_crLinkColour, m_crVisitedColour;     // Hyperlink colours
-    COLORREF m_crHoverColour;                       // Hover colour
-    BOOL     m_bOverControl;                        // cursor over control?
-    BOOL     m_bVisited;                            // Has it been visited?
-    BOOL     m_bUnderline;                          // underline hyperlink?
-    BOOL     m_bAdjustToFit;                        // Adjust window size to fit text?
-    CString  m_strURL;                              // hyperlink URL
-    CFont    m_Font;                                // Underline font if necessary
-    HCURSOR  m_hLinkCursor;                         // Cursor for hyperlink
-    CToolTipCtrl m_ToolTip;                         // The tooltip
+  void ReportError(int nError);
+  LONG GetRegKey(HKEY key, LPCTSTR subkey, LPTSTR retdata);
+  void PositionWindow();
+  void SetDefaultCursor();
 
-    // Generated message map functions
+  // Protected attributes
 protected:
-    //{{AFX_MSG(CHyperLink)
-    afx_msg HBRUSH CtlColor(CDC* pDC, UINT nCtlColor);
-    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-    //}}AFX_MSG
-    afx_msg void OnClicked();
-    DECLARE_MESSAGE_MAP()
+  COLORREF m_crLinkColour, m_crVisitedColour; // Hyperlink colours
+  COLORREF m_crHoverColour;                   // Hover colour
+  BOOL m_bOverControl;                        // cursor over control?
+  BOOL m_bVisited;                            // Has it been visited?
+  BOOL m_bUnderline;                          // underline hyperlink?
+  BOOL m_bAdjustToFit;                        // Adjust window size to fit text?
+  CString m_strURL;                           // hyperlink URL
+  CFont m_Font;                               // Underline font if necessary
+  HCURSOR m_hLinkCursor;                      // Cursor for hyperlink
+  CToolTipCtrl m_ToolTip;                     // The tooltip
+
+  // Generated message map functions
+protected:
+  //{{AFX_MSG(CHyperLink)
+  afx_msg HBRUSH CtlColor(CDC *pDC, UINT nCtlColor);
+  afx_msg BOOL OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT message);
+  afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+  //}}AFX_MSG
+  afx_msg void OnClicked();
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately
+// before the previous line.
 
 #endif // __HYPERLINK_H__

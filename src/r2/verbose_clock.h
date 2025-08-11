@@ -19,31 +19,28 @@
 
 #include "nel/misc/time_nl.h"
 
-namespace R2
-{
+namespace R2 {
 
-
-class CVerboseClock
-{
+class CVerboseClock {
 public:
-	CVerboseClock(const std::string &msg);
-	~CVerboseClock();
+  CVerboseClock(const std::string &msg);
+  ~CVerboseClock();
+
 private:
-	std::string _Msg;
-	NLMISC::TTime _StartTime;
+  std::string _Msg;
+  NLMISC::TTime _StartTime;
 };
 
-class CPreciseClock
-{
+class CPreciseClock {
 public:
-	CPreciseClock(const std::string &msg);
-	~CPreciseClock();
+  CPreciseClock(const std::string &msg);
+  ~CPreciseClock();
+
 private:
-	std::string _Msg;
-	NLMISC::TTicks _StartTime;
+  std::string _Msg;
+  NLMISC::TTicks _StartTime;
 };
 
-
-} // R2
+} // namespace R2
 
 #endif

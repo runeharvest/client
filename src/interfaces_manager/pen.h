@@ -14,18 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef CL_PEN_H
 #define CL_PEN_H
 
 /////////////
 // Include //
 /////////////
-//Misc
-#include "nel/misc/types_nl.h"
+// Misc
 #include "nel/misc/rgba.h"
-
+#include "nel/misc/types_nl.h"
 
 ///////////
 // Using //
@@ -38,34 +35,32 @@ using NLMISC::CRGBA;
  * \author Nevrax France
  * \date 2001
  */
-class CPen
-{
+class CPen {
 protected:
-	uint32		_FontSize;
-	CRGBA		_Color;
-	bool		_Shadow;
+  uint32 _FontSize;
+  CRGBA _Color;
+  bool _Shadow;
 
 public:
-	/// Constructor
-	CPen();
-	CPen(uint32 fontSize, CRGBA color, bool shadow);
+  /// Constructor
+  CPen();
+  CPen(uint32 fontSize, CRGBA color, bool shadow);
 
-	/// Get the font size.
-	uint32 fontSize() const;
-	/// Set the font size.
-	void fontSize(uint32 fs);
+  /// Get the font size.
+  uint32 fontSize() const;
+  /// Set the font size.
+  void fontSize(uint32 fs);
 
-	/// Get the pen color.
-	CRGBA color() const;
-	/// Set the pen color.
-	void color(CRGBA color);
+  /// Get the pen color.
+  CRGBA color() const;
+  /// Set the pen color.
+  void color(CRGBA color);
 
-	/// Get the shadow state.
-	bool shadow() const;
-	/// Set the shadow state.
-	void shadow(bool s);
+  /// Get the shadow state.
+  bool shadow() const;
+  /// Set the shadow state.
+  void shadow(bool s);
 };
-
 
 #endif // CL_PEN_H
 

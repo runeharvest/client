@@ -14,104 +14,92 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-#include "stdpch.h"
 #include "skills_tree_sheet.h"
 #include "nel/georges/u_form_elm.h"
 #include "nel/misc/common.h"
+#include "stdpch.h"
 
 using namespace std;
 using namespace NLMISC;
 using namespace NLGEORGES;
 
 // ***************************************************************************
-void CSkillsTreeSheet::build(const UFormElm &item)
-{
-	const UFormElm *arraySkillElt = NULL;
-	if( item.getNodeByName( &arraySkillElt, "SkillData" ) )
-	{
-		if( arraySkillElt )
-		{
-			uint NbSkills;
-			nlverify( arraySkillElt->getArraySize( NbSkills ) );
+void CSkillsTreeSheet::build(const UFormElm &item) {
+  const UFormElm *arraySkillElt = NULL;
+  if (item.getNodeByName(&arraySkillElt, "SkillData")) {
+    if (arraySkillElt) {
+      uint NbSkills;
+      nlverify(arraySkillElt->getArraySize(NbSkills));
 
-			//nlassert( NbSkills == SKILLS::NUM_SKILLS );
+      // nlassert( NbSkills == SKILLS::NUM_SKILLS );
 
-			SkillsTree.resize( std::max(NbSkills, (uint) SKILLS::NUM_SKILLS));
+      SkillsTree.resize(std::max(NbSkills, (uint)SKILLS::NUM_SKILLS));
 
-			for( uint i = 0; i < NbSkills; ++i )
-			{
-				const UFormElm* SkillElt = NULL;
-				if( ! ( arraySkillElt->getArrayNode( &SkillElt, i ) && SkillElt ) )
-				{
-					nlwarning("<CSkillsTreeSheet::build> can't get array node of SkillElt in sheet");
-				}
-				else
-				{
-					// Skill
-					string SkillName;
-					SkillElt->getValueByName( SkillName, "Skill" );
-					SKILLS::ESkills skill = SKILLS::toSkill( SkillName );
-					//nlassert( skill != SKILLS::unknown );
-					if (skill == SKILLS::unknown)
-					{
-						continue;
-					}
-					SkillsTree[ skill ].Skill = skill;
+      for (uint i = 0; i < NbSkills; ++i) {
+        const UFormElm *SkillElt = NULL;
+        if (!(arraySkillElt->getArrayNode(&SkillElt, i) && SkillElt)) {
+          nlwarning("<CSkillsTreeSheet::build> can't get array node of "
+                    "SkillElt in sheet");
+        } else {
+          // Skill
+          string SkillName;
+          SkillElt->getValueByName(SkillName, "Skill");
+          SKILLS::ESkills skill = SKILLS::toSkill(SkillName);
+          // nlassert( skill != SKILLS::unknown );
+          if (skill == SKILLS::unknown) {
+            continue;
+          }
+          SkillsTree[skill].Skill = skill;
 
-					// Skill Code
-					if( ! SkillElt->getValueByName( SkillsTree[ skill ].SkillCode, "SkillCode" ) )
-					{
-						nlwarning("<CSkillsTreeSheet::build> can't get node SkillCode in sheet");
-					}
+          // Skill Code
+          if (!SkillElt->getValueByName(SkillsTree[skill].SkillCode,
+                                        "SkillCode")) {
+            nlwarning(
+                "<CSkillsTreeSheet::build> can't get node SkillCode in sheet");
+          }
 
-					// Max skill value
-					if( ! SkillElt->getValueByName( SkillsTree[ skill ].MaxSkillValue, "MaxSkillValue" ) )
-					{
-						nlwarning("<CSkillsTreeSheet::build> can't get node MaxSkillValue in sheet");
-					}
+          // Max skill value
+          if (!SkillElt->getValueByName(SkillsTree[skill].MaxSkillValue,
+                                        "MaxSkillValue")) {
+            nlwarning("<CSkillsTreeSheet::build> can't get node MaxSkillValue "
+                      "in sheet");
+          }
 
-					// Type of stage
-					if( ! SkillElt->getValueByName( SkillsTree[ skill ].StageType, "Type of Stage" ) )
-					{
-						nlwarning("<CSkillsTreeSheet::build> can't get node 'Type of Stage' in sheet");
-					}
+          // Type of stage
+          if (!SkillElt->getValueByName(SkillsTree[skill].StageType,
+                                        "Type of Stage")) {
+            nlwarning("<CSkillsTreeSheet::build> can't get node 'Type of "
+                      "Stage' in sheet");
+          }
 
-					// ParentSkill
-					if( ! SkillElt->getValueByName( SkillName, "ParentSkill" ) )
-					{
-						nlwarning("<CSkillsTreeSheet::build> can't get node ParentSkills in sheet");
-					}
-					else
-					{
-						SkillsTree[ skill ].ParentSkill = SKILLS::toSkill( SkillName );
-					}
+          // ParentSkill
+          if (!SkillElt->getValueByName(SkillName, "ParentSkill")) {
+            nlwarning("<CSkillsTreeSheet::build> can't get node ParentSkills "
+                      "in sheet");
+          } else {
+            SkillsTree[skill].ParentSkill = SKILLS::toSkill(SkillName);
+          }
 
-					// ChildSkills
-					const UFormElm *arrayChildSkillElt = NULL;
-					if( SkillElt->getNodeByName( &arrayChildSkillElt, "ChildSkills" ) )
-					{
-						if( arrayChildSkillElt )
-						{
-							uint NbChildSkills;
-							nlverify( arrayChildSkillElt->getArraySize( NbChildSkills ) );
+          // ChildSkills
+          const UFormElm *arrayChildSkillElt = NULL;
+          if (SkillElt->getNodeByName(&arrayChildSkillElt, "ChildSkills")) {
+            if (arrayChildSkillElt) {
+              uint NbChildSkills;
+              nlverify(arrayChildSkillElt->getArraySize(NbChildSkills));
 
-							SkillsTree[ skill ].ChildSkills.resize( NbChildSkills );
+              SkillsTree[skill].ChildSkills.resize(NbChildSkills);
 
-							for( uint j = 0; j < NbChildSkills; ++j )
-							{
-								string childSkillName;
-								arrayChildSkillElt->getArrayValue( childSkillName, j );
-								SKILLS::ESkills childSkill = SKILLS::toSkill( childSkillName );
-								//nlassert( childSkill != SKILLS::unknown );
-								SkillsTree[ skill ].ChildSkills[ j ] = childSkill;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+              for (uint j = 0; j < NbChildSkills; ++j) {
+                string childSkillName;
+                arrayChildSkillElt->getArrayValue(childSkillName, j);
+                SKILLS::ESkills childSkill = SKILLS::toSkill(childSkillName);
+                // nlassert( childSkill != SKILLS::unknown );
+                SkillsTree[skill].ChildSkills[j] = childSkill;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
-

@@ -14,30 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 #ifndef CL_ZONE_UTIL_H
 #define CL_ZONE_UTIL_H
 
 #include <string>
 
-namespace NLMISC
-{
-	class CVector2f;
+namespace NLMISC {
+class CVector2f;
 }
 
-/// Get a position from a zone name (left bottom pos), and returns true if the conversion succeeded
-bool	getPosFromZoneName(const std::string &name, NLMISC::CVector2f &dest);
+/// Get a position from a zone name (left bottom pos), and returns true if the
+/// conversion succeeded
+bool getPosFromZoneName(const std::string &name, NLMISC::CVector2f &dest);
 
 /// Get a zone position from a zone name
-bool	getZonePosFromZoneName(const std::string &name, sint &x, sint &y);
-
+bool getZonePosFromZoneName(const std::string &name, sint &x, sint &y);
 
 #endif
-
-
-
-
-
-

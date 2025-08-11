@@ -14,48 +14,45 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 #ifndef RY_PACT_SHEET_H
 #define RY_PACT_SHEET_H
 
 #include "entity_sheet.h"
 
 /// A pact, read from a .death_impact sheet
-class CPactSheet : public CEntitySheet
-{
+class CPactSheet : public CEntitySheet {
 public:
-	struct SPact
-	{
-		uint16	    LoseHitPointsLevel;
-		uint16	    LoseStaminaLevel;
-		uint16	    LoseSapLevel;
-		uint16	    LoseSkillsLevel;
-		float	    Duration;
-		std::string Name;
+  struct SPact {
+    uint16 LoseHitPointsLevel;
+    uint16 LoseStaminaLevel;
+    uint16 LoseSapLevel;
+    uint16 LoseSkillsLevel;
+    float Duration;
+    std::string Name;
 
-		void serial(NLMISC::IStream &f)
-		{
-			f.serial( LoseHitPointsLevel);
-			f.serial( LoseStaminaLevel );
-			f.serial( LoseSapLevel );
-			f.serial( LoseSkillsLevel );
-			f.serial( Duration );
-			f.serial( Name );
-		}
-	};
+    void serial(NLMISC::IStream &f) {
+      f.serial(LoseHitPointsLevel);
+      f.serial(LoseStaminaLevel);
+      f.serial(LoseSapLevel);
+      f.serial(LoseSkillsLevel);
+      f.serial(Duration);
+      f.serial(Name);
+    }
+  };
+
 public:
-	std::vector< SPact > PactLose;
-	std::string			 Icon;
-	std::string			 IconBackground;
+  std::vector<SPact> PactLose;
+  std::string Icon;
+  std::string IconBackground;
+
 public:
-	///\name Object
-	//@{
-		/// Build the sheet from an external script.
-		virtual void build(const NLGEORGES::UFormElm &item);
-		/// Serialize plant sheet into binary data file.
-		virtual void serial(NLMISC::IStream &f);
-	//@}
+  ///\name Object
+  //@{
+  /// Build the sheet from an external script.
+  virtual void build(const NLGEORGES::UFormElm &item);
+  /// Serialize plant sheet into binary data file.
+  virtual void serial(NLMISC::IStream &f);
+  //@}
 };
 
 #endif
