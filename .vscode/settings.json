@@ -1,4 +1,5 @@
 {
+    "window.title": "${dirty} ${activeEditorShort}${separator}client [${remoteName}]${separator}${profileName}${separator}${appName}",
     "files.associations": {
         "*.log": "ini",
         "condition_variable": "cpp",

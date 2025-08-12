@@ -1,4 +1,5 @@
 {
+  "name": "client",
   "build": {
     "dockerfile": "Dockerfile"
   },
