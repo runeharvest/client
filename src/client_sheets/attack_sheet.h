@@ -23,6 +23,7 @@
 #include "game_share/magic_fx.h"
 //
 #include "nel/misc/uv.h"
+#include "nel/misc/vector.h"
 
 class CAttackSheet {
 public:

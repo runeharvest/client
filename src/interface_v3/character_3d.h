@@ -24,6 +24,8 @@
 #include "game_share/character_summary.h"
 #include "game_share/slot_types.h"
 #include "interface_options_ryzom.h"
+#include "nel/3d/u_instance.h"
+#include "nel/3d/u_play_list_manager.h"
 #include "nel/3d/u_skeleton.h"
 #include "nel/gui/interface_element.h"
 #include "nel/gui/interface_options.h"

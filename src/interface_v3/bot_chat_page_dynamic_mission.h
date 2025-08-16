@@ -21,6 +21,7 @@
 #define CL_BOT_CHAT_PAGE_DYNAMIC_MISSION_H
 
 #include "bot_chat_page.h"
+#include "nel/misc/types_nl.h"
 
 namespace NLGUI {
 class CDBGroupComboBox;

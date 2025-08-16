@@ -25,6 +25,7 @@
 /////////////
 // Misc
 #include "nel/misc/types_nl.h"
+#include <map>
 
 /**
  * Class to manage contextual cursor.

@@ -18,6 +18,9 @@
 #define CL_DOOR_MANAGER_H
 
 #include "ig_enum.h"
+#include "nel/3d/u_instance_group.h"
+#include "nel/pacs/u_move_primitive.h"
+#include <vector>
 
 // ///////////// //
 // Doors Manager //

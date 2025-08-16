@@ -24,7 +24,7 @@
 #include "nel/misc/smart_ptr.h"
 
 #include "game_share/chat_group.h"
-
+#include "nel/misc/rgba.h"
 namespace NLGUI {
 class CCtrlBase;
 class CViewText;

@@ -17,6 +17,8 @@
 #ifndef CL_TRADE_COMMON_H
 #define CL_TRADE_COMMON_H
 
+#include "nel/misc/types_nl.h"
+
 // number of items in a trade page
 const uint TRADE_PAGE_NUM_ITEMS = 8;
 const uint TRADE_MAX_NUM_PAGES = 128;

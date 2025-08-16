@@ -31,6 +31,7 @@
 #include "nel/misc/quat.h"
 #include "nel/misc/rgba.h"
 #include "nel/misc/types_nl.h"
+#include "nel/misc/vectord.h"
 
 ////////////
 // DEFINE //

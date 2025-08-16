@@ -26,6 +26,7 @@
 #include "nel/gui/action_handler.h"
 #include "nel/gui/interface_group.h"
 #include "nel/gui/view_text_id.h"
+#include "nel/misc/types_nl.h"
 #include "stdpch.h"
 
 using namespace std;

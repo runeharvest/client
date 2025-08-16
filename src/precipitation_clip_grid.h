@@ -21,6 +21,7 @@
 #include "nel/3d/u_visual_collision_manager.h"
 #include "nel/misc/polygon.h"
 #include "nel/misc/traits_nl.h"
+#include "nel/pacs/global_retriever.h"
 
 /*
 

@@ -17,6 +17,7 @@
 #ifndef RY_DECAL_H
 #define RY_DECAL_H
 
+#include "nel/misc/aabbox.h"
 #include "nel/misc/singleton.h"
 #include "nel/misc/smart_ptr.h"
 #include "nel/misc/vector.h"

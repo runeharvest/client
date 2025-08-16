@@ -21,6 +21,7 @@
 #ifndef CL_COMMANDS_H
 #define CL_COMMANDS_H
 
+#include "nel/misc/command.h"
 #include "nel/misc/types_nl.h"
 
 /// Function to release all things allocated for commands.

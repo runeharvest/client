@@ -23,6 +23,7 @@
 #include "nel/misc/smart_ptr.h"
 #include "nel/misc/types_nl.h"
 #include "nel/misc/vector.h"
+#include "nel/pacs/move_primitive.h"
 
 class CVillage;
 

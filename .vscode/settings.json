@@ -17,6 +17,16 @@
     "cmake.useCMakePresets": "always",
     "cmake.enableAutomaticKitScan": false,
     "cmake.cmakePath": "/usr/local/bin/cmake",
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "xaver.clang-format",
+    "[cpp]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[c]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[h]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "xaver.clang-format"
+    }
 }

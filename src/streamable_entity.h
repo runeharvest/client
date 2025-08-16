@@ -17,6 +17,7 @@
 #ifndef CL_STREAMABLE_ENTITY_H
 #define CL_STREAMABLE_ENTITY_H
 
+#include "nel/misc/progress_callback.h"
 #include "nel/misc/smart_ptr.h"
 #include "nel/misc/vector.h"
 

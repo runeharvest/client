@@ -24,10 +24,12 @@
 #include "../string_manager_client.h"
 #include "bot_chat_manager.h"
 #include "bot_chat_page_all.h"
+#include "bot_chat_page_dynamic_mission.h"
 #include "interface_manager.h"
 #include "nel/gui/action_handler.h"
 #include "nel/gui/dbgroup_combo_box.h"
 #include "nel/gui/interface_group.h"
+#include "nel/misc/types_nl.h"
 #include "stdpch.h"
 
 using namespace std;

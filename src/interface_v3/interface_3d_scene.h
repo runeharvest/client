@@ -20,8 +20,10 @@
 #ifndef RZ_INTERFACE_SCENE_3D_H
 #define RZ_INTERFACE_SCENE_3D_H
 
+#include "interface_3d_scene.h"
 #include "nel/3d/u_particle_system_instance.h"
 #include "nel/3d/u_point_light.h"
+#include "nel/3d/u_scene.h"
 #include "nel/gui/interface_group.h"
 
 class CCharacter3D;

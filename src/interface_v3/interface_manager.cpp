@@ -109,8 +109,7 @@
 #include "../entity_animation_manager.h" // for emotes
 #include "../net_manager.h"              // for emotes
 #include "../sheet_manager.h"            // for emotes
-
-#include "../../common/src/game_share/ryzom_database_banks.h"
+#include "game_share/ryzom_database_banks.h"
 
 #include "../npc_icon.h"
 #include "chat_text_manager.h"
@@ -755,8 +754,9 @@ void CInterfaceManager::initOutGame() {
   //	if (!ClientCfg.FSHost.empty())
   //	{
   //		// Hide the Launch Editor button, it works only with a Shard
-  //Unifier and web pages 		CInterfaceElement *elt =
-  //getElementFromId("ui:outgame:edit_session_but"); 		elt->setActive(false);
+  // Unifier and web pages 		CInterfaceElement *elt =
+  // getElementFromId("ui:outgame:edit_session_but");
+  // elt->setActive(false);
   //	}
 
   // Init the action manager

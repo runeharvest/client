@@ -20,6 +20,7 @@
 #ifndef NL_INTERFACE_CONFIG_H
 #define NL_INTERFACE_CONFIG_H
 
+#include "nel/misc/mem_stream.h"
 #include "nel/misc/stream.h"
 
 namespace NLGUI {

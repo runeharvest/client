@@ -20,12 +20,12 @@
 /////////////
 // INCLUDE //
 /////////////
-// Misc.
-#include "nel/misc/types_nl.h"
-// Pacs Interface.
-// Client.
 #include "ig_client.h"
-// std
+#include "nel/misc/quad.h"
+#include "nel/misc/types_nl.h"
+#include "nel/pacs/u_global_retriever.h"
+#include "nel/pacs/u_primitive_block.h"
+
 #include <string>
 
 // Size max of an entity in PACS (Trees and creatures)

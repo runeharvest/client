@@ -22,6 +22,7 @@
 
 #include "nel/misc/types_nl.h"
 // #include "game_share/jobs.h"
+#include "game_share/character_summary.h"
 #include "game_share/mainland_summary.h"
 
 extern uint8 ServerPeopleActive;

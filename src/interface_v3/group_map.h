@@ -20,18 +20,16 @@
 #ifndef CL_GROUP_MAP_CL
 #define CL_GROUP_MAP_CL
 
-#include "nel/misc/ucstring.h"
-#include "nel/misc/vector_2f.h"
-
 #include "../client_sheets/world_sheet.h"
-
 #include "../continent.h"
 #include "animal_position_state.h"
+#include "game_share/msg_client_server.h"
 #include "nel/gui/ctrl_button.h"
 #include "nel/gui/interface_group.h"
 #include "nel/gui/view_bitmap.h"
 #include "nel/gui/view_text.h"
-//
+#include "nel/misc/ucstring.h"
+#include "nel/misc/vector_2f.h"
 
 class CContinent;
 

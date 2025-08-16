@@ -29,6 +29,7 @@
 #include "nel/gui/group_list.h"
 #include "nel/gui/view_bitmap.h"
 #include "people_interraction.h"
+#include "people_list.h"
 #include "stdpch.h"
 
 using namespace std;

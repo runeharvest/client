@@ -19,6 +19,7 @@
 
 #include "nel/misc/progress_callback.h"
 #include "nel/misc/types_nl.h"
+#include <set>
 
 // ***************************************************************************
 /**

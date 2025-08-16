@@ -17,6 +17,8 @@
 #ifndef CL_SKY_MATERIAL_SETUP
 #define CL_SKY_MATERIAL_SETUP
 
+#include <string>
+#include <vector>
 namespace NL3D {
 class UInstance;
 }
@@ -24,7 +26,7 @@ class UInstance;
 // setup of material for night or day
 struct CSkyMaterialSetup {
   struct CTexInfo {
-    uint MatNum;
+    unsigned int MatNum;
     std::string TexName;
   };
   std::vector<CTexInfo> Setup;

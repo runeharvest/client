@@ -18,6 +18,7 @@
 #define CL_ATTACK_INFO
 
 #include "game_share/body.h"
+#include "game_share/damage_types.h"
 #include "game_share/hit_type.h"
 
 /** General a description of an attack. This describe parameters common to

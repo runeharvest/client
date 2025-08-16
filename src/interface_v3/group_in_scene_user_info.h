@@ -22,6 +22,7 @@
 #define CL_GROUP_IN_SCENE_USER_INFO_HELP_H
 
 #include "group_in_scene.h"
+#include "interface_manager.h"
 #include "nel/misc/types_nl.h"
 
 /**

@@ -3,7 +3,8 @@
 //
 // This source file has been modified by the following contributors:
 // Copyright (C) 2013-2014  Jan BOON (Kaetemi) <jan.boon@kaetemi.be>
-//
+// Copyright (C) 2025 Xackery
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
 // published by the Free Software Foundation, either version 3 of the
@@ -23,10 +24,13 @@
 // Misc
 #include "nel/misc/aabbox.h"
 #include "nel/misc/polygon.h"
+#include "nel/misc/quad.h"
 #include "nel/misc/singleton.h"
 
 // 3D
+#include "nel/3d/frustum.h"
 #include "nel/3d/index_buffer.h"
+#include "nel/3d/u_scene.h"
 #include "nel/3d/vertex_buffer.h"
 
 //-----------------------------------------------------------------------------------------------------------

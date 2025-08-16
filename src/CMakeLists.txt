@@ -129,21 +129,21 @@ IF(WITH_RYZOM_CLIENT)
     SET(MAC_RESOURCES_DIR ${CMAKE_SOURCE_DIR}/ryzom/client/macosx)
   ENDIF()
 
-  ADD_EXECUTABLE(ryzom_client WIN32 MACOSX_BUNDLE ${SRC} ${SRC_INTERFACE} ${SRC_MODE} ${SRC_R2})
+  ADD_EXECUTABLE(client WIN32 MACOSX_BUNDLE ${SRC} ${SRC_INTERFACE} ${SRC_MODE} ${SRC_R2})
 
   IF(APPLE)
-    SET_TARGET_PROPERTIES(ryzom_client PROPERTIES OUTPUT_NAME ${MACOSX_BUNDLE_BUNDLE_NAME})
-    SET_TARGET_PROPERTIES(ryzom_client PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${MAC_RESOURCES_DIR}/Info.plist)
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client PRE_BUILD COMMAND mkdir -p ${RYZOM_RESOURCES_DIR})
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/PkgInfo ${RYZOM_CONTENTS_DIR})
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/ryzom.icns ${RYZOM_RESOURCES_DIR})
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -p ${CMAKE_SOURCE_DIR}/ryzom/client/client_default.cfg ${RYZOM_RESOURCES_DIR})
+    SET_TARGET_PROPERTIES(client PROPERTIES OUTPUT_NAME ${MACOSX_BUNDLE_BUNDLE_NAME})
+    SET_TARGET_PROPERTIES(client PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${MAC_RESOURCES_DIR}/Info.plist)
+    ADD_CUSTOM_COMMAND(TARGET client PRE_BUILD COMMAND mkdir -p ${RYZOM_RESOURCES_DIR})
+    ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/PkgInfo ${RYZOM_CONTENTS_DIR})
+    ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/ryzom.icns ${RYZOM_RESOURCES_DIR})
+    ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp ARGS -p ${CMAKE_SOURCE_DIR}/ryzom/client/client_default.cfg ${RYZOM_RESOURCES_DIR})
 
     # remove any present installscript_osx.vdf before signing
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND rm -f ${RYZOM_OUTPUT_DIR}/installscript_osx.vdf)
+    ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND rm -f ${RYZOM_OUTPUT_DIR}/installscript_osx.vdf)
 
     IF(RYZOM_DATA_DIR)
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -RpX ${RYZOM_DATA_DIR} ${RYZOM_RESOURCES_DIR})
+      ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp ARGS -RpX ${RYZOM_DATA_DIR} ${RYZOM_RESOURCES_DIR})
     ENDIF()
 
     IF(WITH_RYZOM_SANDBOX)
@@ -153,48 +153,48 @@ IF(WITH_RYZOM_CLIENT)
     ENDIF()
 
     IF(TARGET crash_report)
-      ADD_DEPENDENCIES(ryzom_client crash_report)
+      ADD_DEPENDENCIES(client crash_report)
 
       # copy crash_report to bundle
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p $<TARGET_FILE:crash_report> ${RYZOM_CONTENTS_DIR}/MacOS/CrashReport)
+      ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp -p $<TARGET_FILE:crash_report> ${RYZOM_CONTENTS_DIR}/MacOS/CrashReport)
 
       IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/CrashReport" COMMENT "Signing CrashReport executable...")
+        ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/CrashReport" COMMENT "Signing CrashReport executable...")
       ENDIF()
     ENDIF()
 
-    IF(TARGET ryzom_client_patcher)
-      ADD_DEPENDENCIES(ryzom_client ryzom_client_patcher)
+    IF(TARGET client_patcher)
+      ADD_DEPENDENCIES(client client_patcher)
 
-      # copy ryzom_client_patcher to bundle
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p $<TARGET_FILE:ryzom_client_patcher> ${RYZOM_CONTENTS_DIR}/MacOS/RyzomClientPatcher)
+      # copy client_patcher to bundle
+      ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp -p $<TARGET_FILE:ryzom_client_patcher> ${RYZOM_CONTENTS_DIR}/MacOS/RyzomClientPatcher)
 
       IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/RyzomClientPatcher" COMMENT "Signing RyzomClientPatcher executable...")
+        ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/RyzomClientPatcher" COMMENT "Signing RyzomClientPatcher executable...")
       ENDIF()
     ENDIF()
 
-    IF(TARGET ryzom_configuration_qt)
-      ADD_DEPENDENCIES(ryzom_client ryzom_configuration_qt)
+    IF(TARGET configuration_qt)
+      ADD_DEPENDENCIES(lient configuration_qt)
 
-      # copy ryzom_configuration_qt to bundle
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p $<TARGET_FILE:ryzom_configuration_qt> ${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration)
+      # copy configuration_qt to bundle
+      ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp -p $<TARGET_FILE:configuration_qt> ${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration)
 
       IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration" COMMENT "Signing RyzomConfiguration executable...")
+        ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration" COMMENT "Signing RyzomConfiguration executable...")
       ENDIF()
     ENDIF()
 
     IF(WITH_RYZOM_STEAM AND STEAM_RUNTIME)
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p ${STEAM_RUNTIME} ${RYZOM_CONTENTS_DIR}/MacOS)
+      ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND cp -p ${STEAM_RUNTIME} ${RYZOM_CONTENTS_DIR}/MacOS)
 
       IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign --no-strict -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/${STEAM_RUNTIMENAME}" COMMENT "Signing Steam client runtime...")
+        ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign --no-strict -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/${STEAM_RUNTIMENAME}" COMMENT "Signing Steam client runtime...")
       ENDIF()
     ENDIF()
 
     IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_OUTPUT_DIR}" COMMENT "Signing Ryzom bundle...")
+      ADD_CUSTOM_COMMAND(TARGET client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign ${ENTITLEMENTS} -fs "${APPLE_CERTIFICATE}" "${RYZOM_OUTPUT_DIR}" COMMENT "Signing Ryzom bundle...")
     ENDIF()
   ENDIF()
 
@@ -214,7 +214,7 @@ IF(WITH_RYZOM_CLIENT)
     INCLUDE_DIRECTORIES(${STEAM_INCLUDE_DIRS})
   ENDIF()
 
-  TARGET_LINK_LIBRARIES(ryzom_client
+  TARGET_LINK_LIBRARIES(client
               nelmisc
               nelnet
               nelligo
@@ -223,9 +223,9 @@ IF(WITH_RYZOM_CLIENT)
               nelgui
               nelsound
               nel_sevenzip
-              ryzom_clientsheets
-              ryzom_gameshare
+              clientsheets
               nelpacs
+              gameshare
               ${LUA_LIBRARIES}
               ${LUABIND_LIBRARIES}
               ${CURL_LIBRARIES}
@@ -233,44 +233,48 @@ IF(WITH_RYZOM_CLIENT)
   )
 
   IF(NOT APPLE AND NOT WIN32)
-    TARGET_LINK_LIBRARIES(ryzom_client ${X11_LIBRARIES})
+    TARGET_LINK_LIBRARIES(client ${X11_LIBRARIES})
   ENDIF()
 
   IF(APPLE)
-    TARGET_LINK_LIBRARIES(ryzom_client ${FOUNDATION_FRAMEWORK})
+    TARGET_LINK_LIBRARIES(client ${FOUNDATION_FRAMEWORK})
   ENDIF()
 
   IF(WITH_MSQUIC)
     INCLUDE_DIRECTORIES(${msquic_INCLUDE_DIRS})
-    TARGET_LINK_LIBRARIES(ryzom_client ${msquic_LIBRARIES})
+    TARGET_LINK_LIBRARIES(client ${msquic_LIBRARIES})
   ENDIF()
 
   ADD_DEFINITIONS(${LIBXML2_DEFINITIONS} ${CURL_DEFINITIONS} ${LUABIND_DEFINITIONS})
 
-  NL_DEFAULT_PROPS(ryzom_client "Ryzom, Client: Ryzom Core 4")
-  NL_ADD_RUNTIME_FLAGS(ryzom_client)
+  NL_DEFAULT_PROPS(client "Ryzom, Client: Ryzom Core 4")
+  NL_ADD_RUNTIME_FLAGS(client)
 
   IF(FINAL_VERSION)
-    NL_ADD_LIB_SUFFIX(ryzom_client)
+    NL_ADD_LIB_SUFFIX(client)
   ELSE()
     IF(WIN32)
-      SET_TARGET_PROPERTIES(ryzom_client PROPERTIES DEBUG_POSTFIX "_dev_d" RELEASE_POSTFIX "_dev_r")
+      SET_TARGET_PROPERTIES(client PROPERTIES DEBUG_POSTFIX "_dev_d" RELEASE_POSTFIX "_dev_r")
     ELSEIF(NOT APPLE)
-      SET_TARGET_PROPERTIES(ryzom_client PROPERTIES DEBUG_POSTFIX "_dev" RELEASE_POSTFIX "_dev")
+      SET_TARGET_PROPERTIES(client PROPERTIES DEBUG_POSTFIX "_dev" RELEASE_POSTFIX "_dev")
     ENDIF()
   ENDIF()
 
   IF(WITH_RYZOM_CLIENT_UAC)
     IF(CMAKE_GENERATOR MATCHES "Visual Studio")
-      SET_PROPERTY(TARGET ryzom_client PROPERTY LINK_FLAGS_RELEASE "/level='requireAdministrator'")
+      SET_PROPERTY(TARGET client PROPERTY LINK_FLAGS_RELEASE "/level='requireAdministrator'")
     ELSEIF(CMAKE_GENERATOR MATCHES "NMake Makefiles")
-      SET_PROPERTY(TARGET ryzom_client PROPERTY LINK_FLAGS_RELEASE "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\"")
+      SET_PROPERTY(TARGET client PROPERTY LINK_FLAGS_RELEASE "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\"")
     ENDIF()
   ENDIF()
 
   IF(WITH_PCH AND (NOT MINGW OR NOT WITH_SYMBOLS))
-    target_precompile_headers(ryzom_client PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/stdpch.h)
+    TARGET_PRECOMPILE_HEADERS(client PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/stdpch.h)
   ENDIF()
 
-  INSTALL(TARGETS ryzom_client RUNTIME DESTINATION ${RYZOM_GAMES_PREFIX} COMPONENT client BUNDLE DESTINATION /Applications)
+  SET_TARGET_PROPERTIES(client PROPERTIES
+    INSTALL_RPATH "$ORIGIN/lib:$ORIGIN/../lib"
+    BUILD_RPATH   "$ORIGIN/lib:$ORIGIN/../lib")
+
+  INSTALL(TARGETS client RUNTIME DESTINATION ${RYZOM_GAMES_PREFIX} COMPONENT client BUNDLE DESTINATION /Applications)
 ENDIF()

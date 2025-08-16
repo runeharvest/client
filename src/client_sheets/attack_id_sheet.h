@@ -19,6 +19,7 @@
 
 #include "game_share/magic_fx.h"
 #include "game_share/range_weapon_type.h"
+#include "nel/include/nel/georges/u_form_elm.h"
 
 /** Identifier of an attack (magic, range, melle, or creature)
  * This helps doing the links between attack behaviour and its graphical

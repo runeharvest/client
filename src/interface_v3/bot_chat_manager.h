@@ -20,6 +20,9 @@
 #ifndef CL_BOT_CHAT_MANAGER_H
 #define CL_BOT_CHAT_MANAGER_H
 
+#include "nel/misc/types_nl.h"
+#include <list>
+
 class CBotChatPage;
 class CPrerequisitInfos;
 

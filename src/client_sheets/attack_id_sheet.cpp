@@ -15,9 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "attack_id_sheet.h"
-#include "stdpch.h"
-//
 #include "nel/georges/u_form_elm.h"
+#include "stdpch.h"
 
 // *****************************************************************************************
 void CAttackIDSheet::build(const NLGEORGES::UFormElm &item,

@@ -23,6 +23,7 @@
 #include "interface_manager.h"
 #include "nel/misc/types_nl.h"
 #include "nel/misc/xml_auto_ptr.h"
+#include <libxml/tree.h>
 
 /**
  * interface to define a simple observer

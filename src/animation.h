@@ -26,6 +26,7 @@
 #include "game_share/magic_fx.h"
 //
 #include "animation_fx.h"
+#include "nel/sound/sound_anim_manager.h"
 
 ///////////
 // CLASS //

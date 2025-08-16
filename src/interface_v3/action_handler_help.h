@@ -22,6 +22,7 @@
 #define CL_ACTION_HANDLER_HELP_H
 
 #include "bot_chat_manager.h"
+#include "interface_pointer.h"
 #include "inventory_manager.h"
 
 // Struct that tells how to setup a help window

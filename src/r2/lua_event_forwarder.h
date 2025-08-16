@@ -20,6 +20,9 @@
 #ifndef R2_LUA_EVENT_FORWARDER_H
 #define R2_LUA_EVENT_FORWARDER_H
 
+#include "nel/misc/types_nl.h"
+#include <string>
+
 namespace NLGUI {
 class CLuaState;
 class CLuaString;

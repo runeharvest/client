@@ -31,6 +31,7 @@
 #include "nel/gui/view_base.h"
 #include "nel/gui/view_pointer.h"
 #include "nel/misc/cdb_manager.h"
+#include "nel/misc/command.h"
 #include "nel/misc/mutex.h"
 #include "nel/misc/types_nl.h"
 
@@ -56,6 +57,8 @@
 #include "../ingame_database_manager.h"
 
 #include "nel/gui/lua_manager.h"
+
+#include "game_share/characteristics.h"
 
 // the network database node
 extern CCDBSynchronised IngameDbMngr;
@@ -267,9 +270,9 @@ public:
   /// Enable/Disable the window resizing
   /// (0,TopLeft)(1,T)(2,TR)(3,R)(4,BR)(5,B)(6,BL)(7,L)
   // void enableResizeWindow (CInterfaceGroup *pWin, uint8 nType, sint32 nMinW,
-  // sint32 nMaxW, sint32 nMinH, sint32 nMaxH, 						sint32 nStepW, sint32 nStepH);
-  // void disableResizeWindow ();
-  // void moveWindow (CInterfaceGroup *pWin, sint32 dx, sint32 dy);
+  // sint32 nMaxW, sint32 nMinH, sint32 nMaxH,
+  // sint32 nStepW, sint32 nStepH); void disableResizeWindow (); void moveWindow
+  // (CInterfaceGroup *pWin, sint32 dx, sint32 dy);
 
   /// Enable/Disbale capture of a control (combo box for example)
   /// When capture is lost (by clicking outside of the control, the given

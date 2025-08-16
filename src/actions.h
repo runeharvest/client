@@ -27,6 +27,7 @@
 
 // client
 #include "events_listener.h"
+#include "nel/misc/rgba.h"
 
 ///////////
 // CLASS //

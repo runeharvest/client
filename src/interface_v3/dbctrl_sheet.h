@@ -22,25 +22,26 @@
 #ifndef RZ_DBCTRL_SHEET_H
 #define RZ_DBCTRL_SHEET_H
 
-// nel
-#include "nel/misc/smart_ptr.h"
-#include "nel/misc/types_nl.h"
-// client
-#include "nel/gui/action_handler.h"
-#include "nel/gui/ctrl_draggable.h"
-#include "nel/gui/interface_expr.h"
-#include "nel/gui/reflect.h"
-#include "sphrase_manager.h"
-// game share
+#include "../time_client.h"
 #include "game_share/brick_types.h"
+#include "game_share/characteristics.h"
 #include "game_share/item_family.h"
 #include "game_share/rm_family.h"
 #include "game_share/skills.h"
 #include "game_share/slot_types.h"
 #include "game_share/trade_slot_type.h"
-//
-#include "../time_client.h"
 #include "item_info_waiter.h"
+#include "nel/3d/u_material.h"
+#include "nel/3d/u_texture.h"
+#include "nel/gui/action_handler.h"
+#include "nel/gui/ctrl_draggable.h"
+#include "nel/gui/interface_expr.h"
+#include "nel/gui/reflect.h"
+#include "nel/misc/geom_ext.h"
+#include "nel/misc/smart_ptr.h"
+#include "nel/misc/types_nl.h"
+#include "nel/misc/uv.h"
+#include "sphrase_manager.h"
 
 class CItemSheet;
 class CPactSheet;

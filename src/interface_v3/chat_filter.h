@@ -23,6 +23,7 @@
 #include "chat_window.h"
 #include "game_share/chat_group.h"
 
+#include "nel/misc/rgba.h"
 #include "nel/misc/smart_ptr.h"
 
 class CPeopleList;

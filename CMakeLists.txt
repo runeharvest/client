@@ -20,6 +20,10 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.22)
 
+SET(CMAKE_CXX_STANDARD 23)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+
 #-----------------------------------------------------------------------------
 # Load some macros.
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMakeModules")
@@ -60,7 +64,7 @@ IF(HUNTER_ENABLED)
   SET(WITH_STATIC_LIBXML2 ON CACHE BOOL "static libxml2" FORCE)
   SET(WITH_STATIC_EXTERNAL ON CACHE BOOL "static external" FORCE)
   SET(WITH_EXTERNAL       OFF CACHE BOOL "external libs" FORCE)
- 
+
  # Workaround for PCH compilation issue, from curl intsizeof depencency
   ADD_DEFINITIONS(-D__STDC_LIMIT_MACROS)
   # TODO: Still applicable after switching to CMake's builtin precompiled header support?
@@ -125,6 +129,10 @@ NL_SETUP_BUILD_FLAGS()
 
 NL_SETUP_PREFIX_PATHS()
 RYZOM_SETUP_PREFIX_PATHS()
+
+
+SET(WITH_RYZOM_TOOLS FALSE)
+SET(WITH_RYZOM_SERVER FALSE)
 
 #-----------------------------------------------------------------------------
 # Default values for URL's
@@ -394,66 +402,6 @@ ADD_SUBDIRECTORY(shared)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/shared)
 
 ADD_SUBDIRECTORY(src)
-
-
-IF(WITH_RYZOM_CLIENT)
-  #ADD_SUBDIRECTORY(data)
-
-  IF(UNIX AND NOT APPLE)
-    ADD_SUBDIRECTORY(unix)
-  ENDIF()
-
-  INSTALL(FILES client_default.cfg DESTINATION ${RYZOM_ETC_PREFIX})
-
-  IF(WITH_RYZOM_PATCH)
-    IF(APPLE)
-      INSTALL(FILES macosx/upgd_nl.sh DESTINATION ${RYZOM_GAMES_PREFIX})
-    ELSEIF(WIN32)
-      IF(MSVC10)
-        INSTALL(FILES windows/upgd_nl_msvc10.bat DESTINATION ${RYZOM_GAMES_PREFIX} RENAME upgd_nl.bat)
-      ELSEIF(MSVC12)
-        INSTALL(FILES windows/upgd_nl_msvc12.bat DESTINATION ${RYZOM_GAMES_PREFIX} RENAME upgd_nl.bat)
-      ENDIF()
-    ELSE()
-      INSTALL(FILES unix/upgd_nl.sh DESTINATION ${RYZOM_GAMES_PREFIX})
-    ENDIF()
-  ENDIF()
-ENDIF()
-
-#IF(WITH_NELNS)
-#  ADD_SUBDIRECTORY(nelns)
-#ENDIF()
-
-#IF(WITH_SNOWBALLS)
-#  ADD_SUBDIRECTORY(snowballs2)
-#ENDIF()
-
-IF(WITH_TOOLS)
-  ADD_SUBDIRECTORY(tool)
-ENDIF()
-
-IF(WITH_STUDIO)
-  ADD_SUBDIRECTORY(studio)
-ENDIF()
-
-IF(WITH_PERSONAL)
-  ADD_SUBDIRECTORY(personal)
-ENDIF()
-
-# To build the documention, you will have to enable it
-# and then do the equivalent of "make DoxygenDoc".
-IF(BUILD_DOCUMENTATION)
-    IF(DOT)
-        SET(HAVE_DOT YES)
-    ELSE()
-        SET(HAVE_DOT NO)
-    ENDIF()
-    # This processes our Doxyfile.in and substitutes paths to generate
-    # a final Doxyfile
-    CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/doc/Doxyfile.cmake.in ${CMAKE_BINARY_DIR}/doc/Doxyfile)
-
-    ADD_CUSTOM_TARGET(DoxygenDoc ${DOXYGEN} ${CMAKE_BINARY_DIR}/doc/Doxyfile)
-ENDIF()
 
 IF(WITH_NEL_TESTS)
   ENABLE_TESTING()

@@ -21,6 +21,7 @@
 #define STRING_MANAGER_CLIENT_H
 
 #include "game_share/brick_families.h"
+#include "game_share/people_pd.h"
 #include "game_share/skills.h"
 #include "nel/misc/bit_mem_stream.h"
 #include "nel/misc/diff_tool.h"

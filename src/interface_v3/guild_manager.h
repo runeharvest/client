@@ -22,6 +22,7 @@
 #define RY_GUILD_MANAGER_H
 
 #include "dbgroup_list_sheet_text.h"
+#include "game_share/far_position.h"
 #include "game_share/guild_grade.h"
 #include "game_share/misc_const.h"
 #include "nel/misc/cdb.h"

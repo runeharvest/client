@@ -22,12 +22,13 @@
 #define CLIENT_CHAT_MANAGER_H
 
 // misc
+#include "nel/misc/bit_mem_stream.h"
 #include "nel/misc/types_nl.h"
-
 // game share
 // #include "game_share/chat_static_database.h"
 #include "game_share/chat_group.h"
 #include "game_share/dyn_chat.h"
+#include "game_share/msg_client_server.h"
 
 // std
 #include <map>

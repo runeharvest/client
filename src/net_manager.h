@@ -33,6 +33,7 @@
 // Game Share
 #include "game_share/chat_group.h"
 #include "game_share/generic_xml_msg_mngr.h"
+#include "game_share/r2_basic_types.h"
 
 //////////////
 // FUNCTION //

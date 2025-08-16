@@ -20,7 +20,7 @@
         "CMAKE_CXX_COMPILER": "/usr/bin/g++",
         "WITH_DRIVER_OPENAL": true,
         "WITH_DRIVER_OPENGL": true,
-        "WITH_INSTALL_LIBRARIES": false,
+        "WITH_INSTALL_LIBRARIES": true,
         "WITH_NEL_SAMPLES": false,
         "WITH_NEL_TESTS": false,
         "WITH_NEL_TOOLS": false,

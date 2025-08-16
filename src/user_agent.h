@@ -17,6 +17,8 @@
 #ifndef CL_USER_AGENT_H
 #define CL_USER_AGENT_H
 
+#include <string>
+
 std::string getUserAgent();
 std::string getUserAgentName();
 std::string getUserAgentVersion();

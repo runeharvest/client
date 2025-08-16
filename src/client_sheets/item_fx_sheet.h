@@ -17,6 +17,11 @@
 #ifndef RY_ITEM_FX_SHEET_H
 #define RY_ITEM_FX_SHEET_H
 
+#include "nel/misc/string_mapper.h"
+#include "nel/misc/types_nl.h"
+#include "nel/misc/vector.h"
+#include <string>
+
 namespace NLGEORGES {
 class UFormElm;
 }

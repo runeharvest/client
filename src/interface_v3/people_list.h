@@ -21,11 +21,10 @@
 #ifndef CL_PEOPLE_LIST_H
 #define CL_PEOPLE_LIST_H
 
-// client
 #include "chat_window.h"
+#include "game_share/far_position.h"
 #include "interface_pointer.h"
 #include "nel/gui/group_container.h"
-// NeL
 #include "nel/misc/rgba.h"
 
 /** Describe a list of people and its properties.

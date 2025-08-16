@@ -17,6 +17,11 @@
 #ifndef RY_VILLAGE_SHEET_H
 #define RY_VILLAGE_SHEET_H
 
+#include "nel/include/nel/georges/u_form_elm.h"
+#include "nel/misc/stream.h"
+#include "nel/misc/types_nl.h"
+#include <string>
+
 // ig in a village
 struct CVillageIG {
   std::string IgName;

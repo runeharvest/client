@@ -17,6 +17,7 @@
 #ifndef CL_ZONE_UTIL_H
 #define CL_ZONE_UTIL_H
 
+#include "nel/misc/types_nl.h"
 #include <string>
 
 namespace NLMISC {

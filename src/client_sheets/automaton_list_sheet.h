@@ -20,11 +20,11 @@
 /////////////
 // INCLUDE //
 /////////////
+#include "nel/misc/matrix.h"
 #include "nel/misc/types_nl.h"
 
 #include "animation_set_list_sheet.h"
 #include "entity_sheet.h"
-
 #include "game_share/mode_and_behaviour.h"
 
 /////////////

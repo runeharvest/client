@@ -5,6 +5,7 @@
 // Copyright (C) 2012  Matt RAYKOWSKI (sfb) <matt.raykowski@gmail.com>
 // Copyright (C) 2013  Laszlo KIS-ADAM (dfighter) <dfighter1985@gmail.com>
 // Copyright (C) 2013-2020  Jan BOON (Kaetemi) <jan.boon@kaetemi.be>
+// Copyright (C) 2025 Xackery
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -46,6 +47,7 @@
 // Game_Share
 #include "game_share/animal_status.h"
 #include "game_share/body.h"
+#include "game_share/character_title.h"
 #include "game_share/entity_types.h"
 #include "game_share/hit_type.h"
 #include "game_share/mode_and_behaviour.h"
@@ -54,6 +56,7 @@
 #include "game_share/properties.h"
 #include "game_share/pvp_clan.h"
 #include "game_share/pvp_mode.h"
+
 // Sheets
 #include "client_sheets/ground_fx_sheet.h"
 // Client

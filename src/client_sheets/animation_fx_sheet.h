@@ -19,6 +19,7 @@
 
 #include "entity_sheet.h"
 #include "fx_stick_mode.h"
+#include "nel/misc/rgba.h"
 
 /**
  * \author Matthieu 'Trap' Besson

@@ -19,6 +19,7 @@
 
 #include "entity_sheet.h"
 #include "game_share/season.h"
+#include "nel/misc/vector.h"
 
 /**
  * Class to manage sheet of per season fxs
