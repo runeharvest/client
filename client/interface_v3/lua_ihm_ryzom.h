@@ -70,9 +70,7 @@ private:
   static int i18n(CLuaState &ls); // retrieve an unicode string from CI18N
   static int setTextFormatTaged(
       CLuaState &ls); // set a text that may contains Tag Format infos
-  static int
-  validMessageBox(CLuaState &ls); // ok/cancel type message box (can't get it to
-                                  // work through luabind)
+  static int validMessageBox(CLuaState &ls); // ok/cancel type message box
   static int initEmotesMenu(CLuaState &ls);
   static int hideAllWindows(CLuaState &ls);
   static int hideAllNonSavableWindows(CLuaState &ls);

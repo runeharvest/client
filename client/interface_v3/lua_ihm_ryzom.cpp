@@ -4,6 +4,7 @@
 // This source file has been modified by the following contributors:
 // Copyright (C) 2013  Laszlo KIS-ADAM (dfighter) <dfighter1985@gmail.com>
 // Copyright (C) 2013-2021  Jan BOON (Kaetemi) <jan.boon@kaetemi.be>
+// Copyright (C) 2025 Xackery <lordxackery@hotmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -29,7 +30,7 @@
 #undef assert
 #endif
 
-// Warning: cannot use namespace std,    when using luabind
+// Warning: cannot use namespace std, when using luabind
 #ifdef NL_OS_WINDOWS
 #ifndef NL_EXTENDED_FOR_SCOPE
 #undef for
@@ -42,30 +43,7 @@
 #define assert(x)
 #endif
 
-// Always use unique_ptr with ValyriaTear/luabind on Ubuntu 20,
-// since the setting is not stored in build_information.hpp
-#ifndef LUABIND_USE_CXX11
-#define LUABIND_USE_CXX11
-#endif
-
-#include <luabind/luabind.hpp>
-// in luabind > 0.6, LUABIND_MAX_ARITY is set to 10
-#if LUABIND_MAX_ARITY == 10
-#include <luabind/operator.hpp>
-// only luabind > 0.7 have version.hpp (file checked with build system)
-#ifdef HAVE_LUABIND_VERSION
-#include <luabind/version.hpp>
-#endif
-#ifndef LUABIND_VERSION
-// luabind 0.7 doesn't define LUABIND_VERSION
-#define LUABIND_VERSION 700
-#endif
-// luabind 0.6 doesn't define LUABIND_VERSION but LUABIND_MAX_ARITY is set to 5
-#elif LUABIND_MAX_ARITY == 5
-#define LUABIND_VERSION 600
-#else
-#pragma error("luabind version not recognized")
-#endif
+#include <sol/sol.hpp>
 
 #include "interface_manager.h"
 #include "lua_ihm_ryzom.h"
@@ -289,18 +267,6 @@ CCtrlBase *CHandlerLUA::getUICaller() {
     return _UICallerStack.back();
 }
 
-#define LUABIND_ENUM(__enum__, __name__, __num__, __toStringFunc__)            \
-  createLuaEnumTable(ls, __name__);                                            \
-  for (uint e = 0; e < __num__; e++) {                                         \
-    std::string str = __toStringFunc__((__enum__)e);                           \
-    std::string temp = __name__ + toString(".") +                              \
-                       __toStringFunc__((__enum__)e) + " = " +                 \
-                       toString("%d;", e);                                     \
-    ls.executeScript(temp);                                                    \
-  }
-
-#define LUABIND_FUNC(__func__) luabind::def(#__func__, &__func__)
-
 // ***************************************************************************
 int CLuaIHMRyzom::luaClientCfgIndex(CLuaState &ls) {
   // H_AUTO(Lua_CLuaIHM_luaClientCfgIndex)
@@ -472,85 +438,169 @@ void CLuaIHMRyzom::RegisterRyzomFunctions(NLGUI::CLuaState &ls) {
   ls.registerFunc("setupShape", setupShape);
 
   lua_State *L = ls.getStatePointer();
+  sol::state_view lua(L);
 
-  LUABIND_ENUM(PVP_CLAN::TPVPClan, "game.TPVPClan", PVP_CLAN::NbClans,
-               PVP_CLAN::toString);
-  LUABIND_ENUM(BONUS_MALUS::TBonusMalusSpecialTT, "game.TBonusMalusSpecialTT",
-               BONUS_MALUS::NbSpecialTT, BONUS_MALUS::toString);
+  // Create 'game' table if it doesn't exist
+  sol::table game = lua["game"].get_or_create<sol::table>();
 
-  luabind::module(L)
-      [LUABIND_FUNC(getDbProp), LUABIND_FUNC(getDbProp64),
-       LUABIND_FUNC(setDbProp), LUABIND_FUNC(setDbProp64),
-       LUABIND_FUNC(addDbProp), LUABIND_FUNC(delDbProp),
-       LUABIND_FUNC(getDbRGBA), LUABIND_FUNC(setDbRGBA),
-       LUABIND_FUNC(debugInfo), LUABIND_FUNC(rawDebugInfo),
-       LUABIND_FUNC(dumpCallStack), LUABIND_FUNC(getDefine),
-       LUABIND_FUNC(setContextHelpText),
+  sol::table chatTable = lua["Chat"].get_or_create<sol::table>();
+  chatTable.set_function("displayChatMessage",
+                         &CLuaIHMRyzom::displayChatMessage);
+
+  // Bind PVP_CLAN::TPVPClan enum
+  {
+    std::vector<std::pair<sol::string_view, PVP_CLAN::TPVPClan>> items;
+    for (uint e = 0; e < PVP_CLAN::NbClans; ++e) {
+      auto clan = static_cast<PVP_CLAN::TPVPClan>(e);
+      items.emplace_back(PVP_CLAN::toString(clan), clan);
+    }
+    game.new_enum("TPVPClan", items.begin(), items.end());
+  }
+
+  // Bind BONUS_MALUS::TBonusMalusSpecialTT enum
+  {
+    std::vector<std::pair<sol::string_view, BONUS_MALUS::TBonusMalusSpecialTT>>
+        items;
+    for (uint e = 0; e < BONUS_MALUS::NbSpecialTT; ++e) {
+      auto bonus = static_cast<BONUS_MALUS::TBonusMalusSpecialTT>(e);
+      items.emplace_back(BONUS_MALUS::toString(bonus), bonus);
+    }
+    game.new_enum("TBonusMalusSpecialTT", items.begin(), items.end());
+  }
+
+  lua.set_function("getDbProp", &getDbProp);
+  lua.set_function("getDbProp64", &getDbProp64);
+  lua.set_function("setDbProp", &setDbProp);
+  lua.set_function("setDbProp64", &setDbProp64);
+  lua.set_function("addDbProp", &addDbProp);
+  lua.set_function("delDbProp", &delDbProp);
+  lua.set_function("getDbRGBA", &getDbRGBA);
+  lua.set_function("setDbRGBA", &setDbRGBA);
+  lua.set_function("debugInfo", &debugInfo);
+  lua.set_function("rawDebugInfo", &rawDebugInfo);
+  lua.set_function("dumpCallStack", &dumpCallStack);
+  lua.set_function("getDefine", &getDefine);
+
 #ifdef RYZOM_LUA_UCSTRING
-       luabind::def("messageBox", (void (*)(const ucstring &)) & messageBox),
-       luabind::def("messageBox",
+  lua.set_function("setContextHelpText",
+                   (void (*)(const ucstring &)) & setContextHelpText);
+  lua.set_function(
+      "messageBox",
+      sol::overload(
+          (void (*)(const ucstring &)) & messageBox,
+          (void (*)(const ucstring &, const std::string &)) & messageBox,
+          (void (*)(const ucstring &, const std::string &, int)) & messageBox,
+          (void (*)(const std::string &)) & messageBox,
+          (void (*)(const std::string &, const std::string &)) & messageBox,
+          (void (*)(const std::string &, const std::string &, int)) &
+              messageBox));
+  lua.set_function(
+      "messageBoxWithHelp",
+      sol::overload((void (*)(const ucstring &)) & messageBoxWithHelp,
                     (void (*)(const ucstring &, const std::string &)) &
-                        messageBox),
-       luabind::def(
-           "messageBox",
-           (void (*)(const ucstring &, const std::string &, int caseMode)) &
-               messageBox),
+                        messageBoxWithHelp,
+                    (void (*)(const ucstring &, const std::string &, int)) &
+                        messageBoxWithHelp,
+                    (void (*)(const std::string &)) & messageBoxWithHelp,
+                    (void (*)(const std::string &, const std::string &)) &
+                        messageBoxWithHelp,
+                    (void (*)(const std::string &, const std::string &, int)) &
+                        messageBoxWithHelp));
+#else
+  lua.set_function("setContextHelpText",
+                   (void (*)(const std::string &)) & setContextHelpText);
+  lua.set_function(
+      "messageBox",
+      sol::overload((void (*)(const std::string &)) & messageBox,
+                    (void (*)(const std::string &, const std::string &)) &
+                        messageBox,
+                    (void (*)(const std::string &, const std::string &, int)) &
+                        messageBox));
+  lua.set_function(
+      "messageBoxWithHelp",
+      sol::overload((void (*)(const std::string &)) & messageBoxWithHelp,
+                    (void (*)(const std::string &, const std::string &)) &
+                        messageBoxWithHelp,
+                    (void (*)(const std::string &, const std::string &, int)) &
+                        messageBoxWithHelp));
 #endif
-       luabind::def("messageBox", (void (*)(const std::string &)) & messageBox),
-#ifdef RYZOM_LUA_UCSTRING
-       luabind::def("messageBoxWithHelp",
-                    (void (*)(const ucstring &)) &
-                        messageBoxWithHelp), // TODO: Lua UTF-8
-       luabind::def("messageBoxWithHelp",
-                    (void (*)(const ucstring &, const std::string &)) &
-                        messageBoxWithHelp), // TODO: Lua UTF-8
-       luabind::def(
-           "messageBoxWithHelp",
-           (void (*)(const ucstring &, const std::string &, int caseMode)) &
-               messageBoxWithHelp), // TODO: Lua UTF-8
-#endif
-       luabind::def("messageBoxWithHelp",
-                    (void (*)(const std::string &)) & messageBoxWithHelp),
-       LUABIND_FUNC(replacePvpEffectParam),
-       LUABIND_FUNC(secondsSince1970ToHour),
+
+  lua.set_function("replacePvpEffectParam", &replacePvpEffectParam);
+  lua.set_function("secondsSince1970ToHour", &secondsSince1970ToHour);
+
 #ifdef RYZOM_BG_DOWNLOADER
-       LUABIND_FUNC(pauseBGDownloader), LUABIND_FUNC(unpauseBGDownloader),
-       LUABIND_FUNC(requestBGDownloaderPriority),
-       LUABIND_FUNC(getBGDownloaderPriority),
+  lua.set_function("pauseBGDownloader", &pauseBGDownloader);
+  lua.set_function("unpauseBGDownloader", &unpauseBGDownloader);
+  lua.set_function("requestBGDownloaderPriority", &requestBGDownloaderPriority);
+  lua.set_function("getBGDownloaderPriority", &getBGDownloaderPriority);
 #endif
-       LUABIND_FUNC(loadBackground), LUABIND_FUNC(getPatchLastErrorMessage),
-       LUABIND_FUNC(getPlayerSelectedSlot), LUABIND_FUNC(isInGame),
-       LUABIND_FUNC(isPlayerSlotNewbieLand), LUABIND_FUNC(getSkillIdFromName),
-       LUABIND_FUNC(getSkillLocalizedName), LUABIND_FUNC(getMaxSkillValue),
-       LUABIND_FUNC(getBaseSkillValueMaxChildren),
-       LUABIND_FUNC(getMagicResistChance), LUABIND_FUNC(getDodgeParryChance),
-       LUABIND_FUNC(browseNpcWebPage), LUABIND_FUNC(clearHtmlUndoRedo),
-       LUABIND_FUNC(getDynString), LUABIND_FUNC(isDynStringAvailable),
-       LUABIND_FUNC(isFullyPatched), LUABIND_FUNC(getSheetType),
-       LUABIND_FUNC(getSheetFamily), LUABIND_FUNC(getSheetName),
-       LUABIND_FUNC(getFameIndex), LUABIND_FUNC(getFameName),
-       LUABIND_FUNC(getFameDBIndex), LUABIND_FUNC(getFirstTribeFameIndex),
-       LUABIND_FUNC(getNbTribeFameIndex), LUABIND_FUNC(getClientCfg),
-       LUABIND_FUNC(sendMsgToServer), LUABIND_FUNC(sendMsgToServerPvpTag),
-       LUABIND_FUNC(sendMsgToServerUseItem), LUABIND_FUNC(isGuildQuitAvailable),
-       LUABIND_FUNC(sortGuildMembers), LUABIND_FUNC(getNbGuildMembers),
-       LUABIND_FUNC(getGuildMemberName), LUABIND_FUNC(getGuildMemberGrade),
-       LUABIND_FUNC(isR2Player), LUABIND_FUNC(getR2PlayerRace),
-       LUABIND_FUNC(isR2PlayerMale), LUABIND_FUNC(getCharacterSheetSkel),
-       LUABIND_FUNC(getSheetId), LUABIND_FUNC(getCharacterSheetRegionForce),
-       LUABIND_FUNC(getCharacterSheetRegionLevel),
-       LUABIND_FUNC(getRegionByAlias), LUABIND_FUNC(getGroundZ),
-       LUABIND_FUNC(tell), LUABIND_FUNC(isRingAccessPointInReach),
-       LUABIND_FUNC(updateTooltipCoords), LUABIND_FUNC(isCtrlKeyDown),
-       LUABIND_FUNC(encodeURLUnicodeParam), LUABIND_FUNC(getPlayerLevel),
-       LUABIND_FUNC(getPlayerVpa), LUABIND_FUNC(getPlayerVpb),
-       LUABIND_FUNC(getPlayerVpc), LUABIND_FUNC(getTargetLevel),
-       LUABIND_FUNC(getTargetForceRegion), LUABIND_FUNC(getTargetLevelForce),
-       LUABIND_FUNC(getTargetSheet), LUABIND_FUNC(getTargetVpa),
-       LUABIND_FUNC(getTargetVpb), LUABIND_FUNC(getTargetVpc),
-       LUABIND_FUNC(isTargetNPC), LUABIND_FUNC(isTargetPlayer),
-       LUABIND_FUNC(isTargetUser), LUABIND_FUNC(isPlayerInPVPMode),
-       LUABIND_FUNC(isTargetInPVPMode)];
+
+  lua.set_function("loadBackground", &loadBackground);
+  lua.set_function("getPatchLastErrorMessage", &getPatchLastErrorMessage);
+  lua.set_function("getPlayerSelectedSlot", &getPlayerSelectedSlot);
+  lua.set_function("isInGame", &isInGame);
+  lua.set_function("isPlayerSlotNewbieLand", &isPlayerSlotNewbieLand);
+  lua.set_function("getSkillIdFromName", &getSkillIdFromName);
+  lua.set_function("getSkillLocalizedName", &getSkillLocalizedName);
+  lua.set_function("getMaxSkillValue", &getMaxSkillValue);
+  lua.set_function("getBaseSkillValueMaxChildren",
+                   &getBaseSkillValueMaxChildren);
+  lua.set_function("getMagicResistChance", &getMagicResistChance);
+  lua.set_function("getDodgeParryChance", &getDodgeParryChance);
+  lua.set_function("browseNpcWebPage", &browseNpcWebPage);
+  lua.set_function("clearHtmlUndoRedo", &clearHtmlUndoRedo);
+  lua.set_function("getDynString", &getDynString);
+  lua.set_function("isDynStringAvailable", &isDynStringAvailable);
+  lua.set_function("isFullyPatched", &isFullyPatched);
+  lua.set_function("getSheetType", &getSheetType);
+  lua.set_function("getSheetFamily", &getSheetFamily);
+  lua.set_function("getSheetName", &getSheetName);
+  lua.set_function("getFameIndex", &getFameIndex);
+  lua.set_function("getFameName", &getFameName);
+  lua.set_function("getFameDBIndex", &getFameDBIndex);
+  lua.set_function("getFirstTribeFameIndex", &getFirstTribeFameIndex);
+  lua.set_function("getNbTribeFameIndex", &getNbTribeFameIndex);
+  lua.set_function("getClientCfg", &getClientCfg);
+  lua.set_function("sendMsgToServer", &sendMsgToServer);
+  lua.set_function("sendMsgToServerPvpTag", &sendMsgToServerPvpTag);
+  lua.set_function("sendMsgToServerUseItem", &sendMsgToServerUseItem);
+  lua.set_function("isGuildQuitAvailable", &isGuildQuitAvailable);
+  lua.set_function("sortGuildMembers", &sortGuildMembers);
+  lua.set_function("getNbGuildMembers", &getNbGuildMembers);
+  lua.set_function("getGuildMemberName", &getGuildMemberName);
+  lua.set_function("getGuildMemberGrade", &getGuildMemberGrade);
+  lua.set_function("isR2Player", &isR2Player);
+  lua.set_function("getR2PlayerRace", &getR2PlayerRace);
+  lua.set_function("isR2PlayerMale", &isR2PlayerMale);
+  lua.set_function("getCharacterSheetSkel", &getCharacterSheetSkel);
+  lua.set_function("getSheetId", &getSheetId);
+  lua.set_function("getCharacterSheetRegionForce",
+                   &getCharacterSheetRegionForce);
+  lua.set_function("getCharacterSheetRegionLevel",
+                   &getCharacterSheetRegionLevel);
+  lua.set_function("getRegionByAlias", &getRegionByAlias);
+  lua.set_function("getGroundZ", &getGroundZ);
+  lua.set_function("tell", &tell);
+  lua.set_function("isRingAccessPointInReach", &isRingAccessPointInReach);
+  lua.set_function("updateTooltipCoords", &updateTooltipCoords);
+  lua.set_function("isCtrlKeyDown", &isCtrlKeyDown);
+  lua.set_function("encodeURLUnicodeParam", &encodeURLUnicodeParam);
+  lua.set_function("getPlayerLevel", &getPlayerLevel);
+  lua.set_function("getPlayerVpa", &getPlayerVpa);
+  lua.set_function("getPlayerVpb", &getPlayerVpb);
+  lua.set_function("getPlayerVpc", &getPlayerVpc);
+  lua.set_function("getTargetLevel", &getTargetLevel);
+  lua.set_function("getTargetForceRegion", &getTargetForceRegion);
+  lua.set_function("getTargetLevelForce", &getTargetLevelForce);
+  lua.set_function("getTargetSheet", &getTargetSheet);
+  lua.set_function("getTargetVpa", &getTargetVpa);
+  lua.set_function("getTargetVpb", &getTargetVpb);
+  lua.set_function("getTargetVpc", &getTargetVpc);
+  lua.set_function("isTargetNPC", &isTargetNPC);
+  lua.set_function("isTargetPlayer", &isTargetPlayer);
+  lua.set_function("isTargetUser", &isTargetUser);
+  lua.set_function("isPlayerInPVPMode", &isPlayerInPVPMode);
+  lua.set_function("isTargetInPVPMode", &isTargetInPVPMode);
 }
 
 // ***************************************************************************
@@ -591,7 +641,7 @@ static CEntityCL *getSlotEntity(uint slot) { return EntitiesMngr.entity(slot); }
 int CLuaIHMRyzom::getUI(CLuaState &ls) {
   // H_AUTO(Lua_CLuaIHM_getUI)
   //  params: "ui:interface:...".
-  //  return: CInterfaceElement*  (nil if error)
+  //  return: CInterfaceElement* (nil if error)
   const char *funcName = "getUI";
   CLuaIHM::check(ls, ls.getTop() == 1 || ls.getTop() == 2, funcName);
   CLuaIHM::checkArgType(ls, funcName, 1, LUA_TSTRING);
@@ -1632,7 +1682,7 @@ int CLuaIHMRyzom::getUICaller(CLuaState &ls) {
   CLuaStackChecker lsc(&ls, 1);
 
   // params: none.
-  // return: CInterfaceElement*  (nil if error)
+  // return: CInterfaceElement* (nil if error)
   CInterfaceElement *pIE = CHandlerLUA::getUICaller();
 
   if (!pIE) {
@@ -3050,7 +3100,7 @@ sint32 CLuaIHMRyzom::getMagicResistChance(bool elementalSpell,
   CSPhraseManager *pPM = CSPhraseManager::getInstance();
   casterSpellLvl = std::max(casterSpellLvl, sint32(0));
   victimResistLvl = std::max(victimResistLvl, sint32(0));
-  /*  The success rate in the table is actually the "Casting Success Chance".
+  /* The success rate in the table is actually the "Casting Success Chance".
           Thus,   the relativeLevel is casterSpellLvl - victimResistLvl
           Moreover,   must take the "PartialSuccessMaxDraw" line because the
      spell is not resisted if success>0

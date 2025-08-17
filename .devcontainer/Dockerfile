@@ -17,8 +17,7 @@ RUN apt update; \
         libgif-dev \
         libgsf-1-dev \
         libjpeg-dev \
-        liblua5.1-dev \
-        libluabind-dev \
+        liblua5.3-dev \
         liblzma-dev \
         libmysqlclient-dev \
         libogg-dev \
@@ -95,37 +94,6 @@ RUN wget https://apt.llvm.org/llvm.sh  && \
 #     tar xf boost_1_84_0.tar.gz && \
 #     cd boost_1_84_0 && \
 #     cp -r boost /usr/x86_64-w64-mingw32/include/
-
-# RUN mkdir -p /tmp/lua-5.1 && \
-#     cd /tmp/lua-5.1 && \
-#     curl -LO https://www.lua.org/ftp/lua-5.1.5.tar.gz && \
-#     tar xzf lua-5.1.5.tar.gz && \
-#     cd lua-5.1.5 && \
-#     make mingw \
-#         CC=x86_64-w64-mingw32-gcc \
-#         AR="x86_64-w64-mingw32-ar rcu" \
-#         RANLIB=x86_64-w64-mingw32-ranlib && \
-#     make mingw install \
-#         CC=x86_64-w64-mingw32-gcc \
-#         AR="x86_64-w64-mingw32-ar rcu" \
-#         RANLIB=x86_64-w64-mingw32-ranlib \
-#         INSTALL_TOP=/usr/x86_64-w64-mingw32 && \
-#     make install \
-#         INSTALL_TOP=/usr/x86_64-w64-mingw32 \
-#         TO_BIN="lua.exe luac.exe"
-
-
-# RUN mkdir -p /tmp/luabind && \
-#     git clone https://github.com/oberon00/luabind.git /tmp/luabind/luabind && \
-#     cd /tmp/luabind/luabind && \
-#     mkdir -p build && cd build && \
-#     cmake .. \
-#     -DCMAKE_TOOLCHAIN_FILE=/src/cmake/toolchain-mingw32.cmake \
-#     -DCMAKE_INSTALL_PREFIX=/usr/x86_64-w64-mingw32 \
-#     -DLUA_INCLUDE_DIR=/usr/x86_64-w64-mingw32/include \
-#     -DLUA_LIBRARY=/usr/x86_64-w64-mingw32/lib/liblua51.a && \
-#     make -j && \
-#     sudo make install
 
 
 # work arround as there is no debug version available

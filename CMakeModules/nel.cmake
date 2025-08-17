@@ -386,9 +386,9 @@ MACRO(NL_SETUP_RYZOM_DEFAULT_OPTIONS)
   ###
   # Optional support
   ###
-  OPTION(WITH_LUA51               "Build Ryzom Core using Lua 5.1"                ON )
+  OPTION(WITH_LUA51               "Build Ryzom Core using Lua 5.1"                OFF)
   OPTION(WITH_LUA52               "Build Ryzom Core using Lua 5.2"                OFF)
-  OPTION(WITH_LUA53               "Build Ryzom Core using Lua 5.3"                OFF)
+  OPTION(WITH_LUA53               "Build Ryzom Core using Lua 5.3"                ON)
   OPTION(WITH_LUA54               "Build Ryzom Core using Lua 5.4"                OFF)
   OPTION(WITH_RYZOM_CLIENT_UAC    "Ask to run as Administrator"                   OFF)
   OPTION(WITH_RYZOM_PATCH         "Enable Ryzom in-game patch support"            OFF)
@@ -440,7 +440,7 @@ MACRO(NL_SETUP_BUILD)
       SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
     ENDIF()
   ENDIF()
-  
+
   # set(NL_CPP_STANDARD_SET OFF)
   # if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9)
   #   set(CMAKE_CXX_STANDARD 17)
@@ -939,7 +939,7 @@ MACRO(NL_SETUP_BUILD)
             ADD_PLATFORM_LINKFLAGS("-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
           ENDIF()
         ENDIF()
-        
+
         IF(NOT NL_CPP_STANDARD_SET)
           # use libc++ under OX X to be able to use new C++ features (and else it'll use GCC 4.2.1 STL)
           # minimum target is now OS X 10.7

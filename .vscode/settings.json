@@ -14,19 +14,24 @@
     // "files.exclude": {
     //     "shared/*": true
     // },
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
     "cmake.useCMakePresets": "always",
     "cmake.enableAutomaticKitScan": false,
     "cmake.cmakePath": "/usr/local/bin/cmake",
     "[cpp]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "xaver.clang-format"
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.formatOnSaveMode": "modifications"
     },
     "[c]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "xaver.clang-format"
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.formatOnSaveMode": "modifications"
     },
     "[h]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "xaver.clang-format"
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.formatOnSaveMode": "modifications"
     }
 }

@@ -14,9 +14,6 @@
 # To install all dependencies:
 # ./osxcross-macports install libxml2 jpeg curl libogg libvorbis freetype boost openssl zlib lua-5.3 giflib
 
-# to compile Luabind
-# cmake .. -DCMAKE_TOOLCHAIN_FILE=$CMAKE_MODULE_PATH/OSXToolChain.cmake -DWITH_SHARED=OFF -DWITH_STATIC=ON -DWITH_LUA51=OFF -DWITH_LUA53=ON -DCMAKE_INSTALL_PREFIX=$HOME/osxcross/target/external
-
 IF(DEFINED CMAKE_CROSSCOMPILING)
   # subsequent toolchain loading is not really needed
   RETURN()
